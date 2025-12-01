@@ -43,3 +43,21 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Flutter Ephemeral
+ios/Flutter/ephemeral/
+macos/Flutter/ephemeral/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+
+# Generated L10n files (if generated in lib/)
+lib/l10n/app_localizations*.dart
+
+# Mac
+.DS_Store
+
