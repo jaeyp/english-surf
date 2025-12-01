@@ -31,13 +31,14 @@ lib/
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/your-username/boilerplate_flutter.git
-    cd boilerplate_flutter
+    git clone https://github.com/jaeyp/flutter-bp.git
+    cd flutter-bp
     ```
 
 2.  **Install Dependencies**
     ```bash
     flutter pub get
+    flutter gen-l10n
     ```
 
 3.  **Setup Environment**
