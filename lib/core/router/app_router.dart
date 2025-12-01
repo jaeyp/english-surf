@@ -5,7 +5,7 @@ import 'package:flutter_bp/features/home/presentation/home_screen.dart';
 part 'app_router.g.dart';
 
 @riverpod
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [

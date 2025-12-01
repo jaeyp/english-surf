@@ -8,9 +8,9 @@ import 'package:flutter_bp/core/theme/app_theme.dart';
 import 'package:flutter_bp/l10n/app_localizations.dart';
 
 Future<void> main() async {
-  runZonedGuarded(() async {
+  await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: '.env');
     runApp(const ProviderScope(child: MyApp()));
   }, (error, stack) {
     // TODO: Initialize crash reporting service here (e.g., Sentry, Firebase Crashlytics)
