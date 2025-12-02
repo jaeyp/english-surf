@@ -1,0 +1,68 @@
+{
+    "sentences": [
+        {
+            "id": 1,
+            "sentence": "I'm **looking forward to** seeing you.",
+            "translations": {
+                "ko": "당신을 만나기를 기대하고 있어요."
+            },
+            "difficulty": "beginner",
+            "examples": [
+                "I'm **looking forward to** our meeting tomorrow.",
+                "We're **looking forward to** hearing from you."
+            ],
+            "notes": "look forward to + ~ing"
+        },
+        {
+            "id": 2,
+            "sentence": "It's raining cats and dogs.",
+            "translations": {
+                "ko": "비가 억수같이 내리네요."
+            },
+            "difficulty": "advanced",
+            "examples": [
+                "We can't go out now, it's raining cats and dogs!"
+            ],
+            "notes": "Classic English idiom for heavy rain"
+        },
+        {
+            "id": 3,
+            "sentence": "I appreciate your prompt response.",
+            "translations": {
+                "ko": "신속한 답변 감사드립니다."
+            },
+            "difficulty": "intermediate",
+            "examples": [
+                "I appreciate your time and consideration.",
+                "We appreciate your continued support."
+            ],
+            "notes": "appreciate + noun/gerund. Essential for business emails"
+        },
+        {
+            "id": 4,
+            "sentence": "Could you **give me a hand**?",
+            "translations": {
+                "ko": "도와주실 수 있나요?"
+            },
+            "difficulty": "beginner",
+            "examples": [
+                "Can you **give me a hand** with this box?",
+                "I need someone to **give me a hand** moving furniture."
+            ],
+            "notes": "give someone a hand = help"
+        },
+        {
+            "id": 5,
+            "sentence": "Let's **call it a day**.",
+            "translations": {
+                "ko": "오늘은 이만 마치죠."
+            },
+            "difficulty": "intermediate",
+            "examples": [
+                "It's getting late, let's **call it a day**.",
+                "We've done enough, let's **call it a day**."
+            ],
+            "notes": "call it a day = finish work"
+        }
+    ]
+}
