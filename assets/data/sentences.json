@@ -2,23 +2,13 @@
     "sentences": [
         {
             "id": 1,
-            "sentence": "Little give and go with 이재성 and 손흥민. He **flicks it over** to 이동경 and he back flicks it into the back of the net.",
+            "sentence": "Little |give and go with 이재성 and 손흥민|. He **flicks it over** to 이동경 and he back flicks it into the back of the net.",
             "translations": {
                 "ko": "이재성과 손흥민 사이에 짧은 패스 주고받기(give and go)가 있었어요. 이재성이 이동경에게 살짝 넘겨줬고(flicks it over), 이동경은 뒤로 차 넣어 골망을 흔듭니다."
             },
             "difficulty": "advanced",
             "examples": [],
             "notes": "flick over: (공을) 가볍게 툭 쳐서 넘기다. 축구 경기 해설에 사용됨."
-        },
-        {
-            "id": 2,
-            "sentence": "**Gorgeous team goal** for South Korea.",
-            "translations": {
-                "ko": "대한민국의 멋진 팀 플레이 골입니다."
-            },
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "Gorgeous: 아주 멋진, 화려한"
         },
         {
             "id": 3,
@@ -42,7 +32,7 @@
         },
         {
             "id": 5,
-            "sentence": "I'm going to **talk you through** the signs that your trip is going to end up being a에이 disaster so you can **course correct** and end up having the best visit to London ever.",
+            "sentence": "I'm going to |**talk you through** the signs that| your trip is going to end up being a에이 disaster |so you can **course correct**| and end up having the best visit to London ever.",
             "translations": {
                 "ko": "저는 여러분의 여행이 결국 재앙으로 끝날 징후들을 처음부터 끝까지 설명해 드릴 거예요. 그래서 여러분이 방향을 수정하고 런던에서 최고의 방문을 할 수 있도록요."
             },
@@ -64,7 +54,7 @@
         },
         {
             "id": 7,
-            "sentence": "And we talked about **feeling misunderstood**, and that something was always **off**.",
+            "sentence": "And we talked about **feeling misunderstood**, and that |something was always **off**|.",
             "translations": {
                 "ko": "그리고 우리는 오해받는 기분과, 항상 뭔가 잘못 흘러간다는 것에 대해 이야기했어요. (오해받고, 항상 뭔가 잘못흘러가)"
             },
@@ -181,7 +171,7 @@
             },
             "difficulty": "intermediate",
             "examples": [
-                "Your jacket **looks so in place with** your outfit. (fit/go well)"
+                "Your jacket |looks so **in place with**| your outfit. (fit/go well)"
             ],
             "notes": "out of place: 제자리에 있지 않은, 어색한. in place with: ~와 잘 어울리는."
         },
@@ -240,7 +230,9 @@
                 "ko": "지금 당장 진한 커피 한 잔이 정말 필요해요, 너무 졸려요."
             },
             "difficulty": "intermediate",
-            "examples": [],
+            "examples": [
+                "Right about now, I could really use a cup of coffee."
+            ],
             "notes": "could really use: 정말로 ~이 필요하다. (강조)"
         },
         {
