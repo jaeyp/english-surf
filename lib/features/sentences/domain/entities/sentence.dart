@@ -12,7 +12,7 @@ class Sentence with _$Sentence {
   const factory Sentence({
     required int id,
     required String sentence,
-    required Map<String, String> translations,
+    required String translation,
     required String difficulty,
     @Default([]) List<String> examples,
     @Default('') String notes,

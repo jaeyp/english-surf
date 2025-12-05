@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Sentence {
 
- int get id; String get sentence; Map<String, String> get translations; String get difficulty; List<String> get examples; String get notes;
+ int get id; String get sentence; String get translation; String get difficulty; List<String> get examples; String get notes;
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SentenceCopyWith<Sentence> get copyWith => _$SentenceCopyWithImpl<Sentence>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&const DeepCollectionEquality().equals(other.translations, translations)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other.examples, examples)&&(identical(other.notes, notes) || other.notes == notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other.examples, examples)&&(identical(other.notes, notes) || other.notes == notes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sentence,const DeepCollectionEquality().hash(translations),difficulty,const DeepCollectionEquality().hash(examples),notes);
+int get hashCode => Object.hash(runtimeType,id,sentence,translation,difficulty,const DeepCollectionEquality().hash(examples),notes);
 
 @override
 String toString() {
-  return 'Sentence(id: $id, sentence: $sentence, translations: $translations, difficulty: $difficulty, examples: $examples, notes: $notes)';
+  return 'Sentence(id: $id, sentence: $sentence, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SentenceCopyWith<$Res>  {
   factory $SentenceCopyWith(Sentence value, $Res Function(Sentence) _then) = _$SentenceCopyWithImpl;
 @useResult
 $Res call({
- int id, String sentence, Map<String, String> translations, String difficulty, List<String> examples, String notes
+ int id, String sentence, String translation, String difficulty, List<String> examples, String notes
 });
 
 
@@ -65,12 +65,12 @@ class _$SentenceCopyWithImpl<$Res>
 
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sentence = null,Object? translations = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sentence = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,translations: null == translations ? _self.translations : translations // ignore: cast_nullable_to_non_nullable
-as Map<String, String>,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
+as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
+as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as String,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,
@@ -158,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sentence,  Map<String, String> translations,  String difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
-return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   return orElse();
 
 }
@@ -179,10 +179,10 @@ return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sentence,  Map<String, String> translations,  String difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
 switch (_that) {
 case _Sentence():
-return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +199,10 @@ return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sentence,  Map<String, String> translations,  String difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
-return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   return null;
 
 }
@@ -214,18 +214,12 @@ return $default(_that.id,_that.sentence,_that.translations,_that.difficulty,_tha
 @JsonSerializable()
 
 class _Sentence implements Sentence {
-  const _Sentence({required this.id, required this.sentence, required final  Map<String, String> translations, required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _translations = translations,_examples = examples;
+  const _Sentence({required this.id, required this.sentence, required this.translation, required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
   factory _Sentence.fromJson(Map<String, dynamic> json) => _$SentenceFromJson(json);
 
 @override final  int id;
 @override final  String sentence;
- final  Map<String, String> _translations;
-@override Map<String, String> get translations {
-  if (_translations is EqualUnmodifiableMapView) return _translations;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_translations);
-}
-
+@override final  String translation;
 @override final  String difficulty;
  final  List<String> _examples;
 @override@JsonKey() List<String> get examples {
@@ -249,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&const DeepCollectionEquality().equals(other._translations, _translations)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other._examples, _examples)&&(identical(other.notes, notes) || other.notes == notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other._examples, _examples)&&(identical(other.notes, notes) || other.notes == notes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sentence,const DeepCollectionEquality().hash(_translations),difficulty,const DeepCollectionEquality().hash(_examples),notes);
+int get hashCode => Object.hash(runtimeType,id,sentence,translation,difficulty,const DeepCollectionEquality().hash(_examples),notes);
 
 @override
 String toString() {
-  return 'Sentence(id: $id, sentence: $sentence, translations: $translations, difficulty: $difficulty, examples: $examples, notes: $notes)';
+  return 'Sentence(id: $id, sentence: $sentence, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
 }
 
 
@@ -269,7 +263,7 @@ abstract mixin class _$SentenceCopyWith<$Res> implements $SentenceCopyWith<$Res>
   factory _$SentenceCopyWith(_Sentence value, $Res Function(_Sentence) _then) = __$SentenceCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String sentence, Map<String, String> translations, String difficulty, List<String> examples, String notes
+ int id, String sentence, String translation, String difficulty, List<String> examples, String notes
 });
 
 
@@ -286,12 +280,12 @@ class __$SentenceCopyWithImpl<$Res>
 
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sentence = null,Object? translations = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sentence = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
   return _then(_Sentence(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,translations: null == translations ? _self._translations : translations // ignore: cast_nullable_to_non_nullable
-as Map<String, String>,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
+as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
+as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as String,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,
