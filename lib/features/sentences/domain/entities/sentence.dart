@@ -11,6 +11,7 @@ part 'sentence.g.dart';
 class Sentence with _$Sentence {
   const factory Sentence({
     required int id,
+    required int order,
     required String sentence,
     required String translation,
     required String difficulty,
