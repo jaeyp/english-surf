@@ -4,7 +4,7 @@ import '../enums/sort_type.dart';
 import '../repositories/sentence_repository.dart';
 
 /// Domain service for sentence-related business logic.
-/// 
+///
 /// This service encapsulates business rules for filtering, sorting,
 /// and other operations on sentences. It uses the repository for
 /// data access but keeps business logic separate.
@@ -14,7 +14,7 @@ class SentenceService {
   SentenceService(this._repository);
 
   /// Retrieves all sentences with optional filtering and sorting.
-  /// 
+  ///
   /// If [difficulty] is provided, only sentences of that difficulty are returned.
   /// The results are sorted according to [sortType].
   Future<List<Sentence>> getSentences({
@@ -25,9 +25,7 @@ class SentenceService {
 
     // Apply difficulty filter if specified
     if (difficulty != null) {
-      sentences = sentences
-          .where((s) => s.difficulty == difficulty)
-          .toList();
+      sentences = sentences.where((s) => s.difficulty == difficulty).toList();
     }
 
     // Apply sorting
@@ -40,7 +38,7 @@ class SentenceService {
   }
 
   /// Adds a new sentence after validation.
-  /// 
+  ///
   /// Validates that the sentence has valid data before adding.
   Future<void> addSentence(Sentence sentence) async {
     _validateSentence(sentence);
@@ -59,7 +57,7 @@ class SentenceService {
   }
 
   /// Reorders sentences by updating their order values.
-  /// 
+  ///
   /// This ensures that order values are sequential starting from 1.
   Future<void> reorderSentences(List<Sentence> sentences) async {
     // Ensure order values are sequential
@@ -90,10 +88,10 @@ class SentenceService {
   }
 
   /// Validates sentence data.
-  /// 
+  ///
   /// Throws [ArgumentError] if validation fails.
   void _validateSentence(Sentence sentence) {
-    if (sentence.sentence.trim().isEmpty) {
+    if (sentence.sentence.plainText.trim().isEmpty) {
       throw ArgumentError('Sentence text cannot be empty');
     }
     if (sentence.translation.trim().isEmpty) {

@@ -17,7 +17,7 @@ mixin _$SentenceText {
 
 /// Plain text with all markup removed
  String get plainText;/// List of styles applied to the text
- List<ts.TextStyle> get styles;
+ List<TextStyle> get styles;
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -50,7 +50,7 @@ abstract mixin class $SentenceTextCopyWith<$Res>  {
   factory $SentenceTextCopyWith(SentenceText value, $Res Function(SentenceText) _then) = _$SentenceTextCopyWithImpl;
 @useResult
 $Res call({
- String plainText, List<ts.TextStyle> styles
+ String plainText, List<TextStyle> styles
 });
 
 
@@ -71,7 +71,7 @@ class _$SentenceTextCopyWithImpl<$Res>
   return _then(_self.copyWith(
 plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
 as String,styles: null == styles ? _self.styles : styles // ignore: cast_nullable_to_non_nullable
-as List<ts.TextStyle>,
+as List<TextStyle>,
   ));
 }
 
@@ -156,7 +156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String plainText,  List<ts.TextStyle> styles)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String plainText,  List<TextStyle> styles)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
 return $default(_that.plainText,_that.styles);case _:
@@ -177,7 +177,7 @@ return $default(_that.plainText,_that.styles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String plainText,  List<ts.TextStyle> styles)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String plainText,  List<TextStyle> styles)  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText():
 return $default(_that.plainText,_that.styles);case _:
@@ -197,7 +197,7 @@ return $default(_that.plainText,_that.styles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String plainText,  List<ts.TextStyle> styles)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String plainText,  List<TextStyle> styles)?  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
 return $default(_that.plainText,_that.styles);case _:
@@ -212,15 +212,15 @@ return $default(_that.plainText,_that.styles);case _:
 @JsonSerializable()
 
 class _SentenceText implements SentenceText {
-  const _SentenceText({required this.plainText, final  List<ts.TextStyle> styles = const []}): _styles = styles;
+  const _SentenceText({required this.plainText, final  List<TextStyle> styles = const []}): _styles = styles;
   factory _SentenceText.fromJson(Map<String, dynamic> json) => _$SentenceTextFromJson(json);
 
 /// Plain text with all markup removed
 @override final  String plainText;
 /// List of styles applied to the text
- final  List<ts.TextStyle> _styles;
+ final  List<TextStyle> _styles;
 /// List of styles applied to the text
-@override@JsonKey() List<ts.TextStyle> get styles {
+@override@JsonKey() List<TextStyle> get styles {
   if (_styles is EqualUnmodifiableListView) return _styles;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_styles);
@@ -260,7 +260,7 @@ abstract mixin class _$SentenceTextCopyWith<$Res> implements $SentenceTextCopyWi
   factory _$SentenceTextCopyWith(_SentenceText value, $Res Function(_SentenceText) _then) = __$SentenceTextCopyWithImpl;
 @override @useResult
 $Res call({
- String plainText, List<ts.TextStyle> styles
+ String plainText, List<TextStyle> styles
 });
 
 
@@ -281,7 +281,7 @@ class __$SentenceTextCopyWithImpl<$Res>
   return _then(_SentenceText(
 plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
 as String,styles: null == styles ? _self._styles : styles // ignore: cast_nullable_to_non_nullable
-as List<ts.TextStyle>,
+as List<TextStyle>,
   ));
 }
 

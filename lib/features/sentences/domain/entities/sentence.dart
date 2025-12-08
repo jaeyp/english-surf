@@ -6,24 +6,18 @@ part 'sentence.freezed.dart';
 part 'sentence.g.dart';
 
 /// Represents a single English sentence for learning purposes.
-/// 
+///
 /// This entity contains an English sentence with translations,
 /// difficulty level, examples, and additional notes.
 @freezed
-class Sentence with _$Sentence {
+abstract class Sentence with _$Sentence {
   const factory Sentence({
     required int id,
     required int order,
-    @JsonKey(
-      fromJson: _sentenceTextFromJson,
-      toJson: _sentenceTextToJson,
-    )
+    @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)
     required SentenceText sentence,
     required String translation,
-    @JsonKey(
-      fromJson: Difficulty.fromJson,
-      toJson: _difficultyToJson,
-    )
+    @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)
     required Difficulty difficulty,
     @Default([]) List<String> examples,
     @Default('') String notes,
