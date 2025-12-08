@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../enums/difficulty.dart';
+import '../value_objects/sentence_text.dart';
 
 part 'sentence.freezed.dart';
 part 'sentence.g.dart';
@@ -13,7 +14,11 @@ class Sentence with _$Sentence {
   const factory Sentence({
     required int id,
     required int order,
-    required String sentence,
+    @JsonKey(
+      fromJson: _sentenceTextFromJson,
+      toJson: _sentenceTextToJson,
+    )
+    required SentenceText sentence,
     required String translation,
     @JsonKey(
       fromJson: Difficulty.fromJson,
@@ -27,6 +32,17 @@ class Sentence with _$Sentence {
   factory Sentence.fromJson(Map<String, dynamic> json) =>
       _$SentenceFromJson(json);
 }
+
+/// Helper function for JSON deserialization of SentenceText.
+SentenceText _sentenceTextFromJson(dynamic json) {
+  if (json is String) {
+    return SentenceText.parse(json);
+  }
+  return SentenceText.fromJson(json as Map<String, dynamic>);
+}
+
+/// Helper function for JSON serialization of SentenceText.
+String _sentenceTextToJson(SentenceText sentenceText) => sentenceText.rawText;
 
 /// Helper function for JSON serialization of Difficulty enum.
 String _difficultyToJson(Difficulty difficulty) => difficulty.toJson();

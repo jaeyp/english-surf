@@ -1,15 +1,14 @@
 import '../entities/sentence.dart';
-import '../enums/difficulty.dart';
-import '../enums/sort_type.dart';
 
 /// Repository interface for Sentence data operations.
 /// 
-/// This defines the contract for data operations without specifying
-/// the implementation details (e.g., local file, database, network).
+/// This defines the contract for data access operations only.
+/// Business logic (filtering, sorting, validation) is handled
+/// by the SentenceService in the domain/services layer.
 abstract class SentenceRepository {
-  /// Retrieves all sentences.
+  /// Retrieves all sentences from the data source.
   /// 
-  /// Returns a list of all sentences available in the data source.
+  /// Returns a list of all sentences without any filtering or sorting.
   Future<List<Sentence>> getAllSentences();
 
   /// Retrieves a single sentence by its ID.
@@ -17,27 +16,21 @@ abstract class SentenceRepository {
   /// Returns the sentence if found, null otherwise.
   Future<Sentence?> getSentenceById(int id);
 
-  /// Adds a new sentence.
+  /// Adds a new sentence to the data source.
   /// 
   /// The sentence must have a unique ID and order value.
   Future<void> addSentence(Sentence sentence);
 
-  /// Updates an existing sentence.
+  /// Updates an existing sentence in the data source.
   /// 
   /// Replaces the sentence with the same ID.
   Future<void> updateSentence(Sentence sentence);
 
-  /// Deletes a sentence by its ID.
+  /// Deletes a sentence by its ID from the data source.
   Future<void> deleteSentence(int id);
 
-  /// Reorders sentences by updating their order field.
+  /// Persists a list of sentences with updated order values.
   /// 
-  /// Takes a list of sentences with updated order values and persists them.
+  /// This is used after reordering sentences via drag-and-drop.
   Future<void> reorderSentences(List<Sentence> sentences);
-
-  /// Retrieves sentences filtered by difficulty level.
-  Future<List<Sentence>> getSentencesByDifficulty(Difficulty difficulty);
-
-  /// Retrieves sentences sorted by the specified type.
-  Future<List<Sentence>> getSentencesSorted(SortType sortType);
 }

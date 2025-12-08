@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Sentence {
 
- int get id; int get order; String get sentence; String get translation;@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty get difficulty; List<String> get examples; String get notes;
+ int get id; int get order;@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText get sentence; String get translation;@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty get difficulty; List<String> get examples; String get notes;
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +48,11 @@ abstract mixin class $SentenceCopyWith<$Res>  {
   factory $SentenceCopyWith(Sentence value, $Res Function(Sentence) _then) = _$SentenceCopyWithImpl;
 @useResult
 $Res call({
- int id, int order, String sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
+ int id, int order,@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
-
+$SentenceTextCopyWith<$Res> get sentence;
 
 }
 /// @nodoc
@@ -70,14 +70,23 @@ class _$SentenceCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
+as SentenceText,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as Difficulty,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
-
+/// Create a copy of Sentence
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SentenceTextCopyWith<$Res> get sentence {
+  
+  return $SentenceTextCopyWith<$Res>(_self.sentence, (value) {
+    return _then(_self.copyWith(sentence: value));
+  });
+}
 }
 
 
@@ -159,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -180,7 +189,7 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
 switch (_that) {
 case _Sentence():
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -200,7 +209,7 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -215,12 +224,12 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 @JsonSerializable()
 
 class _Sentence implements Sentence {
-  const _Sentence({required this.id, required this.order, required this.sentence, required this.translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
+  const _Sentence({required this.id, required this.order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) required this.sentence, required this.translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
   factory _Sentence.fromJson(Map<String, dynamic> json) => _$SentenceFromJson(json);
 
 @override final  int id;
 @override final  int order;
-@override final  String sentence;
+@override@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) final  SentenceText sentence;
 @override final  String translation;
 @override@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) final  Difficulty difficulty;
  final  List<String> _examples;
@@ -265,11 +274,11 @@ abstract mixin class _$SentenceCopyWith<$Res> implements $SentenceCopyWith<$Res>
   factory _$SentenceCopyWith(_Sentence value, $Res Function(_Sentence) _then) = __$SentenceCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int order, String sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
+ int id, int order,@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
-
+@override $SentenceTextCopyWith<$Res> get sentence;
 
 }
 /// @nodoc
@@ -287,7 +296,7 @@ class __$SentenceCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
+as SentenceText,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as Difficulty,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
@@ -295,7 +304,16 @@ as String,
   ));
 }
 
-
+/// Create a copy of Sentence
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SentenceTextCopyWith<$Res> get sentence {
+  
+  return $SentenceTextCopyWith<$Res>(_self.sentence, (value) {
+    return _then(_self.copyWith(sentence: value));
+  });
+}
 }
 
 // dart format on
