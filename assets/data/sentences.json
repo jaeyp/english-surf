@@ -1,1464 +1,2920 @@
 {
-    "sentences": [
-        {
-            "id": 1,
-            "order": 1,
-            "sentence": "Little |give and go with 이재성 and 손흥민|. He **flicks it over** to 이동경 and he back flicks it into the back of the net.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "flick over: (공을) 가볍게 툭 쳐서 넘기다. 축구 경기 해설에 사용됨.",
-            "translation": "이재성과 손흥민 사이에 짧은 패스 주고받기(give and go)가 있었어요. 이재성이 이동경에게 살짝 넘겨줬고(flicks it over), 이동경은 뒤로 차 넣어 골망을 흔듭니다."
-        },
-        {
-            "id": 3,
-            "order": 2,
-            "sentence": "There's a lot of stuff (that) you guys do, that could potentially **ruin your trip**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "ruin your trip: 여행을 망치다.",
-            "translation": "여러분들이 하는 많은 것들이 잠재적으로 여행을 망칠 수 있어요."
-        },
-        {
-            "id": 4,
-            "order": 3,
-            "sentence": "I'm not going to / won't **let that happen**.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "let that happen: 그런 일이 일어나도록 두다/허용하다.",
-            "translation": "저는 그렇게 되도록 두지 않을 거예요. (no way, that's not happening)"
-        },
-        {
-            "id": 5,
-            "order": 4,
-            "sentence": "I'm going to |**talk you through** the signs that| your trip is going to end up being a에이 disaster |so you can **course correct**| and end up having the best visit to London ever.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "talk through: 자세히 설명하다, 처음부터 끝까지 논의하다. course correct: 방향을 수정하다.",
-            "translation": "저는 여러분의 여행이 결국 재앙으로 끝날 징후들을 처음부터 끝까지 설명해 드릴 거예요. 그래서 여러분이 방향을 수정하고 런던에서 최고의 방문을 할 수 있도록요."
-        },
-        {
-            "id": 6,
-            "order": 5,
-            "sentence": "I was **willing to** talk to anyone.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I was **totally open to chatting with anyone**. We ended up talking about feeling like nobody got us and how it seemed like things were never quite right."
-            ],
-            "notes": "willing to + 동사: 기꺼이 ~하다. open to + ~ing: ~에 개방적이다, ~할 의향이 있다.",
-            "translation": "저는 누구와도 기꺼이 이야기할 의향이 있었어요."
-        },
-        {
-            "id": 7,
-            "order": 6,
-            "sentence": "And we talked about **feeling misunderstood**, and that |something was always **off**|.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "feel misunderstood: 오해받는다고 느끼다. off: 뭔가 이상한, 잘못된.",
-            "translation": "그리고 우리는 오해받는 기분과, 항상 뭔가 잘못 흘러간다는 것에 대해 이야기했어요. (오해받고, 항상 뭔가 잘못흘러가)"
-        },
-        {
-            "id": 8,
-            "order": 7,
-            "sentence": "My friend told me she was convinced she had a sleeping disorder, but it **turned out** she was just diagnosed by TikTok.",
-            "difficulty": "intermediate",
-            "examples": [
-                "She told me she was in London last year, and it **turns out** she **happened to be** staying in the same hotel as me. (우연히도/놀랍게도 ~였다, surprisingly)",
-                "The person who helped me **happened to be** a doctor, so I was really lucky."
-            ],
-            "notes": "turn out: 결국 ~임이 드러나다, 알고 보니 ~이다. happen to be: 우연히 ~이다.",
-            "translation": "제 친구는 수면 장애가 있다고 확신했지만, 알고 보니 틱톡에 의해 진단받은 것이었어요. (다이그너~)"
-        },
-        {
-            "id": 9,
-            "order": 8,
-            "sentence": "It was just **off of** the pandemic and I had a family doctor, so I didn't really need to seek any outside help.",
-            "difficulty": "advanced",
-            "examples": [
-                "They went straight to the beach **right off of** their last exam.",
-                "We're going to grab some pizza **off of** the game; do you want to join us?"
-            ],
-            "notes": "right off of: ~의 직후에. 'off of'는 'after' 또는 '~로부터'의 의미로 사용됨.",
-            "translation": "팬데믹이 막 끝난 직후였고 (right after) 저는 주치의가 있었기 때문에 외부 도움을 구할 필요가 없었어요."
-        },
-        {
-            "id": 10,
-            "order": 9,
-            "sentence": "So it was very **solitary**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "solitary: 혼자 하는, 고독한.",
-            "translation": "그래서 그것은 매우 혼자 하는 것이었어요."
-        },
-        {
-            "id": 11,
-            "order": 10,
-            "sentence": "Sorry, I couldn't **help but overhear** (you), but did you say you're looking for a good hairdresser?",
-            "difficulty": "intermediate",
-            "examples": [
-                "I **happened to overhear** that you're going to Paris next month.",
-                "I was just passing by and I **overheard** you talking about your trip to Spain. How was it?"
-            ],
-            "notes": "couldn't help but overhear: 자신도 모르게 엿듣다. happen to overhear: 우연히 엿듣다.",
-            "translation": "죄송하지만, 저도 모르게(어쩔 수 없이) 엿듣게 되었는데, 좋은 미용사를 찾고 있다고 말씀하셨나요?"
-        },
-        {
-            "id": 12,
-            "order": 11,
-            "sentence": "I know a **great one**.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "great one: (앞서 언급된 명사를 대신하여) 훌륭한 사람/것.",
-            "translation": "제가 아주 좋은 분을 알아요."
-        },
-        {
-            "id": 13,
-            "order": 12,
-            "sentence": "I was just there, and I have some **great recommendations** for you.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "recommendation: 추천. (복수형으로 자주 사용됨)",
-            "translation": "제가 방금 거기 갔다 왔는데, 당신에게 줄 좋은 추천할 것들이 있어요."
-        },
-        {
-            "id": 14,
-            "order": 13,
-            "sentence": "The movie was **interesting, to say the least**.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "to say the least: 말할 것도 없이, 최소한으로 말해서. (주로 언급된 것보다 훨씬 더 심하다는 것을 강조할 때 사용)",
-            "translation": "그 영화는 최소한 흥미로웠어요. (meaning it was extremely interesting)"
-        },
-        {
-            "id": 15,
-            "order": 14,
-            "sentence": "The kids were playing in the park **by themselves** while their parents watched from a bench.",
-            "difficulty": "intermediate",
-            "examples": [
-                "He got a job and is now living **completely on his own**."
-            ],
-            "notes": "by oneself: 혼자서. on one's own: 혼자 힘으로, 독립적으로.",
-            "translation": "아이들은 부모가 벤치에서 지켜보는 동안 공원에서 자기들끼리 놀고 있었어요."
-        },
-        {
-            "id": 16,
-            "order": 15,
-            "sentence": "I'm so **stressed out**, I just want to **get away from everything** for a while.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "stressed out: 스트레스를 많이 받은. get away from: ~로부터 벗어나다.",
-            "translation": "너무 스트레스 받아요. 잠시 동안 모든 것으로부터 벗어나고 싶어요."
-        },
-        {
-            "id": 17,
-            "order": 16,
-            "sentence": "I felt **completely out of place** at the party because I didn't know anyone there.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Your jacket |looks so **in place with**| your outfit. (fit/go well)"
-            ],
-            "notes": "out of place: 제자리에 있지 않은, 어색한. in place with: ~와 잘 어울리는.",
-            "translation": "파티에서 아는 사람이 아무도 없어서 완전히 어색함(out of place)을 느꼈어요."
-        },
-        {
-            "id": 18,
-            "order": 17,
-            "sentence": "This is the last time we're talking about this, right?",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "",
-            "translation": "이게 우리가 이것에 대해 이야기하는 마지막이죠, 그렇죠?"
-        },
-        {
-            "id": 19,
-            "order": 18,
-            "sentence": "'cause I don't want to have to **remind** you to clean your room **every single day**.",
-            "difficulty": "beginner",
-            "examples": [
-                "'cause I don't want to have to **get on your case about** cleaning your room. (잔소리하다)",
-                "'cause I don't want to have to **keep after you to clean / about cleaning** your room. (재촉하다)"
-            ],
-            "notes": "remind: 상기시키다. get on one's case about: 잔소리하다. keep after someone: 계속 재촉하다.",
-            "translation": "왜냐면 매일 당신에게 방 청소를 하라고 상기시켜야(remind) 하는 상황이 싫으니까요."
-        },
-        {
-            "id": 20,
-            "order": 19,
-            "sentence": "I'll get a **pint of** sea salt, goat milk, and caramel, please.",
-            "difficulty": "beginner",
-            "examples": [
-                "(Can/Do I) just **grab/get/take one** (myself) from/out of the freezer?"
-            ],
-            "notes": "pint: 약 0.57리터(영국), 약 0.47리터(미국)의 액체 용량 단위. grab/get/take one: (상품을) 하나 집다/가져가다.",
-            "translation": "해염, 염소 우유, 캐러멜 맛으로 1파인트 주세요."
-        },
-        {
-            "id": 21,
-            "order": 20,
-            "sentence": "My car **could use a wash**. It's **all muddied up**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "It's **covered in mud**.",
-                "It's **messed up with mud**."
-            ],
-            "notes": "could use: ~이 필요하다. all muddied up: 진흙으로 뒤덮인/엉망이 된. covered in mud: 진흙으로 덮인. messed up with mud: 진흙으로 엉망이 된.",
-            "translation": "제 차는 세차가 필요해요. 흙으로 완전히 엉망진창이에요."
-        },
-        {
-            "id": 22,
-            "order": 21,
-            "sentence": "I could really **use a strong cup of coffee** right now, I'm so sleepy.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Right about now, I could really use a cup of coffee."
-            ],
-            "notes": "could really use: 정말로 ~이 필요하다. (강조)",
-            "translation": "지금 당장 진한 커피 한 잔이 정말 필요해요, 너무 졸려요."
-        },
-        {
-            "id": 23,
-            "order": 22,
-            "sentence": "I'm **down for** some pizza right now.",
-            "difficulty": "beginner",
-            "examples": [
-                "It's been a long day. I'm **down for** a quiet evening at home.",
-                "We're heading to the beach. Are you **down for** it?"
-            ],
-            "notes": "down for: ~을 할 의향이 있는, ~에 동의하는 (Focus on agreement/joining)",
-            "translation": "지금 피자 좋아요. (피자 먹을 의향 있어요.)"
-        },
-        {
-            "id": 24,
-            "order": 23,
-            "sentence": "I've got my alarm **set for** 7 a.m.",
-            "difficulty": "beginner",
-            "examples": [
-                "My alarm is **set for** 7 a.m.",
-                "I **set** my alarm **for** 7 a.m.",
-                "I **set** the meeting **for** 2 p.m. next Tuesday."
-            ],
-            "notes": "set (something) for (time): (시간을) ~로 맞추다/정하다.",
-            "translation": "저는 알람을 아침 7시로 맞춰놨어요."
-        },
-        {
-            "id": 25,
-            "order": 24,
-            "sentence": "The alarm clock **went off** at 6 a.m., so I had to wake up.",
-            "difficulty": "intermediate",
-            "examples": [
-                "My alarm always **goes off** at six during the week. I set it (my alarm) for six.",
-                "A car alarm **went off** in the middle of the night and woke everyone up.",
-                "I don't know what **set off** the fire alarm.",
-                "I don't know why the fire alarm **went off**."
-            ],
-            "notes": "go off: (알람, 폭탄 등이) 울리다, 터지다. set off: (경보기 등을) 울리게 하다.",
-            "translation": "알람 시계가 아침 6시에 울려서, 저는 일어나야 했어요."
-        },
-        {
-            "id": 26,
-            "order": 25,
-            "sentence": "I **put it on** for six.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I **put on** my alarm for six."
-            ],
-            "notes": "put on one's alarm: 알람을 맞추다. (구어체 표현)",
-            "translation": "저는 그것(알람)을 6시로 맞췄어요."
-        },
-        {
-            "id": 27,
-            "order": 26,
-            "sentence": "The power **went out** for an hour during the storm.",
-            "difficulty": "beginner",
-            "examples": [
-                "The campfire **went out completely** while we were sleeping, so we had to restart it this morning."
-            ],
-            "notes": "go out: (불, 전기가) 나가다, 꺼지다.",
-            "translation": "폭풍이 오는 동안 전기가 한 시간 동안 나갔어요."
-        },
-        {
-            "id": 28,
-            "order": 27,
-            "sentence": "Did you hear that Sarah and Tom are finally **going out**?",
-            "difficulty": "beginner",
-            "examples": [
-                "They **make a cute couple**."
-            ],
-            "notes": "go out: 사귀다. make a cute couple: 귀여운 커플이다.",
-            "translation": "사라와 톰이 드디어 사귄다는 소식 들었어?"
-        },
-        {
-            "id": 29,
-            "order": 28,
-            "sentence": "You should probably **throw out** that milk; it **smells like it's gone bad / spoiled**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "throw out: 버리다. go bad/spoil: (음식이) 상하다.",
-            "translation": "그 우유는 아마 버려야 할 것 같아요. 상한 냄새가 나요."
-        },
-        {
-            "id": 30,
-            "order": 29,
-            "sentence": "She kept **cutting me off** every time I tried to speak.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I was talking to my friend **when a stranger cut in** to ask for directions. (친구랑 얘기 중에 누가 끼어듬)"
-            ],
-            "notes": "cut off: (말을) 자르다, 중단시키다. cut in: 끼어들다, 방해하다.",
-            "translation": "제가 말하려고 할 때마다 그녀는 계속 제 말을 잘랐어요."
-        },
-        {
-            "id": 31,
-            "order": 30,
-            "sentence": "Even if the most important information is in the second part of the sentence-the part about the stranger cutting in-it's much more **natural to set the scene/background first**, then the event.",
-            "difficulty": "advanced",
-            "examples": [
-                "We **were having dinner when the lights went out**. (식사중 불나감)",
-                "I **was taking a shower when the phone rang**. (샤워중 전화옴)"
-            ],
-            "notes": "set the scene: 배경/상황을 설정하다. 'was ~ing when' 패턴은 진행 중인 행동(배경) 중에 새로운 사건이 발생했음을 나타냅니다.",
-            "translation": "가장 중요한 정보가 문장의 두 번째 부분, 즉 낯선 사람이 끼어드는 부분에 있더라도, 상황/배경을 먼저 설정한 다음 사건을 설명하는 것이 훨씬 더 자연스럽습니다."
-        },
-        {
-            "id": 32,
-            "order": 31,
-            "sentence": "Ugh, I can't believe I just **spilled** my coffee **all over** my new shirt. I feel so dumb.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "spill: 쏟다. all over: 온통 ~에.",
-            "translation": "아, 내가 새 셔츠에 커피를 다 쏟았다니 믿을 수가 없어. 너무 바보 같아."
-        },
-        {
-            "id": 33,
-            "order": 32,
-            "sentence": "Oh, **don't worry about it at all**. If it **makes you feel better**, I walked out of my house this morning with my shirt **on backward**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I can't believe I **wore my hoodie backward** all day.",
-                "I can't believe I **put my hoodie on backward** all day."
-            ],
-            "notes": "don't worry about it at all: 전혀 걱정하지 마세요. make you feel better: 기분이 나아지게 하다. on backward / wear backward / put on backward: 뒤집어 입은 채로, 거꾸로 입다.",
-            "translation": "아, 전혀 걱정하지 마세요. 그게 당신 기분을 낫게 해준다면, 저는 오늘 아침에 셔츠를 뒤집어(on backward) 입고 집을 나섰어요."
-        },
-        {
-            "id": 34,
-            "order": 33,
-            "sentence": "We went to the beach after you **took me to that one beach**, I **kept going back**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "We went to a café, **walked around a bit**. **Drove around a bit**. We **walked down the main strip**."
-            ],
-            "notes": "keep going back: 계속 돌아가다, 계속 방문하다. walk/drive around a bit: 좀 걸어/운전해 다니다. walk down the main strip: 중심 거리를 걸어 내려가다.",
-            "translation": "당신이 나를 그 해변에 데려다준 후에, 저는 계속 (그곳으로) 돌아갔어요."
-        },
-        {
-            "id": 35,
-            "order": 34,
-            "sentence": "I'm pretty full, so I'm going to **pass on** dessert tonight.",
-            "difficulty": "beginner",
-            "examples": [
-                "Please **pass on** this message to your manager."
-            ],
-            "notes": "pass on: ~을 사양하다, ~을 거절하다. (메시지 등을) 전달하다.",
-            "translation": "배가 꽤 불러서 오늘 밤 디저트는 사양할게요."
-        },
-        {
-            "id": 36,
-            "order": 35,
-            "sentence": "You can **leave out** the fresh herbs if you don't have any.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I'm sorry, I think I **left out a key ingredient** in the recipe.",
-                "We decided to **leave out a few minor steps** to finish the project faster."
-            ],
-            "notes": "leave out: ~을 빼다, 생략하다.",
-            "translation": "신선한 허브가 없다면 빼도(leave out) 돼요."
-        },
-        {
-            "id": 37,
-            "order": 36,
-            "sentence": "We **missed out on** the early bird special at the restaurant because we were running late.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Looking at these old family photos, it **makes me sad to realize how much I missed out on** you growing up."
-            ],
-            "notes": "miss out on: ~을 놓치다, ~에 참여하지 못하다.",
-            "translation": "늦어서 레스토랑의 얼리버드 스페셜을 놓쳤어요."
-        },
-        {
-            "id": 38,
-            "order": 37,
-            "sentence": "We had to wait until the fog **cleared up / lifted** to see the mountain view.",
-            "difficulty": "intermediate",
-            "examples": [
-                "We should stop and wait for the fog to **clear up**.",
-                "I hope the weather/sky/rain **clears up** before the game starts.",
-                "The fog finally **lifted**."
-            ],
-            "notes": "clear up / lift: (안개, 날씨 등이) 걷히다, 개다.",
-            "translation": "산의 풍경을 보기 위해 안개가 걷힐(cleared up / lifted) 때까지 기다려야 했어요."
-        },
-        {
-            "id": 39,
-            "order": 38,
-            "sentence": "The whole play was a little too serious for me, but the main character's **super campy monologues** saved it.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "campy: 과장되고 우스꽝스러운, 연극적인. monologue: 독백.",
-            "translation": "연극 전체가 저에게는 좀 너무 진지했지만, 주연 배우의 매우 우스꽝스러운(과장되고 연극적인) 독백(campy monologues)이 살렸어요."
-        },
-        {
-            "id": 40,
-            "order": 39,
-            "sentence": "The dessert is just so good. I'm **going back for seconds** / I'm **getting seconds**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "go back for seconds / get seconds: (음식의) 두 번째 접시를 먹다, 두 그릇째 먹다.",
-            "translation": "이 디저트 정말 맛있네요. 한 접시 더 먹어야겠어요. (한접시 더해야것어)"
-        },
-        {
-            "id": 41,
-            "order": 40,
-            "sentence": "I asked for a **small portion of** the pasta. **Too much hurts my stomach**.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "portion of: ~의 1인분. hurt one's stomach: 속을 아프게 하다.",
-            "translation": "파스타는 적은 양(small portion)으로 달라고 했어요. 너무 많이 먹으면 속이 안 좋아(hurts my stomach)."
-        },
-        {
-            "id": 42,
-            "order": 41,
-            "sentence": "The majority of the homes were built throughout the 70s and the 80s **with the large lots**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "and with quiet streets, with all of them **being (tree) lined with mature trees** and a very quick commute to downtown Calgary, **coupled/along with** your **close proximity** to the mountains, Dalhousie is still a community that is **highly regarded as** one of the top in northwest Calgary."
-            ],
-            "notes": "large lot: 넓은 부지. line with: ~으로 줄지어 있다. coupled/along with: ~와 더불어, ~에 곁들여. close proximity: 매우 가까움 (for emphasis). highly regarded as: ~로 높이 평가받는.",
-            "translation": "대부분의 주택은 70년대와 80년대에 걸쳐 넓은 부지(large lots)와 함께 지어졌습니다."
-        },
-        {
-            "id": 43,
-            "order": 42,
-            "sentence": "I wouldn't say they are typical, but the **fact that they happen at all is still a problem**.",
-            "difficulty": "advanced",
-            "examples": [
-                "If you need **help at all**, just give me a call.",
-                "The only reason I took that terrible job **at all** was so I could pay off my student loans."
-            ],
-            "notes": "at all: (부정문/의문문/조건문에서) 조금이라도, 전혀. (강조)",
-            "translation": "그것들이 일반적이라고 말할 수는 없지만, 조금이라도(at all) 발생한다는 사실 자체가 여전히 문제입니다."
-        },
-        {
-            "id": 44,
-            "order": 43,
-            "sentence": "The new cafe is good, but I wouldn't **(go so far as to) say** it's the best in the city.",
-            "difficulty": "advanced",
-            "examples": [
-                "The movie was good, but I wouldn't **(go so far as to) say** it was a masterpiece."
-            ],
-            "notes": "go so far as to say: ~라고까지 말하다. (자신이 생각하는 한계를 넘어서는 표현임을 나타냄)",
-            "translation": "새 카페는 좋지만, 시내에서 최고라고 할 정도까지(~라고할 정도까진) 말하지는 않겠어요."
-        },
-        {
-            "id": 45,
-            "order": 44,
-            "sentence": "I can't believe you **went that far**! Did you really tell your boss that he was wrong?",
-            "difficulty": "intermediate",
-            "examples": [
-                "I agree with you that the movie was a bit slow, but I wouldn't **go that far** and say it was the worst movie ever."
-            ],
-            "notes": "go that far: 그렇게까지 하다. (주로 놀라움이나 과도함에 대한 반응을 나타냄)",
-            "translation": "네가 그렇게까지(go that far) 했다니 믿을 수가 없어! 네 상사에게 그가 틀렸다고 정말 말했니?"
-        },
-        {
-            "id": 46,
-            "order": 45,
-            "sentence": "That's why we **focus** (a lot of our attention in the work that we do) **on** helping employers understand how we can make those positive changes in those cultures.",
-            "difficulty": "intermediate",
-            "examples": [
-                "That's why we **focus on helping** employers understand how to make positive changes to their company culture.",
-                "So we're **mainly focused on helping** employers make their company cultures better."
-            ],
-            "notes": "focus on + ~ing / 명사: ~에 집중하다.",
-            "translation": "그렇기 때문에 우리는 고용주들이 그러한 문화에서 어떻게 긍정적인 변화를 만들 수 있는지 이해하도록 돕는 데 (우리가 하는 일에서 많은 관심을) 집중합니다."
-        },
-        {
-            "id": 47,
-            "order": 46,
-            "sentence": "I **find myself checking** my phone a lot **as I go through my day**.",
-            "difficulty": "advanced",
-            "examples": [
-                "I was so busy **as I went through my day** yesterday that I didn't have a minute to eat.",
-                "I'm sure you will feel more relaxed **as you go through your day** tomorrow."
-            ],
-            "notes": "find oneself ~ing: 자신도 모르게 ~하고 있음을 알게 되다. as one goes through one's day: 하루를 보내는 동안.",
-            "translation": "하루를 보내는 동안(as I go through my day) 휴대폰을 많이 확인하는 제 자신을 발견해요."
-        },
-        {
-            "id": 48,
-            "order": 47,
-            "sentence": "You'll have **plenty of time for this** **during your day**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I'll be in meetings **throughout the day**. (emphasizes the entire duration)"
-            ],
-            "notes": "plenty of time: 충분한 시간. during your day: 하루 일과 중에. throughout the day: 하루 종일, 온종일.",
-            "translation": "하루 일과 중에 이것을 할 충분한 시간이 있을 거예요. (simple and direct)"
-        },
-        {
-            "id": 49,
-            "order": 48,
-            "sentence": "(뜯어낸 벽안쪽을 보면서) This is **plaster seeping/coming through**, but you can see there's no signs of mold or anything **like that**.",
-            "difficulty": "advanced",
-            "examples": [
-                "And then on the other side of the wall is a **plaster**.",
-                "So that's why I don't want to **take down the plaster** because it looks good."
-            ],
-            "notes": "seep through / come through: 스며 나오다. plaster: 회벽, 석고. take down: 철거하다, 제거하다. like that: 그와 같은 것.",
-            "translation": "이것은 석회가 스며 나오거나(seeping/coming through) 있는 것이지만, 곰팡이나 그와 같은(like that) 것의 징후는 없음을 볼 수 있습니다."
-        },
-        {
-            "id": 50,
-            "order": 49,
-            "sentence": "My dad's going to **come over**.",
-            "difficulty": "beginner",
-            "examples": [
-                "Also, **shout out to** my dad for helping me with this.",
-                "We were able to **get the living room done** in one day because he came over."
-            ],
-            "notes": "come over: (집에) 방문하다, 오다. shout out to: ~에게 감사나 인사를 표하다. get something done: ~을 끝내다.",
-            "translation": "아빠가 오실 거예요."
-        },
-        {
-            "id": 51,
-            "order": 50,
-            "sentence": "But he's also going to help me with this **big picture window** right here.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I'm **taking both of these windows out** and I'm **adding a 60x60 window**.",
-                "I'm **taking out both of these windows and putting in a 60x60 window**."
-            ],
-            "notes": "picture window: 전망용 대형 창문, 통창. take out: 제거하다. add/put in: 추가하다, 설치하다.",
-            "translation": "하지만 그는 또한 바로 여기 있는 이 큰 통창(picture window)도 저를 도와줄 거예요."
-        },
-        {
-            "id": 52,
-            "order": 51,
-            "sentence": "Here's the wallpaper I ordered for the bathroom. It's floral and it has a **black backdrop** which I think will **go well with** the **claw foot tub and the vanity**.",
-            "difficulty": "advanced",
-            "examples": [
-                "Here's the wallpaper I ordered for the bathroom. It's got a **floral design with a black background**, which I think will **look nice with** the claw foot tub and the vanity."
-            ],
-            "notes": "backdrop/background: 배경. go well with / look nice with: ~와 잘 어울리다. claw foot tub: 발 달린 욕조. vanity: 화장대.",
-            "translation": "이것은 제가 욕실용으로 주문한 벽지입니다. 꽃무늬이고 검은색 배경(black backdrop)을 가지고 있는데, 이것이 발 달린 욕조(claw foot tub)와 화장대(vanity)와 잘 어울릴 것 같아요."
-        },
-        {
-            "id": 53,
-            "order": 52,
-            "sentence": "So, I'll **put all this up all the way around** the bathroom **aside from** on the ceiling.",
-            "difficulty": "advanced",
-            "examples": [
-                "So, I'll be **putting this up all over** the bathroom **except for** the ceiling.",
-                "We are going to **hang the wallpaper** in the living room together. (Put up the wallpaper)"
-            ],
-            "notes": "put up all the way around / put up all over: ~의 전체에 걸쳐 설치하다/붙이다. aside from / except for: ~을 제외하고. put up / hang: (벽지, 그림 등을) 걸다, 붙이다, 설치하다.",
-            "translation": "그래서 천장을 제외하고(aside from) 욕실 전체를 빙 둘러(욕실 전체를 빙 둘러, attach, install) 이것을 붙일 거예요."
-        },
-        {
-            "id": 54,
-            "order": 53,
-            "sentence": "We can **put you up for the night** if you miss the last bus.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "put someone up: ~에게 숙소를 제공하다, 재워주다.",
-            "translation": "막차를 놓치면 하룻밤 재워줄 수 있어요."
-        },
-        {
-            "id": 55,
-            "order": 54,
-            "sentence": "Now I can tell. I'm slowly **getting the hang of** the subtle differences between I get it and I got it.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "get the hang of: ~의 요령을 터득하다, ~에 익숙해지다.",
-            "translation": "이제 알겠어요. 'I get it'과 'I got it' 사이의 미묘한 차이를 천천히 익히고(getting the hang of) 있어요."
-        },
-        {
-            "id": 56,
-            "order": 55,
-            "sentence": "Do you guys **take old tires for disposal**? **Remove the tires from the rims** and **take the rubber part of the tire for disposal**.",
-            "difficulty": "advanced",
-            "examples": [
-                "Can I **leave my old tires here for disposal**?",
-                "If you decide to take the job, there will be a company car **at your disposal**.",
-                "The research facility had all the latest technology **at its disposal** to conduct the experiments."
-            ],
-            "notes": "for disposal: 폐기 처리를 위해. remove from the rims: 휠에서 분리하다. at one's disposal: ~의 마음대로 사용할 수 있는.",
-            "translation": "폐기를 위해 헌 타이어를 받으시나요? 타이어를 휠에서 분리하고 타이어의 고무 부분만 폐기 처리해 주세요."
-        },
-        {
-            "id": 57,
-            "order": 56,
-            "sentence": "How much would it cost to get my **wheel covers swapped out** and dispose of the old tires?",
-            "difficulty": "advanced",
-            "examples": [
-                "Can you **take the wheel covers off** my summer tires and **put them on** my winter tires?",
-                "Could you **swap/switch the wheel covers from** my old tires **to** the new ones?"
-            ],
-            "notes": "wheel cover: 휠 커버. swap out / swap/switch from A to B: 교체하다, A에서 B로 바꾸다. take off: 벗기다. put on: 끼우다, 장착하다.",
-            "translation": "휠 커버를 교체하고 헌 타이어를 폐기하는 데 비용이 얼마나 들까요?"
-        },
-        {
-            "id": 58,
-            "order": 57,
-            "sentence": "Can you please **check the battery and engine oil** as well? It's been a while since I **replaced them**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "How much is a **standard oil change** here?",
-                "Then please **take a look and replace them if necessary**"
-            ],
-            "notes": "check the battery and engine oil: 배터리와 엔진 오일을 확인하다. replace: 교체하다. standard oil change: 일반적인 오일 교환. take a look: 살펴보다.",
-            "translation": "배터리와 엔진 오일도 확인해 주시겠어요? 교체한 지 꽤 되었어요."
-        },
-        {
-            "id": 59,
-            "order": 58,
-            "sentence": "I **can't be bothered to** get dressed and head out into the cold.",
-            "difficulty": "advanced",
-            "examples": [
-                "I **couldn't be bothered to** move again, even if they offered me twice the salary.",
-                "I **couldn't be bothered to** argue with him about it; he's always right in his own mind.",
-                "I was going to clean up, but I just **couldn't be bothered** so I left the dishes in the sink.",
-                "I could have tried to fix the broken shelf, but in the end, I **couldn't be bothered** and just threw it out instead."
-            ],
-            "notes": "can't/couldn't be bothered to + 동사: ~할 마음이 생기지 않는다, ~하는 게 귀찮다.",
-            "translation": "옷을 입고 추위 속으로 나갈(head out) 엄두가 나지 않아요."
-        },
-        {
-            "id": 60,
-            "order": 59,
-            "sentence": "I'd **rather he didn't know**.",
-            "difficulty": "advanced",
-            "examples": [
-                "I'd **rather you didn't bring up** the salary issue."
-            ],
-            "notes": "I'd rather + Someone + 과거 동사: (다른 사람의 행동에 대한) 바람/선호를 표현할 때 (My preference for Your action => past tense)",
-            "translation": "저는 그가 모르는 편이 더 좋아요."
-        },
-        {
-            "id": 61,
-            "order": 60,
-            "sentence": "I **don't want to mess up** the surprise.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "mess up: 망치다, 엉망으로 만들다.",
-            "translation": "저는 서프라이즈를 망치고 싶지 않아요."
-        },
-        {
-            "id": 62,
-            "order": 61,
-            "sentence": "Look, I'd **rather not (say)**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I'd **rather not** go into that much detail. It was a private matter."
-            ],
-            "notes": "I'd rather not (say): (자신의 행동에 대해) ~하지 않는 것이 낫다. (Same Subject: talking about me => present)",
-            "translation": "보세요, 저는 (말하고) 싶지 않아요."
-        },
-        {
-            "id": 63,
-            "order": 62,
-            "sentence": "This is **how I know** my mother **best**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "This is how I know someone best: 이것이 내가 가장 잘 아는/익숙한 그 사람의 모습이다.",
-            "translation": "이게 제가 아는 울 엄마의 모습이죠."
-        },
-        {
-            "id": 64,
-            "order": 63,
-            "sentence": "Hey, I know it's only **two minutes before close**, but can I **place an order**?",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "before close: 마감/폐점 2분 전. place an order: 주문하다.",
-            "translation": "저기요, 마감 2분 전인 건 알지만, 주문해도 될까요?"
-        },
-        {
-            "id": 65,
-            "order": 64,
-            "sentence": "I just got the package (that) the tracking said (it) was lost last week! I'm not going to complain; **better late than never**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "The package I thought was lost last week finally **showed up**! **Better late than never**."
-            ],
-            "notes": "better late than never: 늦더라도 안 하는 것보다 낫다. show up: 나타나다, 도착하다.",
-            "translation": "지난주에 추적(tracking)에서 분실되었다고 했던 소포를 방금 받았어요! 불평하지 않을 거예요. 안 하는 것보다는 늦게라도 하는 것이 낫죠."
-        },
-        {
-            "id": 66,
-            "order": 65,
-            "sentence": "We were going to go hiking, but I **didn't feel up to it** after staying up so late last night.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Do you **feel up to** meeting for coffee later, or are you still recovering from the cold?",
-                "She **isn't feeling up to** the presentation today because she's got a nasty cold.",
-                "I'm **not really up for** going out tonight."
-            ],
-            "notes": "feel up to + 명사/동명사: ~을 할 기분/힘이 되다, ~을 하고 싶다. (Focus on desire/energy). not really up for: ~할 마음이 내키지 않는.",
-            "translation": "하이킹을 가려고 했지만, 어젯밤에 너무 늦게까지 깨어 있었더니 그럴 기분이 아니었어요."
-        },
-        {
-            "id": 67,
-            "order": 66,
-            "sentence": "My sister's coming to **pick us up**, so we **wouldn't have to worry about** driving tonight.",
-            "difficulty": "intermediate",
-            "examples": [
-                "The restaurant closes late, so we **wouldn't have to rush off** right after dinner. We can **take our time**.",
-                "Since I already paid for the streaming service, we **wouldn't have to buy** the movie separately."
-            ],
-            "notes": "pick up: (차로) 태우러 가다. wouldn't have to: ~할 필요가 없을 것이다. rush off: 서둘러 떠나다. take one's time: 시간을 여유롭게 쓰다.",
-            "translation": "언니가 우리를 태우러 올 거라서 오늘 밤 운전에 대해 걱정할 필요가 없을 거예요."
-        },
-        {
-            "id": 68,
-            "order": 67,
-            "sentence": "It's so nice **not to have to park** my SUV on the road.",
-            "difficulty": "beginner",
-            "examples": [
-                "I'll be able to park it on this **parking pad** during the winter, so I **won't have to worry about getting hit** by the snowplow."
-            ],
-            "notes": "not to have to: ~할 필요가 없다. parking pad: 주차 공간. won't have to worry about: ~에 대해 걱정할 필요가 없을 것이다.",
-            "translation": "SUV를 길가에 주차할 필요가 없어서 정말 좋아요."
-        },
-        {
-            "id": 69,
-            "order": 68,
-            "sentence": "We have the frame **(all) built out** for this area right here.",
-            "difficulty": "intermediate",
-            "examples": [
-                "So, now we're going to see if it **fits up there good/well**. (finish up, get it done)"
-            ],
-            "notes": "build out: ~을 만들다, 완성하다. fit up: (장소 등에) 장비를 갖추다, 맞추다.",
-            "translation": "우리는 바로 이 영역에 대한 프레임을 (모두) 완성했습니다."
-        },
-        {
-            "id": 70,
-            "order": 69,
-            "sentence": "My windshield washer fluid is **running out too fast**. It's **going down too fast**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "run out / go down: 바닥나다, 고갈되다.",
-            "translation": "제 앞 유리 와셔액이 너무 빨리 바닥나고 있어요."
-        },
-        {
-            "id": 71,
-            "order": 70,
-            "sentence": "We have so much stuff **piling up** in the garage that we can't find anything.",
-            "difficulty": "intermediate",
-            "examples": [
-                "There is **so much stuff** here."
-            ],
-            "notes": "pile up: 쌓이다. so much stuff: 매우 많은 물건.",
-            "translation": "차고에 물건이 너무 많이 쌓여서 아무것도 찾을 수가 없어요."
-        },
-        {
-            "id": 72,
-            "order": 71,
-            "sentence": "He was disappointed, but he quickly **brushed the failure off** and started preparing for the next competition.",
-            "difficulty": "advanced",
-            "examples": [
-                "She was able to **brush his sarcastic remarks off** without getting angry.",
-                "She just **shrugged off** the rumors about her.",
-                "I couldn't **shake off** the weird feeling I had about that house.",
-                "They just **brushed the rumors off**, so the gossip **died down** eventually.",
-                "It's just a small mistake; you need to **brush it off** and keep working."
-            ],
-            "notes": "brush/shake off / shrug off: (걱정, 문제 등을) 떨쳐내다, 대수롭지 않게 여기다. die down: (소문, 감정 등이) 사그라지다.",
-            "translation": "그는 실망했지만, 재빨리 그 실패를 떨쳐내고(brushed off) 다음 대회를 준비하기 시작했어요."
-        },
-        {
-            "id": 73,
-            "order": 72,
-            "sentence": "I think the comments kind of **eliminate/nullify each other**, right?",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "eliminate/nullify each other: 서로 상쇄하다, 무효화하다.",
-            "translation": "댓글들이 서로 상쇄되는(eliminate/nullify each other) 것 같아요, 그렇죠?"
-        },
-        {
-            "id": 74,
-            "order": 73,
-            "sentence": "Because the complaint is MLS defending, but as you just said, some **could go in a top five league** and still have success.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Wasn't he a golden boot winner in the Premier League?",
-                "So, **it's not as if(though)** he **hasn't shown that he can score at the same kind of rate** at other levels in other competitions and for other teams. (He has totally shown that) (~인건 아니야. 이중 부정)"
-            ],
-            "notes": "it's not as if(though) ~: ~인 것은 아니다. (반대를 강하게 부정하며 주장을 펼 때 사용)",
-            "translation": "왜냐하면 불만은 MLS 수비력에 있지만, 방금 당신이 말했듯이, 일부는 상위 5개 리그에 가서도 성공할 수 있기 때문이죠."
-        },
-        {
-            "id": 75,
-            "order": 74,
-            "sentence": "It's **not as if** we **haven't tried** to fix the car; we took it to three different mechanics already.",
-            "difficulty": "intermediate",
-            "examples": [
-                "We should just talk to her. **It's not as if she's going to bite us**.",
-                "**It's not as though they're poor**; they just choose to be careful with their money.",
-                "You don't need to dress up so much. **It's not as though we're meeting the Queen**!"
-            ],
-            "notes": "it's not as if(though) ~: ~인 것은 아니다. (상황을 완화시키거나 반박할 때 사용)",
-            "translation": "우리가 차를 고치려고 노력하지 않은 건 아니에요. 이미 세 명의 다른 정비사에게 가져갔었어요."
-        },
-        {
-            "id": 76,
-            "order": 75,
-            "sentence": "Hey, **chill out**! The bus will be here in a minute.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "chill out: 진정하다, 긴장을 풀다.",
-            "translation": "야, 진정해! 버스 곧 올 거야."
-        },
-        {
-            "id": 77,
-            "order": 76,
-            "sentence": "We need someone who can **hit the ground running**.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "hit the ground running: 즉시/시작부터 효과적으로 일하다. (새로운 직장이나 프로젝트에서)",
-            "translation": "우리는 즉시 효과적으로 일을 시작할 수 있는 사람이 필요해요."
-        },
-        {
-            "id": 78,
-            "order": 77,
-            "sentence": "I **dropped off** this morning for a tire change. I'm just calling to **check on the progress**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "When can I **expect (it) to be ready (for pickup)**?",
-                "How much longer until it's done? If it's quick, I'll stay."
-            ],
-            "notes": "drop off: (물건/사람을) 내려주다, 맡기다. check on the progress: 진행 상황을 확인하다. expect to be ready: 준비가 완료될 것을 예상하다.",
-            "translation": "오늘 아침 타이어 교체를 위해 차를 맡겼어요. 진행 상황을 확인하려고 전화했습니다."
-        },
-        {
-            "id": 79,
-            "order": 78,
-            "sentence": "I just **stopped by** on my way.",
-            "difficulty": "beginner",
-            "examples": [
-                "I was **in the area**, so I thought I'd **stop by**."
-            ],
-            "notes": "stop by: 잠깐 들르다. in the area: 이 근처에.",
-            "translation": "오는 길에 잠깐 들렀어요."
-        },
-        {
-            "id": 80,
-            "order": 79,
-            "sentence": "**How's it coming (along)**? Is it almost done?",
-            "difficulty": "intermediate",
-            "examples": [
-                "If it's **not going to take too long**, I'll just wait here. **How much longer will it be**?"
-            ],
-            "notes": "How's it coming (along)?: (진행 상황을 물을 때) 어떻게 되어가요? (How's it going? 은 안부를 물을 때) How much longer will it be?: 얼마나 더 걸릴까요?",
-            "translation": "어떻게 돼가고 있어요? 거의 다 됐나요?"
-        },
-        {
-            "id": 81,
-            "order": 80,
-            "sentence": "Can you **scrape out** the coconut meat for me? / Can you **scoop out** the flesh for me?",
-            "difficulty": "advanced",
-            "examples": [
-                "Could you **cut this open** so I can eat the soft meat inside?",
-                "Could you **cut it in half** so I can **get to the meat**?"
-            ],
-            "notes": "scrape out / scoop out: (내용물을) 긁어내다, 파내다. cut open: 베어 열다. get to the meat: 속살에 닿다/도달하다.",
-            "translation": "코코넛 속살(meat/flesh)을 좀 긁어/파내 줄 수 있나요? (코코넛 과육 좀 긁어줘)"
-        },
-        {
-            "id": 82,
-            "order": 81,
-            "sentence": "When we went camping, we just **ate off the pot** we cooked the stew in.",
-            "difficulty": "advanced",
-            "examples": [
-                "My brother always tries to **eat off my plate**, which **drives me crazy**.",
-                "They didn't have enough plates, so a few of us had to **eat off napkins**."
-            ],
-            "notes": "eat off (something): ~에서 음식을 먹다. drive someone crazy: ~를 미치게 만들다, 짜증나게 하다.",
-            "translation": "캠핑 갔을 때, 우리는 스튜를 끓인 냄비에서 그냥 먹었어요."
-        },
-        {
-            "id": 83,
-            "order": 82,
-            "sentence": "I gotta go run to **burn/work off** all the pizza I ate last night.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "burn off / work off: (칼로리 등을) 운동으로 소모시키다.",
-            "translation": "어젯밤에 먹은 피자를 모두 소모시키기 위해 운동하러 가야 해요."
-        },
-        {
-            "id": 84,
-            "order": 83,
-            "sentence": "This hotel really **spoiled me with** their service. Nothing else **seems good enough anymore**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "spoil with: ~으로 (너무 잘해줘서) 버릇없게 만들다, 기준을 높이다. not seem good enough anymore: 더 이상 충분히 좋게 보이지 않다.",
-            "translation": "이 호텔 서비스가 저를 정말 버릇없게 만들었어요. 이제 다른 어떤 것도 충분히 좋게 보이지 않네요."
-        },
-        {
-            "id": 85,
-            "order": 84,
-            "sentence": "I **get to travel for work**, which is awesome.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Last night, I finally **got to see** my favorite band perform live. It was incredible! (Opportunity)",
-                "We **get to / can leave** an hour early today because we finished the project ahead of schedule! (Permission/Privilege)",
-                "Since I became a manager, I **get to / can** (both okay here) choose my own working hours. (Privilege)",
-                "We **got to** 위.갓.투. see the new car prototype earlier. (미리 볼 기회가 생겨서 좋았어/운이 좋았어)",
-                "We **were able to see** the new car prototype earlier. (미리 볼 수 있는 여건/능력이 되었어)",
-                "We've **got to** 위브가러~ drive the car before we order it. (Obligation)"
-            ],
-            "notes": "get to + 동사: ~할 기회/특권을 얻다. (긍정적 의미) have got to (gotta): ~해야 한다. (의무)",
-            "translation": "저는 일 때문에 여행할 기회/특권을 얻어요. 정말 멋지죠."
-        },
-        {
-            "id": 86,
-            "order": 85,
-            "sentence": "She was worried about presenting in English, but she absolutely **pulled it off**.",
-            "difficulty": "advanced",
-            "examples": [
-                "We were worried about the deadline, but we **got it done** on time.",
-                "She absolutely **nailed it**."
-            ],
-            "notes": "pull off: (어려운 일을) 해내다, 성공시키다. nail it: 완벽하게 해내다. get it done: 끝내다.",
-            "translation": "그녀는 영어로 발표하는 것에 대해 걱정했지만, 그것을 멋지게 해냈어요. (Focuses on difficulty, overcoming a challenge)"
-        },
-        {
-            "id": 87,
-            "order": 86,
-            "sentence": "We need to **pull off** the highway **at the next exit** for gas.",
-            "difficulty": "intermediate",
-            "examples": [
-                "The driver had to quickly **pull over** when the tire **blew out**."
-            ],
-            "notes": "pull off: (도로 등에서) 벗어나다. at the next exit: 다음 출구에서. pull over: (차를) 길가에 대다. blow out: (타이어가) 터지다.",
-            "translation": "주유를 위해 다음 출구에서 고속도로를 빠져나가야 해요."
-        },
-        {
-            "id": 88,
-            "order": 87,
-            "sentence": "This type of thing **used to throw me**, but I'm older now, I don't **let it get to me** so much.",
-            "difficulty": "advanced",
-            "examples": [
-                "I just **don't take it seriously anymore**."
-            ],
-            "notes": "throw (someone): ~를 당황하게 하다. let it get to me: ~때문에 속상해하다/신경 쓰다. don't take it seriously anymore: 더 이상 심각하게 받아들이지 않다.",
-            "translation": "이런 종류의 일은 예전에는 저를 당황하게(throw me) 만들었지만, 이제 나이가 들어서 그것에 크게 신경 쓰지(let it get to me) 않아요."
-        },
-        {
-            "id": 89,
-            "order": 88,
-            "sentence": "Do I **make myself clear**?",
-            "difficulty": "intermediate",
-            "examples": [
-                "She tried hard to **make herself clear** to the customer who didn't speak much English.",
-                "I thought I had **made my intentions clear**, but apparently, there was still some confusion about the project."
-            ],
-            "notes": "make oneself clear: 자신의 의사/뜻을 명확하게 하다. make intentions clear: 의도를 명확히 하다.",
-            "translation": "제 말이 명확한가요? (내 뜻이 분명한가요?)"
-        },
-        {
-            "id": 90,
-            "order": 89,
-            "sentence": "How has your **commute** been lately?",
-            "difficulty": "intermediate",
-            "examples": [
-                "How's the **travel to work** been lately?",
-                "How long have you been **spending on your commute** recently?",
-                "Is your **trip to the office dragging on** lately?"
-            ],
-            "notes": "commute / travel to work / trip to the office: 통근, 출퇴근. drag on: 지루하게 계속되다.",
-            "translation": "요즘 출퇴근(commute)은 어땠어요?"
-        },
-        {
-            "id": 91,
-            "order": 90,
-            "sentence": "I'm happy with our decision, but I want to **leave the floor open** in case anyone has any objections.",
-            "difficulty": "advanced",
-            "examples": [
-                "After the presentation, the CEO **left the floor open for a short Q&A session**."
-            ],
-            "notes": "leave the floor open: 발언 기회를 주다, 토론의 여지를 남겨두다.",
-            "translation": "저는 우리의 결정에 만족하지만, 혹시 반대 의견이 있는 분이 있을까 봐 발언 기회(the floor)를 열어두고 싶어요."
-        },
-        {
-            "id": 92,
-            "order": 91,
-            "sentence": "Her diamond necklace for the casual dinner party felt a little **over the top**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "over the top: 지나친, 과장된.",
-            "translation": "캐주얼한 저녁 식사 파티에 그녀의 다이아몬드 목걸이는 약간 지나쳤다고(over the top) 느껴졌어요."
-        },
-        {
-            "id": 93,
-            "order": 92,
-            "sentence": "Only **immediate family** was present at the small, **intimate wedding ceremony**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "immediate family: 직계 가족. intimate: 친밀한.",
-            "translation": "작고 친밀한(intimate) 결혼식에는 직계 가족(immediate family)만 참석했습니다."
-        },
-        {
-            "id": 94,
-            "order": 93,
-            "sentence": "So that's **what was going on all along**!",
-            "difficulty": "advanced",
-            "examples": [
-                "She acted surprised when the secret was revealed, but I think she **knew about it all along**.",
-                "They realized the missing keys had been **in the bottom of her purse all along**."
-            ],
-            "notes": "all along: 처음부터, 내내. what was going on: 무슨 일이 일어나고 있었는지.",
-            "translation": "그래서 내내(all along) 무슨 일이 일어나고 있었던 건지 알겠어요!"
-        },
-        {
-            "id": 95,
-            "order": 94,
-            "sentence": "I accidentally **bleached** my faded jeans **even more**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "She prefers the look of **distressed denim** over brand-new, **dark-wash jeans**.",
-                "We're seeing a lot of high-end brands selling **heavily distressed denim** this season.",
-                "She always looks great in her **vintage denim shorts**."
-            ],
-            "notes": "bleach: 표백하다. faded jeans: 물 빠진 청바지. distressed denim: 낡은 느낌을 준 데님. dark-wash jeans: 어두운 색 청바지.",
-            "translation": "실수로 물 빠진 청바지를 더 많이 표백했어요."
-        },
-        {
-            "id": 96,
-            "order": 95,
-            "sentence": "He changes into his **overalls** before he **clocks in** for his shift at the factory.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I need a new pair of **ripped jeans** for the concert."
-            ],
-            "notes": "overalls: 작업복, 멜빵바지. clocks in: 출근 시간을 기록하다.",
-            "translation": "그는 공장에서 교대 근무를 위해 출근(clocks in)하기 전에 작업복(overalls)으로 갈아입어요."
-        },
-        {
-            "id": 97,
-            "order": 96,
-            "sentence": "I **packed/put in/threw in** five pairs of socks when I was packing.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "pack/put in/throw in: (짐을) 챙겨 넣다.",
-            "translation": "짐을 쌀 때 양말 다섯 켤레를 챙겨 넣었어요."
-        },
-        {
-            "id": 98,
-            "order": 97,
-            "sentence": "I need a new pair of glasses. - I **gotta get new glasses**.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "I gotta get new glasses: 'I have got to get new glasses'의 구어체 축약형. (Very casual, dropping 'a pair of')",
-            "translation": "새 안경이 필요해요. (매우 캐주얼하게, 'a pair of'를 생략)"
-        },
-        {
-            "id": 99,
-            "order": 98,
-            "sentence": "I tried to convince Mr. and Mrs. Jefferson to just give me the money they **would've spent on** my meal instead, because there was a lot I **could do with that kind of cash**.",
-            "difficulty": "advanced",
-            "examples": [
-                "I ended up taking the bus, so I was able to **save the time I would've wasted** looking for parking.",
-                "They canceled the wedding, which was probably a good thing because they didn't have to deal with the **debt they would've piled up from the party**.",
-                "She chose to do the project herself, meaning the company kept the **profit they would've paid out to an external contractor**."
-            ],
-            "notes": "would've + p.p.: ~했을 것이다. (과거에 일어나지 않은 일에 대한 가정) could do with that kind of cash: 그 정도 현금으로 할 수 있는 일이 많다.",
-            "translation": "저는 제퍼슨 씨 부부에게 대신 제 식사비로 썼을 돈을 그냥 저에게 달라고 설득하려 했어요. 왜냐하면 그 정도 현금으로는 제가 할 수 있는 일이 많았기 때문이죠."
-        },
-        {
-            "id": 100,
-            "order": 99,
-            "sentence": "Honestly I just loved the **opportunity to go down there and pitch myself**, and **get out of my comfort zone**.",
-            "difficulty": "advanced",
-            "examples": [
-                "Obviously, I don't know that area, so I'm so happy for Chelsea and Mary to both **get it**. (그것을 얻다)",
-                "It **makes sense to go to them**. But, you know, I'll **get the next one**."
-            ],
-            "notes": "pitch oneself: 자신을 어필하다/홍보하다. get out of one's comfort zone: 안락한 영역을 벗어나다. make sense to: ~하는 것이 합리적이다.",
-            "translation": "솔직히 저는 그곳에 가서 저 자신을 어필하고(pitch myself), 안락한 영역(comfort zone)을 벗어날 기회(opportunity)가 좋았어요."
-        },
-        {
-            "id": 101,
-            "order": 100,
-            "sentence": "I just started here. I wasn't really **expecting to get** the 30 million dollar listing.",
-            "difficulty": "intermediate",
-            "examples": [
-                "But at least they know I'm **ready to play** and I'm going to **put my best foot forward** and **come prepared**."
-            ],
-            "notes": "expecting to get: ~을 얻기를 예상하다. ready to play: 준비가 되다, 참여할 준비가 되다. put one's best foot forward: 최선을 다하다, 좋은 인상을 주려 노력하다. come prepared: 준비된 상태로 오다.",
-            "translation": "저는 여기서 막 시작했어요. 3천만 달러짜리 매물을 따낼(get) 것이라고는 정말 예상하지 못했어요."
-        },
-        {
-            "id": 102,
-            "order": 101,
-            "sentence": "He worked on that project for six months **straight without a break**. Did he get a promotion?",
-            "difficulty": "intermediate",
-            "examples": [
-                "**Would you expect otherwise**? (당연쓰)"
-            ],
-            "notes": "straight: 연속으로, 끊임없이. Would you expect otherwise?: 당연히 그렇지 않겠어요? (긍정적 대답을 유도하는 반문)",
-            "translation": "그는 쉬지 않고(without a break) 6개월 연속으로(straight) 그 프로젝트를 진행했어요. 승진했나요?"
-        },
-        {
-            "id": 103,
-            "order": 102,
-            "sentence": "The new intern is **eager to learn**, but honestly, he needs a **whole lot of supervision** right now.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "eager to learn: 배우고자 열망하는. a whole lot of: 엄청나게 많은. supervision: 감독, 관리.",
-            "translation": "새 인턴은 배우고자 하는 열의가 있지만, 솔직히 말해서 지금은 니져/호ㅓ랏어브 많은 감독(supervision)이 필요해요."
-        },
-        {
-            "id": 104,
-            "order": 103,
-            "sentence": "I was wearing heels all day, but I finally **changed into some reasonable shoes** for the walk home.",
-            "difficulty": "advanced",
-            "examples": [
-                "I haven't seen a woman in this office **wear sneakers in five years**.",
-                "Am I **allowed to wear sneakers** to the office?"
-            ],
-            "notes": "changed into: ~으로 갈아입다/갈아 신다. reasonable shoes: 적절한/편안한 신발.",
-            "translation": "하루 종일 하이힐을 신고 있었지만, 집에 걸어가기 위해 드디어 편한 신발(reasonable shoes)로 갈아 신었어요."
-        },
-        {
-            "id": 105,
-            "order": 104,
-            "sentence": "I'm **secure in my sense of style**, so I dress the way I like without **worrying about others' opinions**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "She **felt secure in her decision** to change careers.",
-                "I sometimes **feel insecure** when I'm speaking English because I know I'm making a lot of mistakes.",
-                "Sometimes I **feel insecure about** asking for help at work."
-            ],
-            "notes": "secure in: ~에 확신하는/자신 있는. feel insecure: 불안정하다고 느끼다.",
-            "translation": "저는 제 스타일에 자신감이(secure in my sense of style) 있어서, 다른 사람들의 의견을 걱정하지 않고 제가 좋아하는 방식으로 옷을 입어요."
-        },
-        {
-            "id": 106,
-            "order": 105,
-            "sentence": "He's really nervous about the presentation, but he's trying to **put on a front** that he's **totally confident**.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "put on a front: 겉으로만 ~인 척하다, 허세를 부리다. totally confident: 완전히 확신하는.",
-            "translation": "그는 발표에 대해 정말 긴장하고 있지만, 완전히 자신감 있는 척(put on a front) 가장하려고 노력하고 있어요."
-        },
-        {
-            "id": 107,
-            "order": 106,
-            "sentence": "In Mount Druitt, there are a lot of social issues. There's a lot of **cyclical poverty**.",
-            "difficulty": "advanced",
-            "examples": [
-                "There's a lot of **generational welfare dependence**, the kinds of things that we see **manifesting in the classroom**, in **big behaviours** for a **whole variety of reasons**."
-            ],
-            "notes": "cyclical poverty: 대물림되는 빈곤. generational welfare dependence: 세대 간 복지 의존. manifest in: ~에서 나타나다. big behaviours: 큰 문제 행동. whole variety of reasons: 아주 다양한 이유.",
-            "translation": "마운트 드루이트에는 많은 사회 문제가 있습니다. 순환적인 빈곤(cyclical poverty)이 많습니다."
-        },
-        {
-            "id": 108,
-            "order": 107,
-            "sentence": "I had **no friggin clue, zero clue on how to handle** any of the behaviours already that were happening in this classroom, **let alone** a student with these complex needs.",
-            "difficulty": "advanced",
-            "examples": [],
-            "notes": "no friggin clue / zero clue: 전혀 모르다, 단서가 없다. let alone: ~은 물론이고, 하물며 ~은. (뒤에 오는 것이 더욱 불가능함을 강조)",
-            "translation": "저는 이미 이 교실에서 일어나고 있던 어떤 행동도 어떻게 다룰지 정말 아무런 단서도, 0의 단서도 없었는데, 하물며(let alone) 이런 복잡한 요구를 가진 학생은 더더욱이요."
-        },
-        {
-            "id": 109,
-            "order": 108,
-            "sentence": "**Being generous** **comes back to you**.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "being generous: 관대함. comes back to you: (한 행동의 결과가) 자신에게 되돌아오다.",
-            "translation": "관대하게 행동하는 것은 당신에게 되돌아옵니다."
-        },
-        {
-            "id": 110,
-            "order": 109,
-            "sentence": "Actually, we went to a **farmer's market** a few weekends ago and just parked nearby, and we **got sideswiped**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Some car came and just **swiped the side of our car**. $2,000 in repairs."
-            ],
-            "notes": "farmer's market: 농산물 직거래 장터. get sideswiped / swipe the side of our car: (차가) 측면 충돌을 당하다.",
-            "translation": "사실 몇 주 전에 파머스 마켓에 갔다가 근처에 주차했는데, 저희 차가 측면 충돌을 당했어요(got sideswiped)."
-        },
-        {
-            "id": 111,
-            "order": 110,
-            "sentence": "He's going to be so **bummed** when he finds out they finished the pizza **without him**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "She's been **bummed out** all morning because of the bad news.",
-                "Yes, I'm **super bummed** she's moving. She just accepted a job there. Oh, that's so far."
-            ],
-            "notes": "bummed / bummed out / super bummed: 실망한, 기분이 안 좋은.",
-            "translation": "자기를 빼고(without him) 피자를 다 먹어버린 것을 알게 되면 그는 매우 실망할(bummed) 거예요."
-        },
-        {
-            "id": 112,
-            "order": 111,
-            "sentence": "I'm really happy **this happened for her**.",
-            "difficulty": "beginner",
-            "examples": [
-                "She's been looking for a **fresh start**."
-            ],
-            "notes": "happen for someone: ~에게 좋은 일이 생기다. fresh start: 새로운 시작.",
-            "translation": "그녀에게 이런 일이 생겨서(this happened for her) 정말 기뻐요."
-        },
-        {
-            "id": 113,
-            "order": 112,
-            "sentence": "Even after the **controversial verdict**, the defendant **exhibited dignity** and thanked the court for its time.",
-            "difficulty": "advanced",
-            "examples": [
-                "**Throughout his final speech**, the retiring CEO **exhibited dignity**, **focusing on** the company's future **rather than** past achievements."
-            ],
-            "notes": "controversial verdict: 논란이 많은 평결. exhibited dignity: 품위를 보여주었다. throughout: ~내내. focusing on ~ rather than: ~보다는 ~에 집중하며.",
-            "translation": "논란이 많은 평결(controversial verdict) 후에도 피고는 품위를 보여주었고(exhibited dignity) 법원에 시간을 내어준 것에 감사했습니다."
-        },
-        {
-            "id": 114,
-            "order": 113,
-            "sentence": "I **grew up in the country/city**, in Canada.",
-            "difficulty": "beginner",
-            "examples": [],
-            "notes": "grow up in the country/city: 시골/도시에서 자라다.",
-            "translation": "저는 캐나다의 시골/도시에서 자랐어요."
-        },
-        {
-            "id": 115,
-            "order": 114,
-            "sentence": "If you're a **prospective buyer**, you got a couple kids, want to **turn it into your family compound**.",
-            "difficulty": "advanced",
-            "examples": [
-                "Do you see anything that might **dissuade you from buying it**? (디스웨이쥬 / ~하는 것을 단념시키다)",
-                "We are looking at the **prospective costs** of the project before we commit to it."
-            ],
-            "notes": "prospective buyer: 장래의 구매자. turn into: ~으로 바꾸다. family compound: 가족 거주지/집단 거주지. dissuade from: ~하는 것을 단념시키다. prospective costs: 예상 비용.",
-            "translation": "만약 당신이 장래의 구매자(prospective buyer)이고, 아이들이 있고, 이것을 당신의 가족 거주지(family compound)로 바꾸고 싶다면."
-        },
-        {
-            "id": 116,
-            "order": 115,
-            "sentence": "Yeah, I think, not even for just a family but for anyone, it's the **lack of privacy** happening.",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "lack of privacy: 사생활 부족.",
-            "translation": "네, 가족뿐만 아니라 누구에게든, 일어나고 있는 사생활 부족(lack of privacy) 문제라고 생각해요."
-        },
-        {
-            "id": 117,
-            "order": 116,
-            "sentence": "There's something I'll **put on your plate**, important to me and this property.",
-            "difficulty": "advanced",
-            "examples": [
-                "The privacy issue needs to be **remedied through landscaping**. I'll **put you in charge**.",
-                "Look over the proposal, make sure it **blocks all of this street**.",
-                "I have **nothing on my plate**."
-            ],
-            "notes": "put on your plate: ~에게 (책임지고 처리할) 일을 맡기다. nothing on my plate: 할 일이 없다. remedy through landscaping: 조경을 통해 해결하다. put someone in charge: ~에게 책임을 맡기다. block: 가리다, 차단하다.",
-            "translation": "제가 당신에게 맡길(put on your plate) 일이 하나 있는데, 저와 이 부동산에 중요합니다."
-        },
-        {
-            "id": 118,
-            "order": 117,
-            "sentence": "The landscaping here is **particularly important**.",
-            "difficulty": "beginner",
-            "examples": [
-                "Every house it is, but this house **in particular**."
-            ],
-            "notes": "particularly important: 특히 중요한. in particular: 특히.",
-            "translation": "여기 조경은 특히 중요합니다."
-        },
-        {
-            "id": 119,
-            "order": 118,
-            "sentence": "I'm gonna show you downstairs. **Don't trip on this wire**. **Watch your head** here.",
-            "difficulty": "beginner",
-            "examples": [
-                "I don't have to, but **you have to**. Haha"
-            ],
-            "notes": "trip on: ~에 걸려 넘어지다. Watch your head: 머리 조심하세요.",
-            "translation": "아래층을 보여드릴게요. 이 전선에 걸려 넘어지지(trip on) 않도록 조심하세요. 여기 머리 조심하세요."
-        },
-        {
-            "id": 120,
-            "order": 119,
-            "sentence": "Now, **all I need is for** my phone **to be dead** when I finally find it.",
-            "difficulty": "advanced",
-            "examples": [
-                "Great, I'm already ten minutes late."
-            ],
-            "notes": "All I need is for [something bad] to happen: (비꼬는 표현) 안 좋은 일이 일어나면 완벽하겠다.",
-            "translation": "이제 폰만 방전되어 있으면 딱이네. (All I need is [something bad])"
-        },
-        {
-            "id": 121,
-            "order": 120,
-            "sentence": "Did you see anything **strange at all**?",
-            "difficulty": "intermediate",
-            "examples": [],
-            "notes": "strange at all: 조금이라도 이상한.",
-            "translation": "조금이라도 이상한 것을 보셨나요?"
-        },
-        {
-            "id": 122,
-            "order": 121,
-            "sentence": "I was already near the supermarket, so I **figured I might as well grab the groceries** while I was out.",
-            "difficulty": "advanced",
-            "examples": [
-                "I couldn't find a parking spot close to the entrance, so I **figured I might as well just park way in the back** where there were plenty of open spaces."
-            ],
-            "notes": "figure I might as well + 동사: ~하는 김에 그냥 ~하는 것이 낫겠다고 생각하다.",
-            "translation": "이미 슈퍼마켓 근처에 있었기 때문에, 외출한 김에 그냥 식료품을 사는 게 낫겠다고 생각했어요."
-        },
-        {
-            "id": 123,
-            "order": 122,
-            "sentence": "When you're traveling, sometimes it's best to just **give in to the vibes** of the city and see **where the day takes you**.",
-            "difficulty": "advanced",
-            "examples": [
-                "I was going to leave early, but the music was so good I decided to **give in to the vibes** and stay until closing."
-            ],
-            "notes": "give in to the vibes: 분위기에 순응하다/몸을 맡기다. see where the day takes you: 하루가 흘러가는 대로 가다.",
-            "translation": "여행할 때는 때때로 도시의 분위기에 몸을 맡기고(give in to the vibes) 하루가 당신을 어디로 이끄는지(where the day takes you) 보는 것이 최선일 때도 있어요."
-        },
-        {
-            "id": 124,
-            "order": 123,
-            "sentence": "That **couldn't have been easy for you to handle** all that pressure alone.",
-            "difficulty": "intermediate",
-            "examples": [
-                "I heard about your move; **packing up your whole apartment on such short notice couldn't have been easy**."
-            ],
-            "notes": "couldn't have been easy: 쉽지 않았을 것이다. (과거에 대한 추측)",
-            "translation": "그 모든 압박을 혼자 감당하는 것이 당신에게 쉽지 않았을 거예요."
-        },
-        {
-            "id": 125,
-            "order": 124,
-            "sentence": "When the new policy was announced, many employees were **left scratching their heads** about how it would actually be implemented.",
-            "difficulty": "advanced",
-            "examples": [
-                "The mechanic was **scratching his head** trying to figure out what was wrong with the car's engine."
-            ],
-            "notes": "be left scratching one's head: 어찌할 바를 모르다, 혼란스러워하다.",
-            "translation": "새로운 정책이 발표되었을 때, 많은 직원들은 그것이 실제로 어떻게 시행될지 몰라 머리를 긁적였습니다."
-        },
-        {
-            "id": 126,
-            "order": 125,
-            "sentence": "The thing that **really sucks/stinks is that** the vacation was canceled **at the last minute**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "The thing that **really pees me off is** having to wait on hold for an hour.",
-                "The thing that **is really unfair is that** only the managers got bonuses this year."
-            ],
-            "notes": "The thing that really sucks/stinks/pees me off is that: 정말 짜증나는/불공평한 것은 ~이다. at the last minute: 막판에, 직전에.",
-            "translation": "정말 짜증나는 것은 휴가가 막판에 취소되었다는 것입니다."
-        },
-        {
-            "id": 127,
-            "order": 126,
-            "sentence": "She did most of the work, but her boss **got all the credit for** the successful presentation.",
-            "difficulty": "intermediate",
-            "examples": [
-                "Don't worry, you'll **get credit for** helping me move all these boxes.",
-                "He wanted to make sure his assistant **got any credit for** finding the critical data."
-            ],
-            "notes": "get credit for: ~에 대한 공로를 인정받다. (긍정/부정 모두 사용 가능)",
-            "translation": "그녀가 일 대부분을 했지만, 상사가 성공적인 발표에 대한 모든 공로를 가져갔습니다."
-        },
-        {
-            "id": 128,
-            "order": 127,
-            "sentence": "He dismissed the first two suspects, so that **leaves the third person as the only possibility**.",
-            "difficulty": "advanced",
-            "examples": [
-                "The restaurant is closed, so that **leaves us with (eating) frozen pizza**.",
-                "Since the restaurant is closed, that **leaves us with (eating) frozen pizza**.",
-                "We **ruled out** the first two ideas, which **means we have to go with** the last one.",
-                "We've considered everything, it just **comes down to** who is willing to pay the most."
-            ],
-            "notes": "that leaves (someone) with (something): 그 결과 ~가 남다. rule out: 제외하다. go with: ~을 선택하다. come down to: 결국 ~로 귀결되다.",
-            "translation": "그는 처음 두 용의자를 기각했으므로, 그래서 세 번째 사람만이 유일한 가능성으로 남았습니다. (그래서 ~만이 남았다)"
-        },
-        {
-            "id": 129,
-            "order": 128,
-            "sentence": "The students were **scrambling for** the last few spots in the popular elective course.",
-            "difficulty": "intermediate",
-            "examples": [
-                "When the fire alarm went off, people were **scrambling for** the exits."
-            ],
-            "notes": "scramble for: ~을 차지하기 위해 다투다, 허둥지둥하다.",
-            "translation": "학생들은 인기 있는 선택 과목의 마지막 몇 자리를 차지하기 위해 서로 다투고(scrambling for) 있었습니다."
-        },
-        {
-            "id": 130,
-            "order": 129,
-            "sentence": "The **best I can figure is that** he left the office around 3 PM yesterday, based on the security footage.",
-            "difficulty": "advanced",
-            "examples": [
-                "The **best I can figure**"
-            ],
-            "notes": "the best I can figure: 내가 짐작할 수 있는 한, 내가 생각하기로는.",
-            "translation": "제가 추측할 수 있는 한(the best I can figure), 보안 영상에 따르면 그는 어제 오후 3시경에 사무실을 나섰습니다."
-        },
-        {
-            "id": 131,
-            "order": 130,
-            "sentence": "The manager is **tight with** the owner, so **be careful what you say** around him.",
-            "difficulty": "intermediate",
-            "examples": [
-                "My uncle is really **tight with money**; he never buys anyone gifts."
-            ],
-            "notes": "tight with: ~와 친한. tight with money: 돈에 인색한.",
-            "translation": "매니저가 사장과 친하니(tight with), 그 주변에서는 말조심하세요."
-        },
-        {
-            "id": 132,
-            "order": 131,
-            "sentence": "I haven't **been applying myself enough to** my fitness goals lately, so I need to **step it up**.",
-            "difficulty": "advanced",
-            "examples": [
-                "We have to **step up production** this month if we want to meet the holiday demand. (더많이)",
-                "The local community really **stepped up** when the families lost their homes in the fire, offering food and shelter. (책임지고/적극적으로 나서다)"
-            ],
-            "notes": "apply oneself to: ~에 전념하다, 집중하다. step up: (노력, 속도, 생산 등을) 높이다, 강화하다; 적극적으로 나서다.",
-            "translation": "요즘 운동 목표에 충분히 전념/집중(applying myself to)하지 못하고 있어서, 더 열심히 해야(step it up) 해요."
-        },
-        {
-            "id": 133,
-            "order": 132,
-            "sentence": "I **can't stand** waiting in long lines at the grocery store on the weekends.",
-            "difficulty": "intermediate",
-            "examples": [
-                "She **can't stand** the smell of cigarette smoke, so she always sits outside at the cafe.",
-                "The new policy states that the management will **not stand for** any kind of discrimination in the workplace.",
-                "What **does the acronym U.N. actually stand for**?"
-            ],
-            "notes": "can't stand: ~을 참을 수 없다, 몹시 싫어하다. not stand for: ~을 용납하지 않다. stand for: ~을 상징하다, 의미하다.",
-            "translation": "주말에 식료품점에서 긴 줄을 서서 기다리는 것을 참을(can't stand) 수 없어요."
-        },
-        {
-            "id": 134,
-            "order": 133,
-            "sentence": "They should be **landing at the airport right about now**.",
-            "difficulty": "intermediate",
-            "examples": [
-                "**Right about now**, I could really use a cup of coffee."
-            ],
-            "notes": "right about now: 지금쯤. (시간을 추측하여 말할 때)",
-            "translation": "그들은 지금쯤(right about now) 공항에 착륙하고 있을 거예요."
-        }
-    ]
+  "sentences": [
+    {
+      "id": 1,
+      "order": 1,
+      "sentence": {
+        "text": "Little give and go with 이재성 and 손흥민. He flicks it over to 이동경 and he back flicks it into the back of the net.",
+        "styles": [
+          {
+            "type": "highlight",
+            "start": 7,
+            "end": 35
+          },
+          {
+            "type": "bold",
+            "start": 40,
+            "end": 54
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "flick over: (공을) 가볍게 툭 쳐서 넘기다. 축구 경기 해설에 사용됨.",
+      "translation": "이재성과 손흥민 사이에 짧은 패스 주고받기(give and go)가 있었어요. 이재성이 이동경에게 살짝 넘겨줬고(flicks it over), 이동경은 뒤로 차 넣어 골망을 흔듭니다."
+    },
+    {
+      "id": 3,
+      "order": 2,
+      "sentence": {
+        "text": "There's a lot of stuff (that) you guys do, that could potentially ruin your trip.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 66,
+            "end": 80
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "ruin your trip: 여행을 망치다.",
+      "translation": "여러분들이 하는 많은 것들이 잠재적으로 여행을 망칠 수 있어요."
+    },
+    {
+      "id": 4,
+      "order": 3,
+      "sentence": {
+        "text": "I'm not going to / won't let that happen.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 25,
+            "end": 40
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "let that happen: 그런 일이 일어나도록 두다/허용하다.",
+      "translation": "저는 그렇게 되도록 두지 않을 거예요. (no way, that's not happening)"
+    },
+    {
+      "id": 5,
+      "order": 4,
+      "sentence": {
+        "text": "I'm going to **talk you through** the signs that your trip is going to end up being a에이 disaster so you can **course correct** and end up having the best visit to London ever.",
+        "styles": [
+          {
+            "type": "highlight",
+            "start": 13,
+            "end": 48
+          },
+          {
+            "type": "highlight",
+            "start": 97,
+            "end": 126
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "talk through: 자세히 설명하다, 처음부터 끝까지 논의하다. course correct: 방향을 수정하다.",
+      "translation": "저는 여러분의 여행이 결국 재앙으로 끝날 징후들을 처음부터 끝까지 설명해 드릴 거예요. 그래서 여러분이 방향을 수정하고 런던에서 최고의 방문을 할 수 있도록요."
+    },
+    {
+      "id": 6,
+      "order": 5,
+      "sentence": {
+        "text": "I was willing to talk to anyone.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 6,
+            "end": 16
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I was **totally open to chatting with anyone**. We ended up talking about feeling like nobody got us and how it seemed like things were never quite right."
+      ],
+      "notes": "willing to + 동사: 기꺼이 ~하다. open to + ~ing: ~에 개방적이다, ~할 의향이 있다.",
+      "translation": "저는 누구와도 기꺼이 이야기할 의향이 있었어요."
+    },
+    {
+      "id": 7,
+      "order": 6,
+      "sentence": {
+        "text": "And we talked about feeling misunderstood, and that something was always **off**.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 20,
+            "end": 41
+          },
+          {
+            "type": "highlight",
+            "start": 52,
+            "end": 80
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "feel misunderstood: 오해받는다고 느끼다. off: 뭔가 이상한, 잘못된.",
+      "translation": "그리고 우리는 오해받는 기분과, 항상 뭔가 잘못 흘러간다는 것에 대해 이야기했어요. (오해받고, 항상 뭔가 잘못흘러가)"
+    },
+    {
+      "id": 8,
+      "order": 7,
+      "sentence": {
+        "text": "My friend told me she was convinced she had a sleeping disorder, but it turned out she was just diagnosed by TikTok.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 72,
+            "end": 82
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She told me she was in London last year, and it **turns out** she **happened to be** staying in the same hotel as me. (우연히도/놀랍게도 ~였다, surprisingly)",
+        "The person who helped me **happened to be** a doctor, so I was really lucky."
+      ],
+      "notes": "turn out: 결국 ~임이 드러나다, 알고 보니 ~이다. happen to be: 우연히 ~이다.",
+      "translation": "제 친구는 수면 장애가 있다고 확신했지만, 알고 보니 틱톡에 의해 진단받은 것이었어요. (다이그너~)"
+    },
+    {
+      "id": 9,
+      "order": 8,
+      "sentence": {
+        "text": "It was just off of the pandemic and I had a family doctor, so I didn't really need to seek any outside help.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 12,
+            "end": 18
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "They went straight to the beach **right off of** their last exam.",
+        "We're going to grab some pizza **off of** the game; do you want to join us?"
+      ],
+      "notes": "right off of: ~의 직후에. 'off of'는 'after' 또는 '~로부터'의 의미로 사용됨.",
+      "translation": "팬데믹이 막 끝난 직후였고 (right after) 저는 주치의가 있었기 때문에 외부 도움을 구할 필요가 없었어요."
+    },
+    {
+      "id": 10,
+      "order": 9,
+      "sentence": {
+        "text": "So it was very solitary.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 23
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "solitary: 혼자 하는, 고독한.",
+      "translation": "그래서 그것은 매우 혼자 하는 것이었어요."
+    },
+    {
+      "id": 11,
+      "order": 10,
+      "sentence": {
+        "text": "Sorry, I couldn't help but overhear (you), but did you say you're looking for a good hairdresser?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 35
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I **happened to overhear** that you're going to Paris next month.",
+        "I was just passing by and I **overheard** you talking about your trip to Spain. How was it?"
+      ],
+      "notes": "couldn't help but overhear: 자신도 모르게 엿듣다. happen to overhear: 우연히 엿듣다.",
+      "translation": "죄송하지만, 저도 모르게(어쩔 수 없이) 엿듣게 되었는데, 좋은 미용사를 찾고 있다고 말씀하셨나요?"
+    },
+    {
+      "id": 12,
+      "order": 11,
+      "sentence": {
+        "text": "I know a great one.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 9,
+            "end": 18
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "great one: (앞서 언급된 명사를 대신하여) 훌륭한 사람/것.",
+      "translation": "제가 아주 좋은 분을 알아요."
+    },
+    {
+      "id": 13,
+      "order": 12,
+      "sentence": {
+        "text": "I was just there, and I have some great recommendations for you.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 34,
+            "end": 55
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "recommendation: 추천. (복수형으로 자주 사용됨)",
+      "translation": "제가 방금 거기 갔다 왔는데, 당신에게 줄 좋은 추천할 것들이 있어요."
+    },
+    {
+      "id": 14,
+      "order": 13,
+      "sentence": {
+        "text": "The movie was interesting, to say the least.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 14,
+            "end": 43
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "to say the least: 말할 것도 없이, 최소한으로 말해서. (주로 언급된 것보다 훨씬 더 심하다는 것을 강조할 때 사용)",
+      "translation": "그 영화는 최소한 흥미로웠어요. (meaning it was extremely interesting)"
+    },
+    {
+      "id": 15,
+      "order": 14,
+      "sentence": {
+        "text": "The kids were playing in the park by themselves while their parents watched from a bench.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 34,
+            "end": 47
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "He got a job and is now living **completely on his own**."
+      ],
+      "notes": "by oneself: 혼자서. on one's own: 혼자 힘으로, 독립적으로.",
+      "translation": "아이들은 부모가 벤치에서 지켜보는 동안 공원에서 자기들끼리 놀고 있었어요."
+    },
+    {
+      "id": 16,
+      "order": 15,
+      "sentence": {
+        "text": "I'm so stressed out, I just want to get away from everything for a while.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 7,
+            "end": 19
+          },
+          {
+            "type": "bold",
+            "start": 36,
+            "end": 60
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "stressed out: 스트레스를 많이 받은. get away from: ~로부터 벗어나다.",
+      "translation": "너무 스트레스 받아요. 잠시 동안 모든 것으로부터 벗어나고 싶어요."
+    },
+    {
+      "id": 17,
+      "order": 16,
+      "sentence": {
+        "text": "I felt completely out of place at the party because I didn't know anyone there.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 7,
+            "end": 30
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Your jacket |looks so **in place with**| your outfit. (fit/go well)"
+      ],
+      "notes": "out of place: 제자리에 있지 않은, 어색한. in place with: ~와 잘 어울리는.",
+      "translation": "파티에서 아는 사람이 아무도 없어서 완전히 어색함(out of place)을 느꼈어요."
+    },
+    {
+      "id": 18,
+      "order": 17,
+      "sentence": {
+        "text": "This is the last time we're talking about this, right?",
+        "styles": []
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "",
+      "translation": "이게 우리가 이것에 대해 이야기하는 마지막이죠, 그렇죠?"
+    },
+    {
+      "id": 19,
+      "order": 18,
+      "sentence": {
+        "text": "'cause I don't want to have to remind you to clean your room every single day.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 31,
+            "end": 37
+          },
+          {
+            "type": "bold",
+            "start": 61,
+            "end": 77
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "'cause I don't want to have to **get on your case about** cleaning your room. (잔소리하다)",
+        "'cause I don't want to have to **keep after you to clean / about cleaning** your room. (재촉하다)"
+      ],
+      "notes": "remind: 상기시키다. get on one's case about: 잔소리하다. keep after someone: 계속 재촉하다.",
+      "translation": "왜냐면 매일 당신에게 방 청소를 하라고 상기시켜야(remind) 하는 상황이 싫으니까요."
+    },
+    {
+      "id": 20,
+      "order": 19,
+      "sentence": {
+        "text": "I'll get a pint of sea salt, goat milk, and caramel, please.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 11,
+            "end": 18
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "(Can/Do I) just **grab/get/take one** (myself) from/out of the freezer?"
+      ],
+      "notes": "pint: 약 0.57리터(영국), 약 0.47리터(미국)의 액체 용량 단위. grab/get/take one: (상품을) 하나 집다/가져가다.",
+      "translation": "해염, 염소 우유, 캐러멜 맛으로 1파인트 주세요."
+    },
+    {
+      "id": 21,
+      "order": 20,
+      "sentence": {
+        "text": "My car could use a wash. It's all muddied up.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 7,
+            "end": 23
+          },
+          {
+            "type": "bold",
+            "start": 30,
+            "end": 44
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "It's **covered in mud**.",
+        "It's **messed up with mud**."
+      ],
+      "notes": "could use: ~이 필요하다. all muddied up: 진흙으로 뒤덮인/엉망이 된. covered in mud: 진흙으로 덮인. messed up with mud: 진흙으로 엉망이 된.",
+      "translation": "제 차는 세차가 필요해요. 흙으로 완전히 엉망진창이에요."
+    },
+    {
+      "id": 22,
+      "order": 21,
+      "sentence": {
+        "text": "I could really use a strong cup of coffee right now, I'm so sleepy.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 41
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Right about now, I could really use a cup of coffee."
+      ],
+      "notes": "could really use: 정말로 ~이 필요하다. (강조)",
+      "translation": "지금 당장 진한 커피 한 잔이 정말 필요해요, 너무 졸려요."
+    },
+    {
+      "id": 23,
+      "order": 22,
+      "sentence": {
+        "text": "I'm down for some pizza right now.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 4,
+            "end": 12
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "It's been a long day. I'm **down for** a quiet evening at home.",
+        "We're heading to the beach. Are you **down for** it?"
+      ],
+      "notes": "down for: ~을 할 의향이 있는, ~에 동의하는 (Focus on agreement/joining)",
+      "translation": "지금 피자 좋아요. (피자 먹을 의향 있어요.)"
+    },
+    {
+      "id": 24,
+      "order": 23,
+      "sentence": {
+        "text": "I've got my alarm set for 7 a.m.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 25
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "My alarm is **set for** 7 a.m.",
+        "I **set** my alarm **for** 7 a.m.",
+        "I **set** the meeting **for** 2 p.m. next Tuesday."
+      ],
+      "notes": "set (something) for (time): (시간을) ~로 맞추다/정하다.",
+      "translation": "저는 알람을 아침 7시로 맞춰놨어요."
+    },
+    {
+      "id": 25,
+      "order": 24,
+      "sentence": {
+        "text": "The alarm clock went off at 6 a.m., so I had to wake up.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 16,
+            "end": 24
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "My alarm always **goes off** at six during the week. I set it (my alarm) for six.",
+        "A car alarm **went off** in the middle of the night and woke everyone up.",
+        "I don't know what **set off** the fire alarm.",
+        "I don't know why the fire alarm **went off**."
+      ],
+      "notes": "go off: (알람, 폭탄 등이) 울리다, 터지다. set off: (경보기 등을) 울리게 하다.",
+      "translation": "알람 시계가 아침 6시에 울려서, 저는 일어나야 했어요."
+    },
+    {
+      "id": 26,
+      "order": 25,
+      "sentence": {
+        "text": "I put it on for six.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 11
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I **put on** my alarm for six."
+      ],
+      "notes": "put on one's alarm: 알람을 맞추다. (구어체 표현)",
+      "translation": "저는 그것(알람)을 6시로 맞췄어요."
+    },
+    {
+      "id": 27,
+      "order": 26,
+      "sentence": {
+        "text": "The power went out for an hour during the storm.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 10,
+            "end": 18
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "The campfire **went out completely** while we were sleeping, so we had to restart it this morning."
+      ],
+      "notes": "go out: (불, 전기가) 나가다, 꺼지다.",
+      "translation": "폭풍이 오는 동안 전기가 한 시간 동안 나갔어요."
+    },
+    {
+      "id": 28,
+      "order": 27,
+      "sentence": {
+        "text": "Did you hear that Sarah and Tom are finally going out?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 44,
+            "end": 53
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "They **make a cute couple**."
+      ],
+      "notes": "go out: 사귀다. make a cute couple: 귀여운 커플이다.",
+      "translation": "사라와 톰이 드디어 사귄다는 소식 들었어?"
+    },
+    {
+      "id": 29,
+      "order": 28,
+      "sentence": {
+        "text": "You should probably throw out that milk; it smells like it's gone bad / spoiled.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 20,
+            "end": 29
+          },
+          {
+            "type": "bold",
+            "start": 44,
+            "end": 79
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "throw out: 버리다. go bad/spoil: (음식이) 상하다.",
+      "translation": "그 우유는 아마 버려야 할 것 같아요. 상한 냄새가 나요."
+    },
+    {
+      "id": 30,
+      "order": 29,
+      "sentence": {
+        "text": "She kept cutting me off every time I tried to speak.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 9,
+            "end": 23
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I was talking to my friend **when a stranger cut in** to ask for directions. (친구랑 얘기 중에 누가 끼어듬)"
+      ],
+      "notes": "cut off: (말을) 자르다, 중단시키다. cut in: 끼어들다, 방해하다.",
+      "translation": "제가 말하려고 할 때마다 그녀는 계속 제 말을 잘랐어요."
+    },
+    {
+      "id": 31,
+      "order": 30,
+      "sentence": {
+        "text": "Even if the most important information is in the second part of the sentence-the part about the stranger cutting in-it's much more natural to set the scene/background first, then the event.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 131,
+            "end": 172
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "We **were having dinner when the lights went out**. (식사중 불나감)",
+        "I **was taking a shower when the phone rang**. (샤워중 전화옴)"
+      ],
+      "notes": "set the scene: 배경/상황을 설정하다. 'was ~ing when' 패턴은 진행 중인 행동(배경) 중에 새로운 사건이 발생했음을 나타냅니다.",
+      "translation": "가장 중요한 정보가 문장의 두 번째 부분, 즉 낯선 사람이 끼어드는 부분에 있더라도, 상황/배경을 먼저 설정한 다음 사건을 설명하는 것이 훨씬 더 자연스럽습니다."
+    },
+    {
+      "id": 32,
+      "order": 31,
+      "sentence": {
+        "text": "Ugh, I can't believe I just spilled my coffee all over my new shirt. I feel so dumb.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 28,
+            "end": 35
+          },
+          {
+            "type": "bold",
+            "start": 46,
+            "end": 54
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "spill: 쏟다. all over: 온통 ~에.",
+      "translation": "아, 내가 새 셔츠에 커피를 다 쏟았다니 믿을 수가 없어. 너무 바보 같아."
+    },
+    {
+      "id": 33,
+      "order": 32,
+      "sentence": {
+        "text": "Oh, don't worry about it at all. If it makes you feel better, I walked out of my house this morning with my shirt on backward.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 4,
+            "end": 31
+          },
+          {
+            "type": "bold",
+            "start": 39,
+            "end": 60
+          },
+          {
+            "type": "bold",
+            "start": 114,
+            "end": 125
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I can't believe I **wore my hoodie backward** all day.",
+        "I can't believe I **put my hoodie on backward** all day."
+      ],
+      "notes": "don't worry about it at all: 전혀 걱정하지 마세요. make you feel better: 기분이 나아지게 하다. on backward / wear backward / put on backward: 뒤집어 입은 채로, 거꾸로 입다.",
+      "translation": "아, 전혀 걱정하지 마세요. 그게 당신 기분을 낫게 해준다면, 저는 오늘 아침에 셔츠를 뒤집어(on backward) 입고 집을 나섰어요."
+    },
+    {
+      "id": 34,
+      "order": 33,
+      "sentence": {
+        "text": "We went to the beach after you took me to that one beach, I kept going back.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 31,
+            "end": 56
+          },
+          {
+            "type": "bold",
+            "start": 60,
+            "end": 75
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "We went to a café, **walked around a bit**. **Drove around a bit**. We **walked down the main strip**."
+      ],
+      "notes": "keep going back: 계속 돌아가다, 계속 방문하다. walk/drive around a bit: 좀 걸어/운전해 다니다. walk down the main strip: 중심 거리를 걸어 내려가다.",
+      "translation": "당신이 나를 그 해변에 데려다준 후에, 저는 계속 (그곳으로) 돌아갔어요."
+    },
+    {
+      "id": 35,
+      "order": 34,
+      "sentence": {
+        "text": "I'm pretty full, so I'm going to pass on dessert tonight.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 33,
+            "end": 40
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "Please **pass on** this message to your manager."
+      ],
+      "notes": "pass on: ~을 사양하다, ~을 거절하다. (메시지 등을) 전달하다.",
+      "translation": "배가 꽤 불러서 오늘 밤 디저트는 사양할게요."
+    },
+    {
+      "id": 36,
+      "order": 35,
+      "sentence": {
+        "text": "You can leave out the fresh herbs if you don't have any.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 8,
+            "end": 17
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I'm sorry, I think I **left out a key ingredient** in the recipe.",
+        "We decided to **leave out a few minor steps** to finish the project faster."
+      ],
+      "notes": "leave out: ~을 빼다, 생략하다.",
+      "translation": "신선한 허브가 없다면 빼도(leave out) 돼요."
+    },
+    {
+      "id": 37,
+      "order": 36,
+      "sentence": {
+        "text": "We missed out on the early bird special at the restaurant because we were running late.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 3,
+            "end": 16
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Looking at these old family photos, it **makes me sad to realize how much I missed out on** you growing up."
+      ],
+      "notes": "miss out on: ~을 놓치다, ~에 참여하지 못하다.",
+      "translation": "늦어서 레스토랑의 얼리버드 스페셜을 놓쳤어요."
+    },
+    {
+      "id": 38,
+      "order": 37,
+      "sentence": {
+        "text": "We had to wait until the fog cleared up / lifted to see the mountain view.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 29,
+            "end": 48
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "We should stop and wait for the fog to **clear up**.",
+        "I hope the weather/sky/rain **clears up** before the game starts.",
+        "The fog finally **lifted**."
+      ],
+      "notes": "clear up / lift: (안개, 날씨 등이) 걷히다, 개다.",
+      "translation": "산의 풍경을 보기 위해 안개가 걷힐(cleared up / lifted) 때까지 기다려야 했어요."
+    },
+    {
+      "id": 39,
+      "order": 38,
+      "sentence": {
+        "text": "The whole play was a little too serious for me, but the main character's super campy monologues saved it.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 73,
+            "end": 95
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "campy: 과장되고 우스꽝스러운, 연극적인. monologue: 독백.",
+      "translation": "연극 전체가 저에게는 좀 너무 진지했지만, 주연 배우의 매우 우스꽝스러운(과장되고 연극적인) 독백(campy monologues)이 살렸어요."
+    },
+    {
+      "id": 40,
+      "order": 39,
+      "sentence": {
+        "text": "The dessert is just so good. I'm going back for seconds / I'm getting seconds.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 33,
+            "end": 55
+          },
+          {
+            "type": "bold",
+            "start": 62,
+            "end": 77
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "go back for seconds / get seconds: (음식의) 두 번째 접시를 먹다, 두 그릇째 먹다.",
+      "translation": "이 디저트 정말 맛있네요. 한 접시 더 먹어야겠어요. (한접시 더해야것어)"
+    },
+    {
+      "id": 41,
+      "order": 40,
+      "sentence": {
+        "text": "I asked for a small portion of the pasta. Too much hurts my stomach.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 14,
+            "end": 30
+          },
+          {
+            "type": "bold",
+            "start": 42,
+            "end": 67
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "portion of: ~의 1인분. hurt one's stomach: 속을 아프게 하다.",
+      "translation": "파스타는 적은 양(small portion)으로 달라고 했어요. 너무 많이 먹으면 속이 안 좋아(hurts my stomach)."
+    },
+    {
+      "id": 42,
+      "order": 41,
+      "sentence": {
+        "text": "The majority of the homes were built throughout the 70s and the 80s with the large lots.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 68,
+            "end": 87
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "and with quiet streets, with all of them **being (tree) lined with mature trees** and a very quick commute to downtown Calgary, **coupled/along with** your **close proximity** to the mountains, Dalhousie is still a community that is **highly regarded as** one of the top in northwest Calgary."
+      ],
+      "notes": "large lot: 넓은 부지. line with: ~으로 줄지어 있다. coupled/along with: ~와 더불어, ~에 곁들여. close proximity: 매우 가까움 (for emphasis). highly regarded as: ~로 높이 평가받는.",
+      "translation": "대부분의 주택은 70년대와 80년대에 걸쳐 넓은 부지(large lots)와 함께 지어졌습니다."
+    },
+    {
+      "id": 43,
+      "order": 42,
+      "sentence": {
+        "text": "I wouldn't say they are typical, but the fact that they happen at all is still a problem.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 41,
+            "end": 88
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "If you need **help at all**, just give me a call.",
+        "The only reason I took that terrible job **at all** was so I could pay off my student loans."
+      ],
+      "notes": "at all: (부정문/의문문/조건문에서) 조금이라도, 전혀. (강조)",
+      "translation": "그것들이 일반적이라고 말할 수는 없지만, 조금이라도(at all) 발생한다는 사실 자체가 여전히 문제입니다."
+    },
+    {
+      "id": 44,
+      "order": 43,
+      "sentence": {
+        "text": "The new cafe is good, but I wouldn't (go so far as to) say it's the best in the city.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 37,
+            "end": 58
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "The movie was good, but I wouldn't **(go so far as to) say** it was a masterpiece."
+      ],
+      "notes": "go so far as to say: ~라고까지 말하다. (자신이 생각하는 한계를 넘어서는 표현임을 나타냄)",
+      "translation": "새 카페는 좋지만, 시내에서 최고라고 할 정도까지(~라고할 정도까진) 말하지는 않겠어요."
+    },
+    {
+      "id": 45,
+      "order": 44,
+      "sentence": {
+        "text": "I can't believe you went that far! Did you really tell your boss that he was wrong?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 20,
+            "end": 33
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I agree with you that the movie was a bit slow, but I wouldn't **go that far** and say it was the worst movie ever."
+      ],
+      "notes": "go that far: 그렇게까지 하다. (주로 놀라움이나 과도함에 대한 반응을 나타냄)",
+      "translation": "네가 그렇게까지(go that far) 했다니 믿을 수가 없어! 네 상사에게 그가 틀렸다고 정말 말했니?"
+    },
+    {
+      "id": 46,
+      "order": 45,
+      "sentence": {
+        "text": "That's why we focus (a lot of our attention in the work that we do) on helping employers understand how we can make those positive changes in those cultures.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 14,
+            "end": 19
+          },
+          {
+            "type": "bold",
+            "start": 68,
+            "end": 70
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "That's why we **focus on helping** employers understand how to make positive changes to their company culture.",
+        "So we're **mainly focused on helping** employers make their company cultures better."
+      ],
+      "notes": "focus on + ~ing / 명사: ~에 집중하다.",
+      "translation": "그렇기 때문에 우리는 고용주들이 그러한 문화에서 어떻게 긍정적인 변화를 만들 수 있는지 이해하도록 돕는 데 (우리가 하는 일에서 많은 관심을) 집중합니다."
+    },
+    {
+      "id": 47,
+      "order": 46,
+      "sentence": {
+        "text": "I find myself checking my phone a lot as I go through my day.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 22
+          },
+          {
+            "type": "bold",
+            "start": 38,
+            "end": 60
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I was so busy **as I went through my day** yesterday that I didn't have a minute to eat.",
+        "I'm sure you will feel more relaxed **as you go through your day** tomorrow."
+      ],
+      "notes": "find oneself ~ing: 자신도 모르게 ~하고 있음을 알게 되다. as one goes through one's day: 하루를 보내는 동안.",
+      "translation": "하루를 보내는 동안(as I go through my day) 휴대폰을 많이 확인하는 제 자신을 발견해요."
+    },
+    {
+      "id": 48,
+      "order": 47,
+      "sentence": {
+        "text": "You'll have plenty of time for this during your day.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 12,
+            "end": 35
+          },
+          {
+            "type": "bold",
+            "start": 36,
+            "end": 51
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I'll be in meetings **throughout the day**. (emphasizes the entire duration)"
+      ],
+      "notes": "plenty of time: 충분한 시간. during your day: 하루 일과 중에. throughout the day: 하루 종일, 온종일.",
+      "translation": "하루 일과 중에 이것을 할 충분한 시간이 있을 거예요. (simple and direct)"
+    },
+    {
+      "id": 49,
+      "order": 48,
+      "sentence": {
+        "text": "(뜯어낸 벽안쪽을 보면서) This is plaster seeping/coming through, but you can see there's no signs of mold or anything like that.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 23,
+            "end": 53
+          },
+          {
+            "type": "bold",
+            "start": 108,
+            "end": 117
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "And then on the other side of the wall is a **plaster**.",
+        "So that's why I don't want to **take down the plaster** because it looks good."
+      ],
+      "notes": "seep through / come through: 스며 나오다. plaster: 회벽, 석고. take down: 철거하다, 제거하다. like that: 그와 같은 것.",
+      "translation": "이것은 석회가 스며 나오거나(seeping/coming through) 있는 것이지만, 곰팡이나 그와 같은(like that) 것의 징후는 없음을 볼 수 있습니다."
+    },
+    {
+      "id": 50,
+      "order": 49,
+      "sentence": {
+        "text": "My dad's going to come over.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 27
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "Also, **shout out to** my dad for helping me with this.",
+        "We were able to **get the living room done** in one day because he came over."
+      ],
+      "notes": "come over: (집에) 방문하다, 오다. shout out to: ~에게 감사나 인사를 표하다. get something done: ~을 끝내다.",
+      "translation": "아빠가 오실 거예요."
+    },
+    {
+      "id": 51,
+      "order": 50,
+      "sentence": {
+        "text": "But he's also going to help me with this big picture window right here.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 41,
+            "end": 59
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I'm **taking both of these windows out** and I'm **adding a 60x60 window**.",
+        "I'm **taking out both of these windows and putting in a 60x60 window**."
+      ],
+      "notes": "picture window: 전망용 대형 창문, 통창. take out: 제거하다. add/put in: 추가하다, 설치하다.",
+      "translation": "하지만 그는 또한 바로 여기 있는 이 큰 통창(picture window)도 저를 도와줄 거예요."
+    },
+    {
+      "id": 52,
+      "order": 51,
+      "sentence": {
+        "text": "Here's the wallpaper I ordered for the bathroom. It's floral and it has a black backdrop which I think will go well with the claw foot tub and the vanity.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 74,
+            "end": 88
+          },
+          {
+            "type": "bold",
+            "start": 108,
+            "end": 120
+          },
+          {
+            "type": "bold",
+            "start": 125,
+            "end": 153
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Here's the wallpaper I ordered for the bathroom. It's got a **floral design with a black background**, which I think will **look nice with** the claw foot tub and the vanity."
+      ],
+      "notes": "backdrop/background: 배경. go well with / look nice with: ~와 잘 어울리다. claw foot tub: 발 달린 욕조. vanity: 화장대.",
+      "translation": "이것은 제가 욕실용으로 주문한 벽지입니다. 꽃무늬이고 검은색 배경(black backdrop)을 가지고 있는데, 이것이 발 달린 욕조(claw foot tub)와 화장대(vanity)와 잘 어울릴 것 같아요."
+    },
+    {
+      "id": 53,
+      "order": 52,
+      "sentence": {
+        "text": "So, I'll put all this up all the way around the bathroom aside from on the ceiling.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 9,
+            "end": 43
+          },
+          {
+            "type": "bold",
+            "start": 57,
+            "end": 67
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "So, I'll be **putting this up all over** the bathroom **except for** the ceiling.",
+        "We are going to **hang the wallpaper** in the living room together. (Put up the wallpaper)"
+      ],
+      "notes": "put up all the way around / put up all over: ~의 전체에 걸쳐 설치하다/붙이다. aside from / except for: ~을 제외하고. put up / hang: (벽지, 그림 등을) 걸다, 붙이다, 설치하다.",
+      "translation": "그래서 천장을 제외하고(aside from) 욕실 전체를 빙 둘러(욕실 전체를 빙 둘러, attach, install) 이것을 붙일 거예요."
+    },
+    {
+      "id": 54,
+      "order": 53,
+      "sentence": {
+        "text": "We can put you up for the night if you miss the last bus.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 7,
+            "end": 31
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "put someone up: ~에게 숙소를 제공하다, 재워주다.",
+      "translation": "막차를 놓치면 하룻밤 재워줄 수 있어요."
+    },
+    {
+      "id": 55,
+      "order": 54,
+      "sentence": {
+        "text": "Now I can tell. I'm slowly getting the hang of the subtle differences between I get it and I got it.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 27,
+            "end": 46
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "get the hang of: ~의 요령을 터득하다, ~에 익숙해지다.",
+      "translation": "이제 알겠어요. 'I get it'과 'I got it' 사이의 미묘한 차이를 천천히 익히고(getting the hang of) 있어요."
+    },
+    {
+      "id": 56,
+      "order": 55,
+      "sentence": {
+        "text": "Do you guys take old tires for disposal? Remove the tires from the rims and take the rubber part of the tire for disposal.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 12,
+            "end": 39
+          },
+          {
+            "type": "bold",
+            "start": 41,
+            "end": 71
+          },
+          {
+            "type": "bold",
+            "start": 76,
+            "end": 121
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Can I **leave my old tires here for disposal**?",
+        "If you decide to take the job, there will be a company car **at your disposal**.",
+        "The research facility had all the latest technology **at its disposal** to conduct the experiments."
+      ],
+      "notes": "for disposal: 폐기 처리를 위해. remove from the rims: 휠에서 분리하다. at one's disposal: ~의 마음대로 사용할 수 있는.",
+      "translation": "폐기를 위해 헌 타이어를 받으시나요? 타이어를 휠에서 분리하고 타이어의 고무 부분만 폐기 처리해 주세요."
+    },
+    {
+      "id": 57,
+      "order": 56,
+      "sentence": {
+        "text": "How much would it cost to get my wheel covers swapped out and dispose of the old tires?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 33,
+            "end": 57
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Can you **take the wheel covers off** my summer tires and **put them on** my winter tires?",
+        "Could you **swap/switch the wheel covers from** my old tires **to** the new ones?"
+      ],
+      "notes": "wheel cover: 휠 커버. swap out / swap/switch from A to B: 교체하다, A에서 B로 바꾸다. take off: 벗기다. put on: 끼우다, 장착하다.",
+      "translation": "휠 커버를 교체하고 헌 타이어를 폐기하는 데 비용이 얼마나 들까요?"
+    },
+    {
+      "id": 58,
+      "order": 57,
+      "sentence": {
+        "text": "Can you please check the battery and engine oil as well? It's been a while since I replaced them.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 47
+          },
+          {
+            "type": "bold",
+            "start": 83,
+            "end": 96
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "How much is a **standard oil change** here?",
+        "Then please **take a look and replace them if necessary**"
+      ],
+      "notes": "check the battery and engine oil: 배터리와 엔진 오일을 확인하다. replace: 교체하다. standard oil change: 일반적인 오일 교환. take a look: 살펴보다.",
+      "translation": "배터리와 엔진 오일도 확인해 주시겠어요? 교체한 지 꽤 되었어요."
+    },
+    {
+      "id": 59,
+      "order": 58,
+      "sentence": {
+        "text": "I can't be bothered to get dressed and head out into the cold.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 22
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I **couldn't be bothered to** move again, even if they offered me twice the salary.",
+        "I **couldn't be bothered to** argue with him about it; he's always right in his own mind.",
+        "I was going to clean up, but I just **couldn't be bothered** so I left the dishes in the sink.",
+        "I could have tried to fix the broken shelf, but in the end, I **couldn't be bothered** and just threw it out instead."
+      ],
+      "notes": "can't/couldn't be bothered to + 동사: ~할 마음이 생기지 않는다, ~하는 게 귀찮다.",
+      "translation": "옷을 입고 추위 속으로 나갈(head out) 엄두가 나지 않아요."
+    },
+    {
+      "id": 60,
+      "order": 59,
+      "sentence": {
+        "text": "I'd rather he didn't know.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 4,
+            "end": 25
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I'd **rather you didn't bring up** the salary issue."
+      ],
+      "notes": "I'd rather + Someone + 과거 동사: (다른 사람의 행동에 대한) 바람/선호를 표현할 때 (My preference for Your action => past tense)",
+      "translation": "저는 그가 모르는 편이 더 좋아요."
+    },
+    {
+      "id": 61,
+      "order": 60,
+      "sentence": {
+        "text": "I don't want to mess up the surprise.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 23
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "mess up: 망치다, 엉망으로 만들다.",
+      "translation": "저는 서프라이즈를 망치고 싶지 않아요."
+    },
+    {
+      "id": 62,
+      "order": 61,
+      "sentence": {
+        "text": "Look, I'd rather not (say).",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 10,
+            "end": 26
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I'd **rather not** go into that much detail. It was a private matter."
+      ],
+      "notes": "I'd rather not (say): (자신의 행동에 대해) ~하지 않는 것이 낫다. (Same Subject: talking about me => present)",
+      "translation": "보세요, 저는 (말하고) 싶지 않아요."
+    },
+    {
+      "id": 63,
+      "order": 62,
+      "sentence": {
+        "text": "This is how I know my mother best.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 8,
+            "end": 18
+          },
+          {
+            "type": "bold",
+            "start": 29,
+            "end": 33
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "This is how I know someone best: 이것이 내가 가장 잘 아는/익숙한 그 사람의 모습이다.",
+      "translation": "이게 제가 아는 울 엄마의 모습이죠."
+    },
+    {
+      "id": 64,
+      "order": 63,
+      "sentence": {
+        "text": "Hey, I know it's only two minutes before close, but can I place an order?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 22,
+            "end": 46
+          },
+          {
+            "type": "bold",
+            "start": 58,
+            "end": 72
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "before close: 마감/폐점 2분 전. place an order: 주문하다.",
+      "translation": "저기요, 마감 2분 전인 건 알지만, 주문해도 될까요?"
+    },
+    {
+      "id": 65,
+      "order": 64,
+      "sentence": {
+        "text": "I just got the package (that) the tracking said (it) was lost last week! I'm not going to complain; better late than never.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 100,
+            "end": 122
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "The package I thought was lost last week finally **showed up**! **Better late than never**."
+      ],
+      "notes": "better late than never: 늦더라도 안 하는 것보다 낫다. show up: 나타나다, 도착하다.",
+      "translation": "지난주에 추적(tracking)에서 분실되었다고 했던 소포를 방금 받았어요! 불평하지 않을 거예요. 안 하는 것보다는 늦게라도 하는 것이 낫죠."
+    },
+    {
+      "id": 66,
+      "order": 65,
+      "sentence": {
+        "text": "We were going to go hiking, but I didn't feel up to it after staying up so late last night.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 34,
+            "end": 54
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Do you **feel up to** meeting for coffee later, or are you still recovering from the cold?",
+        "She **isn't feeling up to** the presentation today because she's got a nasty cold.",
+        "I'm **not really up for** going out tonight."
+      ],
+      "notes": "feel up to + 명사/동명사: ~을 할 기분/힘이 되다, ~을 하고 싶다. (Focus on desire/energy). not really up for: ~할 마음이 내키지 않는.",
+      "translation": "하이킹을 가려고 했지만, 어젯밤에 너무 늦게까지 깨어 있었더니 그럴 기분이 아니었어요."
+    },
+    {
+      "id": 67,
+      "order": 66,
+      "sentence": {
+        "text": "My sister's coming to pick us up, so we wouldn't have to worry about driving tonight.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 22,
+            "end": 32
+          },
+          {
+            "type": "bold",
+            "start": 40,
+            "end": 68
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "The restaurant closes late, so we **wouldn't have to rush off** right after dinner. We can **take our time**.",
+        "Since I already paid for the streaming service, we **wouldn't have to buy** the movie separately."
+      ],
+      "notes": "pick up: (차로) 태우러 가다. wouldn't have to: ~할 필요가 없을 것이다. rush off: 서둘러 떠나다. take one's time: 시간을 여유롭게 쓰다.",
+      "translation": "언니가 우리를 태우러 올 거라서 오늘 밤 운전에 대해 걱정할 필요가 없을 거예요."
+    },
+    {
+      "id": 68,
+      "order": 67,
+      "sentence": {
+        "text": "It's so nice not to have to park my SUV on the road.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 13,
+            "end": 32
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "I'll be able to park it on this **parking pad** during the winter, so I **won't have to worry about getting hit** by the snowplow."
+      ],
+      "notes": "not to have to: ~할 필요가 없다. parking pad: 주차 공간. won't have to worry about: ~에 대해 걱정할 필요가 없을 것이다.",
+      "translation": "SUV를 길가에 주차할 필요가 없어서 정말 좋아요."
+    },
+    {
+      "id": 69,
+      "order": 68,
+      "sentence": {
+        "text": "We have the frame (all) built out for this area right here.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 33
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "So, now we're going to see if it **fits up there good/well**. (finish up, get it done)"
+      ],
+      "notes": "build out: ~을 만들다, 완성하다. fit up: (장소 등에) 장비를 갖추다, 맞추다.",
+      "translation": "우리는 바로 이 영역에 대한 프레임을 (모두) 완성했습니다."
+    },
+    {
+      "id": 70,
+      "order": 69,
+      "sentence": {
+        "text": "My windshield washer fluid is running out too fast. It's going down too fast.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 30,
+            "end": 50
+          },
+          {
+            "type": "bold",
+            "start": 57,
+            "end": 76
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "run out / go down: 바닥나다, 고갈되다.",
+      "translation": "제 앞 유리 와셔액이 너무 빨리 바닥나고 있어요."
+    },
+    {
+      "id": 71,
+      "order": 70,
+      "sentence": {
+        "text": "We have so much stuff piling up in the garage that we can't find anything.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 22,
+            "end": 31
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "There is **so much stuff** here."
+      ],
+      "notes": "pile up: 쌓이다. so much stuff: 매우 많은 물건.",
+      "translation": "차고에 물건이 너무 많이 쌓여서 아무것도 찾을 수가 없어요."
+    },
+    {
+      "id": 72,
+      "order": 71,
+      "sentence": {
+        "text": "He was disappointed, but he quickly brushed the failure off and started preparing for the next competition.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 36,
+            "end": 59
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "She was able to **brush his sarcastic remarks off** without getting angry.",
+        "She just **shrugged off** the rumors about her.",
+        "I couldn't **shake off** the weird feeling I had about that house.",
+        "They just **brushed the rumors off**, so the gossip **died down** eventually.",
+        "It's just a small mistake; you need to **brush it off** and keep working."
+      ],
+      "notes": "brush/shake off / shrug off: (걱정, 문제 등을) 떨쳐내다, 대수롭지 않게 여기다. die down: (소문, 감정 등이) 사그라지다.",
+      "translation": "그는 실망했지만, 재빨리 그 실패를 떨쳐내고(brushed off) 다음 대회를 준비하기 시작했어요."
+    },
+    {
+      "id": 73,
+      "order": 72,
+      "sentence": {
+        "text": "I think the comments kind of eliminate/nullify each other, right?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 29,
+            "end": 57
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "eliminate/nullify each other: 서로 상쇄하다, 무효화하다.",
+      "translation": "댓글들이 서로 상쇄되는(eliminate/nullify each other) 것 같아요, 그렇죠?"
+    },
+    {
+      "id": 74,
+      "order": 73,
+      "sentence": {
+        "text": "Because the complaint is MLS defending, but as you just said, some could go in a top five league and still have success.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 67,
+            "end": 96
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Wasn't he a golden boot winner in the Premier League?",
+        "So, **it's not as if(though)** he **hasn't shown that he can score at the same kind of rate** at other levels in other competitions and for other teams. (He has totally shown that) (~인건 아니야. 이중 부정)"
+      ],
+      "notes": "it's not as if(though) ~: ~인 것은 아니다. (반대를 강하게 부정하며 주장을 펼 때 사용)",
+      "translation": "왜냐하면 불만은 MLS 수비력에 있지만, 방금 당신이 말했듯이, 일부는 상위 5개 리그에 가서도 성공할 수 있기 때문이죠."
+    },
+    {
+      "id": 75,
+      "order": 74,
+      "sentence": {
+        "text": "It's not as if we haven't tried to fix the car; we took it to three different mechanics already.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 14
+          },
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 31
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "We should just talk to her. **It's not as if she's going to bite us**.",
+        "**It's not as though they're poor**; they just choose to be careful with their money.",
+        "You don't need to dress up so much. **It's not as though we're meeting the Queen**!"
+      ],
+      "notes": "it's not as if(though) ~: ~인 것은 아니다. (상황을 완화시키거나 반박할 때 사용)",
+      "translation": "우리가 차를 고치려고 노력하지 않은 건 아니에요. 이미 세 명의 다른 정비사에게 가져갔었어요."
+    },
+    {
+      "id": 76,
+      "order": 75,
+      "sentence": {
+        "text": "Hey, chill out! The bus will be here in a minute.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 14
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "chill out: 진정하다, 긴장을 풀다.",
+      "translation": "야, 진정해! 버스 곧 올 거야."
+    },
+    {
+      "id": 77,
+      "order": 76,
+      "sentence": {
+        "text": "We need someone who can hit the ground running.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 24,
+            "end": 46
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "hit the ground running: 즉시/시작부터 효과적으로 일하다. (새로운 직장이나 프로젝트에서)",
+      "translation": "우리는 즉시 효과적으로 일을 시작할 수 있는 사람이 필요해요."
+    },
+    {
+      "id": 78,
+      "order": 77,
+      "sentence": {
+        "text": "I dropped off this morning for a tire change. I'm just calling to check on the progress.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 13
+          },
+          {
+            "type": "bold",
+            "start": 66,
+            "end": 87
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "When can I **expect (it) to be ready (for pickup)**?",
+        "How much longer until it's done? If it's quick, I'll stay."
+      ],
+      "notes": "drop off: (물건/사람을) 내려주다, 맡기다. check on the progress: 진행 상황을 확인하다. expect to be ready: 준비가 완료될 것을 예상하다.",
+      "translation": "오늘 아침 타이어 교체를 위해 차를 맡겼어요. 진행 상황을 확인하려고 전화했습니다."
+    },
+    {
+      "id": 79,
+      "order": 78,
+      "sentence": {
+        "text": "I just stopped by on my way.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 7,
+            "end": 17
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "I was **in the area**, so I thought I'd **stop by**."
+      ],
+      "notes": "stop by: 잠깐 들르다. in the area: 이 근처에.",
+      "translation": "오는 길에 잠깐 들렀어요."
+    },
+    {
+      "id": 80,
+      "order": 79,
+      "sentence": {
+        "text": "How's it coming (along)? Is it almost done?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 0,
+            "end": 23
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "If it's **not going to take too long**, I'll just wait here. **How much longer will it be**?"
+      ],
+      "notes": "How's it coming (along)?: (진행 상황을 물을 때) 어떻게 되어가요? (How's it going? 은 안부를 물을 때) How much longer will it be?: 얼마나 더 걸릴까요?",
+      "translation": "어떻게 돼가고 있어요? 거의 다 됐나요?"
+    },
+    {
+      "id": 81,
+      "order": 80,
+      "sentence": {
+        "text": "Can you scrape out the coconut meat for me? / Can you scoop out the flesh for me?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 8,
+            "end": 18
+          },
+          {
+            "type": "bold",
+            "start": 54,
+            "end": 63
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Could you **cut this open** so I can eat the soft meat inside?",
+        "Could you **cut it in half** so I can **get to the meat**?"
+      ],
+      "notes": "scrape out / scoop out: (내용물을) 긁어내다, 파내다. cut open: 베어 열다. get to the meat: 속살에 닿다/도달하다.",
+      "translation": "코코넛 속살(meat/flesh)을 좀 긁어/파내 줄 수 있나요? (코코넛 과육 좀 긁어줘)"
+    },
+    {
+      "id": 82,
+      "order": 81,
+      "sentence": {
+        "text": "When we went camping, we just ate off the pot we cooked the stew in.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 30,
+            "end": 45
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "My brother always tries to **eat off my plate**, which **drives me crazy**.",
+        "They didn't have enough plates, so a few of us had to **eat off napkins**."
+      ],
+      "notes": "eat off (something): ~에서 음식을 먹다. drive someone crazy: ~를 미치게 만들다, 짜증나게 하다.",
+      "translation": "캠핑 갔을 때, 우리는 스튜를 끓인 냄비에서 그냥 먹었어요."
+    },
+    {
+      "id": 83,
+      "order": 82,
+      "sentence": {
+        "text": "I gotta go run to burn/work off all the pizza I ate last night.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 31
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "burn off / work off: (칼로리 등을) 운동으로 소모시키다.",
+      "translation": "어젯밤에 먹은 피자를 모두 소모시키기 위해 운동하러 가야 해요."
+    },
+    {
+      "id": 84,
+      "order": 83,
+      "sentence": {
+        "text": "This hotel really spoiled me with their service. Nothing else seems good enough anymore.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 33
+          },
+          {
+            "type": "bold",
+            "start": 62,
+            "end": 87
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "spoil with: ~으로 (너무 잘해줘서) 버릇없게 만들다, 기준을 높이다. not seem good enough anymore: 더 이상 충분히 좋게 보이지 않다.",
+      "translation": "이 호텔 서비스가 저를 정말 버릇없게 만들었어요. 이제 다른 어떤 것도 충분히 좋게 보이지 않네요."
+    },
+    {
+      "id": 85,
+      "order": 84,
+      "sentence": {
+        "text": "I get to travel for work, which is awesome.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 24
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Last night, I finally **got to see** my favorite band perform live. It was incredible! (Opportunity)",
+        "We **get to / can leave** an hour early today because we finished the project ahead of schedule! (Permission/Privilege)",
+        "Since I became a manager, I **get to / can** (both okay here) choose my own working hours. (Privilege)",
+        "We **got to** 위.갓.투. see the new car prototype earlier. (미리 볼 기회가 생겨서 좋았어/운이 좋았어)",
+        "We **were able to see** the new car prototype earlier. (미리 볼 수 있는 여건/능력이 되었어)",
+        "We've **got to** 위브가러~ drive the car before we order it. (Obligation)"
+      ],
+      "notes": "get to + 동사: ~할 기회/특권을 얻다. (긍정적 의미) have got to (gotta): ~해야 한다. (의무)",
+      "translation": "저는 일 때문에 여행할 기회/특권을 얻어요. 정말 멋지죠."
+    },
+    {
+      "id": 86,
+      "order": 85,
+      "sentence": {
+        "text": "She was worried about presenting in English, but she absolutely pulled it off.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 64,
+            "end": 77
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "We were worried about the deadline, but we **got it done** on time.",
+        "She absolutely **nailed it**."
+      ],
+      "notes": "pull off: (어려운 일을) 해내다, 성공시키다. nail it: 완벽하게 해내다. get it done: 끝내다.",
+      "translation": "그녀는 영어로 발표하는 것에 대해 걱정했지만, 그것을 멋지게 해냈어요. (Focuses on difficulty, overcoming a challenge)"
+    },
+    {
+      "id": 87,
+      "order": 86,
+      "sentence": {
+        "text": "We need to pull off the highway at the next exit for gas.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 11,
+            "end": 19
+          },
+          {
+            "type": "bold",
+            "start": 32,
+            "end": 48
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "The driver had to quickly **pull over** when the tire **blew out**."
+      ],
+      "notes": "pull off: (도로 등에서) 벗어나다. at the next exit: 다음 출구에서. pull over: (차를) 길가에 대다. blow out: (타이어가) 터지다.",
+      "translation": "주유를 위해 다음 출구에서 고속도로를 빠져나가야 해요."
+    },
+    {
+      "id": 88,
+      "order": 87,
+      "sentence": {
+        "text": "This type of thing used to throw me, but I'm older now, I don't let it get to me so much.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 19,
+            "end": 35
+          },
+          {
+            "type": "bold",
+            "start": 64,
+            "end": 80
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I just **don't take it seriously anymore**."
+      ],
+      "notes": "throw (someone): ~를 당황하게 하다. let it get to me: ~때문에 속상해하다/신경 쓰다. don't take it seriously anymore: 더 이상 심각하게 받아들이지 않다.",
+      "translation": "이런 종류의 일은 예전에는 저를 당황하게(throw me) 만들었지만, 이제 나이가 들어서 그것에 크게 신경 쓰지(let it get to me) 않아요."
+    },
+    {
+      "id": 89,
+      "order": 88,
+      "sentence": {
+        "text": "Do I make myself clear?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 22
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She tried hard to **make herself clear** to the customer who didn't speak much English.",
+        "I thought I had **made my intentions clear**, but apparently, there was still some confusion about the project."
+      ],
+      "notes": "make oneself clear: 자신의 의사/뜻을 명확하게 하다. make intentions clear: 의도를 명확히 하다.",
+      "translation": "제 말이 명확한가요? (내 뜻이 분명한가요?)"
+    },
+    {
+      "id": 90,
+      "order": 89,
+      "sentence": {
+        "text": "How has your commute been lately?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 13,
+            "end": 20
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "How's the **travel to work** been lately?",
+        "How long have you been **spending on your commute** recently?",
+        "Is your **trip to the office dragging on** lately?"
+      ],
+      "notes": "commute / travel to work / trip to the office: 통근, 출퇴근. drag on: 지루하게 계속되다.",
+      "translation": "요즘 출퇴근(commute)은 어땠어요?"
+    },
+    {
+      "id": 91,
+      "order": 90,
+      "sentence": {
+        "text": "I'm happy with our decision, but I want to leave the floor open in case anyone has any objections.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 43,
+            "end": 63
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "After the presentation, the CEO **left the floor open for a short Q&A session**."
+      ],
+      "notes": "leave the floor open: 발언 기회를 주다, 토론의 여지를 남겨두다.",
+      "translation": "저는 우리의 결정에 만족하지만, 혹시 반대 의견이 있는 분이 있을까 봐 발언 기회(the floor)를 열어두고 싶어요."
+    },
+    {
+      "id": 92,
+      "order": 91,
+      "sentence": {
+        "text": "Her diamond necklace for the casual dinner party felt a little over the top.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 63,
+            "end": 75
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "over the top: 지나친, 과장된.",
+      "translation": "캐주얼한 저녁 식사 파티에 그녀의 다이아몬드 목걸이는 약간 지나쳤다고(over the top) 느껴졌어요."
+    },
+    {
+      "id": 93,
+      "order": 92,
+      "sentence": {
+        "text": "Only immediate family was present at the small, intimate wedding ceremony.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 21
+          },
+          {
+            "type": "bold",
+            "start": 48,
+            "end": 73
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "immediate family: 직계 가족. intimate: 친밀한.",
+      "translation": "작고 친밀한(intimate) 결혼식에는 직계 가족(immediate family)만 참석했습니다."
+    },
+    {
+      "id": 94,
+      "order": 93,
+      "sentence": {
+        "text": "So that's what was going on all along!",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 10,
+            "end": 37
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "She acted surprised when the secret was revealed, but I think she **knew about it all along**.",
+        "They realized the missing keys had been **in the bottom of her purse all along**."
+      ],
+      "notes": "all along: 처음부터, 내내. what was going on: 무슨 일이 일어나고 있었는지.",
+      "translation": "그래서 내내(all along) 무슨 일이 일어나고 있었던 건지 알겠어요!"
+    },
+    {
+      "id": 95,
+      "order": 94,
+      "sentence": {
+        "text": "I accidentally bleached my faded jeans even more.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 23
+          },
+          {
+            "type": "bold",
+            "start": 39,
+            "end": 48
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She prefers the look of **distressed denim** over brand-new, **dark-wash jeans**.",
+        "We're seeing a lot of high-end brands selling **heavily distressed denim** this season.",
+        "She always looks great in her **vintage denim shorts**."
+      ],
+      "notes": "bleach: 표백하다. faded jeans: 물 빠진 청바지. distressed denim: 낡은 느낌을 준 데님. dark-wash jeans: 어두운 색 청바지.",
+      "translation": "실수로 물 빠진 청바지를 더 많이 표백했어요."
+    },
+    {
+      "id": 96,
+      "order": 95,
+      "sentence": {
+        "text": "He changes into his overalls before he clocks in for his shift at the factory.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 20,
+            "end": 28
+          },
+          {
+            "type": "bold",
+            "start": 39,
+            "end": 48
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I need a new pair of **ripped jeans** for the concert."
+      ],
+      "notes": "overalls: 작업복, 멜빵바지. clocks in: 출근 시간을 기록하다.",
+      "translation": "그는 공장에서 교대 근무를 위해 출근(clocks in)하기 전에 작업복(overalls)으로 갈아입어요."
+    },
+    {
+      "id": 97,
+      "order": 96,
+      "sentence": {
+        "text": "I packed/put in/threw in five pairs of socks when I was packing.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 24
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "pack/put in/throw in: (짐을) 챙겨 넣다.",
+      "translation": "짐을 쌀 때 양말 다섯 켤레를 챙겨 넣었어요."
+    },
+    {
+      "id": 98,
+      "order": 97,
+      "sentence": {
+        "text": "I need a new pair of glasses. - I gotta get new glasses.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 34,
+            "end": 55
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "I gotta get new glasses: 'I have got to get new glasses'의 구어체 축약형. (Very casual, dropping 'a pair of')",
+      "translation": "새 안경이 필요해요. (매우 캐주얼하게, 'a pair of'를 생략)"
+    },
+    {
+      "id": 99,
+      "order": 98,
+      "sentence": {
+        "text": "I tried to convince Mr. and Mrs. Jefferson to just give me the money they would've spent on my meal instead, because there was a lot I could do with that kind of cash.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 74,
+            "end": 91
+          },
+          {
+            "type": "bold",
+            "start": 135,
+            "end": 166
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I ended up taking the bus, so I was able to **save the time I would've wasted** looking for parking.",
+        "They canceled the wedding, which was probably a good thing because they didn't have to deal with the **debt they would've piled up from the party**.",
+        "She chose to do the project herself, meaning the company kept the **profit they would've paid out to an external contractor**."
+      ],
+      "notes": "would've + p.p.: ~했을 것이다. (과거에 일어나지 않은 일에 대한 가정) could do with that kind of cash: 그 정도 현금으로 할 수 있는 일이 많다.",
+      "translation": "저는 제퍼슨 씨 부부에게 대신 제 식사비로 썼을 돈을 그냥 저에게 달라고 설득하려 했어요. 왜냐하면 그 정도 현금으로는 제가 할 수 있는 일이 많았기 때문이죠."
+    },
+    {
+      "id": 100,
+      "order": 99,
+      "sentence": {
+        "text": "Honestly I just loved the opportunity to go down there and pitch myself, and get out of my comfort zone.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 26,
+            "end": 71
+          },
+          {
+            "type": "bold",
+            "start": 77,
+            "end": 103
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Obviously, I don't know that area, so I'm so happy for Chelsea and Mary to both **get it**. (그것을 얻다)",
+        "It **makes sense to go to them**. But, you know, I'll **get the next one**."
+      ],
+      "notes": "pitch oneself: 자신을 어필하다/홍보하다. get out of one's comfort zone: 안락한 영역을 벗어나다. make sense to: ~하는 것이 합리적이다.",
+      "translation": "솔직히 저는 그곳에 가서 저 자신을 어필하고(pitch myself), 안락한 영역(comfort zone)을 벗어날 기회(opportunity)가 좋았어요."
+    },
+    {
+      "id": 101,
+      "order": 100,
+      "sentence": {
+        "text": "I just started here. I wasn't really expecting to get the 30 million dollar listing.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 37,
+            "end": 53
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "But at least they know I'm **ready to play** and I'm going to **put my best foot forward** and **come prepared**."
+      ],
+      "notes": "expecting to get: ~을 얻기를 예상하다. ready to play: 준비가 되다, 참여할 준비가 되다. put one's best foot forward: 최선을 다하다, 좋은 인상을 주려 노력하다. come prepared: 준비된 상태로 오다.",
+      "translation": "저는 여기서 막 시작했어요. 3천만 달러짜리 매물을 따낼(get) 것이라고는 정말 예상하지 못했어요."
+    },
+    {
+      "id": 102,
+      "order": 101,
+      "sentence": {
+        "text": "He worked on that project for six months straight without a break. Did he get a promotion?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 41,
+            "end": 65
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "**Would you expect otherwise**? (당연쓰)"
+      ],
+      "notes": "straight: 연속으로, 끊임없이. Would you expect otherwise?: 당연히 그렇지 않겠어요? (긍정적 대답을 유도하는 반문)",
+      "translation": "그는 쉬지 않고(without a break) 6개월 연속으로(straight) 그 프로젝트를 진행했어요. 승진했나요?"
+    },
+    {
+      "id": 103,
+      "order": 102,
+      "sentence": {
+        "text": "The new intern is eager to learn, but honestly, he needs a whole lot of supervision right now.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 32
+          },
+          {
+            "type": "bold",
+            "start": 59,
+            "end": 83
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "eager to learn: 배우고자 열망하는. a whole lot of: 엄청나게 많은. supervision: 감독, 관리.",
+      "translation": "새 인턴은 배우고자 하는 열의가 있지만, 솔직히 말해서 지금은 니져/호ㅓ랏어브 많은 감독(supervision)이 필요해요."
+    },
+    {
+      "id": 104,
+      "order": 103,
+      "sentence": {
+        "text": "I was wearing heels all day, but I finally changed into some reasonable shoes for the walk home.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 43,
+            "end": 77
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I haven't seen a woman in this office **wear sneakers in five years**.",
+        "Am I **allowed to wear sneakers** to the office?"
+      ],
+      "notes": "changed into: ~으로 갈아입다/갈아 신다. reasonable shoes: 적절한/편안한 신발.",
+      "translation": "하루 종일 하이힐을 신고 있었지만, 집에 걸어가기 위해 드디어 편한 신발(reasonable shoes)로 갈아 신었어요."
+    },
+    {
+      "id": 105,
+      "order": 104,
+      "sentence": {
+        "text": "I'm secure in my sense of style, so I dress the way I like without worrying about others' opinions.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 4,
+            "end": 31
+          },
+          {
+            "type": "bold",
+            "start": 67,
+            "end": 98
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She **felt secure in her decision** to change careers.",
+        "I sometimes **feel insecure** when I'm speaking English because I know I'm making a lot of mistakes.",
+        "Sometimes I **feel insecure about** asking for help at work."
+      ],
+      "notes": "secure in: ~에 확신하는/자신 있는. feel insecure: 불안정하다고 느끼다.",
+      "translation": "저는 제 스타일에 자신감이(secure in my sense of style) 있어서, 다른 사람들의 의견을 걱정하지 않고 제가 좋아하는 방식으로 옷을 입어요."
+    },
+    {
+      "id": 106,
+      "order": 105,
+      "sentence": {
+        "text": "He's really nervous about the presentation, but he's trying to put on a front that he's totally confident.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 63,
+            "end": 77
+          },
+          {
+            "type": "bold",
+            "start": 88,
+            "end": 105
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "put on a front: 겉으로만 ~인 척하다, 허세를 부리다. totally confident: 완전히 확신하는.",
+      "translation": "그는 발표에 대해 정말 긴장하고 있지만, 완전히 자신감 있는 척(put on a front) 가장하려고 노력하고 있어요."
+    },
+    {
+      "id": 107,
+      "order": 106,
+      "sentence": {
+        "text": "In Mount Druitt, there are a lot of social issues. There's a lot of cyclical poverty.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 68,
+            "end": 84
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "There's a lot of **generational welfare dependence**, the kinds of things that we see **manifesting in the classroom**, in **big behaviours** for a **whole variety of reasons**."
+      ],
+      "notes": "cyclical poverty: 대물림되는 빈곤. generational welfare dependence: 세대 간 복지 의존. manifest in: ~에서 나타나다. big behaviours: 큰 문제 행동. whole variety of reasons: 아주 다양한 이유.",
+      "translation": "마운트 드루이트에는 많은 사회 문제가 있습니다. 순환적인 빈곤(cyclical poverty)이 많습니다."
+    },
+    {
+      "id": 108,
+      "order": 107,
+      "sentence": {
+        "text": "I had no friggin clue, zero clue on how to handle any of the behaviours already that were happening in this classroom, let alone a student with these complex needs.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 6,
+            "end": 49
+          },
+          {
+            "type": "bold",
+            "start": 119,
+            "end": 128
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [],
+      "notes": "no friggin clue / zero clue: 전혀 모르다, 단서가 없다. let alone: ~은 물론이고, 하물며 ~은. (뒤에 오는 것이 더욱 불가능함을 강조)",
+      "translation": "저는 이미 이 교실에서 일어나고 있던 어떤 행동도 어떻게 다룰지 정말 아무런 단서도, 0의 단서도 없었는데, 하물며(let alone) 이런 복잡한 요구를 가진 학생은 더더욱이요."
+    },
+    {
+      "id": 109,
+      "order": 108,
+      "sentence": {
+        "text": "Being generous comes back to you.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 0,
+            "end": 14
+          },
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 32
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "being generous: 관대함. comes back to you: (한 행동의 결과가) 자신에게 되돌아오다.",
+      "translation": "관대하게 행동하는 것은 당신에게 되돌아옵니다."
+    },
+    {
+      "id": 110,
+      "order": 109,
+      "sentence": {
+        "text": "Actually, we went to a farmer's market a few weekends ago and just parked nearby, and we got sideswiped.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 23,
+            "end": 38
+          },
+          {
+            "type": "bold",
+            "start": 89,
+            "end": 103
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Some car came and just **swiped the side of our car**. $2,000 in repairs."
+      ],
+      "notes": "farmer's market: 농산물 직거래 장터. get sideswiped / swipe the side of our car: (차가) 측면 충돌을 당하다.",
+      "translation": "사실 몇 주 전에 파머스 마켓에 갔다가 근처에 주차했는데, 저희 차가 측면 충돌을 당했어요(got sideswiped)."
+    },
+    {
+      "id": 111,
+      "order": 110,
+      "sentence": {
+        "text": "He's going to be so bummed when he finds out they finished the pizza without him.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 20,
+            "end": 26
+          },
+          {
+            "type": "bold",
+            "start": 69,
+            "end": 80
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She's been **bummed out** all morning because of the bad news.",
+        "Yes, I'm **super bummed** she's moving. She just accepted a job there. Oh, that's so far."
+      ],
+      "notes": "bummed / bummed out / super bummed: 실망한, 기분이 안 좋은.",
+      "translation": "자기를 빼고(without him) 피자를 다 먹어버린 것을 알게 되면 그는 매우 실망할(bummed) 거예요."
+    },
+    {
+      "id": 112,
+      "order": 111,
+      "sentence": {
+        "text": "I'm really happy this happened for her.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 17,
+            "end": 38
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "She's been looking for a **fresh start**."
+      ],
+      "notes": "happen for someone: ~에게 좋은 일이 생기다. fresh start: 새로운 시작.",
+      "translation": "그녀에게 이런 일이 생겨서(this happened for her) 정말 기뻐요."
+    },
+    {
+      "id": 113,
+      "order": 112,
+      "sentence": {
+        "text": "Even after the controversial verdict, the defendant exhibited dignity and thanked the court for its time.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 36
+          },
+          {
+            "type": "bold",
+            "start": 52,
+            "end": 69
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "**Throughout his final speech**, the retiring CEO **exhibited dignity**, **focusing on** the company's future **rather than** past achievements."
+      ],
+      "notes": "controversial verdict: 논란이 많은 평결. exhibited dignity: 품위를 보여주었다. throughout: ~내내. focusing on ~ rather than: ~보다는 ~에 집중하며.",
+      "translation": "논란이 많은 평결(controversial verdict) 후에도 피고는 품위를 보여주었고(exhibited dignity) 법원에 시간을 내어준 것에 감사했습니다."
+    },
+    {
+      "id": 114,
+      "order": 113,
+      "sentence": {
+        "text": "I grew up in the country/city, in Canada.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 29
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [],
+      "notes": "grow up in the country/city: 시골/도시에서 자라다.",
+      "translation": "저는 캐나다의 시골/도시에서 자랐어요."
+    },
+    {
+      "id": 115,
+      "order": 114,
+      "sentence": {
+        "text": "If you're a prospective buyer, you got a couple kids, want to turn it into your family compound.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 12,
+            "end": 29
+          },
+          {
+            "type": "bold",
+            "start": 62,
+            "end": 95
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Do you see anything that might **dissuade you from buying it**? (디스웨이쥬 / ~하는 것을 단념시키다)",
+        "We are looking at the **prospective costs** of the project before we commit to it."
+      ],
+      "notes": "prospective buyer: 장래의 구매자. turn into: ~으로 바꾸다. family compound: 가족 거주지/집단 거주지. dissuade from: ~하는 것을 단념시키다. prospective costs: 예상 비용.",
+      "translation": "만약 당신이 장래의 구매자(prospective buyer)이고, 아이들이 있고, 이것을 당신의 가족 거주지(family compound)로 바꾸고 싶다면."
+    },
+    {
+      "id": 116,
+      "order": 115,
+      "sentence": {
+        "text": "Yeah, I think, not even for just a family but for anyone, it's the lack of privacy happening.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 67,
+            "end": 82
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "lack of privacy: 사생활 부족.",
+      "translation": "네, 가족뿐만 아니라 누구에게든, 일어나고 있는 사생활 부족(lack of privacy) 문제라고 생각해요."
+    },
+    {
+      "id": 117,
+      "order": 116,
+      "sentence": {
+        "text": "There's something I'll put on your plate, important to me and this property.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 23,
+            "end": 40
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "The privacy issue needs to be **remedied through landscaping**. I'll **put you in charge**.",
+        "Look over the proposal, make sure it **blocks all of this street**.",
+        "I have **nothing on my plate**."
+      ],
+      "notes": "put on your plate: ~에게 (책임지고 처리할) 일을 맡기다. nothing on my plate: 할 일이 없다. remedy through landscaping: 조경을 통해 해결하다. put someone in charge: ~에게 책임을 맡기다. block: 가리다, 차단하다.",
+      "translation": "제가 당신에게 맡길(put on your plate) 일이 하나 있는데, 저와 이 부동산에 중요합니다."
+    },
+    {
+      "id": 118,
+      "order": 117,
+      "sentence": {
+        "text": "The landscaping here is particularly important.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 24,
+            "end": 46
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "Every house it is, but this house **in particular**."
+      ],
+      "notes": "particularly important: 특히 중요한. in particular: 특히.",
+      "translation": "여기 조경은 특히 중요합니다."
+    },
+    {
+      "id": 119,
+      "order": 118,
+      "sentence": {
+        "text": "I'm gonna show you downstairs. Don't trip on this wire. Watch your head here.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 31,
+            "end": 54
+          },
+          {
+            "type": "bold",
+            "start": 56,
+            "end": 71
+          }
+        ]
+      },
+      "difficulty": "beginner",
+      "examples": [
+        "I don't have to, but **you have to**. Haha"
+      ],
+      "notes": "trip on: ~에 걸려 넘어지다. Watch your head: 머리 조심하세요.",
+      "translation": "아래층을 보여드릴게요. 이 전선에 걸려 넘어지지(trip on) 않도록 조심하세요. 여기 머리 조심하세요."
+    },
+    {
+      "id": 120,
+      "order": 119,
+      "sentence": {
+        "text": "Now, all I need is for my phone to be dead when I finally find it.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 22
+          },
+          {
+            "type": "bold",
+            "start": 32,
+            "end": 42
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "Great, I'm already ten minutes late."
+      ],
+      "notes": "All I need is for [something bad] to happen: (비꼬는 표현) 안 좋은 일이 일어나면 완벽하겠다.",
+      "translation": "이제 폰만 방전되어 있으면 딱이네. (All I need is [something bad])"
+    },
+    {
+      "id": 121,
+      "order": 120,
+      "sentence": {
+        "text": "Did you see anything strange at all?",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 21,
+            "end": 35
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [],
+      "notes": "strange at all: 조금이라도 이상한.",
+      "translation": "조금이라도 이상한 것을 보셨나요?"
+    },
+    {
+      "id": 122,
+      "order": 121,
+      "sentence": {
+        "text": "I was already near the supermarket, so I figured I might as well grab the groceries while I was out.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 41,
+            "end": 83
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I couldn't find a parking spot close to the entrance, so I **figured I might as well just park way in the back** where there were plenty of open spaces."
+      ],
+      "notes": "figure I might as well + 동사: ~하는 김에 그냥 ~하는 것이 낫겠다고 생각하다.",
+      "translation": "이미 슈퍼마켓 근처에 있었기 때문에, 외출한 김에 그냥 식료품을 사는 게 낫겠다고 생각했어요."
+    },
+    {
+      "id": 123,
+      "order": 122,
+      "sentence": {
+        "text": "When you're traveling, sometimes it's best to just give in to the vibes of the city and see where the day takes you.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 51,
+            "end": 71
+          },
+          {
+            "type": "bold",
+            "start": 92,
+            "end": 115
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "I was going to leave early, but the music was so good I decided to **give in to the vibes** and stay until closing."
+      ],
+      "notes": "give in to the vibes: 분위기에 순응하다/몸을 맡기다. see where the day takes you: 하루가 흘러가는 대로 가다.",
+      "translation": "여행할 때는 때때로 도시의 분위기에 몸을 맡기고(give in to the vibes) 하루가 당신을 어디로 이끄는지(where the day takes you) 보는 것이 최선일 때도 있어요."
+    },
+    {
+      "id": 124,
+      "order": 123,
+      "sentence": {
+        "text": "That couldn't have been easy for you to handle all that pressure alone.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 5,
+            "end": 46
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "I heard about your move; **packing up your whole apartment on such short notice couldn't have been easy**."
+      ],
+      "notes": "couldn't have been easy: 쉽지 않았을 것이다. (과거에 대한 추측)",
+      "translation": "그 모든 압박을 혼자 감당하는 것이 당신에게 쉽지 않았을 거예요."
+    },
+    {
+      "id": 125,
+      "order": 124,
+      "sentence": {
+        "text": "When the new policy was announced, many employees were left scratching their heads about how it would actually be implemented.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 55,
+            "end": 82
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "The mechanic was **scratching his head** trying to figure out what was wrong with the car's engine."
+      ],
+      "notes": "be left scratching one's head: 어찌할 바를 모르다, 혼란스러워하다.",
+      "translation": "새로운 정책이 발표되었을 때, 많은 직원들은 그것이 실제로 어떻게 시행될지 몰라 머리를 긁적였습니다."
+    },
+    {
+      "id": 126,
+      "order": 125,
+      "sentence": {
+        "text": "The thing that really sucks/stinks is that the vacation was canceled at the last minute.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 42
+          },
+          {
+            "type": "bold",
+            "start": 69,
+            "end": 87
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "The thing that **really pees me off is** having to wait on hold for an hour.",
+        "The thing that **is really unfair is that** only the managers got bonuses this year."
+      ],
+      "notes": "The thing that really sucks/stinks/pees me off is that: 정말 짜증나는/불공평한 것은 ~이다. at the last minute: 막판에, 직전에.",
+      "translation": "정말 짜증나는 것은 휴가가 막판에 취소되었다는 것입니다."
+    },
+    {
+      "id": 127,
+      "order": 126,
+      "sentence": {
+        "text": "She did most of the work, but her boss got all the credit for the successful presentation.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 39,
+            "end": 61
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "Don't worry, you'll **get credit for** helping me move all these boxes.",
+        "He wanted to make sure his assistant **got any credit for** finding the critical data."
+      ],
+      "notes": "get credit for: ~에 대한 공로를 인정받다. (긍정/부정 모두 사용 가능)",
+      "translation": "그녀가 일 대부분을 했지만, 상사가 성공적인 발표에 대한 모든 공로를 가져갔습니다."
+    },
+    {
+      "id": 128,
+      "order": 127,
+      "sentence": {
+        "text": "He dismissed the first two suspects, so that leaves the third person as the only possibility.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 45,
+            "end": 92
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "The restaurant is closed, so that **leaves us with (eating) frozen pizza**.",
+        "Since the restaurant is closed, that **leaves us with (eating) frozen pizza**.",
+        "We **ruled out** the first two ideas, which **means we have to go with** the last one.",
+        "We've considered everything, it just **comes down to** who is willing to pay the most."
+      ],
+      "notes": "that leaves (someone) with (something): 그 결과 ~가 남다. rule out: 제외하다. go with: ~을 선택하다. come down to: 결국 ~로 귀결되다.",
+      "translation": "그는 처음 두 용의자를 기각했으므로, 그래서 세 번째 사람만이 유일한 가능성으로 남았습니다. (그래서 ~만이 남았다)"
+    },
+    {
+      "id": 129,
+      "order": 128,
+      "sentence": {
+        "text": "The students were scrambling for the last few spots in the popular elective course.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 18,
+            "end": 32
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "When the fire alarm went off, people were **scrambling for** the exits."
+      ],
+      "notes": "scramble for: ~을 차지하기 위해 다투다, 허둥지둥하다.",
+      "translation": "학생들은 인기 있는 선택 과목의 마지막 몇 자리를 차지하기 위해 서로 다투고(scrambling for) 있었습니다."
+    },
+    {
+      "id": 130,
+      "order": 129,
+      "sentence": {
+        "text": "The best I can figure is that he left the office around 3 PM yesterday, based on the security footage.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 4,
+            "end": 29
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "The **best I can figure**"
+      ],
+      "notes": "the best I can figure: 내가 짐작할 수 있는 한, 내가 생각하기로는.",
+      "translation": "제가 추측할 수 있는 한(the best I can figure), 보안 영상에 따르면 그는 어제 오후 3시경에 사무실을 나섰습니다."
+    },
+    {
+      "id": 131,
+      "order": 130,
+      "sentence": {
+        "text": "The manager is tight with the owner, so be careful what you say around him.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 25
+          },
+          {
+            "type": "bold",
+            "start": 40,
+            "end": 63
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "My uncle is really **tight with money**; he never buys anyone gifts."
+      ],
+      "notes": "tight with: ~와 친한. tight with money: 돈에 인색한.",
+      "translation": "매니저가 사장과 친하니(tight with), 그 주변에서는 말조심하세요."
+    },
+    {
+      "id": 132,
+      "order": 131,
+      "sentence": {
+        "text": "I haven't been applying myself enough to my fitness goals lately, so I need to step it up.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 10,
+            "end": 40
+          },
+          {
+            "type": "bold",
+            "start": 79,
+            "end": 89
+          }
+        ]
+      },
+      "difficulty": "advanced",
+      "examples": [
+        "We have to **step up production** this month if we want to meet the holiday demand. (더많이)",
+        "The local community really **stepped up** when the families lost their homes in the fire, offering food and shelter. (책임지고/적극적으로 나서다)"
+      ],
+      "notes": "apply oneself to: ~에 전념하다, 집중하다. step up: (노력, 속도, 생산 등을) 높이다, 강화하다; 적극적으로 나서다.",
+      "translation": "요즘 운동 목표에 충분히 전념/집중(applying myself to)하지 못하고 있어서, 더 열심히 해야(step it up) 해요."
+    },
+    {
+      "id": 133,
+      "order": 132,
+      "sentence": {
+        "text": "I can't stand waiting in long lines at the grocery store on the weekends.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 2,
+            "end": 13
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "She **can't stand** the smell of cigarette smoke, so she always sits outside at the cafe.",
+        "The new policy states that the management will **not stand for** any kind of discrimination in the workplace.",
+        "What **does the acronym U.N. actually stand for**?"
+      ],
+      "notes": "can't stand: ~을 참을 수 없다, 몹시 싫어하다. not stand for: ~을 용납하지 않다. stand for: ~을 상징하다, 의미하다.",
+      "translation": "주말에 식료품점에서 긴 줄을 서서 기다리는 것을 참을(can't stand) 수 없어요."
+    },
+    {
+      "id": 134,
+      "order": 133,
+      "sentence": {
+        "text": "They should be landing at the airport right about now.",
+        "styles": [
+          {
+            "type": "bold",
+            "start": 15,
+            "end": 53
+          }
+        ]
+      },
+      "difficulty": "intermediate",
+      "examples": [
+        "**Right about now**, I could really use a cup of coffee."
+      ],
+      "notes": "right about now: 지금쯤. (시간을 추측하여 말할 때)",
+      "translation": "그들은 지금쯤(right about now) 공항에 착륙하고 있을 거예요."
+    }
+  ]
 }

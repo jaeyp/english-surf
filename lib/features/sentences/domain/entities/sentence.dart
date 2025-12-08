@@ -35,14 +35,17 @@ class Sentence with _$Sentence {
 
 /// Helper function for JSON deserialization of SentenceText.
 SentenceText _sentenceTextFromJson(dynamic json) {
-  if (json is String) {
-    return SentenceText.parse(json);
+  if (json is Map<String, dynamic>) {
+    return SentenceText.fromJson(json);
   }
-  return SentenceText.fromJson(json as Map<String, dynamic>);
+  // Fallback: empty
+  return const SentenceText(plainText: '');
 }
 
 /// Helper function for JSON serialization of SentenceText.
-String _sentenceTextToJson(SentenceText sentenceText) => sentenceText.rawText;
+Map<String, dynamic> _sentenceTextToJson(SentenceText sentenceText) {
+  return sentenceText.toJson();
+}
 
 /// Helper function for JSON serialization of Difficulty enum.
 String _difficultyToJson(Difficulty difficulty) => difficulty.toJson();

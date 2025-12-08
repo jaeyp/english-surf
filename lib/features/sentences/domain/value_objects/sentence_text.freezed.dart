@@ -15,11 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SentenceText {
 
-/// Original text with markup syntax (e.g., "|**give and go**|")
- String get rawText;/// Plain text with all markup removed (e.g., "give and go")
- String get plainText;/// List of text ranges that should be rendered in bold
- List<TextRange> get boldRanges;/// List of text ranges that should be highlighted
- List<TextRange> get highlightRanges;
+/// Plain text with all markup removed
+ String get plainText;/// List of styles applied to the text
+ List<ts.TextStyle> get styles;
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +30,16 @@ $SentenceTextCopyWith<SentenceText> get copyWith => _$SentenceTextCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SentenceText&&(identical(other.rawText, rawText) || other.rawText == rawText)&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other.boldRanges, boldRanges)&&const DeepCollectionEquality().equals(other.highlightRanges, highlightRanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SentenceText&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other.styles, styles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,rawText,plainText,const DeepCollectionEquality().hash(boldRanges),const DeepCollectionEquality().hash(highlightRanges));
+int get hashCode => Object.hash(runtimeType,plainText,const DeepCollectionEquality().hash(styles));
 
 @override
 String toString() {
-  return 'SentenceText(rawText: $rawText, plainText: $plainText, boldRanges: $boldRanges, highlightRanges: $highlightRanges)';
+  return 'SentenceText(plainText: $plainText, styles: $styles)';
 }
 
 
@@ -52,7 +50,7 @@ abstract mixin class $SentenceTextCopyWith<$Res>  {
   factory $SentenceTextCopyWith(SentenceText value, $Res Function(SentenceText) _then) = _$SentenceTextCopyWithImpl;
 @useResult
 $Res call({
- String rawText, String plainText, List<TextRange> boldRanges, List<TextRange> highlightRanges
+ String plainText, List<ts.TextStyle> styles
 });
 
 
@@ -69,13 +67,11 @@ class _$SentenceTextCopyWithImpl<$Res>
 
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? rawText = null,Object? plainText = null,Object? boldRanges = null,Object? highlightRanges = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? plainText = null,Object? styles = null,}) {
   return _then(_self.copyWith(
-rawText: null == rawText ? _self.rawText : rawText // ignore: cast_nullable_to_non_nullable
-as String,plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
-as String,boldRanges: null == boldRanges ? _self.boldRanges : boldRanges // ignore: cast_nullable_to_non_nullable
-as List<TextRange>,highlightRanges: null == highlightRanges ? _self.highlightRanges : highlightRanges // ignore: cast_nullable_to_non_nullable
-as List<TextRange>,
+plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
+as String,styles: null == styles ? _self.styles : styles // ignore: cast_nullable_to_non_nullable
+as List<ts.TextStyle>,
   ));
 }
 
@@ -160,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String rawText,  String plainText,  List<TextRange> boldRanges,  List<TextRange> highlightRanges)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String plainText,  List<ts.TextStyle> styles)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
-return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRanges);case _:
+return $default(_that.plainText,_that.styles);case _:
   return orElse();
 
 }
@@ -181,10 +177,10 @@ return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String rawText,  String plainText,  List<TextRange> boldRanges,  List<TextRange> highlightRanges)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String plainText,  List<ts.TextStyle> styles)  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText():
-return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRanges);case _:
+return $default(_that.plainText,_that.styles);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +197,10 @@ return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String rawText,  String plainText,  List<TextRange> boldRanges,  List<TextRange> highlightRanges)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String plainText,  List<ts.TextStyle> styles)?  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
-return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRanges);case _:
+return $default(_that.plainText,_that.styles);case _:
   return null;
 
 }
@@ -216,29 +212,18 @@ return $default(_that.rawText,_that.plainText,_that.boldRanges,_that.highlightRa
 @JsonSerializable()
 
 class _SentenceText implements SentenceText {
-  const _SentenceText({required this.rawText, required this.plainText, final  List<TextRange> boldRanges = const [], final  List<TextRange> highlightRanges = const []}): _boldRanges = boldRanges,_highlightRanges = highlightRanges;
+  const _SentenceText({required this.plainText, final  List<ts.TextStyle> styles = const []}): _styles = styles;
   factory _SentenceText.fromJson(Map<String, dynamic> json) => _$SentenceTextFromJson(json);
 
-/// Original text with markup syntax (e.g., "|**give and go**|")
-@override final  String rawText;
-/// Plain text with all markup removed (e.g., "give and go")
+/// Plain text with all markup removed
 @override final  String plainText;
-/// List of text ranges that should be rendered in bold
- final  List<TextRange> _boldRanges;
-/// List of text ranges that should be rendered in bold
-@override@JsonKey() List<TextRange> get boldRanges {
-  if (_boldRanges is EqualUnmodifiableListView) return _boldRanges;
+/// List of styles applied to the text
+ final  List<ts.TextStyle> _styles;
+/// List of styles applied to the text
+@override@JsonKey() List<ts.TextStyle> get styles {
+  if (_styles is EqualUnmodifiableListView) return _styles;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_boldRanges);
-}
-
-/// List of text ranges that should be highlighted
- final  List<TextRange> _highlightRanges;
-/// List of text ranges that should be highlighted
-@override@JsonKey() List<TextRange> get highlightRanges {
-  if (_highlightRanges is EqualUnmodifiableListView) return _highlightRanges;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_highlightRanges);
+  return EqualUnmodifiableListView(_styles);
 }
 
 
@@ -255,16 +240,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SentenceText&&(identical(other.rawText, rawText) || other.rawText == rawText)&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other._boldRanges, _boldRanges)&&const DeepCollectionEquality().equals(other._highlightRanges, _highlightRanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SentenceText&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other._styles, _styles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,rawText,plainText,const DeepCollectionEquality().hash(_boldRanges),const DeepCollectionEquality().hash(_highlightRanges));
+int get hashCode => Object.hash(runtimeType,plainText,const DeepCollectionEquality().hash(_styles));
 
 @override
 String toString() {
-  return 'SentenceText(rawText: $rawText, plainText: $plainText, boldRanges: $boldRanges, highlightRanges: $highlightRanges)';
+  return 'SentenceText(plainText: $plainText, styles: $styles)';
 }
 
 
@@ -275,7 +260,7 @@ abstract mixin class _$SentenceTextCopyWith<$Res> implements $SentenceTextCopyWi
   factory _$SentenceTextCopyWith(_SentenceText value, $Res Function(_SentenceText) _then) = __$SentenceTextCopyWithImpl;
 @override @useResult
 $Res call({
- String rawText, String plainText, List<TextRange> boldRanges, List<TextRange> highlightRanges
+ String plainText, List<ts.TextStyle> styles
 });
 
 
@@ -292,13 +277,11 @@ class __$SentenceTextCopyWithImpl<$Res>
 
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? rawText = null,Object? plainText = null,Object? boldRanges = null,Object? highlightRanges = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? plainText = null,Object? styles = null,}) {
   return _then(_SentenceText(
-rawText: null == rawText ? _self.rawText : rawText // ignore: cast_nullable_to_non_nullable
-as String,plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
-as String,boldRanges: null == boldRanges ? _self._boldRanges : boldRanges // ignore: cast_nullable_to_non_nullable
-as List<TextRange>,highlightRanges: null == highlightRanges ? _self._highlightRanges : highlightRanges // ignore: cast_nullable_to_non_nullable
-as List<TextRange>,
+plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
+as String,styles: null == styles ? _self._styles : styles // ignore: cast_nullable_to_non_nullable
+as List<ts.TextStyle>,
   ));
 }
 
