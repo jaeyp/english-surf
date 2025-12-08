@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../enums/difficulty.dart';
 
 part 'sentence.freezed.dart';
 part 'sentence.g.dart';
@@ -14,7 +15,11 @@ class Sentence with _$Sentence {
     required int order,
     required String sentence,
     required String translation,
-    required String difficulty,
+    @JsonKey(
+      fromJson: Difficulty.fromJson,
+      toJson: _difficultyToJson,
+    )
+    required Difficulty difficulty,
     @Default([]) List<String> examples,
     @Default('') String notes,
   }) = _Sentence;
@@ -22,3 +27,6 @@ class Sentence with _$Sentence {
   factory Sentence.fromJson(Map<String, dynamic> json) =>
       _$SentenceFromJson(json);
 }
+
+/// Helper function for JSON serialization of Difficulty enum.
+String _difficultyToJson(Difficulty difficulty) => difficulty.toJson();

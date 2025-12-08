@@ -46,7 +46,7 @@
   - `EN → KO` (영어 학습) ← **기본값**
   - `KO → EN` (영어 작문)
 - ✅ **Sort Options:**
-  - `id` (ID 순서)
+  - `order` (사용자 지정 순서)
   - `difficulty` (난이도 순서)
   - `random` (랜덤) ← **기본값**
 - ✅ **Difficulty Filter:**

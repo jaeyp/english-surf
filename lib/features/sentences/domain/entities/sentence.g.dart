@@ -11,7 +11,7 @@ _Sentence _$SentenceFromJson(Map<String, dynamic> json) => _Sentence(
   order: (json['order'] as num).toInt(),
   sentence: json['sentence'] as String,
   translation: json['translation'] as String,
-  difficulty: json['difficulty'] as String,
+  difficulty: Difficulty.fromJson(json['difficulty'] as String),
   examples:
       (json['examples'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
@@ -23,7 +23,7 @@ Map<String, dynamic> _$SentenceToJson(_Sentence instance) => <String, dynamic>{
   'order': instance.order,
   'sentence': instance.sentence,
   'translation': instance.translation,
-  'difficulty': instance.difficulty,
+  'difficulty': _difficultyToJson(instance.difficulty),
   'examples': instance.examples,
   'notes': instance.notes,
 };

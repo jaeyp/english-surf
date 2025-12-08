@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Sentence {
 
- int get id; int get order; String get sentence; String get translation; String get difficulty; List<String> get examples; String get notes;
+ int get id; int get order; String get sentence; String get translation;@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty get difficulty; List<String> get examples; String get notes;
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $SentenceCopyWith<$Res>  {
   factory $SentenceCopyWith(Sentence value, $Res Function(Sentence) _then) = _$SentenceCopyWithImpl;
 @useResult
 $Res call({
- int id, int order, String sentence, String translation, String difficulty, List<String> examples, String notes
+ int id, int order, String sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
@@ -72,7 +72,7 @@ as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_no
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
 as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
-as String,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
+as Difficulty,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -180,7 +180,7 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
 switch (_that) {
 case _Sentence():
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -200,7 +200,7 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order,  String sentence,  String translation,  String difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order,  String sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
 return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
@@ -215,14 +215,14 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 @JsonSerializable()
 
 class _Sentence implements Sentence {
-  const _Sentence({required this.id, required this.order, required this.sentence, required this.translation, required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
+  const _Sentence({required this.id, required this.order, required this.sentence, required this.translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
   factory _Sentence.fromJson(Map<String, dynamic> json) => _$SentenceFromJson(json);
 
 @override final  int id;
 @override final  int order;
 @override final  String sentence;
 @override final  String translation;
-@override final  String difficulty;
+@override@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) final  Difficulty difficulty;
  final  List<String> _examples;
 @override@JsonKey() List<String> get examples {
   if (_examples is EqualUnmodifiableListView) return _examples;
@@ -265,7 +265,7 @@ abstract mixin class _$SentenceCopyWith<$Res> implements $SentenceCopyWith<$Res>
   factory _$SentenceCopyWith(_Sentence value, $Res Function(_Sentence) _then) = __$SentenceCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int order, String sentence, String translation, String difficulty, List<String> examples, String notes
+ int id, int order, String sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
@@ -289,7 +289,7 @@ as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_no
 as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
 as String,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
-as String,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
+as Difficulty,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
 as List<String>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,
   ));
