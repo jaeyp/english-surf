@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_bp/core/router/app_router.dart';
-import 'package:flutter_bp/core/theme/app_theme.dart';
-import 'package:flutter_bp/l10n/app_localizations.dart';
+import 'package:english_surf/core/router/app_router.dart';
+import 'package:english_surf/core/theme/app_theme.dart';
+import 'package:english_surf/l10n/app_localizations.dart';
 
 Future<void> main() async {
   await runZonedGuarded(() async {
