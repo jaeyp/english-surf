@@ -47,4 +47,3 @@ Map<String, dynamic> _sentenceTextToJson(SentenceText sentenceText) {
 
 /// Helper function for JSON serialization of Difficulty enum.
 String _difficultyToJson(Difficulty difficulty) => difficulty.toJson();
-``````
