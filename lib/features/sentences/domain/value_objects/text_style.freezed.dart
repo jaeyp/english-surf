@@ -15,10 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TextStyle {
 
-/// The type of style (bold, highlight, etc.)
-@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson) TextStyleType get type;/// The range of text this style applies to
- TextRange get range;/// Optional value for styles that need it (e.g., color: "#FF0000")
- String? get value;
+ TextStyleType get type; int get start; int get end; String? get value;
 /// Create a copy of TextStyle
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -31,16 +28,16 @@ $TextStyleCopyWith<TextStyle> get copyWith => _$TextStyleCopyWithImpl<TextStyle>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextStyle&&(identical(other.type, type) || other.type == type)&&(identical(other.range, range) || other.range == range)&&(identical(other.value, value) || other.value == value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextStyle&&(identical(other.type, type) || other.type == type)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.value, value) || other.value == value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,range,value);
+int get hashCode => Object.hash(runtimeType,type,start,end,value);
 
 @override
 String toString() {
-  return 'TextStyle(type: $type, range: $range, value: $value)';
+  return 'TextStyle(type: $type, start: $start, end: $end, value: $value)';
 }
 
 
@@ -51,11 +48,11 @@ abstract mixin class $TextStyleCopyWith<$Res>  {
   factory $TextStyleCopyWith(TextStyle value, $Res Function(TextStyle) _then) = _$TextStyleCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson) TextStyleType type, TextRange range, String? value
+ TextStyleType type, int start, int end, String? value
 });
 
 
-$TextRangeCopyWith<$Res> get range;
+
 
 }
 /// @nodoc
@@ -68,24 +65,16 @@ class _$TextStyleCopyWithImpl<$Res>
 
 /// Create a copy of TextStyle
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? range = null,Object? value = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? start = null,Object? end = null,Object? value = freezed,}) {
   return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TextStyleType,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
-as TextRange,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as TextStyleType,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as int,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as int,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
-/// Create a copy of TextStyle
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TextRangeCopyWith<$Res> get range {
-  
-  return $TextRangeCopyWith<$Res>(_self.range, (value) {
-    return _then(_self.copyWith(range: value));
-  });
-}
+
 }
 
 
@@ -167,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson)  TextStyleType type,  TextRange range,  String? value)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TextStyleType type,  int start,  int end,  String? value)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TextStyle() when $default != null:
-return $default(_that.type,_that.range,_that.value);case _:
+return $default(_that.type,_that.start,_that.end,_that.value);case _:
   return orElse();
 
 }
@@ -188,10 +177,10 @@ return $default(_that.type,_that.range,_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson)  TextStyleType type,  TextRange range,  String? value)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TextStyleType type,  int start,  int end,  String? value)  $default,) {final _that = this;
 switch (_that) {
 case _TextStyle():
-return $default(_that.type,_that.range,_that.value);case _:
+return $default(_that.type,_that.start,_that.end,_that.value);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +197,10 @@ return $default(_that.type,_that.range,_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson)  TextStyleType type,  TextRange range,  String? value)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TextStyleType type,  int start,  int end,  String? value)?  $default,) {final _that = this;
 switch (_that) {
 case _TextStyle() when $default != null:
-return $default(_that.type,_that.range,_that.value);case _:
+return $default(_that.type,_that.start,_that.end,_that.value);case _:
   return null;
 
 }
@@ -223,14 +212,12 @@ return $default(_that.type,_that.range,_that.value);case _:
 @JsonSerializable()
 
 class _TextStyle implements TextStyle {
-  const _TextStyle({@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson) required this.type, required this.range, this.value});
+  const _TextStyle({required this.type, required this.start, required this.end, this.value});
   factory _TextStyle.fromJson(Map<String, dynamic> json) => _$TextStyleFromJson(json);
 
-/// The type of style (bold, highlight, etc.)
-@override@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson) final  TextStyleType type;
-/// The range of text this style applies to
-@override final  TextRange range;
-/// Optional value for styles that need it (e.g., color: "#FF0000")
+@override final  TextStyleType type;
+@override final  int start;
+@override final  int end;
 @override final  String? value;
 
 /// Create a copy of TextStyle
@@ -246,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TextStyle&&(identical(other.type, type) || other.type == type)&&(identical(other.range, range) || other.range == range)&&(identical(other.value, value) || other.value == value));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TextStyle&&(identical(other.type, type) || other.type == type)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.value, value) || other.value == value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,range,value);
+int get hashCode => Object.hash(runtimeType,type,start,end,value);
 
 @override
 String toString() {
-  return 'TextStyle(type: $type, range: $range, value: $value)';
+  return 'TextStyle(type: $type, start: $start, end: $end, value: $value)';
 }
 
 
@@ -266,11 +253,11 @@ abstract mixin class _$TextStyleCopyWith<$Res> implements $TextStyleCopyWith<$Re
   factory _$TextStyleCopyWith(_TextStyle value, $Res Function(_TextStyle) _then) = __$TextStyleCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(fromJson: _typeFromJson, toJson: _typeToJson) TextStyleType type, TextRange range, String? value
+ TextStyleType type, int start, int end, String? value
 });
 
 
-@override $TextRangeCopyWith<$Res> get range;
+
 
 }
 /// @nodoc
@@ -283,25 +270,17 @@ class __$TextStyleCopyWithImpl<$Res>
 
 /// Create a copy of TextStyle
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? range = null,Object? value = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? start = null,Object? end = null,Object? value = freezed,}) {
   return _then(_TextStyle(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TextStyleType,range: null == range ? _self.range : range // ignore: cast_nullable_to_non_nullable
-as TextRange,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as TextStyleType,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as int,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as int,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
 
-/// Create a copy of TextStyle
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TextRangeCopyWith<$Res> get range {
-  
-  return $TextRangeCopyWith<$Res>(_self.range, (value) {
-    return _then(_self.copyWith(range: value));
-  });
-}
+
 }
 
 // dart format on

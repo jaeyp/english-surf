@@ -6,17 +6,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:english_surf/core/router/app_router.dart';
 import 'package:english_surf/core/theme/app_theme.dart';
 import 'package:english_surf/l10n/app_localizations.dart';
+import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart'; // 나중에 필요할 수 있으니 유지하거나 제거
 
 Future<void> main() async {
-  await runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: '.env');
-    runApp(const ProviderScope(child: MyApp()));
-  }, (error, stack) {
-    // TODO: Initialize crash reporting service here (e.g., Sentry, Firebase Crashlytics)
-    debugPrint('Error: $error');
-    debugPrint('Stack: $stack');
-  });
+  await runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await dotenv.load(fileName: '.env');
+      runApp(const ProviderScope(child: MyApp()));
+    },
+    (error, stack) {
+      // TODO: Initialize crash reporting service here (e.g., Sentry, Firebase Crashlytics)
+      debugPrint('Error: $error');
+      debugPrint('Stack: $stack');
+    },
+  );
 }
 
 class MyApp extends ConsumerWidget {

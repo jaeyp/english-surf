@@ -7,14 +7,25 @@ part of 'text_style.dart';
 // **************************************************************************
 
 _TextStyle _$TextStyleFromJson(Map<String, dynamic> json) => _TextStyle(
-  type: _typeFromJson(json['type'] as String),
-  range: TextRange.fromJson(json['range'] as Map<String, dynamic>),
+  type: $enumDecode(_$TextStyleTypeEnumMap, json['type']),
+  start: (json['start'] as num).toInt(),
+  end: (json['end'] as num).toInt(),
   value: json['value'] as String?,
 );
 
 Map<String, dynamic> _$TextStyleToJson(_TextStyle instance) =>
     <String, dynamic>{
-      'type': _typeToJson(instance.type),
-      'range': instance.range,
+      'type': instance.type,
+      'start': instance.start,
+      'end': instance.end,
       'value': instance.value,
     };
+
+const _$TextStyleTypeEnumMap = {
+  TextStyleType.bold: 'bold',
+  TextStyleType.highlight: 'highlight',
+  TextStyleType.underline: 'underline',
+  TextStyleType.strikethrough: 'strikethrough',
+  TextStyleType.italic: 'italic',
+  TextStyleType.color: 'color',
+};

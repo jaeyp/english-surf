@@ -18,7 +18,9 @@ class SentenceLocalDataSourceImpl implements SentenceLocalDataSource {
     final jsonString = await assetBundle.loadString(
       'assets/data/sentences.json',
     );
-    final List<dynamic> jsonList = jsonDecode(jsonString);
+    final dynamic decoded = jsonDecode(jsonString);
+    final Map<String, dynamic> jsonMap = Map<String, dynamic>.from(decoded);
+    final List<dynamic> jsonList = jsonMap['sentences'];
 
     return jsonList.map((json) => Sentence.fromJson(json)).toList();
   }
