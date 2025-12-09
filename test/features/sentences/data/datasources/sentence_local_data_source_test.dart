@@ -17,20 +17,22 @@ void main() {
   });
 
   final tJsonString = '''
-  [
-    {
-      "id": 1,
-      "order": 1,
-      "original": {
-        "text": "Hello world",
-        "styles": []
-      },
-      "translation": "안녕 세상",
-      "difficulty": "easy",
-      "examples": [],
-      "notes": ""
-    }
-  ]
+  {
+    "sentences": [
+      {
+        "id": 1,
+        "order": 1,
+        "original": {
+          "text": "Hello world",
+          "styles": []
+        },
+        "translation": "안녕 세상",
+        "difficulty": "easy",
+        "examples": [],
+        "notes": ""
+      }
+    ]
+  }
   ''';
 
   test('should return List<Sentence> from asset bundle', () async {
