@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$SentenceText {
 
 /// Plain text with all markup removed
- String get plainText;/// List of styles applied to the text
+ String get text;/// List of styles applied to the text
  List<TextStyle> get styles;
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +30,16 @@ $SentenceTextCopyWith<SentenceText> get copyWith => _$SentenceTextCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SentenceText&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other.styles, styles));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SentenceText&&(identical(other.text, text) || other.text == text)&&const DeepCollectionEquality().equals(other.styles, styles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,plainText,const DeepCollectionEquality().hash(styles));
+int get hashCode => Object.hash(runtimeType,text,const DeepCollectionEquality().hash(styles));
 
 @override
 String toString() {
-  return 'SentenceText(plainText: $plainText, styles: $styles)';
+  return 'SentenceText(text: $text, styles: $styles)';
 }
 
 
@@ -50,7 +50,7 @@ abstract mixin class $SentenceTextCopyWith<$Res>  {
   factory $SentenceTextCopyWith(SentenceText value, $Res Function(SentenceText) _then) = _$SentenceTextCopyWithImpl;
 @useResult
 $Res call({
- String plainText, List<TextStyle> styles
+ String text, List<TextStyle> styles
 });
 
 
@@ -67,9 +67,9 @@ class _$SentenceTextCopyWithImpl<$Res>
 
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? plainText = null,Object? styles = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? styles = null,}) {
   return _then(_self.copyWith(
-plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,styles: null == styles ? _self.styles : styles // ignore: cast_nullable_to_non_nullable
 as List<TextStyle>,
   ));
@@ -156,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String plainText,  List<TextStyle> styles)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  List<TextStyle> styles)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
-return $default(_that.plainText,_that.styles);case _:
+return $default(_that.text,_that.styles);case _:
   return orElse();
 
 }
@@ -177,10 +177,10 @@ return $default(_that.plainText,_that.styles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String plainText,  List<TextStyle> styles)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  List<TextStyle> styles)  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText():
-return $default(_that.plainText,_that.styles);case _:
+return $default(_that.text,_that.styles);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +197,10 @@ return $default(_that.plainText,_that.styles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String plainText,  List<TextStyle> styles)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  List<TextStyle> styles)?  $default,) {final _that = this;
 switch (_that) {
 case _SentenceText() when $default != null:
-return $default(_that.plainText,_that.styles);case _:
+return $default(_that.text,_that.styles);case _:
   return null;
 
 }
@@ -212,11 +212,11 @@ return $default(_that.plainText,_that.styles);case _:
 @JsonSerializable()
 
 class _SentenceText implements SentenceText {
-  const _SentenceText({required this.plainText, final  List<TextStyle> styles = const []}): _styles = styles;
+  const _SentenceText({required this.text, final  List<TextStyle> styles = const []}): _styles = styles;
   factory _SentenceText.fromJson(Map<String, dynamic> json) => _$SentenceTextFromJson(json);
 
 /// Plain text with all markup removed
-@override final  String plainText;
+@override final  String text;
 /// List of styles applied to the text
  final  List<TextStyle> _styles;
 /// List of styles applied to the text
@@ -240,16 +240,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SentenceText&&(identical(other.plainText, plainText) || other.plainText == plainText)&&const DeepCollectionEquality().equals(other._styles, _styles));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SentenceText&&(identical(other.text, text) || other.text == text)&&const DeepCollectionEquality().equals(other._styles, _styles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,plainText,const DeepCollectionEquality().hash(_styles));
+int get hashCode => Object.hash(runtimeType,text,const DeepCollectionEquality().hash(_styles));
 
 @override
 String toString() {
-  return 'SentenceText(plainText: $plainText, styles: $styles)';
+  return 'SentenceText(text: $text, styles: $styles)';
 }
 
 
@@ -260,7 +260,7 @@ abstract mixin class _$SentenceTextCopyWith<$Res> implements $SentenceTextCopyWi
   factory _$SentenceTextCopyWith(_SentenceText value, $Res Function(_SentenceText) _then) = __$SentenceTextCopyWithImpl;
 @override @useResult
 $Res call({
- String plainText, List<TextStyle> styles
+ String text, List<TextStyle> styles
 });
 
 
@@ -277,9 +277,9 @@ class __$SentenceTextCopyWithImpl<$Res>
 
 /// Create a copy of SentenceText
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? plainText = null,Object? styles = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? styles = null,}) {
   return _then(_SentenceText(
-plainText: null == plainText ? _self.plainText : plainText // ignore: cast_nullable_to_non_nullable
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,styles: null == styles ? _self._styles : styles // ignore: cast_nullable_to_non_nullable
 as List<TextStyle>,
   ));

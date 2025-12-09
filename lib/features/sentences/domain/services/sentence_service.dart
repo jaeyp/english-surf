@@ -91,7 +91,7 @@ class SentenceService {
   ///
   /// Throws [ArgumentError] if validation fails.
   void _validateSentence(Sentence sentence) {
-    if (sentence.sentence.plainText.trim().isEmpty) {
+    if (sentence.original.text.trim().isEmpty) {
       throw ArgumentError('Sentence text cannot be empty');
     }
     if (sentence.translation.trim().isEmpty) {

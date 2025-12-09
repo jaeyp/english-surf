@@ -14,8 +14,12 @@ abstract class Sentence with _$Sentence {
   const factory Sentence({
     required int id,
     required int order,
-    @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)
-    required SentenceText sentence,
+    @JsonKey(
+      name: 'original',
+      fromJson: _sentenceTextFromJson,
+      toJson: _sentenceTextToJson,
+    )
+    required SentenceText original,
     required String translation,
     @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)
     required Difficulty difficulty,
@@ -33,7 +37,7 @@ SentenceText _sentenceTextFromJson(dynamic json) {
     return SentenceText.fromJson(json);
   }
   // Fallback: empty
-  return const SentenceText(plainText: '');
+  return const SentenceText(text: '');
 }
 
 /// Helper function for JSON serialization of SentenceText.
@@ -43,3 +47,4 @@ Map<String, dynamic> _sentenceTextToJson(SentenceText sentenceText) {
 
 /// Helper function for JSON serialization of Difficulty enum.
 String _difficultyToJson(Difficulty difficulty) => difficulty.toJson();
+``````

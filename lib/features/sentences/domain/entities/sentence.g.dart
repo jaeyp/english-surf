@@ -9,7 +9,7 @@ part of 'sentence.dart';
 _Sentence _$SentenceFromJson(Map<String, dynamic> json) => _Sentence(
   id: (json['id'] as num).toInt(),
   order: (json['order'] as num).toInt(),
-  sentence: _sentenceTextFromJson(json['sentence']),
+  original: _sentenceTextFromJson(json['original']),
   translation: json['translation'] as String,
   difficulty: Difficulty.fromJson(json['difficulty'] as String),
   examples:
@@ -21,7 +21,7 @@ _Sentence _$SentenceFromJson(Map<String, dynamic> json) => _Sentence(
 Map<String, dynamic> _$SentenceToJson(_Sentence instance) => <String, dynamic>{
   'id': instance.id,
   'order': instance.order,
-  'sentence': _sentenceTextToJson(instance.sentence),
+  'original': _sentenceTextToJson(instance.original),
   'translation': instance.translation,
   'difficulty': _difficultyToJson(instance.difficulty),
   'examples': instance.examples,

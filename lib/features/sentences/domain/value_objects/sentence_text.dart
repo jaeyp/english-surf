@@ -22,7 +22,7 @@ part 'sentence_text.g.dart';
 abstract class SentenceText with _$SentenceText {
   const factory SentenceText({
     /// Plain text with all markup removed
-    required String plainText,
+    required String text,
 
     /// List of styles applied to the text
     @Default([]) List<TextStyle> styles,

@@ -3,7 +3,7 @@
     {
       "id": 1,
       "order": 1,
-      "sentence": {
+      "original": {
         "text": "Little give and go with 이재성 and 손흥민. He flicks it over to 이동경 and he back flicks it into the back of the net.",
         "styles": [
           {
@@ -26,7 +26,7 @@
     {
       "id": 3,
       "order": 2,
-      "sentence": {
+      "original": {
         "text": "There's a lot of stuff (that) you guys do, that could potentially ruin your trip.",
         "styles": [
           {
@@ -44,7 +44,7 @@
     {
       "id": 4,
       "order": 3,
-      "sentence": {
+      "original": {
         "text": "I'm not going to / won't let that happen.",
         "styles": [
           {
@@ -62,7 +62,7 @@
     {
       "id": 5,
       "order": 4,
-      "sentence": {
+      "original": {
         "text": "I'm going to talk you through the signs that your trip is going to end up being a에이 disaster so you can course correct and end up having the best visit to London ever.",
         "styles": [
           {
@@ -85,7 +85,7 @@
     {
       "id": 6,
       "order": 5,
-      "sentence": {
+      "original": {
         "text": "I was willing to talk to anyone.",
         "styles": [
           {
@@ -105,7 +105,7 @@
     {
       "id": 7,
       "order": 6,
-      "sentence": {
+      "original": {
         "text": "And we talked about feeling misunderstood, and that something was always off.",
         "styles": [
           {
@@ -123,7 +123,7 @@
     {
       "id": 8,
       "order": 7,
-      "sentence": {
+      "original": {
         "text": "My friend told me she was convinced she had a sleeping disorder, but it turned out she was just diagnosed by TikTok.",
         "styles": [
           {
@@ -144,7 +144,7 @@
     {
       "id": 9,
       "order": 8,
-      "sentence": {
+      "original": {
         "text": "It was just off of the pandemic and I had a family doctor, so I didn't really need to seek any outside help.",
         "styles": [
           {
@@ -165,7 +165,7 @@
     {
       "id": 10,
       "order": 9,
-      "sentence": {
+      "original": {
         "text": "So it was very solitary.",
         "styles": [
           {
@@ -183,7 +183,7 @@
     {
       "id": 11,
       "order": 10,
-      "sentence": {
+      "original": {
         "text": "Sorry, I couldn't help but overhear (you), but did you say you're looking for a good hairdresser?",
         "styles": [
           {
@@ -204,7 +204,7 @@
     {
       "id": 12,
       "order": 11,
-      "sentence": {
+      "original": {
         "text": "I know a great one.",
         "styles": [
           {
@@ -222,7 +222,7 @@
     {
       "id": 13,
       "order": 12,
-      "sentence": {
+      "original": {
         "text": "I was just there, and I have some great recommendations for you.",
         "styles": [
           {
@@ -240,7 +240,7 @@
     {
       "id": 14,
       "order": 13,
-      "sentence": {
+      "original": {
         "text": "The movie was interesting, to say the least.",
         "styles": [
           {
@@ -258,7 +258,7 @@
     {
       "id": 15,
       "order": 14,
-      "sentence": {
+      "original": {
         "text": "The kids were playing in the park by themselves while their parents watched from a bench.",
         "styles": [
           {
@@ -278,7 +278,7 @@
     {
       "id": 16,
       "order": 15,
-      "sentence": {
+      "original": {
         "text": "I'm so stressed out, I just want to get away from everything for a while.",
         "styles": [
           {
@@ -301,7 +301,7 @@
     {
       "id": 17,
       "order": 16,
-      "sentence": {
+      "original": {
         "text": "I felt completely out of place at the party because I didn't know anyone there.",
         "styles": [
           {
@@ -321,7 +321,7 @@
     {
       "id": 18,
       "order": 17,
-      "sentence": {
+      "original": {
         "text": "This is the last time we're talking about this, right?",
         "styles": []
       },
@@ -333,7 +333,7 @@
     {
       "id": 19,
       "order": 18,
-      "sentence": {
+      "original": {
         "text": "'cause I don't want to have to remind you to clean your room every single day.",
         "styles": [
           {
@@ -359,7 +359,7 @@
     {
       "id": 20,
       "order": 19,
-      "sentence": {
+      "original": {
         "text": "I'll get a pint of sea salt, goat milk, and caramel, please.",
         "styles": [
           {
@@ -379,7 +379,7 @@
     {
       "id": 21,
       "order": 20,
-      "sentence": {
+      "original": {
         "text": "My car could use a wash. It's all muddied up.",
         "styles": [
           {
@@ -405,7 +405,7 @@
     {
       "id": 22,
       "order": 21,
-      "sentence": {
+      "original": {
         "text": "I could really use a strong cup of coffee right now, I'm so sleepy.",
         "styles": [
           {
@@ -425,7 +425,7 @@
     {
       "id": 23,
       "order": 22,
-      "sentence": {
+      "original": {
         "text": "I'm down for some pizza right now.",
         "styles": [
           {
@@ -446,7 +446,7 @@
     {
       "id": 24,
       "order": 23,
-      "sentence": {
+      "original": {
         "text": "I've got my alarm set for 7 a.m.",
         "styles": [
           {
@@ -468,7 +468,7 @@
     {
       "id": 25,
       "order": 24,
-      "sentence": {
+      "original": {
         "text": "The alarm clock went off at 6 a.m., so I had to wake up.",
         "styles": [
           {
@@ -491,7 +491,7 @@
     {
       "id": 26,
       "order": 25,
-      "sentence": {
+      "original": {
         "text": "I put it on for six.",
         "styles": [
           {
@@ -511,7 +511,7 @@
     {
       "id": 27,
       "order": 26,
-      "sentence": {
+      "original": {
         "text": "The power went out for an hour during the storm.",
         "styles": [
           {
@@ -531,7 +531,7 @@
     {
       "id": 28,
       "order": 27,
-      "sentence": {
+      "original": {
         "text": "Did you hear that Sarah and Tom are finally going out?",
         "styles": [
           {
@@ -551,7 +551,7 @@
     {
       "id": 29,
       "order": 28,
-      "sentence": {
+      "original": {
         "text": "You should probably throw out that milk; it smells like it's gone bad / spoiled.",
         "styles": [
           {
@@ -574,7 +574,7 @@
     {
       "id": 30,
       "order": 29,
-      "sentence": {
+      "original": {
         "text": "She kept cutting me off every time I tried to speak.",
         "styles": [
           {
@@ -594,7 +594,7 @@
     {
       "id": 31,
       "order": 30,
-      "sentence": {
+      "original": {
         "text": "Even if the most important information is in the second part of the sentence-the part about the stranger cutting in-it's much more natural to set the scene/background first, then the event.",
         "styles": [
           {
@@ -615,7 +615,7 @@
     {
       "id": 32,
       "order": 31,
-      "sentence": {
+      "original": {
         "text": "Ugh, I can't believe I just spilled my coffee all over my new shirt. I feel so dumb.",
         "styles": [
           {
@@ -638,7 +638,7 @@
     {
       "id": 33,
       "order": 32,
-      "sentence": {
+      "original": {
         "text": "Oh, don't worry about it at all. If it makes you feel better, I walked out of my house this morning with my shirt on backward.",
         "styles": [
           {
@@ -669,7 +669,7 @@
     {
       "id": 34,
       "order": 33,
-      "sentence": {
+      "original": {
         "text": "We went to the beach after you took me to that one beach, I kept going back.",
         "styles": [
           {
@@ -694,7 +694,7 @@
     {
       "id": 35,
       "order": 34,
-      "sentence": {
+      "original": {
         "text": "I'm pretty full, so I'm going to pass on dessert tonight.",
         "styles": [
           {
@@ -714,7 +714,7 @@
     {
       "id": 36,
       "order": 35,
-      "sentence": {
+      "original": {
         "text": "You can leave out the fresh herbs if you don't have any.",
         "styles": [
           {
@@ -735,7 +735,7 @@
     {
       "id": 37,
       "order": 36,
-      "sentence": {
+      "original": {
         "text": "We missed out on the early bird special at the restaurant because we were running late.",
         "styles": [
           {
@@ -755,7 +755,7 @@
     {
       "id": 38,
       "order": 37,
-      "sentence": {
+      "original": {
         "text": "We had to wait until the fog cleared up / lifted to see the mountain view.",
         "styles": [
           {
@@ -777,7 +777,7 @@
     {
       "id": 39,
       "order": 38,
-      "sentence": {
+      "original": {
         "text": "The whole play was a little too serious for me, but the main character's super campy monologues saved it.",
         "styles": [
           {
@@ -795,7 +795,7 @@
     {
       "id": 40,
       "order": 39,
-      "sentence": {
+      "original": {
         "text": "The dessert is just so good. I'm going back for seconds / I'm getting seconds.",
         "styles": [
           {
@@ -818,7 +818,7 @@
     {
       "id": 41,
       "order": 40,
-      "sentence": {
+      "original": {
         "text": "I asked for a small portion of the pasta. Too much hurts my stomach.",
         "styles": [
           {
@@ -841,7 +841,7 @@
     {
       "id": 42,
       "order": 41,
-      "sentence": {
+      "original": {
         "text": "The majority of the homes were built throughout the 70s and the 80s with the large lots.",
         "styles": [
           {
@@ -861,7 +861,7 @@
     {
       "id": 43,
       "order": 42,
-      "sentence": {
+      "original": {
         "text": "I wouldn't say they are typical, but the fact that they happen at all is still a problem.",
         "styles": [
           {
@@ -882,7 +882,7 @@
     {
       "id": 44,
       "order": 43,
-      "sentence": {
+      "original": {
         "text": "The new cafe is good, but I wouldn't (go so far as to) say it's the best in the city.",
         "styles": [
           {
@@ -902,7 +902,7 @@
     {
       "id": 45,
       "order": 44,
-      "sentence": {
+      "original": {
         "text": "I can't believe you went that far! Did you really tell your boss that he was wrong?",
         "styles": [
           {
@@ -922,7 +922,7 @@
     {
       "id": 46,
       "order": 45,
-      "sentence": {
+      "original": {
         "text": "That's why we focus (a lot of our attention in the work that we do) on helping employers understand how we can make those positive changes in those cultures.",
         "styles": [
           {
@@ -948,7 +948,7 @@
     {
       "id": 47,
       "order": 46,
-      "sentence": {
+      "original": {
         "text": "I find myself checking my phone a lot as I go through my day.",
         "styles": [
           {
@@ -974,7 +974,7 @@
     {
       "id": 48,
       "order": 47,
-      "sentence": {
+      "original": {
         "text": "You'll have plenty of time for this during your day.",
         "styles": [
           {
@@ -999,7 +999,7 @@
     {
       "id": 49,
       "order": 48,
-      "sentence": {
+      "original": {
         "text": "(뜯어낸 벽안쪽을 보면서) This is plaster seeping/coming through, but you can see there's no signs of mold or anything like that.",
         "styles": [
           {
@@ -1025,7 +1025,7 @@
     {
       "id": 50,
       "order": 49,
-      "sentence": {
+      "original": {
         "text": "My dad's going to come over.",
         "styles": [
           {
@@ -1046,7 +1046,7 @@
     {
       "id": 51,
       "order": 50,
-      "sentence": {
+      "original": {
         "text": "But he's also going to help me with this big picture window right here.",
         "styles": [
           {
@@ -1067,7 +1067,7 @@
     {
       "id": 52,
       "order": 51,
-      "sentence": {
+      "original": {
         "text": "Here's the wallpaper I ordered for the bathroom. It's floral and it has a black backdrop which I think will go well with the claw foot tub and the vanity.",
         "styles": [
           {
@@ -1097,7 +1097,7 @@
     {
       "id": 53,
       "order": 52,
-      "sentence": {
+      "original": {
         "text": "So, I'll put all this up all the way around the bathroom aside from on the ceiling.",
         "styles": [
           {
@@ -1123,7 +1123,7 @@
     {
       "id": 54,
       "order": 53,
-      "sentence": {
+      "original": {
         "text": "We can put you up for the night if you miss the last bus.",
         "styles": [
           {
@@ -1141,7 +1141,7 @@
     {
       "id": 55,
       "order": 54,
-      "sentence": {
+      "original": {
         "text": "Now I can tell. I'm slowly getting the hang of the subtle differences between I get it and I got it.",
         "styles": [
           {
@@ -1159,7 +1159,7 @@
     {
       "id": 56,
       "order": 55,
-      "sentence": {
+      "original": {
         "text": "Do you guys take old tires for disposal? Remove the tires from the rims and take the rubber part of the tire for disposal.",
         "styles": [
           {
@@ -1191,7 +1191,7 @@
     {
       "id": 57,
       "order": 56,
-      "sentence": {
+      "original": {
         "text": "How much would it cost to get my wheel covers swapped out and dispose of the old tires?",
         "styles": [
           {
@@ -1212,7 +1212,7 @@
     {
       "id": 58,
       "order": 57,
-      "sentence": {
+      "original": {
         "text": "Can you please check the battery and engine oil as well? It's been a while since I replaced them.",
         "styles": [
           {
@@ -1238,7 +1238,7 @@
     {
       "id": 59,
       "order": 58,
-      "sentence": {
+      "original": {
         "text": "I can't be bothered to get dressed and head out into the cold.",
         "styles": [
           {
@@ -1261,7 +1261,7 @@
     {
       "id": 60,
       "order": 59,
-      "sentence": {
+      "original": {
         "text": "I'd rather he didn't know.",
         "styles": [
           {
@@ -1281,7 +1281,7 @@
     {
       "id": 61,
       "order": 60,
-      "sentence": {
+      "original": {
         "text": "I don't want to mess up the surprise.",
         "styles": [
           {
@@ -1299,7 +1299,7 @@
     {
       "id": 62,
       "order": 61,
-      "sentence": {
+      "original": {
         "text": "Look, I'd rather not (say).",
         "styles": [
           {
@@ -1319,7 +1319,7 @@
     {
       "id": 63,
       "order": 62,
-      "sentence": {
+      "original": {
         "text": "This is how I know my mother best.",
         "styles": [
           {
@@ -1342,7 +1342,7 @@
     {
       "id": 64,
       "order": 63,
-      "sentence": {
+      "original": {
         "text": "Hey, I know it's only two minutes before close, but can I place an order?",
         "styles": [
           {
@@ -1365,7 +1365,7 @@
     {
       "id": 65,
       "order": 64,
-      "sentence": {
+      "original": {
         "text": "I just got the package (that) the tracking said (it) was lost last week! I'm not going to complain; better late than never.",
         "styles": [
           {
@@ -1385,7 +1385,7 @@
     {
       "id": 66,
       "order": 65,
-      "sentence": {
+      "original": {
         "text": "We were going to go hiking, but I didn't feel up to it after staying up so late last night.",
         "styles": [
           {
@@ -1407,7 +1407,7 @@
     {
       "id": 67,
       "order": 66,
-      "sentence": {
+      "original": {
         "text": "My sister's coming to pick us up, so we wouldn't have to worry about driving tonight.",
         "styles": [
           {
@@ -1433,7 +1433,7 @@
     {
       "id": 68,
       "order": 67,
-      "sentence": {
+      "original": {
         "text": "It's so nice not to have to park my SUV on the road.",
         "styles": [
           {
@@ -1453,7 +1453,7 @@
     {
       "id": 69,
       "order": 68,
-      "sentence": {
+      "original": {
         "text": "We have the frame (all) built out for this area right here.",
         "styles": [
           {
@@ -1473,7 +1473,7 @@
     {
       "id": 70,
       "order": 69,
-      "sentence": {
+      "original": {
         "text": "My windshield washer fluid is running out too fast. It's going down too fast.",
         "styles": [
           {
@@ -1496,7 +1496,7 @@
     {
       "id": 71,
       "order": 70,
-      "sentence": {
+      "original": {
         "text": "We have so much stuff piling up in the garage that we can't find anything.",
         "styles": [
           {
@@ -1516,7 +1516,7 @@
     {
       "id": 72,
       "order": 71,
-      "sentence": {
+      "original": {
         "text": "He was disappointed, but he quickly brushed the failure off and started preparing for the next competition.",
         "styles": [
           {
@@ -1540,7 +1540,7 @@
     {
       "id": 73,
       "order": 72,
-      "sentence": {
+      "original": {
         "text": "I think the comments kind of eliminate/nullify each other, right?",
         "styles": [
           {
@@ -1558,7 +1558,7 @@
     {
       "id": 74,
       "order": 73,
-      "sentence": {
+      "original": {
         "text": "Because the complaint is MLS defending, but as you just said, some could go in a top five league and still have success.",
         "styles": [
           {
@@ -1579,7 +1579,7 @@
     {
       "id": 75,
       "order": 74,
-      "sentence": {
+      "original": {
         "text": "It's not as if we haven't tried to fix the car; we took it to three different mechanics already.",
         "styles": [
           {
@@ -1606,7 +1606,7 @@
     {
       "id": 76,
       "order": 75,
-      "sentence": {
+      "original": {
         "text": "Hey, chill out! The bus will be here in a minute.",
         "styles": [
           {
@@ -1624,7 +1624,7 @@
     {
       "id": 77,
       "order": 76,
-      "sentence": {
+      "original": {
         "text": "We need someone who can hit the ground running.",
         "styles": [
           {
@@ -1642,7 +1642,7 @@
     {
       "id": 78,
       "order": 77,
-      "sentence": {
+      "original": {
         "text": "I dropped off this morning for a tire change. I'm just calling to check on the progress.",
         "styles": [
           {
@@ -1668,7 +1668,7 @@
     {
       "id": 79,
       "order": 78,
-      "sentence": {
+      "original": {
         "text": "I just stopped by on my way.",
         "styles": [
           {
@@ -1688,7 +1688,7 @@
     {
       "id": 80,
       "order": 79,
-      "sentence": {
+      "original": {
         "text": "How's it coming (along)? Is it almost done?",
         "styles": [
           {
@@ -1708,7 +1708,7 @@
     {
       "id": 81,
       "order": 80,
-      "sentence": {
+      "original": {
         "text": "Can you scrape out the coconut meat for me? / Can you scoop out the flesh for me?",
         "styles": [
           {
@@ -1734,7 +1734,7 @@
     {
       "id": 82,
       "order": 81,
-      "sentence": {
+      "original": {
         "text": "When we went camping, we just ate off the pot we cooked the stew in.",
         "styles": [
           {
@@ -1755,7 +1755,7 @@
     {
       "id": 83,
       "order": 82,
-      "sentence": {
+      "original": {
         "text": "I gotta go run to burn/work off all the pizza I ate last night.",
         "styles": [
           {
@@ -1773,7 +1773,7 @@
     {
       "id": 84,
       "order": 83,
-      "sentence": {
+      "original": {
         "text": "This hotel really spoiled me with their service. Nothing else seems good enough anymore.",
         "styles": [
           {
@@ -1796,7 +1796,7 @@
     {
       "id": 85,
       "order": 84,
-      "sentence": {
+      "original": {
         "text": "I get to travel for work, which is awesome.",
         "styles": [
           {
@@ -1821,7 +1821,7 @@
     {
       "id": 86,
       "order": 85,
-      "sentence": {
+      "original": {
         "text": "She was worried about presenting in English, but she absolutely pulled it off.",
         "styles": [
           {
@@ -1842,7 +1842,7 @@
     {
       "id": 87,
       "order": 86,
-      "sentence": {
+      "original": {
         "text": "We need to pull off the highway at the next exit for gas.",
         "styles": [
           {
@@ -1867,7 +1867,7 @@
     {
       "id": 88,
       "order": 87,
-      "sentence": {
+      "original": {
         "text": "This type of thing used to throw me, but I'm older now, I don't let it get to me so much.",
         "styles": [
           {
@@ -1892,7 +1892,7 @@
     {
       "id": 89,
       "order": 88,
-      "sentence": {
+      "original": {
         "text": "Do I make myself clear?",
         "styles": [
           {
@@ -1913,7 +1913,7 @@
     {
       "id": 90,
       "order": 89,
-      "sentence": {
+      "original": {
         "text": "How has your commute been lately?",
         "styles": [
           {
@@ -1935,7 +1935,7 @@
     {
       "id": 91,
       "order": 90,
-      "sentence": {
+      "original": {
         "text": "I'm happy with our decision, but I want to leave the floor open in case anyone has any objections.",
         "styles": [
           {
@@ -1955,7 +1955,7 @@
     {
       "id": 92,
       "order": 91,
-      "sentence": {
+      "original": {
         "text": "Her diamond necklace for the casual dinner party felt a little over the top.",
         "styles": [
           {
@@ -1973,7 +1973,7 @@
     {
       "id": 93,
       "order": 92,
-      "sentence": {
+      "original": {
         "text": "Only immediate family was present at the small, intimate wedding ceremony.",
         "styles": [
           {
@@ -1996,7 +1996,7 @@
     {
       "id": 94,
       "order": 93,
-      "sentence": {
+      "original": {
         "text": "So that's what was going on all along!",
         "styles": [
           {
@@ -2017,7 +2017,7 @@
     {
       "id": 95,
       "order": 94,
-      "sentence": {
+      "original": {
         "text": "I accidentally bleached my faded jeans even more.",
         "styles": [
           {
@@ -2044,7 +2044,7 @@
     {
       "id": 96,
       "order": 95,
-      "sentence": {
+      "original": {
         "text": "He changes into his overalls before he clocks in for his shift at the factory.",
         "styles": [
           {
@@ -2069,7 +2069,7 @@
     {
       "id": 97,
       "order": 96,
-      "sentence": {
+      "original": {
         "text": "I packed/put in/threw in five pairs of socks when I was packing.",
         "styles": [
           {
@@ -2087,7 +2087,7 @@
     {
       "id": 98,
       "order": 97,
-      "sentence": {
+      "original": {
         "text": "I need a new pair of glasses. - I gotta get new glasses.",
         "styles": [
           {
@@ -2105,7 +2105,7 @@
     {
       "id": 99,
       "order": 98,
-      "sentence": {
+      "original": {
         "text": "I tried to convince Mr. and Mrs. Jefferson to just give me the money they would've spent on my meal instead, because there was a lot I could do with that kind of cash.",
         "styles": [
           {
@@ -2132,7 +2132,7 @@
     {
       "id": 100,
       "order": 99,
-      "sentence": {
+      "original": {
         "text": "Honestly I just loved the opportunity to go down there and pitch myself, and get out of my comfort zone.",
         "styles": [
           {
@@ -2158,7 +2158,7 @@
     {
       "id": 101,
       "order": 100,
-      "sentence": {
+      "original": {
         "text": "I just started here. I wasn't really expecting to get the 30 million dollar listing.",
         "styles": [
           {
@@ -2178,7 +2178,7 @@
     {
       "id": 102,
       "order": 101,
-      "sentence": {
+      "original": {
         "text": "He worked on that project for six months straight without a break. Did he get a promotion?",
         "styles": [
           {
@@ -2198,7 +2198,7 @@
     {
       "id": 103,
       "order": 102,
-      "sentence": {
+      "original": {
         "text": "The new intern is eager to learn, but honestly, he needs a whole lot of supervision right now.",
         "styles": [
           {
@@ -2221,7 +2221,7 @@
     {
       "id": 104,
       "order": 103,
-      "sentence": {
+      "original": {
         "text": "I was wearing heels all day, but I finally changed into some reasonable shoes for the walk home.",
         "styles": [
           {
@@ -2242,7 +2242,7 @@
     {
       "id": 105,
       "order": 104,
-      "sentence": {
+      "original": {
         "text": "I'm secure in my sense of style, so I dress the way I like without worrying about others' opinions.",
         "styles": [
           {
@@ -2269,7 +2269,7 @@
     {
       "id": 106,
       "order": 105,
-      "sentence": {
+      "original": {
         "text": "He's really nervous about the presentation, but he's trying to put on a front that he's totally confident.",
         "styles": [
           {
@@ -2292,7 +2292,7 @@
     {
       "id": 107,
       "order": 106,
-      "sentence": {
+      "original": {
         "text": "In Mount Druitt, there are a lot of social issues. There's a lot of cyclical poverty.",
         "styles": [
           {
@@ -2312,7 +2312,7 @@
     {
       "id": 108,
       "order": 107,
-      "sentence": {
+      "original": {
         "text": "I had no friggin clue, zero clue on how to handle any of the behaviours already that were happening in this classroom, let alone a student with these complex needs.",
         "styles": [
           {
@@ -2335,7 +2335,7 @@
     {
       "id": 109,
       "order": 108,
-      "sentence": {
+      "original": {
         "text": "Being generous comes back to you.",
         "styles": [
           {
@@ -2358,7 +2358,7 @@
     {
       "id": 110,
       "order": 109,
-      "sentence": {
+      "original": {
         "text": "Actually, we went to a farmer's market a few weekends ago and just parked nearby, and we got sideswiped.",
         "styles": [
           {
@@ -2383,7 +2383,7 @@
     {
       "id": 111,
       "order": 110,
-      "sentence": {
+      "original": {
         "text": "He's going to be so bummed when he finds out they finished the pizza without him.",
         "styles": [
           {
@@ -2409,7 +2409,7 @@
     {
       "id": 112,
       "order": 111,
-      "sentence": {
+      "original": {
         "text": "I'm really happy this happened for her.",
         "styles": [
           {
@@ -2429,7 +2429,7 @@
     {
       "id": 113,
       "order": 112,
-      "sentence": {
+      "original": {
         "text": "Even after the controversial verdict, the defendant exhibited dignity and thanked the court for its time.",
         "styles": [
           {
@@ -2454,7 +2454,7 @@
     {
       "id": 114,
       "order": 113,
-      "sentence": {
+      "original": {
         "text": "I grew up in the country/city, in Canada.",
         "styles": [
           {
@@ -2472,7 +2472,7 @@
     {
       "id": 115,
       "order": 114,
-      "sentence": {
+      "original": {
         "text": "If you're a prospective buyer, you got a couple kids, want to turn it into your family compound.",
         "styles": [
           {
@@ -2498,7 +2498,7 @@
     {
       "id": 116,
       "order": 115,
-      "sentence": {
+      "original": {
         "text": "Yeah, I think, not even for just a family but for anyone, it's the lack of privacy happening.",
         "styles": [
           {
@@ -2516,7 +2516,7 @@
     {
       "id": 117,
       "order": 116,
-      "sentence": {
+      "original": {
         "text": "There's something I'll put on your plate, important to me and this property.",
         "styles": [
           {
@@ -2538,7 +2538,7 @@
     {
       "id": 118,
       "order": 117,
-      "sentence": {
+      "original": {
         "text": "The landscaping here is particularly important.",
         "styles": [
           {
@@ -2558,7 +2558,7 @@
     {
       "id": 119,
       "order": 118,
-      "sentence": {
+      "original": {
         "text": "I'm gonna show you downstairs. Don't trip on this wire. Watch your head here.",
         "styles": [
           {
@@ -2583,7 +2583,7 @@
     {
       "id": 120,
       "order": 119,
-      "sentence": {
+      "original": {
         "text": "Now, all I need is for my phone to be dead when I finally find it.",
         "styles": [
           {
@@ -2608,7 +2608,7 @@
     {
       "id": 121,
       "order": 120,
-      "sentence": {
+      "original": {
         "text": "Did you see anything strange at all?",
         "styles": [
           {
@@ -2626,7 +2626,7 @@
     {
       "id": 122,
       "order": 121,
-      "sentence": {
+      "original": {
         "text": "I was already near the supermarket, so I figured I might as well grab the groceries while I was out.",
         "styles": [
           {
@@ -2646,7 +2646,7 @@
     {
       "id": 123,
       "order": 122,
-      "sentence": {
+      "original": {
         "text": "When you're traveling, sometimes it's best to just give in to the vibes of the city and see where the day takes you.",
         "styles": [
           {
@@ -2671,7 +2671,7 @@
     {
       "id": 124,
       "order": 123,
-      "sentence": {
+      "original": {
         "text": "That couldn't have been easy for you to handle all that pressure alone.",
         "styles": [
           {
@@ -2691,7 +2691,7 @@
     {
       "id": 125,
       "order": 124,
-      "sentence": {
+      "original": {
         "text": "When the new policy was announced, many employees were left scratching their heads about how it would actually be implemented.",
         "styles": [
           {
@@ -2711,7 +2711,7 @@
     {
       "id": 126,
       "order": 125,
-      "sentence": {
+      "original": {
         "text": "The thing that really sucks/stinks is that the vacation was canceled at the last minute.",
         "styles": [
           {
@@ -2737,7 +2737,7 @@
     {
       "id": 127,
       "order": 126,
-      "sentence": {
+      "original": {
         "text": "She did most of the work, but her boss got all the credit for the successful presentation.",
         "styles": [
           {
@@ -2758,7 +2758,7 @@
     {
       "id": 128,
       "order": 127,
-      "sentence": {
+      "original": {
         "text": "He dismissed the first two suspects, so that leaves the third person as the only possibility.",
         "styles": [
           {
@@ -2781,7 +2781,7 @@
     {
       "id": 129,
       "order": 128,
-      "sentence": {
+      "original": {
         "text": "The students were scrambling for the last few spots in the popular elective course.",
         "styles": [
           {
@@ -2801,7 +2801,7 @@
     {
       "id": 130,
       "order": 129,
-      "sentence": {
+      "original": {
         "text": "The best I can figure is that he left the office around 3 PM yesterday, based on the security footage.",
         "styles": [
           {
@@ -2821,7 +2821,7 @@
     {
       "id": 131,
       "order": 130,
-      "sentence": {
+      "original": {
         "text": "The manager is tight with the owner, so be careful what you say around him.",
         "styles": [
           {
@@ -2846,7 +2846,7 @@
     {
       "id": 132,
       "order": 131,
-      "sentence": {
+      "original": {
         "text": "I haven't been applying myself enough to my fitness goals lately, so I need to step it up.",
         "styles": [
           {
@@ -2872,7 +2872,7 @@
     {
       "id": 133,
       "order": 132,
-      "sentence": {
+      "original": {
         "text": "I can't stand waiting in long lines at the grocery store on the weekends.",
         "styles": [
           {
@@ -2894,7 +2894,7 @@
     {
       "id": 134,
       "order": 133,
-      "sentence": {
+      "original": {
         "text": "They should be landing at the airport right about now.",
         "styles": [
           {

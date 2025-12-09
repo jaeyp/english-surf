@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Sentence {
 
- int get id; int get order;@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText get sentence; String get translation;@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty get difficulty; List<String> get examples; String get notes;
+ int get id; int get order;@JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText get original; String get translation;@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty get difficulty; List<String> get examples; String get notes;
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SentenceCopyWith<Sentence> get copyWith => _$SentenceCopyWithImpl<Sentence>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.order, order) || other.order == order)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other.examples, examples)&&(identical(other.notes, notes) || other.notes == notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.order, order) || other.order == order)&&(identical(other.original, original) || other.original == original)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other.examples, examples)&&(identical(other.notes, notes) || other.notes == notes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,order,sentence,translation,difficulty,const DeepCollectionEquality().hash(examples),notes);
+int get hashCode => Object.hash(runtimeType,id,order,original,translation,difficulty,const DeepCollectionEquality().hash(examples),notes);
 
 @override
 String toString() {
-  return 'Sentence(id: $id, order: $order, sentence: $sentence, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
+  return 'Sentence(id: $id, order: $order, original: $original, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $SentenceCopyWith<$Res>  {
   factory $SentenceCopyWith(Sentence value, $Res Function(Sentence) _then) = _$SentenceCopyWithImpl;
 @useResult
 $Res call({
- int id, int order,@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
+ int id, int order,@JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText original, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
-$SentenceTextCopyWith<$Res> get sentence;
+$SentenceTextCopyWith<$Res> get original;
 
 }
 /// @nodoc
@@ -65,11 +65,11 @@ class _$SentenceCopyWithImpl<$Res>
 
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? order = null,Object? sentence = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? order = null,Object? original = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
-as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
+as int,original: null == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
 as SentenceText,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as Difficulty,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
@@ -81,10 +81,10 @@ as String,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$SentenceTextCopyWith<$Res> get sentence {
+$SentenceTextCopyWith<$Res> get original {
   
-  return $SentenceTextCopyWith<$Res>(_self.sentence, (value) {
-    return _then(_self.copyWith(sentence: value));
+  return $SentenceTextCopyWith<$Res>(_self.original, (value) {
+    return _then(_self.copyWith(original: value));
   });
 }
 }
@@ -168,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText original,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
-return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.order,_that.original,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   return orElse();
 
 }
@@ -189,10 +189,10 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int order, @JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText original,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)  $default,) {final _that = this;
 switch (_that) {
 case _Sentence():
-return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.order,_that.original,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +209,10 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText sentence,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int order, @JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson)  SentenceText original,  String translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)  Difficulty difficulty,  List<String> examples,  String notes)?  $default,) {final _that = this;
 switch (_that) {
 case _Sentence() when $default != null:
-return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
+return $default(_that.id,_that.order,_that.original,_that.translation,_that.difficulty,_that.examples,_that.notes);case _:
   return null;
 
 }
@@ -224,12 +224,12 @@ return $default(_that.id,_that.order,_that.sentence,_that.translation,_that.diff
 @JsonSerializable()
 
 class _Sentence implements Sentence {
-  const _Sentence({required this.id, required this.order, @JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) required this.sentence, required this.translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
+  const _Sentence({required this.id, required this.order, @JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) required this.original, required this.translation, @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) required this.difficulty, final  List<String> examples = const [], this.notes = ''}): _examples = examples;
   factory _Sentence.fromJson(Map<String, dynamic> json) => _$SentenceFromJson(json);
 
 @override final  int id;
 @override final  int order;
-@override@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) final  SentenceText sentence;
+@override@JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) final  SentenceText original;
 @override final  String translation;
 @override@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) final  Difficulty difficulty;
  final  List<String> _examples;
@@ -254,16 +254,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.order, order) || other.order == order)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other._examples, _examples)&&(identical(other.notes, notes) || other.notes == notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Sentence&&(identical(other.id, id) || other.id == id)&&(identical(other.order, order) || other.order == order)&&(identical(other.original, original) || other.original == original)&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&const DeepCollectionEquality().equals(other._examples, _examples)&&(identical(other.notes, notes) || other.notes == notes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,order,sentence,translation,difficulty,const DeepCollectionEquality().hash(_examples),notes);
+int get hashCode => Object.hash(runtimeType,id,order,original,translation,difficulty,const DeepCollectionEquality().hash(_examples),notes);
 
 @override
 String toString() {
-  return 'Sentence(id: $id, order: $order, sentence: $sentence, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
+  return 'Sentence(id: $id, order: $order, original: $original, translation: $translation, difficulty: $difficulty, examples: $examples, notes: $notes)';
 }
 
 
@@ -274,11 +274,11 @@ abstract mixin class _$SentenceCopyWith<$Res> implements $SentenceCopyWith<$Res>
   factory _$SentenceCopyWith(_Sentence value, $Res Function(_Sentence) _then) = __$SentenceCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int order,@JsonKey(fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText sentence, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
+ int id, int order,@JsonKey(name: 'original', fromJson: _sentenceTextFromJson, toJson: _sentenceTextToJson) SentenceText original, String translation,@JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson) Difficulty difficulty, List<String> examples, String notes
 });
 
 
-@override $SentenceTextCopyWith<$Res> get sentence;
+@override $SentenceTextCopyWith<$Res> get original;
 
 }
 /// @nodoc
@@ -291,11 +291,11 @@ class __$SentenceCopyWithImpl<$Res>
 
 /// Create a copy of Sentence
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? order = null,Object? sentence = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? order = null,Object? original = null,Object? translation = null,Object? difficulty = null,Object? examples = null,Object? notes = null,}) {
   return _then(_Sentence(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
-as int,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
+as int,original: null == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
 as SentenceText,translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
 as Difficulty,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
@@ -308,10 +308,10 @@ as String,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$SentenceTextCopyWith<$Res> get sentence {
+$SentenceTextCopyWith<$Res> get original {
   
-  return $SentenceTextCopyWith<$Res>(_self.sentence, (value) {
-    return _then(_self.copyWith(sentence: value));
+  return $SentenceTextCopyWith<$Res>(_self.original, (value) {
+    return _then(_self.copyWith(original: value));
   });
 }
 }
