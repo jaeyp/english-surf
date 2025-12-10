@@ -32,7 +32,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: goRouter,
-      title: 'Flutter Boilerplate',
+      title: 'English Surf',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       localizationsDelegates: const [
