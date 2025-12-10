@@ -1,0 +1,351 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'sentence_providers.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceList
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The UI needs a way to fetch and display the list of sentences from the data layer
+/// without directly interacting with the Repository. It also needs to handle
+/// asynchronous states like loading, error, and success automatically.
+///
+/// **Role:**
+/// Acts as the source of truth for the raw sentence data. It communicates with
+/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+///
+/// **Advantages:**
+/// - Decouples the UI from the Data Layer.
+/// - Automatically handles async loading and error states.
+/// - Caches the data, preventing unnecessary network/disk requests.
+///
+
+@ProviderFor(SentenceList)
+const sentenceListProvider = SentenceListProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceList
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The UI needs a way to fetch and display the list of sentences from the data layer
+/// without directly interacting with the Repository. It also needs to handle
+/// asynchronous states like loading, error, and success automatically.
+///
+/// **Role:**
+/// Acts as the source of truth for the raw sentence data. It communicates with
+/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+///
+/// **Advantages:**
+/// - Decouples the UI from the Data Layer.
+/// - Automatically handles async loading and error states.
+/// - Caches the data, preventing unnecessary network/disk requests.
+///
+final class SentenceListProvider
+    extends $AsyncNotifierProvider<SentenceList, List<Sentence>> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: SentenceList
+  /// ----------------------------------------------------------------------------
+  ///
+  /// **Why it is needed:**
+  /// The UI needs a way to fetch and display the list of sentences from the data layer
+  /// without directly interacting with the Repository. It also needs to handle
+  /// asynchronous states like loading, error, and success automatically.
+  ///
+  /// **Role:**
+  /// Acts as the source of truth for the raw sentence data. It communicates with
+  /// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+  ///
+  /// **Advantages:**
+  /// - Decouples the UI from the Data Layer.
+  /// - Automatically handles async loading and error states.
+  /// - Caches the data, preventing unnecessary network/disk requests.
+  ///
+  const SentenceListProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sentenceListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sentenceListHash();
+
+  @$internal
+  @override
+  SentenceList create() => SentenceList();
+}
+
+String _$sentenceListHash() => r'fe1f4e2ddcf2001560eee98a483781ec96c86e09';
+
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceList
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The UI needs a way to fetch and display the list of sentences from the data layer
+/// without directly interacting with the Repository. It also needs to handle
+/// asynchronous states like loading, error, and success automatically.
+///
+/// **Role:**
+/// Acts as the source of truth for the raw sentence data. It communicates with
+/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+///
+/// **Advantages:**
+/// - Decouples the UI from the Data Layer.
+/// - Automatically handles async loading and error states.
+/// - Caches the data, preventing unnecessary network/disk requests.
+///
+
+abstract class _$SentenceList extends $AsyncNotifier<List<Sentence>> {
+  FutureOr<List<Sentence>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<List<Sentence>>, List<Sentence>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<Sentence>>, List<Sentence>>,
+              AsyncValue<List<Sentence>>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceFilter
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The user needs to filter sentences by difficulty or sort them by different criteria.
+/// This state needs to be preserved across screen rebuilds and shared between widgets.
+///
+/// **Role:**
+/// Manages the current state of filters (Difficulty) and sorting (SortType).
+/// It provides methods to update these values from the UI.
+///
+/// **Advantages:**
+/// - Keeps the UI stateless regarding filter logic.
+/// - Allows multiple widgets (e.g., a filter bar and a list view) to share the same state.
+/// - Centralizes state modification logic.
+///
+
+@ProviderFor(SentenceFilter)
+const sentenceFilterProvider = SentenceFilterProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceFilter
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The user needs to filter sentences by difficulty or sort them by different criteria.
+/// This state needs to be preserved across screen rebuilds and shared between widgets.
+///
+/// **Role:**
+/// Manages the current state of filters (Difficulty) and sorting (SortType).
+/// It provides methods to update these values from the UI.
+///
+/// **Advantages:**
+/// - Keeps the UI stateless regarding filter logic.
+/// - Allows multiple widgets (e.g., a filter bar and a list view) to share the same state.
+/// - Centralizes state modification logic.
+///
+final class SentenceFilterProvider
+    extends $NotifierProvider<SentenceFilter, SentenceFilterState> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: SentenceFilter
+  /// ----------------------------------------------------------------------------
+  ///
+  /// **Why it is needed:**
+  /// The user needs to filter sentences by difficulty or sort them by different criteria.
+  /// This state needs to be preserved across screen rebuilds and shared between widgets.
+  ///
+  /// **Role:**
+  /// Manages the current state of filters (Difficulty) and sorting (SortType).
+  /// It provides methods to update these values from the UI.
+  ///
+  /// **Advantages:**
+  /// - Keeps the UI stateless regarding filter logic.
+  /// - Allows multiple widgets (e.g., a filter bar and a list view) to share the same state.
+  /// - Centralizes state modification logic.
+  ///
+  const SentenceFilterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sentenceFilterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sentenceFilterHash();
+
+  @$internal
+  @override
+  SentenceFilter create() => SentenceFilter();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SentenceFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SentenceFilterState>(value),
+    );
+  }
+}
+
+String _$sentenceFilterHash() => r'5a422f72f6377d38507d47d9f07b5b8d778dd1c1';
+
+/// ----------------------------------------------------------------------------
+/// Provider: SentenceFilter
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The user needs to filter sentences by difficulty or sort them by different criteria.
+/// This state needs to be preserved across screen rebuilds and shared between widgets.
+///
+/// **Role:**
+/// Manages the current state of filters (Difficulty) and sorting (SortType).
+/// It provides methods to update these values from the UI.
+///
+/// **Advantages:**
+/// - Keeps the UI stateless regarding filter logic.
+/// - Allows multiple widgets (e.g., a filter bar and a list view) to share the same state.
+/// - Centralizes state modification logic.
+///
+
+abstract class _$SentenceFilter extends $Notifier<SentenceFilterState> {
+  SentenceFilterState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<SentenceFilterState, SentenceFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SentenceFilterState, SentenceFilterState>,
+              SentenceFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: FilteredSentences
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The [SentenceList] provider returns raw data, but the UI often needs to show
+/// a subset of that data based on user preferences (filters). Computing this
+/// inside the UI widget's build method is inefficient and clutters the UI code.
+///
+/// **Role:**
+/// Listens to both [SentenceList] (data) and [SentenceFilter] (preferences).
+/// It applies business logic (filtering and sorting) to the raw data and returns
+/// the final list to be displayed.
+///
+/// **Advantages:**
+/// - **Memoization:** Only re-computes when the data or filter changes, optimizing performance.
+/// - **Separation of Concerns:** Keeps business logic (filtering/sorting) out of the UI.
+/// - **Testability:** The logic can be tested independently of the UI.
+///
+
+@ProviderFor(filteredSentences)
+const filteredSentencesProvider = FilteredSentencesProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: FilteredSentences
+/// ----------------------------------------------------------------------------
+///
+/// **Why it is needed:**
+/// The [SentenceList] provider returns raw data, but the UI often needs to show
+/// a subset of that data based on user preferences (filters). Computing this
+/// inside the UI widget's build method is inefficient and clutters the UI code.
+///
+/// **Role:**
+/// Listens to both [SentenceList] (data) and [SentenceFilter] (preferences).
+/// It applies business logic (filtering and sorting) to the raw data and returns
+/// the final list to be displayed.
+///
+/// **Advantages:**
+/// - **Memoization:** Only re-computes when the data or filter changes, optimizing performance.
+/// - **Separation of Concerns:** Keeps business logic (filtering/sorting) out of the UI.
+/// - **Testability:** The logic can be tested independently of the UI.
+///
+
+final class FilteredSentencesProvider
+    extends $FunctionalProvider<List<Sentence>, List<Sentence>, List<Sentence>>
+    with $Provider<List<Sentence>> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: FilteredSentences
+  /// ----------------------------------------------------------------------------
+  ///
+  /// **Why it is needed:**
+  /// The [SentenceList] provider returns raw data, but the UI often needs to show
+  /// a subset of that data based on user preferences (filters). Computing this
+  /// inside the UI widget's build method is inefficient and clutters the UI code.
+  ///
+  /// **Role:**
+  /// Listens to both [SentenceList] (data) and [SentenceFilter] (preferences).
+  /// It applies business logic (filtering and sorting) to the raw data and returns
+  /// the final list to be displayed.
+  ///
+  /// **Advantages:**
+  /// - **Memoization:** Only re-computes when the data or filter changes, optimizing performance.
+  /// - **Separation of Concerns:** Keeps business logic (filtering/sorting) out of the UI.
+  /// - **Testability:** The logic can be tested independently of the UI.
+  ///
+  const FilteredSentencesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'filteredSentencesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$filteredSentencesHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<Sentence>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<Sentence> create(Ref ref) {
+    return filteredSentences(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Sentence> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Sentence>>(value),
+    );
+  }
+}
+
+String _$filteredSentencesHash() => r'76e09caf8f4caa17116a684a2db7234e4bb940a8';
