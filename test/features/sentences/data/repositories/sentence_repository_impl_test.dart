@@ -43,4 +43,32 @@ void main() {
       verify(() => mockLocalDataSource.getSentences()).called(1);
     });
   });
+
+  group('getSentenceById', () {
+    test('should return sentence when id exists', () async {
+      // arrange
+      when(
+        () => mockLocalDataSource.getSentences(),
+      ).thenAnswer((_) async => tSentenceList);
+
+      // act
+      final result = await repository.getSentenceById(1);
+
+      // assert
+      expect(result, tSentenceList.first);
+    });
+
+    test('should return null when id does not exist', () async {
+      // arrange
+      when(
+        () => mockLocalDataSource.getSentences(),
+      ).thenAnswer((_) async => tSentenceList);
+
+      // act
+      final result = await repository.getSentenceById(999);
+
+      // assert
+      expect(result, null);
+    });
+  });
 }

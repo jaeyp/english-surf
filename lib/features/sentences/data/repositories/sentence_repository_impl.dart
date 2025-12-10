@@ -13,9 +13,13 @@ class SentenceRepositoryImpl implements SentenceRepository {
   }
 
   @override
-  Future<Sentence?> getSentenceById(int id) {
-    // TODO: implement getSentenceById
-    throw UnimplementedError();
+  Future<Sentence?> getSentenceById(int id) async {
+    final sentences = await localDataSource.getSentences();
+    try {
+      return sentences.firstWhere((element) => element.id == id);
+    } on StateError {
+      return null;
+    }
   }
 
   @override
