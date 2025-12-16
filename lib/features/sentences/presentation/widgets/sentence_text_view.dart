@@ -30,7 +30,7 @@ class SentenceTextView extends StatelessWidget {
       return [TextSpan(text: text)];
     }
 
-    // 1. 각 문자별로 적용될 스타일 목록을 매핑
+    // 1. Map styles to each character
     // List<Set<TextStyleType>>
     final List<Set<TextStyleType>> charStyles = List.generate(
       text.length,
@@ -38,7 +38,7 @@ class SentenceTextView extends StatelessWidget {
     );
 
     for (var style in styles) {
-      // 범위 유효성 검사
+      // Validate range
       final start = style.start.clamp(0, text.length);
       final end = style.end.clamp(0, text.length);
 
@@ -47,7 +47,7 @@ class SentenceTextView extends StatelessWidget {
       }
     }
 
-    // 2. 연속된 스타일을 가진 문자들을 그룹화하여 TextSpan 생성
+    // 2. Group consecutive characters with the same style to create TextSpans
     final List<TextSpan> spans = [];
 
     if (text.isEmpty) return spans;
@@ -59,11 +59,11 @@ class SentenceTextView extends StatelessWidget {
     for (int i = 1; i < text.length; i++) {
       final nextStyleSet = charStyles[i];
 
-      // 스타일이 같으면 계속 텍스트 추가
+      // If styles are the same, continue adding text
       if (_setEquals(currentStyleSet, nextStyleSet)) {
         currentText.write(text[i]);
       } else {
-        // 스타일이 달라지면 지금까지의 텍스트를 Span으로 추가하고 초기화
+        // If style changes, add the current text as a Span and reset
         spans.add(_createSpan(currentText.toString(), currentStyleSet));
         currentText.clear();
         currentText.write(text[i]);
@@ -71,7 +71,7 @@ class SentenceTextView extends StatelessWidget {
       }
     }
 
-    // 마지막 남은 텍스트 추가
+    // Add remaining text
     if (currentText.isNotEmpty) {
       spans.add(_createSpan(currentText.toString(), currentStyleSet));
     }
@@ -89,14 +89,14 @@ class SentenceTextView extends StatelessWidget {
     FontWeight fontWeight = FontWeight.normal;
     Color? backgroundColor;
 
-    // 스타일 적용 우선순위 및 조합 로직
+    // Style application priority and combination logic
     if (types.contains(TextStyleType.bold)) {
       fontWeight = FontWeight.bold;
-      color = const Color(0xFF1B5E20); // 짙은 녹색
+      color = const Color(0xFF1B5E20); // Dark Green
     }
 
     if (types.contains(TextStyleType.highlight)) {
-      backgroundColor = const Color(0xFFFFF59D); // 노란색 배경
+      backgroundColor = const Color(0xFFFFF59D); // Yellow Background
     }
 
     return TextSpan(
