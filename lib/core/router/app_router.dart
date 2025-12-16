@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:english_surf/features/home/presentation/home_screen.dart';
+import 'package:english_surf/features/sentences/presentation/screens/sentence_list_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -11,7 +11,7 @@ GoRouter goRouter(Ref ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const SentenceListScreen(),
       ),
     ],
   );

@@ -19,7 +19,7 @@ part of 'sentence_providers.dart';
 ///
 /// **Role:**
 /// Acts as the source of truth for the raw sentence data. It communicates with
-/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+/// the [SentenceRepository] to fetch data and expose s it as an [AsyncValue].
 ///
 /// **Advantages:**
 /// - Decouples the UI from the Data Layer.
@@ -41,7 +41,7 @@ const sentenceListProvider = SentenceListProvider._();
 ///
 /// **Role:**
 /// Acts as the source of truth for the raw sentence data. It communicates with
-/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+/// the [SentenceRepository] to fetch data and expose s it as an [AsyncValue].
 ///
 /// **Advantages:**
 /// - Decouples the UI from the Data Layer.
@@ -61,7 +61,7 @@ final class SentenceListProvider
   ///
   /// **Role:**
   /// Acts as the source of truth for the raw sentence data. It communicates with
-  /// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+  /// the [SentenceRepository] to fetch data and expose s it as an [AsyncValue].
   ///
   /// **Advantages:**
   /// - Decouples the UI from the Data Layer.
@@ -100,7 +100,7 @@ String _$sentenceListHash() => r'fe1f4e2ddcf2001560eee98a483781ec96c86e09';
 ///
 /// **Role:**
 /// Acts as the source of truth for the raw sentence data. It communicates with
-/// the [SentenceRepository] to fetch data and exposes it as an [AsyncValue].
+/// the [SentenceRepository] to fetch data and expose s it as an [AsyncValue].
 ///
 /// **Advantages:**
 /// - Decouples the UI from the Data Layer.
@@ -294,8 +294,13 @@ const filteredSentencesProvider = FilteredSentencesProvider._();
 ///
 
 final class FilteredSentencesProvider
-    extends $FunctionalProvider<List<Sentence>, List<Sentence>, List<Sentence>>
-    with $Provider<List<Sentence>> {
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Sentence>>,
+          List<Sentence>,
+          FutureOr<List<Sentence>>
+        >
+    with $FutureModifier<List<Sentence>>, $FutureProvider<List<Sentence>> {
   /// ----------------------------------------------------------------------------
   /// Provider: FilteredSentences
   /// ----------------------------------------------------------------------------
@@ -331,21 +336,14 @@ final class FilteredSentencesProvider
 
   @$internal
   @override
-  $ProviderElement<List<Sentence>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<List<Sentence>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  List<Sentence> create(Ref ref) {
+  FutureOr<List<Sentence>> create(Ref ref) {
     return filteredSentences(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Sentence> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Sentence>>(value),
-    );
   }
 }
 
-String _$filteredSentencesHash() => r'76e09caf8f4caa17116a684a2db7234e4bb940a8';
+String _$filteredSentencesHash() => r'a55f57f15926c8144ce7a199cc86001e084dca61';

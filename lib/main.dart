@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:english_surf/core/router/app_router.dart';
 import 'package:english_surf/core/theme/app_theme.dart';
 import 'package:english_surf/l10n/app_localizations.dart';
-import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart'; // 나중에 필요할 수 있으니 유지하거나 제거
 
 Future<void> main() async {
   await runZonedGuarded(
@@ -16,11 +16,18 @@ Future<void> main() async {
       runApp(const ProviderScope(child: MyApp()));
     },
     (error, stack) {
-      // TODO: Initialize crash reporting service here (e.g., Sentry, Firebase Crashlytics)
       debugPrint('Error: $error');
       debugPrint('Stack: $stack');
     },
   );
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
 
 class MyApp extends ConsumerWidget {
@@ -35,6 +42,7 @@ class MyApp extends ConsumerWidget {
       title: 'English Surf',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      scrollBehavior: AppScrollBehavior(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

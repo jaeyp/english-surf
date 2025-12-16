@@ -106,38 +106,31 @@ class SentenceFilter extends _$SentenceFilter {
 /// - **Testability:** The logic can be tested independently of the UI.
 ///
 @riverpod
-List<Sentence> filteredSentences(Ref ref) {
-  final sentencesAsync = ref.watch(sentenceListProvider);
+@riverpod
+Future<List<Sentence>> filteredSentences(Ref ref) async {
+  final sentences = await ref.watch(sentenceListProvider.future);
   final filterState = ref.watch(sentenceFilterProvider);
 
-  return sentencesAsync.when(
-    data: (sentences) {
-      var result = List<Sentence>.from(sentences);
+  var result = List<Sentence>.from(sentences);
 
-      // 1. Filter by Difficulty
-      if (filterState.difficulty != null) {
-        result = result
-            .where((s) => s.difficulty == filterState.difficulty)
-            .toList();
-      }
+  // 1. Filter by Difficulty
+  if (filterState.difficulty != null) {
+    result = result
+        .where((s) => s.difficulty == filterState.difficulty)
+        .toList();
+  }
 
-      // 2. Sort
-      switch (filterState.sortType) {
-        case SortType.order:
-          result.sort((a, b) => a.order.compareTo(b.order));
-          break;
-        case SortType.difficulty:
-          result.sort(
-            (a, b) => a.difficulty.index.compareTo(b.difficulty.index),
-          );
-          break;
-        case SortType.random:
-          result.shuffle();
-          break;
-      }
-      return result;
-    },
-    loading: () => [],
-    error: (_, __) => [],
-  );
+  // 2. Sort
+  switch (filterState.sortType) {
+    case SortType.order:
+      result.sort((a, b) => a.order.compareTo(b.order));
+      break;
+    case SortType.difficulty:
+      result.sort((a, b) => a.difficulty.index.compareTo(b.difficulty.index));
+      break;
+    case SortType.random:
+      result.shuffle();
+      break;
+  }
+  return result;
 }
