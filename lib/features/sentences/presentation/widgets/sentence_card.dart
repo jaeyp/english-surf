@@ -132,15 +132,39 @@ class _SentenceCardState extends State<SentenceCard>
       mainAxisSize: MainAxisSize.min,
       children: [
         SentenceTextView(sentenceText: widget.sentence.original, fontSize: 24),
-        if (showNotes && widget.sentence.notes.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          const Divider(),
-          const SizedBox(height: 8),
-          Text(
-            widget.sentence.notes,
-            style: const TextStyle(fontSize: 14, color: Colors.black54),
-            textAlign: TextAlign.center,
-          ),
+        if (showNotes) ...[
+          if (widget.sentence.notes.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text(
+              widget.sentence.notes,
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+          ],
+          if (widget.sentence.examples.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            const Text(
+              'Examples:',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 4),
+            ...widget.sentence.examples.map(
+              (example) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  example,
+                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
         ],
       ],
     );
@@ -160,15 +184,39 @@ class _SentenceCardState extends State<SentenceCard>
           ),
           textAlign: TextAlign.center,
         ),
-        if (showNotes && widget.sentence.notes.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          const Divider(),
-          const SizedBox(height: 8),
-          Text(
-            widget.sentence.notes,
-            style: const TextStyle(fontSize: 14, color: Colors.black54),
-            textAlign: TextAlign.center,
-          ),
+        if (showNotes) ...[
+          if (widget.sentence.notes.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text(
+              widget.sentence.notes,
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+          ],
+          if (widget.sentence.examples.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            const Text(
+              'Examples:',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 4),
+            ...widget.sentence.examples.map(
+              (example) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  example,
+                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
         ],
       ],
     );
