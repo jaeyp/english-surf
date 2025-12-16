@@ -88,7 +88,10 @@ class SentenceListItem extends StatelessWidget {
                 // 일단 둘 다 보여주되 순서만 바꿈. (학습 효과를 위해)
                 Text(
                   subText, // 변경됨
-                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                  style: TextStyle(
+                    fontSize: 12, // 더 작게
+                    color: Colors.grey.shade300, // 아주 희미하게
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
