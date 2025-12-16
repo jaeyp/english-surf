@@ -43,7 +43,7 @@ class SentenceFilterState {
   final Difficulty? difficulty;
   final SortType sortType;
 
-  const SentenceFilterState({this.difficulty, this.sortType = SortType.order});
+  const SentenceFilterState({this.difficulty, this.sortType = SortType.random});
 
   SentenceFilterState copyWith({Difficulty? difficulty, SortType? sortType}) {
     return SentenceFilterState(
