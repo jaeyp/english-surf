@@ -51,7 +51,7 @@ class _SentenceCardState extends State<SentenceCard>
 
   @override
   Widget build(BuildContext context) {
-    // 모드에 따른 앞/뒷면 내용 결정
+    // Determine content for front/back based on mode
     final isOriginalFront =
         widget.languageMode == LanguageMode.originalToTranslation;
 
@@ -74,26 +74,26 @@ class _SentenceCardState extends State<SentenceCard>
                     transform: Matrix4.identity()..rotateY(pi),
                     child: _buildCardFace(
                       isFront: false,
-                      // 뒷면 내용: 항상 상세 내용(notes) 포함
+                      // Back Content: Always include notes
                       content: isOriginalFront
                           ? _buildTranslationContent(
                               showNotes: true,
-                            ) // Orig->Trans: 뒷면 번역+노트
+                            ) // Orig->Trans: Back shows Translation + Notes
                           : _buildOriginalContent(
                               showNotes: true,
-                            ), // Trans->Orig: 뒷면 원문+노트
+                            ), // Trans->Orig: Back shows Original + Notes
                     ),
                   )
                 : _buildCardFace(
                     isFront: true,
-                    // 앞면 내용: 상세 내용(notes) 미포함
+                    // Front Content: No notes
                     content: isOriginalFront
                         ? _buildOriginalContent(
                             showNotes: false,
-                          ) // Orig->Trans: 앞면 원문
+                          ) // Orig->Trans: Front shows Original
                         : _buildTranslationContent(
                             showNotes: false,
-                          ), // Trans->Orig: 앞면 번역
+                          ), // Trans->Orig: Front shows Translation
                   ),
           );
         },
@@ -131,7 +131,10 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SentenceTextView(sentenceText: widget.sentence.original, fontSize: 24),
+        SentenceTextView(
+          sentenceText: widget.sentence.original,
+          fontSize: 24, // Use fontSize instead of style
+        ),
         if (showNotes) ...[
           if (widget.sentence.notes.isNotEmpty) ...[
             const SizedBox(height: 16),

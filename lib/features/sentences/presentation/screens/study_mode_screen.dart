@@ -71,7 +71,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                       child: Center(
                         child: SentenceCard(
                           sentence: sentences[index],
-                          languageMode: languageMode, // 전달
+                          languageMode: languageMode, // Pass language mode
                         ),
                       ),
                     );

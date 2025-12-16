@@ -139,8 +139,8 @@ Future<List<Sentence>> filteredSentences(Ref ref) async {
 /// Enum: LanguageMode
 /// ----------------------------------------------------------------------------
 enum LanguageMode {
-  originalToTranslation, // 원문 -> 번역 (기본)
-  translationToOriginal, // 번역 -> 원문
+  originalToTranslation, // Original -> Translation (Default)
+  translationToOriginal, // Translation -> Original
 }
 
 /// ----------------------------------------------------------------------------
