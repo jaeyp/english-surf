@@ -32,6 +32,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   @override
   Widget build(BuildContext context) {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
+    final languageMode = ref.watch(languageModeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +69,10 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
-                        child: SentenceCard(sentence: sentences[index]),
+                        child: SentenceCard(
+                          sentence: sentences[index],
+                          languageMode: languageMode, // 전달
+                        ),
                       ),
                     );
                   },

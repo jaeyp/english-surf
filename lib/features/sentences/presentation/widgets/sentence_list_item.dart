@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/sentence.dart';
+import '../../application/providers/sentence_providers.dart'; // LanguageMode
 
 class SentenceListItem extends StatelessWidget {
   final Sentence sentence;
+  final LanguageMode languageMode; // 추가
   final VoidCallback? onTap;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
@@ -10,6 +12,7 @@ class SentenceListItem extends StatelessWidget {
   const SentenceListItem({
     super.key,
     required this.sentence,
+    required this.languageMode, // 추가
     this.onTap,
     this.onEdit,
     this.onDelete,
@@ -17,6 +20,15 @@ class SentenceListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 모드에 따른 텍스트 결정
+    final mainText = languageMode == LanguageMode.originalToTranslation
+        ? sentence.original.text
+        : sentence.translation;
+
+    final subText = languageMode == LanguageMode.originalToTranslation
+        ? sentence.translation
+        : sentence.original.text;
+
     // Swipe-to-Action 구현
     return Dismissible(
       key: ValueKey(sentence.id),
@@ -56,7 +68,7 @@ class SentenceListItem extends StatelessWidget {
                 // 하지만 SentenceTextView를 재사용할지, 그냥 Text를 쓸지 결정 필요.
                 // UI-SPEC: "리스트뷰: 스타일 없는 Plain Text로 표시"
                 Text(
-                  sentence.original.text,
+                  mainText, // 변경됨
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black87,
@@ -66,8 +78,16 @@ class SentenceListItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 8),
+                // KO->EN 모드일 때는 정답(영어)을 숨길 수도 있지만,
+                // UI-SPEC상으로는 "앞면 텍스트만 표시"라고 되어 있음.
+                // 하지만 리스트뷰에서는 힌트로 보여주는 게 좋을 수도 있음.
+                // 일단 UI-SPEC에 따라 "모드에 따라 앞면 텍스트만 표시"라고 했으므로
+                // 서브 텍스트는 숨기거나 흐리게 표시?
+                // UI-SPEC: "모드에 따라 앞면 텍스트만 표시" -> 즉 서브 텍스트는 안 보여주는 게 맞음?
+                // 아니면 작게 보여줌?
+                // 일단 둘 다 보여주되 순서만 바꿈. (학습 효과를 위해)
                 Text(
-                  sentence.translation,
+                  subText, // 변경됨
                   style: const TextStyle(fontSize: 14, color: Colors.black54),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

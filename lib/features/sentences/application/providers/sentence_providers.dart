@@ -134,3 +134,28 @@ Future<List<Sentence>> filteredSentences(Ref ref) async {
   }
   return result;
 }
+
+/// ----------------------------------------------------------------------------
+/// Enum: LanguageMode
+/// ----------------------------------------------------------------------------
+enum LanguageMode {
+  originalToTranslation, // 원문 -> 번역 (기본)
+  translationToOriginal, // 번역 -> 원문
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: LanguageMode
+/// ----------------------------------------------------------------------------
+@riverpod
+class LanguageModeNotifier extends _$LanguageModeNotifier {
+  @override
+  LanguageMode build() {
+    return LanguageMode.originalToTranslation;
+  }
+
+  void toggle() {
+    state = state == LanguageMode.originalToTranslation
+        ? LanguageMode.translationToOriginal
+        : LanguageMode.originalToTranslation;
+  }
+}
