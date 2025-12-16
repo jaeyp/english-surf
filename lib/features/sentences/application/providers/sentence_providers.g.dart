@@ -347,3 +347,71 @@ final class FilteredSentencesProvider
 }
 
 String _$filteredSentencesHash() => r'a55f57f15926c8144ce7a199cc86001e084dca61';
+
+/// ----------------------------------------------------------------------------
+/// Provider: LanguageMode
+/// ----------------------------------------------------------------------------
+
+@ProviderFor(LanguageModeNotifier)
+const languageModeProvider = LanguageModeNotifierProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: LanguageMode
+/// ----------------------------------------------------------------------------
+final class LanguageModeNotifierProvider
+    extends $NotifierProvider<LanguageModeNotifier, LanguageMode> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: LanguageMode
+  /// ----------------------------------------------------------------------------
+  const LanguageModeNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'languageModeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$languageModeNotifierHash();
+
+  @$internal
+  @override
+  LanguageModeNotifier create() => LanguageModeNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LanguageMode value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LanguageMode>(value),
+    );
+  }
+}
+
+String _$languageModeNotifierHash() =>
+    r'b2faadd77086e658a97d73e7ace65230652b91ae';
+
+/// ----------------------------------------------------------------------------
+/// Provider: LanguageMode
+/// ----------------------------------------------------------------------------
+
+abstract class _$LanguageModeNotifier extends $Notifier<LanguageMode> {
+  LanguageMode build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<LanguageMode, LanguageMode>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<LanguageMode, LanguageMode>,
+              LanguageMode,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

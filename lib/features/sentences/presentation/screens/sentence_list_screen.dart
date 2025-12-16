@@ -11,6 +11,7 @@ class SentenceListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
+    final languageMode = ref.watch(languageModeProvider);
 
     return Scaffold(
       body: CustomScrollView(
@@ -20,11 +21,14 @@ class SentenceListScreen extends ConsumerWidget {
             floating: true,
             pinned: true,
             actions: [
-              // Toggle Mode Button (EN <-> KO)
+              // Toggle Mode Button (Icon Only)
               IconButton(
                 icon: const Icon(Icons.swap_horiz),
+                tooltip: languageMode == LanguageMode.originalToTranslation
+                    ? 'Original → Translation'
+                    : 'Translation → Original',
                 onPressed: () {
-                  // TODO: Implement Toggle Mode
+                  ref.read(languageModeProvider.notifier).toggle();
                 },
               ),
               // Study Mode Button
@@ -65,6 +69,7 @@ class SentenceListScreen extends ConsumerWidget {
                   final sentence = sentences[index];
                   return SentenceListItem(
                     sentence: sentence,
+                    languageMode: languageMode,
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
