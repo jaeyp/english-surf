@@ -4,24 +4,24 @@
       "id": 1,
       "order": 1,
       "original": {
-        "text": "Little give and go with 이재성 and 손흥민. He flicks it over to 이동경 and he back flicks it into the back of the net.",
+        "text": "Little give and go with JaeSung and Sonny. He flicks it over to DongKyung and he back flicks it into the back of the net.",
         "styles": [
           {
             "type": "highlight",
             "start": 7,
-            "end": 35
+            "end": 26
           },
           {
             "type": "bold",
-            "start": 40,
-            "end": 54
+            "start": 27,
+            "end": 41
           }
         ]
       },
       "difficulty": "advanced",
       "examples": [],
       "notes": "flick over: (공을) 가볍게 툭 쳐서 넘기다. 축구 경기 해설에 사용됨.",
-      "translation": "이재성과 손흥민 사이에 짧은 패스 주고받기(give and go)가 있었어요. 이재성이 이동경에게 살짝 넘겨줬고(flicks it over), 이동경은 뒤로 차 넣어 골망을 흔듭니다."
+      "translation": "이재성과 손흥민 사이에 짧은 패스 주고받기가 있었어요. 이재성이 이동경에게 살짝 넘겨줬고, 이동경은 뒤로 차 넣어 골망을 흔듭니다."
     },
     {
       "id": 3,
@@ -45,7 +45,7 @@
       "id": 4,
       "order": 3,
       "original": {
-        "text": "I'm not going to / won't let that happen.",
+        "text": "I'm not going to / won't let that happen. (no way, that's not happening)",
         "styles": [
           {
             "type": "bold",
@@ -57,13 +57,13 @@
       "difficulty": "beginner",
       "examples": [],
       "notes": "let that happen: 그런 일이 일어나도록 두다/허용하다.",
-      "translation": "저는 그렇게 되도록 두지 않을 거예요. (no way, that's not happening)"
+      "translation": "저는 그렇게 되도록 두지 않을 거예요."
     },
     {
       "id": 5,
       "order": 4,
       "original": {
-        "text": "I'm going to talk you through the signs that your trip is going to end up being a에이 disaster so you can course correct and end up having the best visit to London ever.",
+        "text": "I'm going to talk you through the signs that your trip is going to end up being a disaster so you can course correct and end up having the best visit to London ever.",
         "styles": [
           {
             "type": "bold",
@@ -135,11 +135,13 @@
       },
       "difficulty": "intermediate",
       "examples": [
-        "She told me she was in London last year, and it turns out she happened to be staying in the same hotel as me. (우연히도/놀랍게도 ~였다, surprisingly)",
-        "The person who helped me happened to be a doctor, so I was really lucky."
+        "She told me she was in London last year, and it turns out she happened to be staying in the same hotel as me.",
+        "I happened to see your brother at the mall yesterday.",
+        "The person who helped me happened to be a doctor, so I was really lucky.",
+        "Do you happen to know where the nearest subway station is?"
       ],
-      "notes": "turn out: 결국 ~임이 드러나다, 알고 보니 ~이다. happen to be: 우연히 ~이다.",
-      "translation": "제 친구는 수면 장애가 있다고 확신했지만, 알고 보니 틱톡에 의해 진단받은 것이었어요. (다이그너~)"
+      "notes": "turn out: 결국 ~임이 드러나다, 알고 보니 ~이다. happen to v: 우연히도 ~하다, 혹시 ~에요?.",
+      "translation": "제 친구는 수면 장애가 있다고 확신했지만, 알고 보니 틱톡에 의해 진단받은 것이었어요."
     },
     {
       "id": 9,
@@ -160,7 +162,7 @@
         "We're going to grab some pizza off of the game; do you want to join us?"
       ],
       "notes": "right off of: ~의 직후에. 'off of'는 'after' 또는 '~로부터'의 의미로 사용됨.",
-      "translation": "팬데믹이 막 끝난 직후였고 (right after) 저는 주치의가 있었기 때문에 외부 도움을 구할 필요가 없었어요."
+      "translation": "팬데믹이 막 끝난 직후였고 저는 주치의가 있었기 때문에 외부 도움을 구할 필요가 없었어요."
     },
     {
       "id": 10,
@@ -176,9 +178,13 @@
         ]
       },
       "difficulty": "intermediate",
-      "examples": [],
-      "notes": "solitary: 혼자 하는, 고독한.",
-      "translation": "그래서 그것은 매우 혼자 하는 것이었어요."
+      "examples": [
+        "She has been leading a solitary life since she moved to the countryside.",
+        "He enjoys taking solitary walks in the woods every morning.",
+        "He was lonely even though he was surrounded by many people."
+      ],
+      "notes": "solitary: 혼자 하는, 고립된, 단독의.",
+      "translation": "그래서 그것은 매우 고립된 일이었어요."
     },
     {
       "id": 11,
@@ -354,7 +360,7 @@
         "'cause I don't want to have to keep after you to clean / about cleaning your room. (재촉하다)"
       ],
       "notes": "remind: 상기시키다. get on one's case about: 잔소리하다. keep after someone: 계속 재촉하다.",
-      "translation": "왜냐면 매일 당신에게 방 청소를 하라고 상기시켜야(remind) 하는 상황이 싫으니까요."
+      "translation": "왜냐면 매일 당신에게 방 청소를 하라고 상기시켜야 하는 상황이 싫으니까요."
     },
     {
       "id": 20,
@@ -374,7 +380,7 @@
         "(Can/Do I) just grab/get/take one (myself) from/out of the freezer?"
       ],
       "notes": "pint: 약 0.57리터(영국), 약 0.47리터(미국)의 액체 용량 단위. grab/get/take one: (상품을) 하나 집다/가져가다.",
-      "translation": "해염, 염소 우유, 캐러멜 맛으로 1파인트 주세요."
+      "translation": "씨솔트, 고트밀크, 캐러멜 맛으로 1파인트 주세요."
     },
     {
       "id": 21,
@@ -664,7 +670,7 @@
         "I can't believe I put my hoodie on backward all day."
       ],
       "notes": "don't worry about it at all: 전혀 걱정하지 마세요. make you feel better: 기분이 나아지게 하다. on backward / wear backward / put on backward: 뒤집어 입은 채로, 거꾸로 입다.",
-      "translation": "아, 전혀 걱정하지 마세요. 그게 당신 기분을 낫게 해준다면, 저는 오늘 아침에 셔츠를 뒤집어(on backward) 입고 집을 나섰어요."
+      "translation": "아, 전혀 걱정하지 마세요. 그게 당신 기분을 낫게 해준다면, 저는 오늘 아침에 셔츠를 뒤집어 입고 집을 나섰어요."
     },
     {
       "id": 34,
@@ -730,7 +736,7 @@
         "We decided to leave out a few minor steps to finish the project faster."
       ],
       "notes": "leave out: ~을 빼다, 생략하다.",
-      "translation": "신선한 허브가 없다면 빼도(leave out) 돼요."
+      "translation": "신선한 허브가 없다면 빼도 돼요."
     },
     {
       "id": 37,
@@ -772,7 +778,7 @@
         "The fog finally lifted."
       ],
       "notes": "clear up / lift: (안개, 날씨 등이) 걷히다, 개다.",
-      "translation": "산의 풍경을 보기 위해 안개가 걷힐(cleared up / lifted) 때까지 기다려야 했어요."
+      "translation": "산의 풍경을 보기 위해 안개가 걷힐 때까지 기다려야 했어요."
     },
     {
       "id": 39,
@@ -877,7 +883,7 @@
         "The only reason I took that terrible job at all was so I could pay off my student loans."
       ],
       "notes": "at all: (부정문/의문문/조건문에서) 조금이라도, 전혀. (강조)",
-      "translation": "그것들이 일반적이라고 말할 수는 없지만, 조금이라도(at all) 발생한다는 사실 자체가 여전히 문제입니다."
+      "translation": "그것들이 일반적이라고 말할 수는 없지만, 조금이라도 발생한다는 사실 자체가 여전히 문제입니다."
     },
     {
       "id": 44,
@@ -917,7 +923,7 @@
         "I agree with you that the movie was a bit slow, but I wouldn't go that far and say it was the worst movie ever."
       ],
       "notes": "go that far: 그렇게까지 하다. (주로 놀라움이나 과도함에 대한 반응을 나타냄)",
-      "translation": "네가 그렇게까지(go that far) 했다니 믿을 수가 없어! 네 상사에게 그가 틀렸다고 정말 말했니?"
+      "translation": "네가 그렇게까지 했다니 믿을 수가 없어! 네 상사에게 그가 틀렸다고 정말 말했니?"
     },
     {
       "id": 46,
@@ -969,7 +975,7 @@
         "I'm sure you will feel more relaxed as you go through your day tomorrow."
       ],
       "notes": "find oneself ~ing: 자신도 모르게 ~하고 있음을 알게 되다. as one goes through one's day: 하루를 보내는 동안.",
-      "translation": "하루를 보내는 동안(as I go through my day) 휴대폰을 많이 확인하는 제 자신을 발견해요."
+      "translation": "하루를 보내는 동안 휴대폰을 많이 확인하는 제 자신을 발견해요."
     },
     {
       "id": 48,
@@ -994,13 +1000,13 @@
         "I'll be in meetings throughout the day. (emphasizes the entire duration)"
       ],
       "notes": "plenty of time: 충분한 시간. during your day: 하루 일과 중에. throughout the day: 하루 종일, 온종일.",
-      "translation": "하루 일과 중에 이것을 할 충분한 시간이 있을 거예요. (simple and direct)"
+      "translation": "하루 일과 중에 이것을 할 충분한 시간이 있을 거예요."
     },
     {
       "id": 49,
       "order": 48,
       "original": {
-        "text": "(뜯어낸 벽안쪽을 보면서) This is plaster seeping/coming through, but you can see there's no signs of mold or anything like that.",
+        "text": "(looking at the inside of the wall) This is plaster seeping/coming through, but you can see there's no signs of mold or anything like that.",
         "styles": [
           {
             "type": "bold",
@@ -1020,7 +1026,7 @@
         "So that's why I don't want to take down the plaster because it looks good."
       ],
       "notes": "seep through / come through: 스며 나오다. plaster: 회벽, 석고. take down: 철거하다, 제거하다. like that: 그와 같은 것.",
-      "translation": "이것은 석회가 스며 나오거나(seeping/coming through) 있는 것이지만, 곰팡이나 그와 같은(like that) 것의 징후는 없음을 볼 수 있습니다."
+      "translation": "이것은 석회가 스며 나오거나 있는 것이지만, 곰팡이나 그와 같은 것의 징후는 없음을 볼 수 있습니다."
     },
     {
       "id": 50,
@@ -1062,7 +1068,7 @@
         "I'm taking out both of these windows and putting in a 60x60 window."
       ],
       "notes": "picture window: 전망용 대형 창문, 통창. take out: 제거하다. add/put in: 추가하다, 설치하다.",
-      "translation": "하지만 그는 또한 바로 여기 있는 이 큰 통창(picture window)도 저를 도와줄 거예요."
+      "translation": "하지만 그는 또한 바로 여기 있는 이 큰 통창도 저를 도와줄 거예요."
     },
     {
       "id": 52,
@@ -1092,7 +1098,7 @@
         "Here's the wallpaper I ordered for the bathroom. It's got a floral design with a black background, which I think will look nice with the claw foot tub and the vanity."
       ],
       "notes": "backdrop/background: 배경. go well with / look nice with: ~와 잘 어울리다. claw foot tub: 발 달린 욕조. vanity: 화장대.",
-      "translation": "이것은 제가 욕실용으로 주문한 벽지입니다. 꽃무늬이고 검은색 배경(black backdrop)을 가지고 있는데, 이것이 발 달린 욕조(claw foot tub)와 화장대(vanity)와 잘 어울릴 것 같아요."
+      "translation": "이것은 제가 욕실용으로 주문한 벽지입니다. 꽃무늬이고 검은색 배경을 가지고 있는데, 이것이 발 달린 욕조, 세면대와 잘 어울릴 것 같아요."
     },
     {
       "id": 53,
@@ -1118,7 +1124,7 @@
         "We are going to hang the wallpaper in the living room together. (Put up the wallpaper)"
       ],
       "notes": "put up all the way around / put up all over: ~의 전체에 걸쳐 설치하다/붙이다. aside from / except for: ~을 제외하고. put up / hang: (벽지, 그림 등을) 걸다, 붙이다, 설치하다.",
-      "translation": "그래서 천장을 제외하고(aside from) 욕실 전체를 빙 둘러(욕실 전체를 빙 둘러, attach, install) 이것을 붙일 거예요."
+      "translation": "그래서 천장을 제외하고 욕실 전체를 빙 둘러 이것을 붙일 거예요."
     },
     {
       "id": 54,
@@ -1154,7 +1160,7 @@
       "difficulty": "advanced",
       "examples": [],
       "notes": "get the hang of: ~의 요령을 터득하다, ~에 익숙해지다.",
-      "translation": "이제 알겠어요. 'I get it'과 'I got it' 사이의 미묘한 차이를 천천히 익히고(getting the hang of) 있어요."
+      "translation": "이제 알겠어요. 'I get it'과 'I got it' 사이의 미묘한 차이를 천천히 익히고 있어요."
     },
     {
       "id": 56,
@@ -1256,7 +1262,7 @@
         "I could have tried to fix the broken shelf, but in the end, I couldn't be bothered and just threw it out instead."
       ],
       "notes": "can't/couldn't be bothered to + 동사: ~할 마음이 생기지 않는다, ~하는 게 귀찮다.",
-      "translation": "옷을 입고 추위 속으로 나갈(head out) 엄두가 나지 않아요."
+      "translation": "옷을 입고 추위 속으로 나갈 엄두가 나지 않아요."
     },
     {
       "id": 60,
@@ -1380,7 +1386,7 @@
         "The package I thought was lost last week finally showed up! Better late than never."
       ],
       "notes": "better late than never: 늦더라도 안 하는 것보다 낫다. show up: 나타나다, 도착하다.",
-      "translation": "지난주에 추적(tracking)에서 분실되었다고 했던 소포를 방금 받았어요! 불평하지 않을 거예요. 안 하는 것보다는 늦게라도 하는 것이 낫죠."
+      "translation": "지난주에 추적에서 분실되었다고 했던 소포를 방금 받았어요! 불평하지 않을 거예요. 안 하는 것보다는 늦게라도 하는 것이 낫죠."
     },
     {
       "id": 66,
@@ -1535,7 +1541,7 @@
         "It's just a small mistake; you need to brush it off and keep working."
       ],
       "notes": "brush/shake off / shrug off: (걱정, 문제 등을) 떨쳐내다, 대수롭지 않게 여기다. die down: (소문, 감정 등이) 사그라지다.",
-      "translation": "그는 실망했지만, 재빨리 그 실패를 떨쳐내고(brushed off) 다음 대회를 준비하기 시작했어요."
+      "translation": "그는 실망했지만, 재빨리 그 실패를 떨쳐내고 다음 대회를 준비하기 시작했어요."
     },
     {
       "id": 73,
@@ -1729,7 +1735,7 @@
         "Could you cut it in half so I can get to the meat?"
       ],
       "notes": "scrape out / scoop out: (내용물을) 긁어내다, 파내다. cut open: 베어 열다. get to the meat: 속살에 닿다/도달하다.",
-      "translation": "코코넛 속살(meat/flesh)을 좀 긁어/파내 줄 수 있나요? (코코넛 과육 좀 긁어줘)"
+      "translation": "코코넛 속살을 좀 긁어/파내 줄 수 있나요? (코코넛 과육 좀 긁어줘)"
     },
     {
       "id": 82,
@@ -1836,8 +1842,8 @@
         "We were worried about the deadline, but we got it done on time.",
         "She absolutely nailed it."
       ],
-      "notes": "pull off: (어려운 일을) 해내다, 성공시키다. nail it: 완벽하게 해내다. get it done: 끝내다.",
-      "translation": "그녀는 영어로 발표하는 것에 대해 걱정했지만, 그것을 멋지게 해냈어요. (Focuses on difficulty, overcoming a challenge)"
+      "notes": "pull off: (어려운 일을) 해내다, 성공시키다. (Focuses on difficulty, overcoming a challenge),  nail it: 완벽하게 해내다. get it done: 끝내다.",
+      "translation": "그녀는 영어로 발표하는 것에 대해 걱정했지만, 그것을 멋지게 해냈어요."
     },
     {
       "id": 87,
@@ -1887,7 +1893,7 @@
         "I just don't take it seriously anymore."
       ],
       "notes": "throw (someone): ~를 당황하게 하다. let it get to me: ~때문에 속상해하다/신경 쓰다. don't take it seriously anymore: 더 이상 심각하게 받아들이지 않다.",
-      "translation": "이런 종류의 일은 예전에는 저를 당황하게(throw me) 만들었지만, 이제 나이가 들어서 그것에 크게 신경 쓰지(let it get to me) 않아요."
+      "translation": "이런 종류의 일은 예전에는 저를 당황하게 만들었지만, 이제 나이가 들어서 그것에 크게 신경 쓰지 않아요."
     },
     {
       "id": 89,
@@ -1930,7 +1936,7 @@
         "Is your trip to the office dragging on lately?"
       ],
       "notes": "commute / travel to work / trip to the office: 통근, 출퇴근. drag on: 지루하게 계속되다.",
-      "translation": "요즘 출퇴근(commute)은 어땠어요?"
+      "translation": "요즘 출퇴근은 어땠어요?"
     },
     {
       "id": 91,
@@ -1950,7 +1956,7 @@
         "After the presentation, the CEO left the floor open for a short Q&A session."
       ],
       "notes": "leave the floor open: 발언 기회를 주다, 토론의 여지를 남겨두다.",
-      "translation": "저는 우리의 결정에 만족하지만, 혹시 반대 의견이 있는 분이 있을까 봐 발언 기회(the floor)를 열어두고 싶어요."
+      "translation": "저는 우리의 결정에 만족하지만, 혹시 반대 의견이 있는 분이 있을까 봐 발언 기회를 열어두고 싶어요."
     },
     {
       "id": 92,
@@ -1968,7 +1974,7 @@
       "difficulty": "intermediate",
       "examples": [],
       "notes": "over the top: 지나친, 과장된.",
-      "translation": "캐주얼한 저녁 식사 파티에 그녀의 다이아몬드 목걸이는 약간 지나쳤다고(over the top) 느껴졌어요."
+      "translation": "캐주얼한 저녁 식사 파티에 그녀의 다이아몬드 목걸이는 약간 지나쳤다고 느껴졌어요."
     },
     {
       "id": 93,
@@ -1990,8 +1996,8 @@
       },
       "difficulty": "intermediate",
       "examples": [],
-      "notes": "immediate family: 직계 가족. intimate: 친밀한.",
-      "translation": "작고 친밀한(intimate) 결혼식에는 직계 가족(immediate family)만 참석했습니다."
+      "notes": "immediate family: 직계 가족. intimate: 친밀한,사적인,(분위기가) 아늑한.",
+      "translation": "작고 친밀한 결혼식에는 직계 가족만 참석했습니다."
     },
     {
       "id": 94,
@@ -2012,7 +2018,7 @@
         "They realized the missing keys had been in the bottom of her purse all along."
       ],
       "notes": "all along: 처음부터, 내내. what was going on: 무슨 일이 일어나고 있었는지.",
-      "translation": "그래서 내내(all along) 무슨 일이 일어나고 있었던 건지 알겠어요!"
+      "translation": "그래서 내내 무슨 일이 일어나고 있었던 건지 알겠어요!"
     },
     {
       "id": 95,
@@ -2100,7 +2106,7 @@
       "difficulty": "beginner",
       "examples": [],
       "notes": "I gotta get new glasses: 'I have got to get new glasses'의 구어체 축약형. (Very casual, dropping 'a pair of')",
-      "translation": "새 안경이 필요해요. (매우 캐주얼하게, 'a pair of'를 생략)"
+      "translation": "새 안경이 필요해요."
     },
     {
       "id": 99,
@@ -2153,7 +2159,7 @@
         "It makes sense to go to them. But, you know, I'll get the next one."
       ],
       "notes": "pitch oneself: 자신을 어필하다/홍보하다. get out of one's comfort zone: 안락한 영역을 벗어나다. make sense to: ~하는 것이 합리적이다.",
-      "translation": "솔직히 저는 그곳에 가서 저 자신을 어필하고(pitch myself), 안락한 영역(comfort zone)을 벗어날 기회(opportunity)가 좋았어요."
+      "translation": "솔직히 저는 그곳에 가서 저 자신을 어필하고, 안락한 영역을 벗어날 기회가 좋았어요."
     },
     {
       "id": 101,
@@ -2173,7 +2179,7 @@
         "But at least they know I'm ready to play and I'm going to put my best foot forward and come prepared."
       ],
       "notes": "expecting to get: ~을 얻기를 예상하다. ready to play: 준비가 되다, 참여할 준비가 되다. put one's best foot forward: 최선을 다하다, 좋은 인상을 주려 노력하다. come prepared: 준비된 상태로 오다.",
-      "translation": "저는 여기서 막 시작했어요. 3천만 달러짜리 매물을 따낼(get) 것이라고는 정말 예상하지 못했어요."
+      "translation": "저는 여기서 막 시작했어요. 3천만 달러짜리 매물을 따낼 것이라고는 정말 예상하지 못했어요."
     },
     {
       "id": 102,
@@ -2193,7 +2199,7 @@
         "Would you expect otherwise? (당연쓰)"
       ],
       "notes": "straight: 연속으로, 끊임없이. Would you expect otherwise?: 당연히 그렇지 않겠어요? (긍정적 대답을 유도하는 반문)",
-      "translation": "그는 쉬지 않고(without a break) 6개월 연속으로(straight) 그 프로젝트를 진행했어요. 승진했나요?"
+      "translation": "그는 쉬지 않고 6개월 연속으로 그 프로젝트를 진행했어요. 승진했나요?"
     },
     {
       "id": 103,
@@ -2216,7 +2222,7 @@
       "difficulty": "intermediate",
       "examples": [],
       "notes": "eager to learn: 배우고자 열망하는. a whole lot of: 엄청나게 많은. supervision: 감독, 관리.",
-      "translation": "새 인턴은 배우고자 하는 열의가 있지만, 솔직히 말해서 지금은 니져/호ㅓ랏어브 많은 감독(supervision)이 필요해요."
+      "translation": "새 인턴은 배우고자 하는 열의가 있지만, 솔직히 말해서 지금은 엄청나게 많은 감독이 필요해요."
     },
     {
       "id": 104,
@@ -2237,7 +2243,7 @@
         "Am I allowed to wear sneakers to the office?"
       ],
       "notes": "changed into: ~으로 갈아입다/갈아 신다. reasonable shoes: 적절한/편안한 신발.",
-      "translation": "하루 종일 하이힐을 신고 있었지만, 집에 걸어가기 위해 드디어 편한 신발(reasonable shoes)로 갈아 신었어요."
+      "translation": "하루 종일 하이힐을 신고 있었지만, 집에 걸어가기 위해 드디어 편한 신발로 갈아 신었어요."
     },
     {
       "id": 105,
@@ -2264,7 +2270,7 @@
         "Sometimes I feel insecure about asking for help at work."
       ],
       "notes": "secure in: ~에 확신하는/자신 있는. feel insecure: 불안정하다고 느끼다.",
-      "translation": "저는 제 스타일에 자신감이(secure in my sense of style) 있어서, 다른 사람들의 의견을 걱정하지 않고 제가 좋아하는 방식으로 옷을 입어요."
+      "translation": "저는 제 스타일에 자신감이 있어서, 다른 사람들의 의견을 걱정하지 않고 제가 좋아하는 방식으로 옷을 입어요."
     },
     {
       "id": 106,
@@ -2307,7 +2313,7 @@
         "There's a lot of generational welfare dependence, the kinds of things that we see manifesting in the classroom, in big behaviours for a whole variety of reasons."
       ],
       "notes": "cyclical poverty: 대물림되는 빈곤. generational welfare dependence: 세대 간 복지 의존. manifest in: ~에서 나타나다. big behaviours: 큰 문제 행동. whole variety of reasons: 아주 다양한 이유.",
-      "translation": "마운트 드루이트에는 많은 사회 문제가 있습니다. 순환적인 빈곤(cyclical poverty)이 많습니다."
+      "translation": "마운트 드루이트에는 많은 사회 문제가 있습니다. 순환적인 빈곤이 많습니다."
     },
     {
       "id": 108,
@@ -2330,7 +2336,7 @@
       "difficulty": "advanced",
       "examples": [],
       "notes": "no friggin clue / zero clue: 전혀 모르다, 단서가 없다. let alone: ~은 물론이고, 하물며 ~은. (뒤에 오는 것이 더욱 불가능함을 강조)",
-      "translation": "저는 이미 이 교실에서 일어나고 있던 어떤 행동도 어떻게 다룰지 정말 아무런 단서도, 0의 단서도 없었는데, 하물며(let alone) 이런 복잡한 요구를 가진 학생은 더더욱이요."
+      "translation": "저는 이미 이 교실에서 일어나고 있던 어떤 행동도 어떻게 다룰지 정말 아무런 단서도, 0의 단서도 없었는데, 하물며 이런 복잡한 요구를 가진 학생은 더더욱이요."
     },
     {
       "id": 109,
@@ -2378,7 +2384,7 @@
         "Some car came and just swiped the side of our car. $2,000 in repairs."
       ],
       "notes": "farmer's market: 농산물 직거래 장터. get sideswiped / swipe the side of our car: (차가) 측면 충돌을 당하다.",
-      "translation": "사실 몇 주 전에 파머스 마켓에 갔다가 근처에 주차했는데, 저희 차가 측면 충돌을 당했어요(got sideswiped)."
+      "translation": "사실 몇 주 전에 파머스 마켓에 갔다가 근처에 주차했는데, 저희 차가 측면 충돌을 당했어요."
     },
     {
       "id": 111,
@@ -2404,7 +2410,7 @@
         "Yes, I'm super bummed she's moving. She just accepted a job there. Oh, that's so far."
       ],
       "notes": "bummed / bummed out / super bummed: 실망한, 기분이 안 좋은.",
-      "translation": "자기를 빼고(without him) 피자를 다 먹어버린 것을 알게 되면 그는 매우 실망할(bummed) 거예요."
+      "translation": "자기를 빼고 피자를 다 먹어버린 것을 알게 되면 그는 매우 실망할 거예요."
     },
     {
       "id": 112,
@@ -2424,7 +2430,7 @@
         "She's been looking for a fresh start."
       ],
       "notes": "happen for someone: ~에게 좋은 일이 생기다. fresh start: 새로운 시작.",
-      "translation": "그녀에게 이런 일이 생겨서(this happened for her) 정말 기뻐요."
+      "translation": "그녀에게 이런 일이 생겨서 정말 기뻐요."
     },
     {
       "id": 113,
@@ -2449,7 +2455,7 @@
         "Throughout his final speech, the retiring CEO exhibited dignity, focusing on the company's future rather than past achievements."
       ],
       "notes": "controversial verdict: 논란이 많은 평결. exhibited dignity: 품위를 보여주었다. throughout: ~내내. focusing on ~ rather than: ~보다는 ~에 집중하며.",
-      "translation": "논란이 많은 평결(controversial verdict) 후에도 피고는 품위를 보여주었고(exhibited dignity) 법원에 시간을 내어준 것에 감사했습니다."
+      "translation": "논란이 많은 평결 후에도 피고는 품위를 보여주었고 법원에 시간을 내어준 것에 감사했습니다."
     },
     {
       "id": 114,
@@ -2493,7 +2499,7 @@
         "We are looking at the prospective costs of the project before we commit to it."
       ],
       "notes": "prospective buyer: 장래의 구매자. turn into: ~으로 바꾸다. family compound: 가족 거주지/집단 거주지. dissuade from: ~하는 것을 단념시키다. prospective costs: 예상 비용.",
-      "translation": "만약 당신이 장래의 구매자(prospective buyer)이고, 아이들이 있고, 이것을 당신의 가족 거주지(family compound)로 바꾸고 싶다면."
+      "translation": "만약 당신이 장래의 구매자이고, 아이들이 있고, 이것을 당신의 가족 거주지로 바꾸고 싶다면."
     },
     {
       "id": 116,
@@ -2511,7 +2517,7 @@
       "difficulty": "intermediate",
       "examples": [],
       "notes": "lack of privacy: 사생활 부족.",
-      "translation": "네, 가족뿐만 아니라 누구에게든, 일어나고 있는 사생활 부족(lack of privacy) 문제라고 생각해요."
+      "translation": "네, 가족뿐만 아니라 누구에게든, 일어나고 있는 사생활 부족 문제라고 생각해요."
     },
     {
       "id": 117,
@@ -2533,7 +2539,7 @@
         "I have nothing on my plate."
       ],
       "notes": "put on your plate: ~에게 (책임지고 처리할) 일을 맡기다. nothing on my plate: 할 일이 없다. remedy through landscaping: 조경을 통해 해결하다. put someone in charge: ~에게 책임을 맡기다. block: 가리다, 차단하다.",
-      "translation": "제가 당신에게 맡길(put on your plate) 일이 하나 있는데, 저와 이 부동산에 중요합니다."
+      "translation": "제가 당신에게 맡길 일이 하나 있는데, 저와 이 부동산에 중요합니다."
     },
     {
       "id": 118,
@@ -2578,7 +2584,7 @@
         "I don't have to, but you have to. Haha"
       ],
       "notes": "trip on: ~에 걸려 넘어지다. Watch your head: 머리 조심하세요.",
-      "translation": "아래층을 보여드릴게요. 이 전선에 걸려 넘어지지(trip on) 않도록 조심하세요. 여기 머리 조심하세요."
+      "translation": "아래층을 보여드릴게요. 이 전선에 걸려 넘어지지 않도록 조심하세요. 여기 머리 조심하세요."
     },
     {
       "id": 120,
@@ -2603,7 +2609,7 @@
         "Great, I'm already ten minutes late."
       ],
       "notes": "All I need is for [something bad] to happen: (비꼬는 표현) 안 좋은 일이 일어나면 완벽하겠다.",
-      "translation": "이제 폰만 방전되어 있으면 딱이네. (All I need is [something bad])"
+      "translation": "이제 폰만 방전되어 있으면 딱이네."
     },
     {
       "id": 121,
@@ -2796,7 +2802,7 @@
         "When the fire alarm went off, people were scrambling for the exits."
       ],
       "notes": "scramble for: ~을 차지하기 위해 다투다, 허둥지둥하다.",
-      "translation": "학생들은 인기 있는 선택 과목의 마지막 몇 자리를 차지하기 위해 서로 다투고(scrambling for) 있었습니다."
+      "translation": "학생들은 인기 있는 선택 과목의 마지막 몇 자리를 차지하기 위해 서로 다투고 있었습니다."
     },
     {
       "id": 130,
@@ -2816,7 +2822,7 @@
         "The best I can figure"
       ],
       "notes": "the best I can figure: 내가 짐작할 수 있는 한, 내가 생각하기로는.",
-      "translation": "제가 추측할 수 있는 한(the best I can figure), 보안 영상에 따르면 그는 어제 오후 3시경에 사무실을 나섰습니다."
+      "translation": "제가 추측할 수 있는 한, 보안 영상에 따르면 그는 어제 오후 3시경에 사무실을 나섰습니다."
     },
     {
       "id": 131,
@@ -2841,7 +2847,7 @@
         "My uncle is really tight with money; he never buys anyone gifts."
       ],
       "notes": "tight with: ~와 친한. tight with money: 돈에 인색한.",
-      "translation": "매니저가 사장과 친하니(tight with), 그 주변에서는 말조심하세요."
+      "translation": "매니저가 사장과 친하니, 그 주변에서는 말조심하세요."
     },
     {
       "id": 132,
@@ -2867,7 +2873,7 @@
         "The local community really stepped up when the families lost their homes in the fire, offering food and shelter. (책임지고/적극적으로 나서다)"
       ],
       "notes": "apply oneself to: ~에 전념하다, 집중하다. step up: (노력, 속도, 생산 등을) 높이다, 강화하다; 적극적으로 나서다.",
-      "translation": "요즘 운동 목표에 충분히 전념/집중(applying myself to)하지 못하고 있어서, 더 열심히 해야(step it up) 해요."
+      "translation": "요즘 운동 목표에 충분히 전념/집중하지 못하고 있어서, 더 열심히 해야 해요."
     },
     {
       "id": 133,
@@ -2889,7 +2895,7 @@
         "What does the acronym U.N. actually stand for?"
       ],
       "notes": "can't stand: ~을 참을 수 없다, 몹시 싫어하다. not stand for: ~을 용납하지 않다. stand for: ~을 상징하다, 의미하다.",
-      "translation": "주말에 식료품점에서 긴 줄을 서서 기다리는 것을 참을(can't stand) 수 없어요."
+      "translation": "주말에 식료품점에서 긴 줄을 서서 기다리는 것을 참을 수 없어요."
     },
     {
       "id": 134,
@@ -2909,7 +2915,7 @@
         "Right about now, I could really use a cup of coffee."
       ],
       "notes": "right about now: 지금쯤. (시간을 추측하여 말할 때)",
-      "translation": "그들은 지금쯤(right about now) 공항에 착륙하고 있을 거예요."
+      "translation": "그들은 지금쯤 공항에 착륙하고 있을 거예요."
     }
   ]
 }
