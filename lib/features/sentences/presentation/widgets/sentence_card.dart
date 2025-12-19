@@ -57,6 +57,7 @@ class _SentenceCardState extends State<SentenceCard>
 
     return GestureDetector(
       onTap: _flipCard,
+      behavior: HitTestBehavior.opaque,
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
@@ -131,16 +132,13 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SentenceTextView(
-          sentenceText: widget.sentence.original,
-          fontSize: 24, // Use fontSize instead of style
-        ),
+        SentenceTextView(sentenceText: widget.sentence.original, fontSize: 24),
         if (showNotes) ...[
           if (widget.sentence.notes.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            Text(
+            SelectableText(
               widget.sentence.notes,
               style: const TextStyle(fontSize: 14, color: Colors.black54),
               textAlign: TextAlign.center,
@@ -160,7 +158,7 @@ class _SentenceCardState extends State<SentenceCard>
             ...widget.sentence.examples.map(
               (example) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Text(
+                child: SelectableText(
                   example,
                   style: const TextStyle(fontSize: 14, color: Colors.black87),
                   textAlign: TextAlign.center,
@@ -177,7 +175,7 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        SelectableText(
           widget.sentence.translation,
           style: const TextStyle(
             fontSize: 22,
@@ -192,7 +190,7 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            Text(
+            SelectableText(
               widget.sentence.notes,
               style: const TextStyle(fontSize: 14, color: Colors.black54),
               textAlign: TextAlign.center,
@@ -212,7 +210,7 @@ class _SentenceCardState extends State<SentenceCard>
             ...widget.sentence.examples.map(
               (example) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Text(
+                child: SelectableText(
                   example,
                   style: const TextStyle(fontSize: 14, color: Colors.black87),
                   textAlign: TextAlign.center,

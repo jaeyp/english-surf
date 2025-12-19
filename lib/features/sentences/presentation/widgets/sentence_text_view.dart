@@ -14,11 +14,12 @@ class SentenceTextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
+    return SelectableText.rich(
+      TextSpan(
         style: TextStyle(fontSize: fontSize, color: Colors.black, height: 1.5),
         children: _buildTextSpans(),
       ),
+      textAlign: TextAlign.center,
     );
   }
 
