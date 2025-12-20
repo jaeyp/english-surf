@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../widgets/sentence_card.dart';
 
@@ -34,27 +35,88 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
     final languageMode = ref.watch(languageModeProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: sentencesAsync.when(
-          data: (sentences) =>
-              Text('${_currentIndex + 1} / ${sentences.length}'),
-          loading: () => const Text('Loading...'),
-          error: (_, __) => const Text('Error'),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(),
+    return sentencesAsync.when(
+      data: (sentences) {
+        if (sentences.isEmpty) {
+          return Scaffold(
+            appBar: AppBar(title: const Text('Study Mode')),
+            body: const Center(child: Text('No sentences to study.')),
+          );
+        }
+
+        // Extremely safe index calculation
+        final safeIndex = _currentIndex < sentences.length
+            ? (_currentIndex < 0 ? 0 : _currentIndex)
+            : sentences.length - 1;
+
+        if (safeIndex != _currentIndex) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _currentIndex = safeIndex;
+              });
+            }
+          });
+        }
+
+        final currentSentence = sentences[safeIndex];
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('${safeIndex + 1} / ${sentences.length}'),
+            leading: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () =>
+                      context.push('/edit', extra: currentSentence),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () async {
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Delete'),
+                        content: const Text('Are you sure?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (confirmed == true) {
+                      ref
+                          .read(sentenceListProvider.notifier)
+                          .deleteSentence(currentSentence.id);
+                      // After deletion, if list becomes empty, go back
+                      if (sentences.length <= 1) {
+                        if (context.mounted) Navigator.pop(context);
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+            leadingWidth: 100,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: sentencesAsync.when(
-        data: (sentences) {
-          if (sentences.isEmpty) {
-            return const Center(child: Text('No sentences to study.'));
-          }
-          return Column(
+          body: Column(
             children: [
               Expanded(
                 child: PageView.builder(
@@ -66,23 +128,30 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                     });
                   },
                   itemBuilder: (context, index) {
+                    // One more safety check inside builder
+                    if (index >= sentences.length)
+                      return const SizedBox.shrink();
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: SentenceCard(
-                          sentence: sentences[index],
-                          languageMode: languageMode, // Pass language mode
-                        ),
+                      child: SentenceCard(
+                        sentence: sentences[index],
+                        languageMode: languageMode,
                       ),
                     );
                   },
                 ),
               ),
             ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+          ),
+        );
+      },
+      loading: () => Scaffold(
+        appBar: AppBar(title: const Text('Loading...')),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (err, stack) => Scaffold(
+        appBar: AppBar(title: const Text('Error')),
+        body: Center(child: Text('Error: $err')),
       ),
     );
   }

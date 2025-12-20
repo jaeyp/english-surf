@@ -1,0 +1,375 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../domain/entities/sentence.dart';
+import '../../domain/enums/difficulty.dart';
+import '../../domain/value_objects/sentence_text.dart';
+import '../../domain/value_objects/text_style.dart' as domain;
+import '../../domain/enums/text_style_type.dart';
+import '../../application/providers/sentence_providers.dart';
+
+import '../widgets/styled_text_editing_controller.dart';
+
+class SentenceEditScreen extends ConsumerStatefulWidget {
+  final Sentence? sentence;
+
+  const SentenceEditScreen({super.key, this.sentence});
+
+  @override
+  ConsumerState<SentenceEditScreen> createState() => _SentenceEditScreenState();
+}
+
+class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
+  final _formKey = GlobalKey<FormState>();
+  late StyledTextEditingController _originalController;
+  late TextEditingController _translationController;
+  late TextEditingController _notesController;
+  late List<TextEditingController> _exampleControllers;
+  late Difficulty _difficulty;
+
+  @override
+  void initState() {
+    super.initState();
+    final s = widget.sentence;
+    final initialStyles = s?.original.styles.toList() ?? [];
+    _originalController = StyledTextEditingController(
+      text: s?.original.text ?? '',
+      styles: initialStyles,
+    );
+    _translationController = TextEditingController(text: s?.translation ?? '');
+    _notesController = TextEditingController(text: s?.notes ?? '');
+    _difficulty = s?.difficulty ?? Difficulty.beginner;
+    _exampleControllers =
+        s?.examples.map((e) => TextEditingController(text: e)).toList() ?? [];
+    if (_exampleControllers.isEmpty) {
+      _exampleControllers.add(TextEditingController());
+    }
+  }
+
+  @override
+  void dispose() {
+    _originalController.dispose();
+    _translationController.dispose();
+    _notesController.dispose();
+    for (var controller in _exampleControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _addExample() {
+    setState(() {
+      _exampleControllers.add(TextEditingController());
+    });
+  }
+
+  void _removeExample(int index) {
+    setState(() {
+      _exampleControllers.removeAt(index);
+    });
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final sentences = await ref.read(sentenceListProvider.future);
+    final id =
+        widget.sentence?.id ??
+        (sentences.isEmpty
+            ? 1
+            : sentences.map((s) => s.id).reduce((a, b) => a > b ? a : b) + 1);
+    final order =
+        widget.sentence?.order ??
+        (sentences.isEmpty
+            ? 1
+            : sentences.map((s) => s.order).reduce((a, b) => a > b ? a : b) +
+                  1);
+
+    final newSentence = Sentence(
+      id: id,
+      order: order,
+      original: SentenceText(
+        text: _originalController.text,
+        styles: _originalController.styles,
+      ),
+      translation: _translationController.text,
+      difficulty: _difficulty,
+      notes: _notesController.text,
+      examples: _exampleControllers
+          .map((c) => c.text)
+          .where((t) => t.isNotEmpty)
+          .toList(),
+    );
+
+    if (widget.sentence == null) {
+      await ref.read(sentenceListProvider.notifier).addSentence(newSentence);
+    } else {
+      await ref.read(sentenceListProvider.notifier).updateSentence(newSentence);
+    }
+
+    if (mounted) {
+      context.pop();
+    }
+  }
+
+  void _applyStyle(TextStyleType type) {
+    final selection = _originalController.selection;
+    if (selection.isCollapsed) return;
+
+    final start = selection.start;
+    final end = selection.end;
+
+    setState(() {
+      // 1. Remove overlapping styles of the same type that are completely within the new selection
+      _originalController.styles.removeWhere(
+        (s) => s.type == type && s.start >= start && s.end <= end,
+      );
+
+      // 2. Add the new style
+      _originalController.styles.add(
+        domain.TextStyle(type: type, start: start, end: end),
+      );
+
+      // 3. Simple merge: Sort by start then type
+      _originalController.styles.sort((a, b) => a.start.compareTo(b.start));
+    });
+  }
+
+  void _clearStyles() {
+    final selection = _originalController.selection;
+    if (selection.isCollapsed) return;
+
+    final start = selection.start;
+    final end = selection.end;
+
+    setState(() {
+      _originalController.styles.removeWhere((s) {
+        final overlaps = (s.start < end && s.end > start);
+        return overlaps;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.sentence == null ? 'Add Sentence' : 'Edit Sentence'),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => context.pop(),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Cancel'),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: _save,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1B5E20),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Save'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Key Sentence:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              _buildOriginalField(),
+              const SizedBox(height: 24),
+              const Text(
+                'Translation:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _translationController,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  hintText: 'Enter Korean translation',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Translation is required'
+                    : null,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Difficulty:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              DropdownButtonFormField<Difficulty>(
+                value: _difficulty,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                items: Difficulty.values.map((d) {
+                  return DropdownMenuItem(
+                    value: d,
+                    child: Text(d.name.toUpperCase()),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  if (value != null) setState(() => _difficulty = value);
+                },
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Notes:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _notesController,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  hintText: 'Grammar or vocabulary notes',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Examples:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    onPressed: _addExample,
+                    icon: const Icon(Icons.add_circle_outline),
+                  ),
+                ],
+              ),
+              ..._exampleControllers.asMap().entries.map((entry) {
+                final index = entry.key;
+                final controller = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: controller,
+                          decoration: InputDecoration(
+                            hintText: 'Example ${index + 1}',
+                            border: const OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => _removeExample(index),
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(height: 40),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOriginalField() {
+    return Column(
+      children: [
+        TextFormField(
+          controller: _originalController,
+          maxLines: null,
+          decoration: const InputDecoration(
+            hintText: 'Enter English sentence',
+            border: OutlineInputBorder(),
+            helperText: 'Select text to apply styling (Bold/Highlight)',
+          ),
+          validator: (value) =>
+              value == null || value.isEmpty ? 'Sentence is required' : null,
+          contextMenuBuilder: (context, editableTextState) {
+            final List<ContextMenuButtonItem> buttonItems =
+                editableTextState.contextMenuButtonItems;
+
+            buttonItems.insert(
+              0,
+              ContextMenuButtonItem(
+                label: 'Bold',
+                onPressed: () {
+                  _applyStyle(TextStyleType.bold);
+                  editableTextState.hideToolbar();
+                },
+              ),
+            );
+
+            buttonItems.insert(
+              1,
+              ContextMenuButtonItem(
+                label: 'Highlight',
+                onPressed: () {
+                  _applyStyle(TextStyleType.highlight);
+                  editableTextState.hideToolbar();
+                },
+              ),
+            );
+
+            buttonItems.insert(
+              2,
+              ContextMenuButtonItem(
+                label: 'Clear',
+                onPressed: () {
+                  _clearStyles();
+                  editableTextState.hideToolbar();
+                },
+              ),
+            );
+
+            return AdaptiveTextSelectionToolbar.buttonItems(
+              anchors: editableTextState.contextMenuAnchors,
+              buttonItems: buttonItems,
+            );
+          },
+        ),
+      ],
+    );
+  }
+}

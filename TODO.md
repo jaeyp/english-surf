@@ -11,9 +11,10 @@ English sentence learning app with rich text styling and flashcard features.
 
 ## 📊 Current Status
 - **Phase 1: Domain & Data Modeling** (✅ Completed)
-- **Phase 2: Data Layer Implementation** (🚧 In Progress)
-- **Phase 3: Application Layer (State Management)** (⏳ Pending)
-- **Phase 4: Presentation Layer (UI)** (⏳ Pending)
+- **Phase 2: Data Layer Implementation** (✅ Completed)
+- **Phase 3: Application Layer (State Management)** (✅ Completed)
+- **Phase 4: Presentation Layer (UI)** (🚧 In Progress)
+- **Phase 5: Advanced Input & AI Integration** (⏳ Pending)
 
 ---
 
@@ -60,7 +61,7 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Screens**
     - [x] `SentenceListScreen`: Main list view, SliverAppBar, FilterBar, FAB, Language Toggle (Icon)
     - [x] `StudyModeScreen`: Full-screen card view (PageView), Navigation (Swipe only)
-    - [ ] `SentenceEditScreen`: Add/Edit sentence form, Rich text input, Floating Context Menu
+    - [x] `SentenceEditScreen`: Add/Edit sentence form, Rich text input, Floating Context Menu
 - [x] **State Management Integration**
     - [x] Connect Providers to Screens
     - [x] Implement Filter/Sort logic in UI

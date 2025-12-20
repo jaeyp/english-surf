@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../widgets/sentence_list_item.dart';
 import '../widgets/sentence_filter_bar.dart';
-import 'study_mode_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class SentenceListScreen extends ConsumerWidget {
   const SentenceListScreen({super.key});
@@ -34,20 +34,12 @@ class SentenceListScreen extends ConsumerWidget {
               // Study Mode Button
               IconButton(
                 icon: const Icon(Icons.play_arrow),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const StudyModeScreen(),
-                    ),
-                  );
-                },
+                onPressed: () => context.push('/study'),
               ),
               // Add Sentence Button
               IconButton(
                 icon: const Icon(Icons.add),
-                onPressed: () {
-                  // TODO: Navigate to Add Screen
-                },
+                onPressed: () => context.push('/edit'),
               ),
             ],
             bottom: const PreferredSize(
@@ -70,24 +62,12 @@ class SentenceListScreen extends ConsumerWidget {
                   return SentenceListItem(
                     sentence: sentence,
                     languageMode: languageMode,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              StudyModeScreen(initialIndex: index),
-                        ),
-                      );
-                    },
-                    onEdit: () {
-                      // TODO: Navigate to Edit Screen
-                    },
+                    onTap: () => context.push('/study', extra: index),
+                    onEdit: () => context.push('/edit', extra: sentence),
                     onDelete: () {
-                      // TODO: Call Repository to delete (Phase 5)
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Delete not implemented yet (Phase 5)'),
-                        ),
-                      );
+                      ref
+                          .read(sentenceListProvider.notifier)
+                          .deleteSentence(sentence.id);
                     },
                   );
                 }, childCount: sentences.length),
@@ -100,6 +80,10 @@ class SentenceListScreen extends ConsumerWidget {
                 SliverFillRemaining(child: Center(child: Text('Error: $err'))),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push('/edit'),
+        child: const Icon(Icons.add),
       ),
     );
   }

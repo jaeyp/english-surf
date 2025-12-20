@@ -55,49 +55,47 @@ class _SentenceCardState extends State<SentenceCard>
     final isOriginalFront =
         widget.languageMode == LanguageMode.originalToTranslation;
 
-    return GestureDetector(
-      onTap: _flipCard,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          final angle = _animation.value * pi;
-          final isBack = angle >= pi / 2;
+    return SizedBox.expand(
+      child: GestureDetector(
+        onTap: _flipCard,
+        behavior: HitTestBehavior.opaque,
+        child: Center(
+          child: SizedBox(
+            height: 400, // Keep fixed height for visual card
+            width: double.infinity,
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                final angle = _animation.value * pi;
+                final isBack = angle >= pi / 2;
 
-          return Transform(
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateY(angle),
-            alignment: Alignment.center,
-            child: isBack
-                ? Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()..rotateY(pi),
-                    child: _buildCardFace(
-                      isFront: false,
-                      // Back Content: Always include notes
-                      content: isOriginalFront
-                          ? _buildTranslationContent(
-                              showNotes: true,
-                            ) // Orig->Trans: Back shows Translation + Notes
-                          : _buildOriginalContent(
-                              showNotes: true,
-                            ), // Trans->Orig: Back shows Original + Notes
-                    ),
-                  )
-                : _buildCardFace(
-                    isFront: true,
-                    // Front Content: No notes
-                    content: isOriginalFront
-                        ? _buildOriginalContent(
-                            showNotes: false,
-                          ) // Orig->Trans: Front shows Original
-                        : _buildTranslationContent(
-                            showNotes: false,
-                          ), // Trans->Orig: Front shows Translation
-                  ),
-          );
-        },
+                return Transform(
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(angle),
+                  alignment: Alignment.center,
+                  child: isBack
+                      ? Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..rotateY(pi),
+                          child: _buildCardFace(
+                            isFront: false,
+                            content: isOriginalFront
+                                ? _buildTranslationContent(showNotes: true)
+                                : _buildOriginalContent(showNotes: true),
+                          ),
+                        )
+                      : _buildCardFace(
+                          isFront: true,
+                          content: isOriginalFront
+                              ? _buildOriginalContent(showNotes: false)
+                              : _buildTranslationContent(showNotes: false),
+                        ),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -114,7 +112,21 @@ class _SentenceCardState extends State<SentenceCard>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: Center(child: content)),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: Center(child: content),
+                    ),
+                  );
+                },
+              ),
+            ),
             if (isFront) ...[
               const SizedBox(height: 16),
               const Text(
@@ -154,13 +166,17 @@ class _SentenceCardState extends State<SentenceCard>
                 color: Colors.black54,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 12),
             ...widget.sentence.examples.map(
               (example) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: SelectableText(
                   example,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                    height: 1.4,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -206,13 +222,17 @@ class _SentenceCardState extends State<SentenceCard>
                 color: Colors.black54,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 12),
             ...widget.sentence.examples.map(
               (example) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: SelectableText(
                   example,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                    height: 1.4,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
