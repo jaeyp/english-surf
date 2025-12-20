@@ -13,8 +13,10 @@ English sentence learning app with rich text styling and flashcard features.
 - **Phase 1: Domain & Data Modeling** (✅ Completed)
 - **Phase 2: Data Layer Implementation** (✅ Completed)
 - **Phase 3: Application Layer (State Management)** (✅ Completed)
-- **Phase 4: Presentation Layer (UI)** (🚧 In Progress)
+- **Phase 4: Presentation Layer (UI)** (✅ Completed)
+- **Phase 4.1: Polishing & Hardening** (🚧 In Progress)
 - **Phase 5: Advanced Input & AI Integration** (⏳ Pending)
+- **Phase 6: Monetization & Deployment** - Launch Ready (⏳ Pending)
 
 ---
 
@@ -66,6 +68,30 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] Connect Providers to Screens
     - [x] Implement Filter/Sort logic in UI
     - [x] Implement Language Mode (Orig↔Trans) logic
+- [x] **Data Persistence (Local DB)**
+    - [x] **Database Setup**: Implement `Drift` (SQLite) or `Hive` for local storage.
+    - [x] **CRUD Operations**: Create, Read, Update, Delete sentences locally.
+    - [x] **Repository Update**: Replace dummy data repository with local DB repository.
+
+## Phase 4.1: Polishing & Hardening (Refinement)
+- [ ] **UI/UX Polishing**
+    - [ ] **Empty States**: Create beautiful "No Data" views for Empty List and No Filter Results.
+    - [ ] **Search Bar**: Add real-time search functionality to the `SentenceListScreen`.
+    - [ ] **Haptic Feedback**: Add subtle haptics for significant interactions (swipe, card flip, save).
+    - [ ] **Accessibility (a11y)**: Ensure screen reader support and proper contrast ratios.
+- [ ] **Editor Experience (UX)**
+    - [ ] **Markup UX**: Improve text selection and cursor handling when applying bold/highlight.
+    - [ ] **Validation Feedback**: Better UI feedback for form validation (e.g., shaking animation or clearer error text).
+- [ ] **Animations & Transitions**
+    - [ ] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
+    - [ ] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
+- [ ] **Performance & Hardening**
+    - [ ] **Database Stress Test**: Ensure performance remains stable with 1000+ sentences.
+    - [ ] **Error Boundaries**: Implement a global error handling UI for unexpected crashes.
+    - [ ] **Migration Strategy**: Document and test a basic DB migration plan for future schema changes.
+- [ ] **Testing (Hardening)**
+    - [ ] **Widget Tests**: Add tests for critical widgets (`SentenceCard`, `SentenceFilterBar`).
+    - [ ] **Integration Tests**: Verify core flow (Add -> Find in List -> Flip in Study Mode -> Delete).
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 
@@ -95,12 +121,7 @@ English sentence learning app with rich text styling and flashcard features.
         - Show loading state while generating.
         - Allow user to review and edit generated content before saving.
 
-### 3. Data Persistence (Local DB)
-- [ ] **Database Setup**: Implement `Drift` (SQLite) or `Hive` for local storage.
-- [ ] **CRUD Operations**: Create, Read, Update, Delete sentences locally.
-- [ ] **Repository Update**: Replace dummy data repository with local DB repository.
-
-### 4. User Onboarding (Tutorial)
+### 3. User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**
     - [ ] Integrate `tutorial_coach_mark` package.
     - [ ] **Design**: Use "Hand-drawn" style assets (arrows, circles) & Handwriting Font.

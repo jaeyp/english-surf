@@ -11,6 +11,18 @@ import 'package:english_surf/features/sentences/domain/repositories/sentence_rep
 class MockSentenceRepository extends Mock implements SentenceRepository {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(
+      Sentence(
+        id: 0,
+        order: 0,
+        original: const SentenceText(text: ''),
+        translation: '',
+        difficulty: Difficulty.beginner,
+      ),
+    );
+  });
+
   late MockSentenceRepository mockRepository;
 
   setUp(() {
@@ -47,8 +59,9 @@ void main() {
       expect(container.read(sentenceListProvider).value, [testSentence]);
     });
 
-    test('addSentence should update state', () async {
+    test('addSentence should call repository and update state', () async {
       when(() => mockRepository.getAllSentences()).thenAnswer((_) async => []);
+      when(() => mockRepository.addSentence(any())).thenAnswer((_) async {});
 
       final container = createContainer();
 
@@ -59,13 +72,14 @@ void main() {
           .read(sentenceListProvider.notifier)
           .addSentence(testSentence);
 
-      expect(container.read(sentenceListProvider).value, [testSentence]);
+      verify(() => mockRepository.addSentence(testSentence)).called(1);
     });
 
-    test('updateSentence should update existing sentence', () async {
+    test('updateSentence should call repository and update state', () async {
       when(
         () => mockRepository.getAllSentences(),
       ).thenAnswer((_) async => [testSentence]);
+      when(() => mockRepository.updateSentence(any())).thenAnswer((_) async {});
 
       final container = createContainer();
       await container.read(sentenceListProvider.future);
@@ -75,22 +89,25 @@ void main() {
           .read(sentenceListProvider.notifier)
           .updateSentence(updated);
 
+      verify(() => mockRepository.updateSentence(updated)).called(1);
       expect(
         container.read(sentenceListProvider).value!.first.translation,
         '안녕 세상',
       );
     });
 
-    test('deleteSentence should remove sentence from state', () async {
+    test('deleteSentence should call repository and update state', () async {
       when(
         () => mockRepository.getAllSentences(),
       ).thenAnswer((_) async => [testSentence]);
+      when(() => mockRepository.deleteSentence(any())).thenAnswer((_) async {});
 
       final container = createContainer();
       await container.read(sentenceListProvider.future);
 
       await container.read(sentenceListProvider.notifier).deleteSentence(1);
 
+      verify(() => mockRepository.deleteSentence(1)).called(1);
       expect(container.read(sentenceListProvider).value, isEmpty);
     });
   });

@@ -29,16 +29,27 @@ part 'sentence_providers.g.dart';
 class SentenceList extends _$SentenceList {
   @override
   Future<List<Sentence>> build() async {
+    print('DEBUG: SentenceList.build called. Fetching all sentences...');
     final repository = ref.watch(sentenceRepositoryProvider);
-    return repository.getAllSentences();
+    final sentences = await repository.getAllSentences();
+    print('DEBUG: SentenceList.build received ${sentences.length} sentences.');
+    return sentences;
   }
 
   Future<void> addSentence(Sentence sentence) async {
-    final sentences = await future;
-    state = AsyncData([...sentences, sentence]);
+    final repository = ref.read(sentenceRepositoryProvider);
+    print('DEBUG: Adding sentence to repository: ${sentence.original.text}');
+    await repository.addSentence(sentence);
+    print('DEBUG: Sentence added. Invalidating provider...');
+    // Refresh the list from the source of truth to get the correct auto-generated ID
+    ref.invalidateSelf();
+    await future;
   }
 
   Future<void> updateSentence(Sentence updatedSentence) async {
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.updateSentence(updatedSentence);
+
     final sentences = await future;
     state = AsyncData(
       sentences.map((s) {
@@ -48,6 +59,9 @@ class SentenceList extends _$SentenceList {
   }
 
   Future<void> deleteSentence(int id) async {
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.deleteSentence(id);
+
     final sentences = await future;
     state = AsyncData(sentences.where((s) => s.id != id).toList());
   }
@@ -97,7 +111,10 @@ class SentenceFilter extends _$SentenceFilter {
   }
 
   void setDifficulty(Difficulty? difficulty) {
-    state = state.copyWith(difficulty: difficulty);
+    state = SentenceFilterState(
+      difficulty: difficulty,
+      sortType: state.sortType,
+    );
   }
 
   void setSortType(SortType sortType) {

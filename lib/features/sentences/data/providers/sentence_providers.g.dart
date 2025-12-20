@@ -57,6 +57,47 @@ final class SentenceLocalDataSourceProvider
 String _$sentenceLocalDataSourceHash() =>
     r'957cb31c7fdc25cf1b91255897042986a1236ec6';
 
+@ProviderFor(appDatabase)
+const appDatabaseProvider = AppDatabaseProvider._();
+
+final class AppDatabaseProvider
+    extends $FunctionalProvider<AppDatabase, AppDatabase, AppDatabase>
+    with $Provider<AppDatabase> {
+  const AppDatabaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appDatabaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appDatabaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<AppDatabase> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AppDatabase create(Ref ref) {
+    return appDatabase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppDatabase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppDatabase>(value),
+    );
+  }
+}
+
+String _$appDatabaseHash() => r'63ee888947c6b70ff7ffbf17b8b09651fda53b06';
+
 @ProviderFor(sentenceRepository)
 const sentenceRepositoryProvider = SentenceRepositoryProvider._();
 
@@ -103,4 +144,4 @@ final class SentenceRepositoryProvider
 }
 
 String _$sentenceRepositoryHash() =>
-    r'0b7c109ba03a40be67322db6c43c5757b386e5c0';
+    r'891a11070644e1f2096931a536dab320c039bc7a';

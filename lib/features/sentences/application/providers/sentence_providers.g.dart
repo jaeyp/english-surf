@@ -87,7 +87,7 @@ final class SentenceListProvider
   SentenceList create() => SentenceList();
 }
 
-String _$sentenceListHash() => r'fe1f4e2ddcf2001560eee98a483781ec96c86e09';
+String _$sentenceListHash() => r'cd27ce65db4535fc6eecd9bfce2a5cf9f58da142';
 
 /// ----------------------------------------------------------------------------
 /// Provider: SentenceList
