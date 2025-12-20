@@ -32,6 +32,25 @@ class SentenceList extends _$SentenceList {
     final repository = ref.watch(sentenceRepositoryProvider);
     return repository.getAllSentences();
   }
+
+  Future<void> addSentence(Sentence sentence) async {
+    final sentences = await future;
+    state = AsyncData([...sentences, sentence]);
+  }
+
+  Future<void> updateSentence(Sentence updatedSentence) async {
+    final sentences = await future;
+    state = AsyncData(
+      sentences.map((s) {
+        return s.id == updatedSentence.id ? updatedSentence : s;
+      }).toList(),
+    );
+  }
+
+  Future<void> deleteSentence(int id) async {
+    final sentences = await future;
+    state = AsyncData(sentences.where((s) => s.id != id).toList());
+  }
 }
 
 /// ----------------------------------------------------------------------------

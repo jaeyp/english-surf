@@ -32,23 +32,24 @@ class SentenceListItem extends StatelessWidget {
     // Swipe-to-Action Implementation
     return Dismissible(
       key: ValueKey(sentence.id),
-      background: _buildSwipeActionLeft(),
-      secondaryBackground: _buildSwipeActionRight(),
+      background: _buildEditBackground(), // Right Swipe (Edit)
+      secondaryBackground: _buildDeleteBackground(), // Left Swipe (Delete)
       confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
+        if (direction == DismissDirection.endToStart) {
           // Left Swipe (Delete)
           final confirmed = await _showDeleteConfirmation(context);
           if (confirmed && onDelete != null) {
             onDelete!();
           }
           return confirmed;
-        } else {
+        } else if (direction == DismissDirection.startToEnd) {
           // Right Swipe (Edit)
           if (onEdit != null) {
             onEdit!();
           }
           return false; // Edit action navigates, so don't dismiss
         }
+        return false;
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -57,6 +58,7 @@ class SentenceListItem extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: InkWell(
           onTap: onTap,
+          onLongPress: onEdit,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -93,19 +95,19 @@ class SentenceListItem extends StatelessWidget {
     );
   }
 
-  Widget _buildSwipeActionLeft() {
+  Widget _buildDeleteBackground() {
     return Container(
       color: Colors.redAccent,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: const Icon(Icons.delete, color: Colors.white),
     );
   }
 
-  Widget _buildSwipeActionRight() {
+  Widget _buildEditBackground() {
     return Container(
       color: Colors.blueAccent,
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: const Icon(Icons.edit, color: Colors.white),
     );

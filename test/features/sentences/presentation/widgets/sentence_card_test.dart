@@ -85,6 +85,40 @@ void main() {
         expect(find.text('Example 1'), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'should flip when tapping outside the visual card (expanded tap area)',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 300,
+                  height: 600,
+                  child: SentenceCard(
+                    sentence: testSentence,
+                    languageMode: LanguageMode.originalToTranslation,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        // Initial: Front
+        expect(findRichText('Hello World'), findsOneWidget);
+
+        // Card is centered in 800x600 screen, occupying 300x600.
+        // It starts at x = (800-300)/2 = 250.
+        // Tapping at x=400 (inside), y=50 (above visual card)
+        await tester.tapAt(const Offset(400, 50));
+        await tester.pumpAndSettle();
+
+        // Should be flipped
+        expect(find.text('안녕 세상'), findsOneWidget);
+      },
+    );
   });
 }
 
@@ -93,6 +127,14 @@ Finder findRichText(String text) {
     if (widget is RichText) {
       final span = widget.text as TextSpan;
       return span.toPlainText().contains(text);
+    }
+    if (widget is SelectableText) {
+      if (widget.data != null) {
+        return widget.data!.contains(text);
+      }
+      if (widget.textSpan != null) {
+        return widget.textSpan!.toPlainText().contains(text);
+      }
     }
     return false;
   });
