@@ -14,7 +14,7 @@ English sentence learning app with rich text styling and flashcard features.
 - **Phase 2: Data Layer Implementation** (✅ Completed)
 - **Phase 3: Application Layer (State Management)** (✅ Completed)
 - **Phase 4: Presentation Layer (UI)** (✅ Completed)
-- **Phase 4.1: Polishing & Hardening** (🚧 In Progress)
+- **Phase 4.1: Polishing & Hardening** (🚧 In Progress - Polishing Done)
 - **Phase 5: Advanced Input & AI Integration** (⏳ Pending)
 - **Phase 6: Monetization & Deployment** - Launch Ready (⏳ Pending)
 
@@ -74,17 +74,17 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Repository Update**: Replace dummy data repository with local DB repository.
 
 ## Phase 4.1: Polishing & Hardening (Refinement)
-- [ ] **UI/UX Polishing**
-    - [ ] **Empty States**: Create beautiful "No Data" views for Empty List and No Filter Results.
-    - [ ] **Search Bar**: Add real-time search functionality to the `SentenceListScreen`.
-    - [ ] **Haptic Feedback**: Add subtle haptics for significant interactions (swipe, card flip, save).
-    - [ ] **Accessibility (a11y)**: Ensure screen reader support and proper contrast ratios.
-- [ ] **Editor Experience (UX)**
-    - [ ] **Markup UX**: Improve text selection and cursor handling when applying bold/highlight.
-    - [ ] **Validation Feedback**: Better UI feedback for form validation (e.g., shaking animation or clearer error text).
-- [ ] **Animations & Transitions**
-    - [ ] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
-    - [ ] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
+- [x] **UI/UX Polishing**
+    - [x] **Empty States**: Create beautiful "No Data" views for Empty List and No Filter Results.
+    - [x] **Search Bar**: Add real-time search functionality to the `SentenceListScreen`.
+    - [x] **Haptic Feedback**: Add subtle haptics for significant interactions (swipe, card flip, save).
+    - [x] **Accessibility (a11y)**: Ensure screen reader support and proper contrast ratios.
+- [x] **Editor Experience (UX)**
+    - [x] **Markup UX**: Improve text selection and cursor handling when applying bold/highlight.
+    - [x] **Validation Feedback**: Better UI feedback for form validation (e.g., shaking animation or clearer error text).
+- [x] **Animations & Transitions**
+    - [x] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
+    - [x] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
 - [ ] **Performance & Hardening**
     - [ ] **Database Stress Test**: Ensure performance remains stable with 1000+ sentences.
     - [ ] **Error Boundaries**: Implement a global error handling UI for unexpected crashes.
@@ -163,3 +163,14 @@ English sentence learning app with rich text styling and flashcard features.
 - **Styling:** Moved away from markdown parsing (`**`, `|`) to a robust range-based JSON structure for better extensibility.
 - **Localization:** Multi-language support (`translations.ko`) is postponed. Using a single `translation` field for now.
 - **Data Field:** Renamed `sentence` to `original` to clarify it represents the source text.
+
+---
+
+## 🛠 Future Ideas & Enhancements (Backlog)
+- [ ] **Flashcard Timer Auto-Next**: Add a feature to automatically move to the next card after a set duration.
+    - *Requirement*: Simple UI to toggle and adjust duration (e.g., 5s, 10s, 30s).
+- [ ] **Default Sentences Seeding Rework**: Clean up and rework the initial data seeding logic.
+    - *Requirement*: Instead of 134 items, provide only one "perfect" representative sentence for each difficulty (Beginner, Intermediate, Advanced) with rich notes/examples to guide the user.
+- [ ] **Spaced Repetition System (SRS)**: Implement an algorithm like Anki for more efficient learning.
+- [ ] **Voice Pronunciation**: Integrate Text-to-Speech (TTS) for the original sentences.
+- [ ] **Cloud Sync**: Allow users to sync their data across devices using Firebase or Supabase.

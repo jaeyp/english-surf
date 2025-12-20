@@ -59,21 +59,28 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           });
         }
 
+        final isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
         final currentSentence = sentences[safeIndex];
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('${safeIndex + 1} / ${sentences.length}'),
+            toolbarHeight: isLandscape
+                ? 40
+                : null, // Reduced height in landscape
+            title: isLandscape
+                ? null // Hide title in landscape to save vertical space
+                : Text('${safeIndex + 1} / ${sentences.length}'),
             leading: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.edit),
+                  icon: const Icon(Icons.edit, size: 20),
                   onPressed: () =>
                       context.push('/edit', extra: currentSentence),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(Icons.delete, size: 20),
                   onPressed: () async {
                     final confirmed = await showDialog<bool>(
                       context: context,
@@ -99,7 +106,6 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                       ref
                           .read(sentenceListProvider.notifier)
                           .deleteSentence(currentSentence.id);
-                      // After deletion, if list becomes empty, go back
                       if (sentences.length <= 1) {
                         if (context.mounted) Navigator.pop(context);
                       }
@@ -110,38 +116,50 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
             ),
             leadingWidth: 100,
             actions: [
+              if (isLandscape)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Text(
+                      '${safeIndex + 1} / ${sentences.length}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: sentences.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    // One more safety check inside builder
-                    if (index >= sentences.length)
-                      return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SentenceCard(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: sentences.length,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      if (index >= sentences.length)
+                        return const SizedBox.shrink();
+                      return SentenceCard(
                         sentence: sentences[index],
                         languageMode: languageMode,
-                      ),
-                    );
-                  },
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isLandscape ? 32.0 : 16.0,
+                          vertical: isLandscape ? 8.0 : 16.0,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

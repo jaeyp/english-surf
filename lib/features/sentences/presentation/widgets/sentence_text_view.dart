@@ -16,7 +16,7 @@ class SentenceTextView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectableText.rich(
       TextSpan(
-        style: TextStyle(fontSize: fontSize, color: Colors.black, height: 1.5),
+        style: TextStyle(fontSize: fontSize, color: Colors.black, height: 1.3),
         children: _buildTextSpans(),
       ),
       textAlign: TextAlign.center,

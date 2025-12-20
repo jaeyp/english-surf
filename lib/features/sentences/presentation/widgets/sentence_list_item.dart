@@ -32,18 +32,23 @@ class SentenceListItem extends StatelessWidget {
     // Swipe-to-Action Implementation
     return Dismissible(
       key: ValueKey(sentence.id),
-      background: _buildEditBackground(), // Right Swipe (Edit)
-      secondaryBackground: _buildDeleteBackground(), // Left Swipe (Delete)
+      background:
+          _buildDeleteBackground(), // Right Swipe (Start to End) -> Delete
+      secondaryBackground:
+          _buildEditBackground(), // Left Swipe (End to Start) -> Edit
+      dismissThresholds: const {
+        DismissDirection.startToEnd: 0.4, // Requires more intent to delete
+      },
       confirmDismiss: (direction) async {
-        if (direction == DismissDirection.endToStart) {
-          // Left Swipe (Delete)
+        if (direction == DismissDirection.startToEnd) {
+          // Right Swipe (Delete)
           final confirmed = await _showDeleteConfirmation(context);
           if (confirmed && onDelete != null) {
             onDelete!();
           }
           return confirmed;
-        } else if (direction == DismissDirection.startToEnd) {
-          // Right Swipe (Edit)
+        } else if (direction == DismissDirection.endToStart) {
+          // Left Swipe (Edit)
           if (onEdit != null) {
             onEdit!();
           }
@@ -82,7 +87,9 @@ class SentenceListItem extends StatelessWidget {
                   subText,
                   style: TextStyle(
                     fontSize: 12, // Smaller font
-                    color: Colors.grey.shade300, // Very faint color
+                    color: Colors
+                        .grey
+                        .shade500, // Slightly darker for better legibility
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -98,7 +105,7 @@ class SentenceListItem extends StatelessWidget {
   Widget _buildDeleteBackground() {
     return Container(
       color: Colors.redAccent,
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: const Icon(Icons.delete, color: Colors.white),
     );
@@ -107,7 +114,7 @@ class SentenceListItem extends StatelessWidget {
   Widget _buildEditBackground() {
     return Container(
       color: Colors.blueAccent,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: const Icon(Icons.edit, color: Colors.white),
     );

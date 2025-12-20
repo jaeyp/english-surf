@@ -13,13 +13,20 @@ class SentenceListScreen extends ConsumerWidget {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
     final languageMode = ref.watch(languageModeProvider);
 
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: const Text('English Surf'),
             floating: true,
             pinned: true,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            surfaceTintColor: Colors.transparent, // Prevents Material 3 tinting
+            elevation: 0,
             actions: [
               // Toggle Mode Button (Icon Only)
               IconButton(
@@ -43,7 +50,9 @@ class SentenceListScreen extends ConsumerWidget {
               ),
             ],
             bottom: const PreferredSize(
-              preferredSize: Size.fromHeight(50),
+              preferredSize: Size.fromHeight(
+                66,
+              ), // Increased to accommodate consistent bottom margin
               child: SentenceFilterBar(),
             ),
           ),
@@ -56,21 +65,32 @@ class SentenceListScreen extends ConsumerWidget {
                   child: Center(child: Text('No sentences found.')),
                 );
               }
-              return SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  final sentence = sentences[index];
-                  return SentenceListItem(
-                    sentence: sentence,
-                    languageMode: languageMode,
-                    onTap: () => context.push('/study', extra: index),
-                    onEdit: () => context.push('/edit', extra: sentence),
-                    onDelete: () {
-                      ref
-                          .read(sentenceListProvider.notifier)
-                          .deleteSentence(sentence.id);
-                    },
-                  );
-                }, childCount: sentences.length),
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isLandscape ? 32.0 : 0.0,
+                  vertical: 8.0,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // Align items to start
+                    children: sentences.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final sentence = entry.value;
+                      return SentenceListItem(
+                        sentence: sentence,
+                        languageMode: languageMode,
+                        onTap: () => context.push('/study', extra: index),
+                        onEdit: () => context.push('/edit', extra: sentence),
+                        onDelete: () {
+                          ref
+                              .read(sentenceListProvider.notifier)
+                              .deleteSentence(sentence.id);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
               );
             },
             loading: () => const SliverFillRemaining(

@@ -7,11 +7,13 @@ import 'sentence_text_view.dart';
 class SentenceCard extends StatefulWidget {
   final Sentence sentence;
   final LanguageMode languageMode;
+  final EdgeInsets padding;
 
   const SentenceCard({
     super.key,
     required this.sentence,
     required this.languageMode,
+    this.padding = EdgeInsets.zero,
   });
 
   @override
@@ -55,10 +57,11 @@ class _SentenceCardState extends State<SentenceCard>
     final isOriginalFront =
         widget.languageMode == LanguageMode.originalToTranslation;
 
-    return SizedBox.expand(
-      child: GestureDetector(
-        onTap: _flipCard,
-        behavior: HitTestBehavior.opaque,
+    return GestureDetector(
+      onTap: _flipCard,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: widget.padding,
         child: Center(
           child: SizedBox(
             height: 400, // Keep fixed height for visual card

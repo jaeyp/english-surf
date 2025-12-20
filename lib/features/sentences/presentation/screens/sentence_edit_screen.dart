@@ -152,161 +152,198 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.sentence == null ? 'Add Sentence' : 'Edit Sentence'),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.sentence == null ? 'Add Sentence' : 'Edit Sentence',
+          ),
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: () => context.pop(),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Cancel'),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1B5E20),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Save'),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            ],
+          ),
+          child: Row(
             children: [
-              const Text(
-                'Key Sentence:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              _buildOriginalField(),
-              const SizedBox(height: 24),
-              const Text(
-                'Translation:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _translationController,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Enter Korean translation',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Translation is required'
-                    : null,
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Difficulty:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<Difficulty>(
-                value: _difficulty,
-                decoration: const InputDecoration(border: OutlineInputBorder()),
-                items: Difficulty.values.map((d) {
-                  return DropdownMenuItem(
-                    value: d,
-                    child: Text(d.name.toUpperCase()),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  if (value != null) setState(() => _difficulty = value);
-                },
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Notes:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _notesController,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Grammar or vocabulary notes',
-                  border: OutlineInputBorder(),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => context.pop(),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text('Cancel'),
                 ),
               ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Examples:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _save,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1B5E20),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: _addExample,
-                    icon: const Icon(Icons.add_circle_outline),
-                  ),
-                ],
+                  child: const Text('Save'),
+                ),
               ),
-              ..._exampleControllers.asMap().entries.map((entry) {
-                final index = entry.key;
-                final controller = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: controller,
-                          decoration: InputDecoration(
-                            hintText: 'Example ${index + 1}',
-                            border: const OutlineInputBorder(),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Key Sentence:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                _buildOriginalField(),
+                const SizedBox(height: 24),
+                const Text(
+                  'Translation:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _translationController,
+                  maxLines: null,
+                  style: const TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                    hintText: 'Enter Korean translation',
+                    filled: true,
+                    fillColor: const Color(0xFFF1F8E9),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Translation is required'
+                      : null,
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Difficulty:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                DropdownButtonFormField<Difficulty>(
+                  value: _difficulty,
+                  dropdownColor: const Color(
+                    0xFFF1F8E9,
+                  ), // Background of the popup menu
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: const Color(0xFFF1F8E9),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  items: Difficulty.values.map((d) {
+                    return DropdownMenuItem(
+                      value: d,
+                      child: Text(
+                        d.name.toUpperCase(),
+                        style: const TextStyle(color: Colors.black87),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    if (value != null) setState(() => _difficulty = value);
+                  },
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Notes:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _notesController,
+                  maxLines: null,
+                  style: const TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                    hintText: 'Grammar or vocabulary notes',
+                    filled: true,
+                    fillColor: const Color(0xFFF1F8E9),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Examples:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: _addExample,
+                      icon: const Icon(Icons.add_circle_outline),
+                    ),
+                  ],
+                ),
+                ..._exampleControllers.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final controller = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller,
+                            style: const TextStyle(color: Colors.black87),
+                            decoration: InputDecoration(
+                              hintText: 'Example ${index + 1}',
+                              filled: true,
+                              fillColor: const Color(0xFFF1F8E9),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => _removeExample(index),
-                        icon: const Icon(
-                          Icons.remove_circle_outline,
-                          color: Colors.red,
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () => _removeExample(index),
+                          icon: const Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.red,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-              const SizedBox(height: 40),
-            ],
+                      ],
+                    ),
+                  );
+                }),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),
@@ -319,10 +356,16 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
         TextFormField(
           controller: _originalController,
           maxLines: null,
-          decoration: const InputDecoration(
+          style: const TextStyle(color: Colors.black87),
+          decoration: InputDecoration(
             hintText: 'Enter English sentence',
-            border: OutlineInputBorder(),
             helperText: 'Select text to apply styling (Bold/Highlight)',
+            filled: true,
+            fillColor: const Color(0xFFF1F8E9),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
           ),
           validator: (value) =>
               value == null || value.isEmpty ? 'Sentence is required' : null,
