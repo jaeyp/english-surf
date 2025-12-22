@@ -27,6 +27,22 @@ lib/
 └── main.dart           # Entry point
 ```
 
+## 📖 Documentation
+
+The project documentation is organized in the `docs/` directory:
+
+- **[Development](docs/development/)**: Technical guides and setup instructions.
+  - [Flutter Guide](docs/development/FLUTTER.md)
+  - [TDD & Process](docs/development/TDD.md)
+  - [iOS Deployment Guide](docs/development/iOS_DEPLOYMENT_GUIDE.md)
+- **[Design](docs/design/)**: Visual and UX specifications.
+  - [UI Specification](docs/design/UI-SPEC.md)
+- **[Project](docs/project/)**: Tracking and maintenance logs.
+  - [Roadmap (TODO)](docs/project/TODO.md)
+  - [Feedback & Ideas](docs/project/FEEDBACK.md)
+- **[Notes](docs/notes/)**: Research, ideas, and general technical notes.
+  - [AI Model Training (XGBoost)](docs/notes/XGBoost-Traning.md)
+
 ## 🛠️ Getting Started
 
 1.  **Clone the repository**
