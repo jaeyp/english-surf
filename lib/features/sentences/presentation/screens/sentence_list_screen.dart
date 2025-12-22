@@ -43,11 +43,6 @@ class SentenceListScreen extends ConsumerWidget {
                 icon: const Icon(Icons.play_arrow),
                 onPressed: () => context.push('/study'),
               ),
-              // Add Sentence Button
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () => context.push('/edit'),
-              ),
             ],
             bottom: const PreferredSize(
               preferredSize: Size.fromHeight(
