@@ -85,13 +85,6 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Animations & Transitions**
     - [x] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
     - [x] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
-- [ ] **Performance & Hardening**
-    - [ ] **Database Stress Test**: Ensure performance remains stable with 1000+ sentences.
-    - [ ] **Error Boundaries**: Implement a global error handling UI for unexpected crashes.
-    - [ ] **Migration Strategy**: Document and test a basic DB migration plan for future schema changes.
-- [ ] **Testing (Hardening)**
-    - [ ] **Widget Tests**: Add tests for critical widgets (`SentenceCard`, `SentenceFilterBar`).
-    - [ ] **Integration Tests**: Verify core flow (Add -> Find in List -> Flip in Study Mode -> Delete).
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 
@@ -174,3 +167,10 @@ English sentence learning app with rich text styling and flashcard features.
 - [ ] **Spaced Repetition System (SRS)**: Implement an algorithm like Anki for more efficient learning.
 - [ ] **Voice Pronunciation**: Integrate Text-to-Speech (TTS) for the original sentences.
 - [ ] **Cloud Sync**: Allow users to sync their data across devices using Firebase or Supabase.
+- [ ] **Performance & Hardening**
+    - [ ] **Database Stress Test**: Ensure performance remains stable with 1000+ sentences.
+    - [ ] **Error Boundaries**: Implement a global error handling UI for unexpected crashes.
+    - [ ] **Migration Strategy**: Document and test a basic DB migration plan for future schema changes.
+- [ ] **Testing (Hardening)**
+    - [ ] **Widget Tests**: Add tests for critical widgets (`SentenceCard`, `SentenceFilterBar`).
+    - [ ] **Integration Tests**: Verify core flow (Add -> Find in List -> Flip in Study Mode -> Delete).
