@@ -106,19 +106,31 @@ class SentenceFilterState {
 @riverpod
 class SentenceFilter extends _$SentenceFilter {
   @override
-  SentenceFilterState build() {
-    return const SentenceFilterState();
+  FutureOr<SentenceFilterState> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    final sortType = await repository.getSortType();
+    final difficulty = await repository.getDifficultyFilter();
+    return SentenceFilterState(difficulty: difficulty, sortType: sortType);
   }
 
-  void setDifficulty(Difficulty? difficulty) {
-    state = SentenceFilterState(
-      difficulty: difficulty,
-      sortType: state.sortType,
-    );
+  Future<void> setDifficulty(Difficulty? difficulty) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveDifficultyFilter(difficulty);
+    final current = state.value;
+    if (current != null) {
+      state = AsyncData(
+        SentenceFilterState(difficulty: difficulty, sortType: current.sortType),
+      );
+    }
   }
 
-  void setSortType(SortType sortType) {
-    state = state.copyWith(sortType: sortType);
+  Future<void> setSortType(SortType sortType) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveSortType(sortType);
+    final current = state.value;
+    if (current != null) {
+      state = AsyncData(current.copyWith(sortType: sortType));
+    }
   }
 }
 
@@ -142,10 +154,9 @@ class SentenceFilter extends _$SentenceFilter {
 /// - **Testability:** The logic can be tested independently of the UI.
 ///
 @riverpod
-@riverpod
 Future<List<Sentence>> filteredSentences(Ref ref) async {
   final sentences = await ref.watch(sentenceListProvider.future);
-  final filterState = ref.watch(sentenceFilterProvider);
+  final filterState = await ref.watch(sentenceFilterProvider.future);
 
   var result = List<Sentence>.from(sentences);
 
@@ -160,9 +171,6 @@ Future<List<Sentence>> filteredSentences(Ref ref) async {
   switch (filterState.sortType) {
     case SortType.order:
       result.sort((a, b) => a.order.compareTo(b.order));
-      break;
-    case SortType.difficulty:
-      result.sort((a, b) => a.difficulty.index.compareTo(b.difficulty.index));
       break;
     case SortType.random:
       result.shuffle();
@@ -185,13 +193,21 @@ enum LanguageMode {
 @riverpod
 class LanguageModeNotifier extends _$LanguageModeNotifier {
   @override
-  LanguageMode build() {
-    return LanguageMode.originalToTranslation;
+  FutureOr<LanguageMode> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getLanguageMode();
   }
 
-  void toggle() {
-    state = state == LanguageMode.originalToTranslation
+  Future<void> toggle() async {
+    if (!state.hasValue) return;
+
+    final current = state.value!;
+    final next = current == LanguageMode.originalToTranslation
         ? LanguageMode.translationToOriginal
         : LanguageMode.originalToTranslation;
+
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveLanguageMode(next);
+    state = AsyncData(next);
   }
 }

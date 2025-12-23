@@ -1,41 +1,77 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
+import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart'
+    as data_providers;
+import 'package:english_surf/features/sentences/domain/repositories/settings_repository.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockSettingsRepository extends Mock implements SettingsRepository {}
 
 void main() {
-  group('LanguageModeNotifier', () {
-    test('initial state should be originalToTranslation', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+  late MockSettingsRepository mockSettingsRepository;
 
-      final mode = container.read(languageModeProvider);
-      expect(mode, LanguageMode.originalToTranslation);
+  setUp(() {
+    mockSettingsRepository = MockSettingsRepository();
+    // Default mock behavior
+    when(
+      () => mockSettingsRepository.getLanguageMode(),
+    ).thenAnswer((_) async => LanguageMode.translationToOriginal);
+    when(
+      () => mockSettingsRepository.saveLanguageMode(any()),
+    ).thenAnswer((_) async => {});
+  });
+
+  setUpAll(() {
+    registerFallbackValue(LanguageMode.translationToOriginal);
+  });
+
+  ProviderContainer createContainer() {
+    final container = ProviderContainer(
+      overrides: [
+        data_providers.settingsRepositoryProvider.overrideWithValue(
+          mockSettingsRepository,
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    return container;
+  }
+
+  group('LanguageModeNotifier', () {
+    test('initial state should be translationToOriginal', () async {
+      final container = createContainer();
+
+      final mode = await container.read(languageModeProvider.future);
+      expect(mode, LanguageMode.translationToOriginal);
     });
 
     test(
-      'toggle should switch between originalToTranslation and translationToOriginal',
-      () {
-        final container = ProviderContainer();
-        addTearDown(container.dispose);
+      'toggle should switch between translationToOriginal and originalToTranslation',
+      () async {
+        final container = createContainer();
+
+        // Ensure initialized
+        await container.read(languageModeProvider.future);
 
         // Initial state
         expect(
-          container.read(languageModeProvider),
-          LanguageMode.originalToTranslation,
-        );
-
-        // Toggle 1: Orig -> Trans
-        container.read(languageModeProvider.notifier).toggle();
-        expect(
-          container.read(languageModeProvider),
+          container.read(languageModeProvider).value,
           LanguageMode.translationToOriginal,
         );
 
-        // Toggle 2: Trans -> Orig
-        container.read(languageModeProvider.notifier).toggle();
+        // Toggle 1: Trans -> Orig
+        await container.read(languageModeProvider.notifier).toggle();
         expect(
-          container.read(languageModeProvider),
+          container.read(languageModeProvider).value,
           LanguageMode.originalToTranslation,
+        );
+
+        // Toggle 2: Orig -> Trans
+        await container.read(languageModeProvider.notifier).toggle();
+        expect(
+          container.read(languageModeProvider).value,
+          LanguageMode.translationToOriginal,
         );
       },
     );

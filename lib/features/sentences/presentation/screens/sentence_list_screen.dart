@@ -4,6 +4,7 @@ import '../../application/providers/sentence_providers.dart';
 import '../widgets/sentence_list_item.dart';
 import '../widgets/sentence_filter_bar.dart';
 import 'package:go_router/go_router.dart';
+import '../../presentation/arguments/study_mode_arguments.dart';
 
 class SentenceListScreen extends ConsumerWidget {
   const SentenceListScreen({super.key});
@@ -11,7 +12,9 @@ class SentenceListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
-    final languageMode = ref.watch(languageModeProvider);
+    final languageMode =
+        ref.watch(languageModeProvider).value ??
+        LanguageMode.translationToOriginal;
 
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
@@ -38,10 +41,16 @@ class SentenceListScreen extends ConsumerWidget {
                   ref.read(languageModeProvider.notifier).toggle();
                 },
               ),
-              // Study Mode Button
+              // Study Mode Button (Test Mode)
               IconButton(
                 icon: const Icon(Icons.play_arrow),
-                onPressed: () => context.push('/study'),
+                onPressed: () => context.push(
+                  '/study',
+                  extra: const StudyModeArguments(
+                    initialIndex: 0,
+                    isTestMode: true,
+                  ),
+                ),
               ),
             ],
             bottom: const PreferredSize(
@@ -75,7 +84,13 @@ class SentenceListScreen extends ConsumerWidget {
                       return SentenceListItem(
                         sentence: sentence,
                         languageMode: languageMode,
-                        onTap: () => context.push('/study', extra: index),
+                        onTap: () => context.push(
+                          '/study',
+                          extra: StudyModeArguments(
+                            initialIndex: index,
+                            isTestMode: false,
+                          ),
+                        ),
                         onEdit: () => context.push('/edit', extra: sentence),
                         onDelete: () {
                           ref

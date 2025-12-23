@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../application/providers/sentence_providers.dart';
@@ -6,8 +7,13 @@ import '../widgets/sentence_card.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
+  final bool isTestMode;
 
-  const StudyModeScreen({super.key, this.initialIndex = 0});
+  const StudyModeScreen({
+    super.key,
+    this.initialIndex = 0,
+    this.isTestMode = false,
+  });
 
   @override
   ConsumerState<StudyModeScreen> createState() => _StudyModeScreenState();
@@ -16,24 +22,63 @@ class StudyModeScreen extends ConsumerStatefulWidget {
 class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   late PageController _pageController;
   late int _currentIndex;
+  Timer? _timer;
+  int _timeLeft = 5;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
+    if (widget.isTestMode) {
+      _startTimer();
+    }
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+    setState(() {
+      _timeLeft = 5;
+    });
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          if (_timeLeft > 0) {
+            _timeLeft--;
+          } else {
+            _nextPage();
+          }
+        });
+      }
+    });
+  }
+
+  void _nextPage() {
+    final sentences = ref.read(filteredSentencesProvider).value ?? [];
+    if (_currentIndex < sentences.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      // Timer will be restarted by onPageChanged
+    } else {
+      _timer?.cancel(); // Stop at the end
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final sentencesAsync = ref.watch(filteredSentencesProvider);
-    final languageMode = ref.watch(languageModeProvider);
+    final languageMode =
+        ref.watch(languageModeProvider).value ??
+        LanguageMode.translationToOriginal;
 
     return sentencesAsync.when(
       data: (sentences) {
@@ -103,7 +148,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                       ),
                     );
                     if (confirmed == true) {
-                      ref
+                      await ref
                           .read(sentenceListProvider.notifier)
                           .deleteSentence(currentSentence.id);
                       if (sentences.length <= 1) {
@@ -132,34 +177,43 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
               ),
             ],
           ),
-          body: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: sentences.length,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      if (index >= sentences.length)
-                        return const SizedBox.shrink();
-                      return SentenceCard(
-                        sentence: sentences[index],
-                        languageMode: languageMode,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isLandscape ? 32.0 : 16.0,
-                          vertical: isLandscape ? 8.0 : 16.0,
-                        ),
-                      );
-                    },
-                  ),
+          body: Stack(
+            children: [
+              SafeArea(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: sentences.length,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                          if (widget.isTestMode) {
+                            _startTimer();
+                          }
+                        },
+                        itemBuilder: (context, index) {
+                          if (index >= sentences.length) {
+                            return const SizedBox.shrink();
+                          }
+                          return SentenceCard(
+                            sentence: sentences[index],
+                            languageMode: languageMode,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isLandscape ? 32.0 : 16.0,
+                              vertical: isLandscape ? 8.0 : 16.0,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              _buildTimerOverlay(),
+            ],
           ),
         );
       },
@@ -170,6 +224,30 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
       error: (err, stack) => Scaffold(
         appBar: AppBar(title: const Text('Error')),
         body: Center(child: Text('Error: $err')),
+      ),
+    );
+  }
+
+  Widget _buildTimerOverlay() {
+    if (!widget.isTestMode) return const SizedBox.shrink();
+
+    return Positioned(
+      bottom: 20,
+      right: 20,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.7),
+          shape: BoxShape.circle,
+        ),
+        child: Text(
+          '$_timeLeft',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
