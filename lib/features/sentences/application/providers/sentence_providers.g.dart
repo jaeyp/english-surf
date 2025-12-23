@@ -87,7 +87,7 @@ final class SentenceListProvider
   SentenceList create() => SentenceList();
 }
 
-String _$sentenceListHash() => r'cd27ce65db4535fc6eecd9bfce2a5cf9f58da142';
+String _$sentenceListHash() => r'47819d39879c2c721ccf9183c6b9805c76badc08';
 
 /// ----------------------------------------------------------------------------
 /// Provider: SentenceList
@@ -166,7 +166,7 @@ const sentenceFilterProvider = SentenceFilterProvider._();
 /// - Centralizes state modification logic.
 ///
 final class SentenceFilterProvider
-    extends $NotifierProvider<SentenceFilter, SentenceFilterState> {
+    extends $AsyncNotifierProvider<SentenceFilter, SentenceFilterState> {
   /// ----------------------------------------------------------------------------
   /// Provider: SentenceFilter
   /// ----------------------------------------------------------------------------
@@ -201,17 +201,9 @@ final class SentenceFilterProvider
   @$internal
   @override
   SentenceFilter create() => SentenceFilter();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SentenceFilterState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<SentenceFilterState>(value),
-    );
-  }
 }
 
-String _$sentenceFilterHash() => r'5a422f72f6377d38507d47d9f07b5b8d778dd1c1';
+String _$sentenceFilterHash() => r'663a29bb0445c482e66e6523e8bc74f3f2def21e';
 
 /// ----------------------------------------------------------------------------
 /// Provider: SentenceFilter
@@ -231,18 +223,19 @@ String _$sentenceFilterHash() => r'5a422f72f6377d38507d47d9f07b5b8d778dd1c1';
 /// - Centralizes state modification logic.
 ///
 
-abstract class _$SentenceFilter extends $Notifier<SentenceFilterState> {
-  SentenceFilterState build();
+abstract class _$SentenceFilter extends $AsyncNotifier<SentenceFilterState> {
+  FutureOr<SentenceFilterState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<SentenceFilterState, SentenceFilterState>;
+    final ref =
+        this.ref as $Ref<AsyncValue<SentenceFilterState>, SentenceFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<SentenceFilterState, SentenceFilterState>,
-              SentenceFilterState,
+              AnyNotifier<AsyncValue<SentenceFilterState>, SentenceFilterState>,
+              AsyncValue<SentenceFilterState>,
               Object?,
               Object?
             >;
@@ -346,7 +339,7 @@ final class FilteredSentencesProvider
   }
 }
 
-String _$filteredSentencesHash() => r'a55f57f15926c8144ce7a199cc86001e084dca61';
+String _$filteredSentencesHash() => r'4d88e6d8a78ede5b54c7fff22a94795614149a8b';
 
 /// ----------------------------------------------------------------------------
 /// Provider: LanguageMode
@@ -359,7 +352,7 @@ const languageModeProvider = LanguageModeNotifierProvider._();
 /// Provider: LanguageMode
 /// ----------------------------------------------------------------------------
 final class LanguageModeNotifierProvider
-    extends $NotifierProvider<LanguageModeNotifier, LanguageMode> {
+    extends $AsyncNotifierProvider<LanguageModeNotifier, LanguageMode> {
   /// ----------------------------------------------------------------------------
   /// Provider: LanguageMode
   /// ----------------------------------------------------------------------------
@@ -380,35 +373,27 @@ final class LanguageModeNotifierProvider
   @$internal
   @override
   LanguageModeNotifier create() => LanguageModeNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(LanguageMode value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<LanguageMode>(value),
-    );
-  }
 }
 
 String _$languageModeNotifierHash() =>
-    r'b2faadd77086e658a97d73e7ace65230652b91ae';
+    r'6cce712a0c94fa9f189f91b6488d1bae0144cb08';
 
 /// ----------------------------------------------------------------------------
 /// Provider: LanguageMode
 /// ----------------------------------------------------------------------------
 
-abstract class _$LanguageModeNotifier extends $Notifier<LanguageMode> {
-  LanguageMode build();
+abstract class _$LanguageModeNotifier extends $AsyncNotifier<LanguageMode> {
+  FutureOr<LanguageMode> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<LanguageMode, LanguageMode>;
+    final ref = this.ref as $Ref<AsyncValue<LanguageMode>, LanguageMode>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<LanguageMode, LanguageMode>,
-              LanguageMode,
+              AnyNotifier<AsyncValue<LanguageMode>, LanguageMode>,
+              AsyncValue<LanguageMode>,
               Object?,
               Object?
             >;

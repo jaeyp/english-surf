@@ -2,8 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../datasources/sentence_local_data_source.dart';
 import '../repositories/sentence_repository_impl.dart';
+import '../repositories/settings_repository_impl.dart';
 import '../../domain/repositories/sentence_repository.dart';
+import '../../domain/repositories/settings_repository.dart';
 import '../local/db/app_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'sentence_providers.g.dart';
 
@@ -27,4 +30,17 @@ SentenceRepository sentenceRepository(Ref ref) {
     localDataSource: localDataSource,
     database: database,
   );
+}
+
+@riverpod
+SharedPreferences sharedPreferences(Ref ref) {
+  throw UnimplementedError(
+    'Initialize and override sharedPreferencesProvider in main.dart',
+  );
+}
+
+@riverpod
+SettingsRepository settingsRepository(Ref ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return SettingsRepositoryImpl(prefs);
 }

@@ -9,41 +9,45 @@ class SentenceFilterBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filterState = ref.watch(sentenceFilterProvider);
+    final filterStateAsync = ref.watch(sentenceFilterProvider);
     final notifier = ref.read(sentenceFilterProvider.notifier);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 20),
-      child: Row(
-        children: [
-          // Sort Chip
-          InputChip(
-            label: Text('Sort: ${filterState.sortType.label}'),
-            avatar: const Icon(Icons.sort, size: 18),
-            onPressed: () =>
-                _showSortOptions(context, notifier, filterState.sortType),
-            selected:
-                filterState.sortType !=
-                SortType.random, // Highlight if not default
-          ),
-          const SizedBox(width: 8),
+    return filterStateAsync.when(
+      data: (filterState) => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 20),
+        child: Row(
+          children: [
+            // Sort Chip
+            InputChip(
+              label: Text('Sort: ${filterState.sortType.label}'),
+              avatar: const Icon(Icons.sort, size: 18),
+              onPressed: () =>
+                  _showSortOptions(context, notifier, filterState.sortType),
+              selected:
+                  filterState.sortType !=
+                  SortType.random, // Highlight if not default
+            ),
+            const SizedBox(width: 8),
 
-          // Difficulty Chip
-          InputChip(
-            label: Text(
-              'Difficulty: ${_getDifficultyLabel(filterState.difficulty)}',
+            // Difficulty Chip
+            InputChip(
+              label: Text(
+                'Difficulty: ${_getDifficultyLabel(filterState.difficulty)}',
+              ),
+              avatar: const Icon(Icons.filter_list, size: 18),
+              onPressed: () => _showDifficultyOptions(
+                context,
+                notifier,
+                filterState.difficulty,
+              ),
+              selected: filterState.difficulty != null, // Highlight if filtered
             ),
-            avatar: const Icon(Icons.filter_list, size: 18),
-            onPressed: () => _showDifficultyOptions(
-              context,
-              notifier,
-              filterState.difficulty,
-            ),
-            selected: filterState.difficulty != null, // Highlight if filtered
-          ),
-        ],
+          ],
+        ),
       ),
+      loading: () => const SizedBox.shrink(),
+      error: (err, stack) => const SizedBox.shrink(),
     );
   }
 

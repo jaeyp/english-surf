@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
 import '../../features/sentences/presentation/screens/study_mode_screen.dart';
+import '../../features/sentences/presentation/arguments/study_mode_arguments.dart';
 import '../../features/sentences/domain/entities/sentence.dart';
 
 part 'app_router.g.dart';
@@ -26,8 +27,14 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/study',
         builder: (context, state) {
-          final initialIndex = state.extra as int? ?? 0;
-          return StudyModeScreen(initialIndex: initialIndex);
+          final extra = state.extra;
+          final args = extra is StudyModeArguments
+              ? extra
+              : StudyModeArguments(initialIndex: extra is int ? extra : 0);
+          return StudyModeScreen(
+            initialIndex: args.initialIndex,
+            isTestMode: args.isTestMode,
+          );
         },
       ),
     ],

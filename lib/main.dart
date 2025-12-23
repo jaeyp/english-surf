@@ -7,13 +7,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:english_surf/core/router/app_router.dart';
 import 'package:english_surf/core/theme/app_theme.dart';
 import 'package:english_surf/l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart';
 
 Future<void> main() async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await dotenv.load(fileName: '.env');
-      runApp(const ProviderScope(child: MyApp()));
+      final prefs = await SharedPreferences.getInstance();
+      runApp(
+        ProviderScope(
+          overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+          child: const MyApp(),
+        ),
+      );
     },
     (error, stack) {
       debugPrint('Error: $error');

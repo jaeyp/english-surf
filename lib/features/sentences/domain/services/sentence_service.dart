@@ -76,9 +76,6 @@ class SentenceService {
       case SortType.order:
         sorted.sort((a, b) => a.order.compareTo(b.order));
         break;
-      case SortType.difficulty:
-        sorted.sort((a, b) => a.difficulty.index.compareTo(b.difficulty.index));
-        break;
       case SortType.random:
         sorted.shuffle();
         break;
