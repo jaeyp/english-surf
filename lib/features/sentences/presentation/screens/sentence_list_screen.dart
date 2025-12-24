@@ -111,9 +111,21 @@ class SentenceListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/edit'),
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'camera_fab',
+            onPressed: () => context.push('/camera'),
+            child: const Icon(Icons.camera_alt),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'add_fab',
+            onPressed: () => context.push('/edit'),
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }

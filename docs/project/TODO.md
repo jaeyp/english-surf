@@ -15,7 +15,7 @@ English sentence learning app with rich text styling and flashcard features.
 - **Phase 3: Application Layer (State Management)** (✅ Completed)
 - **Phase 4: Presentation Layer (UI)** (✅ Completed)
 - **Phase 4.1: Polishing & Hardening** (🚧 In Progress - Polishing Done)
-- **Phase 5: Advanced Input & AI Integration** (⏳ Pending)
+- Phase 5: Advanced Input & AI Integration (🚧 In Progress)
 - **Phase 6: Monetization & Deployment** - Launch Ready (⏳ Pending)
 
 ---
@@ -90,29 +90,66 @@ English sentence learning app with rich text styling and flashcard features.
 
 ### 1. New Sentence Addition Methods (Input)
 - [ ] **Method A: Manual Entry**
-    - [ ] Standard text input form in `SentenceEditScreen`.
-- [ ] **Method B: Camera OCR (Live Text)**
-    - [ ] Integrate `google_mlkit_text_recognition` or `flutter_scalable_ocr`.
-    - [ ] Implement Live Camera View with text detection overlay.
-    - [ ] Workflow: Capture Video/Frame -> Extract Text -> Paste to New Card -> Open Edit Screen.
-- [ ] **Method C: Gallery Image OCR**
-    - [ ] Integrate `image_picker` for gallery access.
-    - [ ] Perform OCR on selected image.
-    - [ ] Workflow: Select Image -> Extract Text -> Paste to New Card -> Open Edit Screen.
+    - [x] Standard text input form in `SentenceEditScreen`.
+- [x] **Method B: Camera OCR (Live Text)**
+    - [x] Add dependencies & Permissions.
+    - [x] **Live Overlay Implementation**:
+        - [x] Create `TextRecognizerPainter` for bounding boxes (AR Bubbles implemented).
+        - [x] Implement `CoordinatesTranslator` utility.
+        - [x] Update `CameraOCRScreen` to use `startImageStream` (with 1s throttling).
+        - [x] Implement Tap-to-Select logic.
+    - [x] **Post-processing Intelligence** (`OcrProcessor`):
+        - [x] Filter short noise (< 10 chars).
+        - [x] Merge vertically adjacent text blocks into paragraphs.
+        - [x] Punctuation-aware paragraph detection (`.`, `!`, `?`, `"`, `'` break merging).
+        - [x] Normalize whitespace (newlines → spaces, collapse multiple spaces).
+        - [x] Dynamic bubble height calculation based on text length.
+        - [x] Full-width bubble layout with margins.
+    - [x] **UI/UX Refinements**:
+        - [x] AR-style text bubbles with rounded corners and background.
+        - [x] 3-second scan throttling for stability.
+        - [x] Tap-to-select with visual feedback (green highlight).
+        - [x] Pause stream on interaction for easier selection.
+    - [x] **Integration**:
+        - [x] Pass selected text to `SentenceEditScreen`.
 
-### 2. Back Content Generation (AI Auto-Fill)
-- [ ] **Method A: Manual Entry**
-    - [ ] Input fields for Translation, Notes, and Examples.
-- [ ] **Method B: AI Auto-Generation**
-    - [ ] **AI Service Setup**: Integrate Gemini API (or similar LLM).
-    - [ ] **Prompt Engineering**: Create prompts to generate:
-        - Natural Translation (Korean).
-        - Key Grammar/Vocabulary Notes.
-        - 3 Practical Example Sentences.
-    - [ ] **UI Integration**:
-        - Add "✨ Auto-Fill with AI" button in `SentenceEditScreen`.
-        - Show loading state while generating.
-        - Allow user to review and edit generated content before saving.
+### 2. Back Content Generation (AI Auto-Fill) - Smart Card Creation
+- [x] **Method A: Manual Entry** (Already implemented)
+    - [x] Input fields for Translation, Notes, and Examples in `SentenceEditScreen`.
+- [ ] **Method B: AI Auto-Generation** (Tomorrow's Priority)
+    - [ ] **UX Flow from Camera OCR**:
+        - [ ] When form opens with `initialOriginalText`, auto-select all text in the field.
+        - [ ] User can immediately paste/edit, or tap AI button.
+    - [ ] **UI Changes (`SentenceEditScreen`)**:
+        - [ ] Add `✨ AI` button in the bottom action bar (alongside Cancel/Save).
+        - [ ] **Loading State**: Show overlay/spinner on the form while AI is generating.
+        - [ ] **Error Handling**: Toast/Snackbar for API errors, timeout handling.
+    - [ ] **AI Service Layer**:
+        - [ ] Create `AiService` class (or use a Provider).
+        - [ ] Integrate **Gemini API** (or OpenAI as fallback).
+        - [ ] Secure API Key management (`.env` file, `flutter_dotenv` package).
+    - [ ] **Prompt Engineering**:
+        - [ ] System Prompt: "You are a helpful English tutor for Korean learners."
+        - [ ] User Prompt Template:
+            ```
+            Given the following English sentence:
+            "{originalText}"
+            
+            Generate:
+            1. A natural Korean translation.
+            2. Key grammar or vocabulary notes (1-2 bullet points).
+            3. 2-3 example sentences using similar patterns.
+            
+            Return as JSON: { "translation": "...", "notes": "...", "examples": "..." }
+            ```
+        - [ ] Parse JSON response and populate form fields.
+    - [ ] **Auto-Fill Logic**:
+        - [ ] On AI button tap: Call `AiService.generateContent(originalText)`.
+        - [ ] On success: Populate `translationController`, `notesController`, `examplesController`.
+        - [ ] Allow user to review and edit before saving.
+    - [ ] **Testing**:
+        - [ ] Unit test for prompt formatting.
+        - [ ] Mock API response for widget tests.
 
 ### 3. User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**
@@ -174,3 +211,8 @@ English sentence learning app with rich text styling and flashcard features.
 - [ ] **Testing (Hardening)**
     - [ ] **Widget Tests**: Add tests for critical widgets (`SentenceCard`, `SentenceFilterBar`).
     - [ ] **Integration Tests**: Verify core flow (Add -> Find in List -> Flip in Study Mode -> Delete).
+- [ ] **Gallery Image OCR**
+    - [ ] Integrate `image_picker` for gallery access.
+    - [ ] Perform OCR on selected image.
+    - [ ] Workflow: Select Image -> Extract Text -> Paste to New Card -> Open Edit Screen.
+
