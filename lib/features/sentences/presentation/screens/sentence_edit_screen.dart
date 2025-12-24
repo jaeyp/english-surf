@@ -12,8 +12,13 @@ import '../widgets/styled_text_editing_controller.dart';
 
 class SentenceEditScreen extends ConsumerStatefulWidget {
   final Sentence? sentence;
+  final String? initialOriginalText;
 
-  const SentenceEditScreen({super.key, this.sentence});
+  const SentenceEditScreen({
+    super.key,
+    this.sentence,
+    this.initialOriginalText,
+  });
 
   @override
   ConsumerState<SentenceEditScreen> createState() => _SentenceEditScreenState();
@@ -33,7 +38,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     final s = widget.sentence;
     final initialStyles = s?.original.styles.toList() ?? [];
     _originalController = StyledTextEditingController(
-      text: s?.original.text ?? '',
+      text: s?.original.text ?? widget.initialOriginalText ?? '',
       styles: initialStyles,
     );
     _translationController = TextEditingController(text: s?.translation ?? '');

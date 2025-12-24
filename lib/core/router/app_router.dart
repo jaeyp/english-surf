@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
 import '../../features/sentences/presentation/screens/study_mode_screen.dart';
+import '../../features/sentences/presentation/screens/camera_ocr_screen.dart';
 import '../../features/sentences/presentation/arguments/study_mode_arguments.dart';
 import '../../features/sentences/domain/entities/sentence.dart';
 
@@ -20,9 +21,18 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/edit',
         builder: (context, state) {
-          final sentence = state.extra as Sentence?;
-          return SentenceEditScreen(sentence: sentence);
+          final extra = state.extra;
+          final sentence = extra is Sentence ? extra : null;
+          final initialText = extra is String ? extra : null;
+          return SentenceEditScreen(
+            sentence: sentence,
+            initialOriginalText: initialText,
+          );
         },
+      ),
+      GoRoute(
+        path: '/camera',
+        builder: (context, state) => const CameraOCRScreen(),
       ),
       GoRoute(
         path: '/study',
