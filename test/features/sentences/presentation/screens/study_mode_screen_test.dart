@@ -15,6 +15,20 @@ class MockLanguageModeNotifier extends LanguageModeNotifier {
   }
 }
 
+class MockSentenceList extends SentenceList {
+  final List<Sentence> sentences;
+  MockSentenceList(this.sentences);
+
+  @override
+  Future<List<Sentence>> build() async => sentences;
+
+  @override
+  Future<void> toggleFavorite(int id) async {}
+
+  @override
+  Future<void> deleteSentence(int id) async {}
+}
+
 void main() {
   final sentences = [
     Sentence(
@@ -36,6 +50,7 @@ void main() {
   Widget createSubject({required bool isTestMode, int initialIndex = 0}) {
     return ProviderScope(
       overrides: [
+        sentenceListProvider.overrideWith(() => MockSentenceList(sentences)),
         filteredSentencesProvider.overrideWith((ref) async => sentences),
         languageModeProvider.overrideWith(() => MockLanguageModeNotifier()),
       ],
@@ -113,8 +128,162 @@ void main() {
 
       // Should still be on the same page (no loop or crash)
       expect(find.text('Translation 2'), findsOneWidget);
-      // Timer might stay at 0 or stop decrementing depending on implementation details,
-      // but verify it didn't crash.
     });
+
+    testWidgets(
+      'List Stability: should not remove card when unstarred in filtered study session',
+      (tester) async {
+        // Setup: Start with a list that includes favorite status
+        final favSentences = [
+          sentences[0].copyWith(isFavorite: true),
+          sentences[1].copyWith(isFavorite: true),
+        ];
+
+        // Override with these sentences
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              sentenceListProvider.overrideWith(
+                () => MockSentenceList(favSentences),
+              ),
+              filteredSentencesProvider.overrideWith(
+                (ref) async => favSentences,
+              ),
+              languageModeProvider.overrideWith(
+                () => MockLanguageModeNotifier(),
+              ),
+            ],
+            child: MaterialApp(
+              home: StudyModeScreen(initialIndex: 0, isTestMode: false),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // 1. Verify initial state (2 cards in total)
+        expect(find.text('1 / 2'), findsOneWidget);
+
+        // 2. Unstar the first card
+        final starIcon = find.byIcon(Icons.star);
+        expect(starIcon, findsOneWidget);
+        await tester.tap(starIcon);
+        await tester.pump(); // Update icon
+
+        // 3. Verify card still exists in PageView even if unstarred
+        expect(find.text('1 / 2'), findsOneWidget);
+        expect(find.text('Translation 1'), findsOneWidget);
+
+        // 4. Navigate to next card and back
+        final pageView = tester.widget<PageView>(find.byType(PageView));
+        pageView.controller!.jumpToPage(1);
+        await tester.pumpAndSettle();
+        expect(find.text('2 / 2'), findsOneWidget);
+
+        pageView.controller!.jumpToPage(0);
+        await tester.pumpAndSettle();
+        expect(find.text('1 / 2'), findsOneWidget);
+        expect(find.text('Translation 1'), findsOneWidget);
+      },
+    );
+
+    testWidgets('Test Mode: should pause timer when card is flipped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(createSubject(isTestMode: true));
+      await tester.pumpAndSettle();
+
+      // Initial timer value
+      expect(find.text('5'), findsOneWidget);
+
+      // Advance 1 second -> should be 4
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+      expect(find.byKey(const ValueKey('timer_text')), findsOneWidget);
+      expect(
+        (tester.widget<Text>(find.byKey(const ValueKey('timer_text')))).data,
+        '4',
+      );
+
+      // 1. Flip the card to back (pauses timer)
+      await tester.tapAt(const Offset(400, 300));
+      await tester.pumpAndSettle(); // Wait for flip animation
+
+      // Advance 2 seconds -> should STILL be 4
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+
+      final timerTextAfterFlip = tester
+          .widget<Text>(find.byKey(const ValueKey('timer_text')))
+          .data;
+      expect(
+        timerTextAfterFlip,
+        '4',
+        reason: 'Timer should be paused at 4 while flipped',
+      );
+
+      // 2. Flip back to front (resumes timer)
+      await tester.tapAt(const Offset(400, 300));
+      await tester.pumpAndSettle();
+
+      // Advance 1 second -> should be 3
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+      expect(
+        tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
+        '3',
+      );
+    });
+
+    testWidgets(
+      'Test Mode: manual swipe should reset timer and cancel previous',
+      (tester) async {
+        await tester.pumpWidget(createSubject(isTestMode: true));
+        await tester.pumpAndSettle();
+
+        // 1. Initial timer at 5
+        expect(
+          tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
+          '5',
+        );
+
+        // 2. Advance to 3
+        await tester.pump(const Duration(seconds: 2));
+        await tester.pump();
+        expect(
+          tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
+          '3',
+        );
+
+        // 3. Manually swipe to next page
+        await tester.fling(find.byType(PageView), const Offset(-500, 0), 2000);
+        await tester.pumpAndSettle();
+
+        // 4. Verify page changed and timer reset
+        expect(find.text('2 / 2'), findsOneWidget);
+        // Note: pumpAndSettle might advance time enough for one tick
+        final timerValue = tester
+            .widget<Text>(find.byKey(const ValueKey('timer_text')))
+            .data;
+        expect(
+          timerValue == '5' || timerValue == '4',
+          true,
+          reason: 'Timer should reset to 5 (might tick to 4 during settle)',
+        );
+
+        // 5. Advance 1 second -> should be 3 or 4
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pump();
+        final finalTimerValue = tester
+            .widget<Text>(find.byKey(const ValueKey('timer_text')))
+            .data;
+        expect(
+          finalTimerValue == '4' || finalTimerValue == '3',
+          true,
+          reason: 'Timer should continue from 5/4 down to 4/3',
+        );
+      },
+    );
   });
 }

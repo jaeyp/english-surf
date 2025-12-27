@@ -65,4 +65,13 @@ class SentenceRepositoryImpl implements SentenceRepository {
       }
     });
   }
+
+  @override
+  Future<void> toggleFavorite(int id) async {
+    final sentence = await getSentenceById(id);
+    if (sentence != null) {
+      final updated = sentence.copyWith(isFavorite: !sentence.isFavorite);
+      await updateSentence(updated);
+    }
+  }
 }

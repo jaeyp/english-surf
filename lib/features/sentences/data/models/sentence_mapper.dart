@@ -12,6 +12,7 @@ extension SentenceEntryMapper on SentenceEntry {
       difficulty: difficulty,
       examples: examples,
       notes: notes,
+      isFavorite: isFavorite,
     );
   }
 }
@@ -26,6 +27,7 @@ extension SentenceMapper on Sentence {
       difficulty: difficulty,
       examples: examples,
       notes: notes,
+      isFavorite: isFavorite,
     );
   }
 
@@ -38,6 +40,7 @@ extension SentenceMapper on Sentence {
       difficulty: Value(difficulty),
       examples: Value(examples),
       notes: Value(notes),
+      isFavorite: Value(isFavorite),
     );
   }
 }

@@ -107,4 +107,28 @@ void main() {
       expect(result, null);
     });
   });
+
+  group('toggleFavorite', () {
+    test('should toggle isFavorite status in database', () async {
+      // arrange
+      when(
+        () => mockLocalDataSource.getSentences(),
+      ).thenAnswer((_) async => tSentenceList);
+      await repository.getAllSentences(); // Seed
+
+      // act
+      await repository.toggleFavorite(1);
+
+      // assert
+      final sentence = await repository.getSentenceById(1);
+      expect(sentence?.isFavorite, true);
+
+      // act again
+      await repository.toggleFavorite(1);
+
+      // assert again
+      final sentence2 = await repository.getSentenceById(1);
+      expect(sentence2?.isFavorite, false);
+    });
+  });
 }

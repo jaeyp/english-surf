@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../domain/entities/sentence.dart';
 import '../../application/providers/sentence_providers.dart'; // LanguageMode
 
-class SentenceListItem extends StatelessWidget {
+class SentenceListItem extends ConsumerStatefulWidget {
   final Sentence sentence;
   final LanguageMode languageMode;
   final VoidCallback? onTap;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
+  final VoidCallback? onToggleFavorite;
 
   const SentenceListItem({
     super.key,
@@ -16,107 +19,157 @@ class SentenceListItem extends StatelessWidget {
     this.onTap,
     this.onEdit,
     this.onDelete,
+    this.onToggleFavorite,
   });
 
   @override
+  ConsumerState<SentenceListItem> createState() => _SentenceListItemState();
+}
+
+class _SentenceListItemState extends ConsumerState<SentenceListItem>
+    with SingleTickerProviderStateMixin {
+  late final SlidableController _slidableController;
+
+  @override
+  void initState() {
+    super.initState();
+    _slidableController = SlidableController(this);
+    // Listen to closure to notify parent to sync list
+    _slidableController.actionPaneType.addListener(
+      _handleSlidableOpenedChanged,
+    );
+  }
+
+  @override
+  void dispose() {
+    _slidableController.actionPaneType.removeListener(
+      _handleSlidableOpenedChanged,
+    );
+    _slidableController.dispose();
+    super.dispose();
+  }
+
+  void _handleSlidableOpenedChanged() {
+    // When the action pane is closed (Value == none), refresh the list if needed
+    if (_slidableController.actionPaneType.value == ActionPaneType.none) {
+      widget.onToggleFavorite?.call();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Determine text based on mode
-    final mainText = languageMode == LanguageMode.originalToTranslation
-        ? sentence.original.text
-        : sentence.translation;
+    // Determine text based on mode using Dart 3 switch expression
+    final (mainText, subText) = switch (widget.languageMode) {
+      LanguageMode.originalToTranslation => (
+        widget.sentence.original.text,
+        widget.sentence.translation,
+      ),
+      LanguageMode.translationToOriginal => (
+        widget.sentence.translation,
+        widget.sentence.original.text,
+      ),
+    };
 
-    final subText = languageMode == LanguageMode.originalToTranslation
-        ? sentence.translation
-        : sentence.original.text;
-
-    // Swipe-to-Action Implementation
-    return Dismissible(
-      key: ValueKey(sentence.id),
-      background:
-          _buildDeleteBackground(), // Right Swipe (Start to End) -> Delete
-      secondaryBackground:
-          _buildEditBackground(), // Left Swipe (End to Start) -> Edit
-      dismissThresholds: const {
-        DismissDirection.startToEnd: 0.4, // Requires more intent to delete
-      },
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          // Right Swipe (Delete)
-          final confirmed = await _showDeleteConfirmation(context);
-          if (confirmed && onDelete != null) {
-            onDelete!();
-          }
-          return confirmed;
-        } else if (direction == DismissDirection.endToStart) {
-          // Left Swipe (Edit)
-          if (onEdit != null) {
-            onEdit!();
-          }
-          return false; // Edit action navigates, so don't dismiss
-        }
-        return false;
-      },
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        elevation: 2,
-        color: const Color(0xFFF1F8E9), // Light Pastel Green Background
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: InkWell(
-          onTap: onTap,
-          onLongPress: onEdit,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Display as Plain Text in List View
-                Text(
-                  mainText,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                    height: 1.4,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+    // Swipe-to-Action Implementation using flutter_slidable
+    return SizedBox(
+      width: double.infinity,
+      child: Slidable(
+        key: ValueKey(widget.sentence.id),
+        controller: _slidableController,
+        // Right side menu (End to Start swipe)
+        endActionPane: ActionPane(
+          motion: const ScrollMotion(),
+          extentRatio: 0.6, // Ratio of the total width for 3 buttons
+          children: [
+            // Favorite Action
+            SlidableAction(
+              onPressed: (context) {
+                ref
+                    .read(sentenceListProvider.notifier)
+                    .toggleFavorite(widget.sentence.id);
+              },
+              autoClose: false, // Keep the menu open after toggling favorite
+              backgroundColor: Colors.white,
+              foregroundColor: widget.sentence.isFavorite
+                  ? Colors.red
+                  : Colors.grey,
+              icon: widget.sentence.isFavorite ? Icons.star : Icons.star_border,
+              label: 'Favorite',
+            ),
+            // Edit Action
+            SlidableAction(
+              onPressed: (context) {
+                if (widget.onEdit != null) widget.onEdit!();
+              },
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              icon: Icons.edit,
+              label: 'Edit',
+            ),
+            // Delete Action
+            SlidableAction(
+              onPressed: (context) async {
+                final confirmed = await _showDeleteConfirmation(context);
+                if (confirmed && widget.onDelete != null) {
+                  widget.onDelete!();
+                }
+              },
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+              label: 'Delete',
+            ),
+          ],
+        ),
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          elevation: 2,
+          color: const Color(0xFFF1F8E9), // Light Pastel Green Background
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            width: double.infinity,
+            child: InkWell(
+              onTap: widget.onTap,
+              onLongPress: widget.onEdit,
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Display as Plain Text in List View
+                    Text(
+                      mainText,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        height: 1.4,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    // Display sub-text (translation/original) faintly for learning purposes
+                    Text(
+                      subText,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors
+                            .grey
+                            .shade400, // Slightly fainter for better hierarchy
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                // Display sub-text (translation/original) faintly for learning purposes
-                Text(
-                  subText,
-                  style: TextStyle(
-                    fontSize: 12, // Smaller font
-                    color: Colors
-                        .grey
-                        .shade500, // Slightly darker for better legibility
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+              ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDeleteBackground() {
-    return Container(
-      color: Colors.redAccent,
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: const Icon(Icons.delete, color: Colors.white),
-    );
-  }
-
-  Widget _buildEditBackground() {
-    return Container(
-      color: Colors.blueAccent,
-      alignment: Alignment.centerRight,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: const Icon(Icons.edit, color: Colors.white),
     );
   }
 

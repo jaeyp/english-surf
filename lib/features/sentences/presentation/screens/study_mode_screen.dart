@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../domain/entities/sentence.dart';
+import '../../domain/value_objects/sentence_text.dart';
+import '../../domain/enums/difficulty.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../widgets/sentence_card.dart';
 
@@ -24,6 +27,10 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   late int _currentIndex;
   Timer? _timer;
   int _timeLeft = 5;
+  bool _isFlipped = false;
+
+  // Stable list of IDs to prevent cards from disappearing during the session
+  List<int>? _initialSentenceIds;
 
   @override
   void initState() {
@@ -44,11 +51,25 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   void _startTimer() {
     _timer?.cancel();
+    if (!mounted) return;
     setState(() {
       _timeLeft = 5;
+      _isFlipped = false;
     });
+    _resumeTimer();
+  }
+
+  void _resumeTimer() {
+    _timer?.cancel();
+    if (!mounted || !widget.isTestMode) return;
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
+        if (_isFlipped) {
+          timer.cancel(); // Safety: cancel if flipped
+          return;
+        }
+
         setState(() {
           if (_timeLeft > 0) {
             _timeLeft--;
@@ -56,32 +77,81 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
             _nextPage();
           }
         });
+      } else {
+        timer.cancel();
       }
     });
   }
 
+  void _pauseTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
   void _nextPage() {
-    final sentences = ref.read(filteredSentencesProvider).value ?? [];
-    if (_currentIndex < sentences.length - 1) {
+    // Note: This now uses the stable list derived in build
+    if (_initialSentenceIds != null &&
+        _currentIndex < _initialSentenceIds!.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-      // Timer will be restarted by onPageChanged
     } else {
-      _timer?.cancel(); // Stop at the end
+      _timer?.cancel();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sentencesAsync = ref.watch(filteredSentencesProvider);
+    // 1. Watch the filtered list ONLY to initialize the stable IDs
+    final filteredSentencesAsync = ref.watch(filteredSentencesProvider);
+
+    // 2. Watch the full raw list to get reactive updates for each card
+    final rawSentencesAsync = ref.watch(sentenceListProvider);
+
     final languageMode =
         ref.watch(languageModeProvider).value ??
         LanguageMode.translationToOriginal;
 
-    return sentencesAsync.when(
-      data: (sentences) {
+    // Initialize stable IDs once data is available
+    if (_initialSentenceIds == null && filteredSentencesAsync.hasValue) {
+      _initialSentenceIds = filteredSentencesAsync.value!
+          .map((s) => s.id)
+          .toList();
+    }
+
+    return rawSentencesAsync.when(
+      data: (allSentences) {
+        if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) {
+          // If we had no filtered sentences to begin with
+          if (filteredSentencesAsync.isLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(title: const Text('Study Mode')),
+            body: const Center(child: Text('No sentences to study.')),
+          );
+        }
+
+        // Map stable IDs to their latest data from the raw list
+        final sentences = _initialSentenceIds!
+            .map((id) {
+              return allSentences.firstWhere(
+                (s) => s.id == id,
+                orElse: () => Sentence(
+                  id: id,
+                  order: 0,
+                  original: const SentenceText(text: 'Deleted'),
+                  translation: 'Deleted content',
+                  difficulty: Difficulty.beginner,
+                ),
+              );
+            })
+            .where((s) => s.original.text != 'Deleted')
+            .toList();
+
         if (sentences.isEmpty) {
           return Scaffold(
             appBar: AppBar(title: const Text('Study Mode')),
@@ -89,7 +159,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           );
         }
 
-        // Extremely safe index calculation
+        // Safe index calculation
         final safeIndex = _currentIndex < sentences.length
             ? (_currentIndex < 0 ? 0 : _currentIndex)
             : sentences.length - 1;
@@ -110,15 +180,23 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: isLandscape
-                ? 40
-                : null, // Reduced height in landscape
+            toolbarHeight: isLandscape ? 40 : null,
             title: isLandscape
-                ? null // Hide title in landscape to save vertical space
+                ? null
                 : Text('${safeIndex + 1} / ${sentences.length}'),
             leading: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                IconButton(
+                  icon: Icon(
+                    currentSentence.isFavorite ? Icons.star : Icons.star_border,
+                    size: 20,
+                    color: currentSentence.isFavorite ? Colors.red : null,
+                  ),
+                  onPressed: () => ref
+                      .read(sentenceListProvider.notifier)
+                      .toggleFavorite(currentSentence.id),
+                ),
                 IconButton(
                   icon: const Icon(Icons.edit, size: 20),
                   onPressed: () =>
@@ -148,10 +226,20 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                       ),
                     );
                     if (confirmed == true) {
+                      final idToDelete = currentSentence.id;
                       await ref
                           .read(sentenceListProvider.notifier)
-                          .deleteSentence(currentSentence.id);
-                      if (sentences.length <= 1) {
+                          .deleteSentence(idToDelete);
+
+                      // Explicitly remove from stable list to avoid "Deleted" placeholder
+                      if (mounted) {
+                        setState(() {
+                          _initialSentenceIds?.remove(idToDelete);
+                        });
+                      }
+
+                      if (_initialSentenceIds == null ||
+                          _initialSentenceIds!.isEmpty) {
                         if (context.mounted) Navigator.pop(context);
                       }
                     }
@@ -159,7 +247,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                 ),
               ],
             ),
-            leadingWidth: 100,
+            leadingWidth: 160,
             actions: [
               if (isLandscape)
                 Center(
@@ -195,16 +283,28 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                           }
                         },
                         itemBuilder: (context, index) {
-                          if (index >= sentences.length) {
-                            return const SizedBox.shrink();
-                          }
                           return SentenceCard(
+                            key: ValueKey(
+                              'sentence_card_${sentences[index].id}',
+                            ),
                             sentence: sentences[index],
                             languageMode: languageMode,
                             padding: EdgeInsets.symmetric(
                               horizontal: isLandscape ? 32.0 : 16.0,
                               vertical: isLandscape ? 8.0 : 16.0,
                             ),
+                            onFlip: (isFlipped) {
+                              if (widget.isTestMode) {
+                                setState(() {
+                                  _isFlipped = isFlipped;
+                                });
+                                if (isFlipped) {
+                                  _pauseTimer();
+                                } else {
+                                  _resumeTimer();
+                                }
+                              }
+                            },
                           );
                         },
                       ),
@@ -242,6 +342,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
         ),
         child: Text(
           '$_timeLeft',
+          key: const ValueKey('timer_text'),
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,

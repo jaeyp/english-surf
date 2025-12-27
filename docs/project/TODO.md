@@ -15,6 +15,7 @@ English sentence learning app with rich text styling and flashcard features.
 - **Phase 3: Application Layer (State Management)** (✅ Completed)
 - **Phase 4: Presentation Layer (UI)** (✅ Completed)
 - **Phase 4.1: Polishing & Hardening** (🚧 In Progress - Polishing Done)
+- **Phase 4.2: Folder System** (⏳ Pending)
 - Phase 5: Advanced Input & AI Integration (🚧 In Progress)
 - **Phase 6: Monetization & Deployment** - Launch Ready (⏳ Pending)
 
@@ -85,6 +86,57 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Animations & Transitions**
     - [x] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
     - [x] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
+
+## Phase 4.2: Folder System (Enhanced Organization)
+- [ ] **Data Layer (Core)**
+    - [ ] Create `Folder` entity: `id`, `name`, `createdAt`.
+    - [ ] **Update `Sentence` entity**: Add `folderId` (nullable, UUID).
+    - [ ] **Database Migration**: 
+        - [ ] Add `folders` table.
+        - [ ] Add `folder_id` column to `sentences` table (Foreign Key).
+    - [ ] Implement `FolderRepository` for CRUD.
+    - [ ] **Seeding Logic**: Auto-create "Default" folder and move all existing sentences into it during first migration.
+- [ ] **State Management**
+    - [ ] `FolderListProvider`: Manage all folders.
+    - [ ] `CurrentFolderProvider`: Track which folder the user is currently viewing.
+    - [ ] Update `SentenceListProvider`: Add filtering logic by `folderId`.
+- [ ] **UI Implementation**
+    - [ ] **Home Screen (Folder Grid/List)**: Show list of folders with sentence counts.
+    - [ ] **Folder Operations**: Create/Rename/Delete Folder with name validation.
+    - [ ] **Sentence List (Folder View)**: Breadcrumbs (Home > Folder Name) and empty state UI.
+- [ ] **Multi-selection & Bulk Actions**
+    - [ ] **Selection Mode**: Long-press activation + Contextual AppBar (Selection Count, Select All).
+    - [ ] **Floating Action Bottom Bar**: Quick actions for [Move] / [Delete].
+    - [ ] **Visual Feedback**: Checkbox slide-in + card highlight.
+    - [ ] **Batch Operations**: 
+        - [ ] Bulk Move: "Folder Picker" via Bottom Sheet.
+        - [ ] Bulk Delete: Multi-item confirmation dialog.
+- [ ] **Testing**
+    - [ ] Unit tests for `FolderRepository`.
+    - [ ] Widget tests for folder CRUD UI.
+
+## Phase 4.3: Card Swipe Actions Improvement
+- [x] **Swipe Behavior Changes**
+    - [x] Disable swipe-to-right (Left-to-Right swipe: card should not move).
+    - [x] Reveal 3 actions on the right side when swipe-to-left (Right-to-Left swipe).
+- [x] **New Favorite Feature**
+    - [x] Add `isFavorite` field to `Sentence` entity (boolean, default: false).
+    - [x] Implement database migration for the new field.
+    - [x] Update repository to handle favorite toggle.
+- [x] **Right Swipe Menu UI**
+    - [x] Display 3 action buttons in order: Favorite → Edit → Delete.
+    - [x] **Favorite Button**: Star icon (outlined when off, filled red when on). Tap to toggle.
+    - [x] **Edit Button**: Pencil icon. Tap to navigate to `SentenceEditScreen`.
+    - [x] **Delete Button**: Trash icon. Tap to show delete confirmation popup.
+- [x] **Filter UI Improvements**
+    - [x] Remove "Sort: " and "Difficulty: " text labels from `SentenceFilterBar` chips.
+    - [x] Add "Favorites" option to the filter menu (placed after "All").
+- [x] **Study Mode Enhancements & Testing**
+    - [x] **Stable List View**: Implemented "Frozen IDs" to prevent cards from vanishing when unstarred during study.
+    - [x] **Timer Pause Logic**: Timer automatically pauses when card is flipped and resumes on flip-back.
+    - [x] **Resource Management**: Verified timer cancellation on page change and screen disposal.
+    - [x] **Gesture Reliability**: Replaced `SelectableText` with `Text` to fix tap propagation issues.
+    - [x] **TDD Hardening**: 41 unit/widget/stability tests passing.
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 

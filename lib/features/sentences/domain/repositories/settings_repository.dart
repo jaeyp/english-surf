@@ -11,4 +11,7 @@ abstract class SettingsRepository {
 
   Future<LanguageMode> getLanguageMode();
   Future<void> saveLanguageMode(LanguageMode mode);
+
+  Future<bool> getShowFavoritesOnly();
+  Future<void> saveShowFavoritesOnly(bool showOnly);
 }

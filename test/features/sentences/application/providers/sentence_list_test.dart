@@ -110,5 +110,23 @@ void main() {
       verify(() => mockRepository.deleteSentence(1)).called(1);
       expect(container.read(sentenceListProvider).value, isEmpty);
     });
+
+    test('toggleFavorite should call repository and update state', () async {
+      when(
+        () => mockRepository.getAllSentences(),
+      ).thenAnswer((_) async => [testSentence]);
+      when(() => mockRepository.toggleFavorite(any())).thenAnswer((_) async {});
+
+      final container = createContainer();
+      await container.read(sentenceListProvider.future);
+
+      await container.read(sentenceListProvider.notifier).toggleFavorite(1);
+
+      verify(() => mockRepository.toggleFavorite(1)).called(1);
+      expect(
+        container.read(sentenceListProvider).value!.first.isFavorite,
+        !testSentence.isFavorite,
+      );
+    });
   });
 }

@@ -58,6 +58,7 @@ void main() {
       difficulty: Difficulty.beginner,
       examples: const [],
       notes: 'Updated',
+      isFavorite: false,
     );
 
     // Act

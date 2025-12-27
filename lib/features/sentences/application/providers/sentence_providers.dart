@@ -65,6 +65,27 @@ class SentenceList extends _$SentenceList {
     final sentences = await future;
     state = AsyncData(sentences.where((s) => s.id != id).toList());
   }
+
+  Future<void> toggleFavorite(int id) async {
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.toggleFavorite(id);
+
+    final currentSentences = state.value;
+    if (currentSentences != null) {
+      print('DEBUG: Toggling favorite for $id in memory state');
+      state = AsyncData(
+        currentSentences.map((s) {
+          if (s.id == id) {
+            return s.copyWith(isFavorite: !s.isFavorite);
+          }
+          return s;
+        }).toList(),
+      );
+    } else {
+      // If state is not loaded, just invalidate to fetch fresh data
+      ref.invalidateSelf();
+    }
+  }
 }
 
 /// ----------------------------------------------------------------------------
@@ -75,13 +96,24 @@ class SentenceList extends _$SentenceList {
 class SentenceFilterState {
   final Difficulty? difficulty;
   final SortType sortType;
+  final bool showFavoritesOnly;
 
-  const SentenceFilterState({this.difficulty, this.sortType = SortType.random});
+  const SentenceFilterState({
+    this.difficulty,
+    this.sortType = SortType.random,
+    this.showFavoritesOnly = false,
+  });
 
-  SentenceFilterState copyWith({Difficulty? difficulty, SortType? sortType}) {
+  SentenceFilterState copyWith({
+    Difficulty? difficulty,
+    bool clearDifficulty = false,
+    SortType? sortType,
+    bool? showFavoritesOnly,
+  }) {
     return SentenceFilterState(
-      difficulty: difficulty ?? this.difficulty,
+      difficulty: clearDifficulty ? null : (difficulty ?? this.difficulty),
       sortType: sortType ?? this.sortType,
+      showFavoritesOnly: showFavoritesOnly ?? this.showFavoritesOnly,
     );
   }
 }
@@ -110,7 +142,12 @@ class SentenceFilter extends _$SentenceFilter {
     final repository = ref.watch(settingsRepositoryProvider);
     final sortType = await repository.getSortType();
     final difficulty = await repository.getDifficultyFilter();
-    return SentenceFilterState(difficulty: difficulty, sortType: sortType);
+    final showFavoritesOnly = await repository.getShowFavoritesOnly();
+    return SentenceFilterState(
+      difficulty: difficulty,
+      sortType: sortType,
+      showFavoritesOnly: showFavoritesOnly,
+    );
   }
 
   Future<void> setDifficulty(Difficulty? difficulty) async {
@@ -119,7 +156,10 @@ class SentenceFilter extends _$SentenceFilter {
     final current = state.value;
     if (current != null) {
       state = AsyncData(
-        SentenceFilterState(difficulty: difficulty, sortType: current.sortType),
+        current.copyWith(
+          difficulty: difficulty,
+          clearDifficulty: difficulty == null,
+        ),
       );
     }
   }
@@ -130,6 +170,16 @@ class SentenceFilter extends _$SentenceFilter {
     final current = state.value;
     if (current != null) {
       state = AsyncData(current.copyWith(sortType: sortType));
+    }
+  }
+
+  Future<void> toggleFavoritesOnly() async {
+    final current = state.value;
+    if (current != null) {
+      final newValue = !current.showFavoritesOnly;
+      final repository = ref.read(settingsRepositoryProvider);
+      await repository.saveShowFavoritesOnly(newValue);
+      state = AsyncData(current.copyWith(showFavoritesOnly: newValue));
     }
   }
 }
@@ -167,7 +217,15 @@ Future<List<Sentence>> filteredSentences(Ref ref) async {
         .toList();
   }
 
+  // 2. Filter by Favorite
+  if (filterState.showFavoritesOnly) {
+    result = result.where((s) => s.isFavorite).toList();
+  }
+
   // 2. Sort
+  print(
+    'DEBUG: Sorting ${result.length} sentences by ${filterState.sortType}...',
+  );
   switch (filterState.sortType) {
     case SortType.order:
       result.sort((a, b) => a.order.compareTo(b.order));

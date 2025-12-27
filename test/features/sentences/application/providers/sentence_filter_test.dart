@@ -42,6 +42,12 @@ void main() {
     when(
       () => mockSettingsRepository.saveDifficultyFilter(any()),
     ).thenAnswer((_) async => {});
+    when(
+      () => mockSettingsRepository.getShowFavoritesOnly(),
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockSettingsRepository.saveShowFavoritesOnly(any()),
+    ).thenAnswer((_) async => {});
   });
 
   ProviderContainer createContainer() {
@@ -134,5 +140,68 @@ void main() {
       expect(filtered[0].order, 1);
       expect(filtered[1].order, 2);
     });
+
+    test('should filter by favorites', () async {
+      final favSentences = [
+        sentences[0].copyWith(isFavorite: true),
+        sentences[1].copyWith(isFavorite: false),
+      ];
+      when(
+        () => mockRepository.getAllSentences(),
+      ).thenAnswer((_) async => favSentences);
+      final container = createContainer();
+
+      await container.read(sentenceFilterProvider.future);
+
+      // Act
+      container.read(sentenceFilterProvider.notifier).toggleFavoritesOnly();
+      final filtered = await container.read(filteredSentencesProvider.future);
+
+      // Assert
+      expect(filtered.length, 1);
+      expect(filtered.first.id, 1);
+    });
+
+    test(
+      'should save favorites filter state to repository when toggled',
+      () async {
+        when(
+          () => mockRepository.getAllSentences(),
+        ).thenAnswer((_) async => sentences);
+        final container = createContainer();
+        await container.read(sentenceFilterProvider.future);
+
+        // Act
+        await container
+            .read(sentenceFilterProvider.notifier)
+            .toggleFavoritesOnly();
+
+        // Assert
+        verify(
+          () => mockSettingsRepository.saveShowFavoritesOnly(true),
+        ).called(1);
+      },
+    );
+
+    test(
+      'should rehydrate showFavoritesOnly state from settings on build',
+      () async {
+        // Setup: Mock repository to return true for favorites filter
+        when(
+          () => mockSettingsRepository.getShowFavoritesOnly(),
+        ).thenAnswer((_) async => true);
+        when(
+          () => mockRepository.getAllSentences(),
+        ).thenAnswer((_) async => sentences);
+
+        final container = createContainer();
+
+        // Act
+        final filterState = await container.read(sentenceFilterProvider.future);
+
+        // Assert
+        expect(filterState.showFavoritesOnly, true);
+      },
+    );
   });
 }

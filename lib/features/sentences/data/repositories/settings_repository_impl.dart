@@ -10,6 +10,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keySortType = 'sort_type';
   static const String _keyDifficulty = 'difficulty_filter';
   static const String _keyLanguageMode = 'language_mode';
+  static const String _keyShowFavoritesOnly = 'show_favorites_only';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -54,5 +55,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveLanguageMode(LanguageMode mode) async {
     await _prefs.setString(_keyLanguageMode, mode.name);
+  }
+
+  @override
+  Future<bool> getShowFavoritesOnly() async {
+    return _prefs.getBool(_keyShowFavoritesOnly) ?? false;
+  }
+
+  @override
+  Future<void> saveShowFavoritesOnly(bool showOnly) async {
+    await _prefs.setBool(_keyShowFavoritesOnly, showOnly);
   }
 }

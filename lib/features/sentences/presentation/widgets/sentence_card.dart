@@ -8,12 +8,14 @@ class SentenceCard extends StatefulWidget {
   final Sentence sentence;
   final LanguageMode languageMode;
   final EdgeInsets padding;
+  final ValueChanged<bool>? onFlip;
 
   const SentenceCard({
     super.key,
     required this.sentence,
     required this.languageMode,
     this.padding = EdgeInsets.zero,
+    this.onFlip,
   });
 
   @override
@@ -49,6 +51,7 @@ class _SentenceCardState extends State<SentenceCard>
       _controller.reverse();
     }
     _isFront = !_isFront;
+    widget.onFlip?.call(!_isFront);
   }
 
   @override
@@ -153,7 +156,7 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            SelectableText(
+            Text(
               widget.sentence.notes,
               style: const TextStyle(fontSize: 14, color: Colors.black54),
               textAlign: TextAlign.center,
@@ -173,7 +176,7 @@ class _SentenceCardState extends State<SentenceCard>
             ...widget.sentence.examples.map(
               (example) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SelectableText(
+                child: Text(
                   example,
                   style: const TextStyle(
                     fontSize: 14,
@@ -194,7 +197,7 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SelectableText(
+        Text(
           widget.sentence.translation,
           style: const TextStyle(
             fontSize: 22,
@@ -209,7 +212,7 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            SelectableText(
+            Text(
               widget.sentence.notes,
               style: const TextStyle(fontSize: 14, color: Colors.black54),
               textAlign: TextAlign.center,
@@ -229,7 +232,7 @@ class _SentenceCardState extends State<SentenceCard>
             ...widget.sentence.examples.map(
               (example) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SelectableText(
+                child: Text(
                   example,
                   style: const TextStyle(
                     fontSize: 14,

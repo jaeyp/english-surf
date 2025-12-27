@@ -20,6 +20,7 @@ class Sentences extends Table {
   TextColumn get difficulty => text().map(const DifficultyConverter())();
   TextColumn get examples => text().map(const StringListConverter())();
   TextColumn get notes => text()();
+  BoolColumn get isFavorite => boolean().withDefault(const Constant(false))();
 }
 
 @DriftDatabase(tables: [Sentences])
@@ -27,7 +28,24 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onUpgrade: (m, from, to) async {
+        if (from < 2) {
+          // Add the new isFavorite column
+          await m.addColumn(sentences, sentences.isFavorite);
+        }
+      },
+      beforeOpen: (details) async {
+        if (details.wasCreated) {
+          // If first-time creation, everything is fine
+        }
+      },
+    );
+  }
 
   // CRUD Operations
   Future<List<SentenceEntry>> getAllSentences() => select(sentences).get();

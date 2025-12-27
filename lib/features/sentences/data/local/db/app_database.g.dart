@@ -78,6 +78,21 @@ class $SentencesTable extends Sentences
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _isFavoriteMeta = const VerificationMeta(
+    'isFavorite',
+  );
+  @override
+  late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
+    'is_favorite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_favorite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -87,6 +102,7 @@ class $SentencesTable extends Sentences
     difficulty,
     examples,
     notes,
+    isFavorite,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -129,6 +145,12 @@ class $SentencesTable extends Sentences
       );
     } else if (isInserting) {
       context.missing(_notesMeta);
+    }
+    if (data.containsKey('is_favorite')) {
+      context.handle(
+        _isFavoriteMeta,
+        isFavorite.isAcceptableOrUnknown(data['is_favorite']!, _isFavoriteMeta),
+      );
     }
     return context;
   }
@@ -173,6 +195,10 @@ class $SentencesTable extends Sentences
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
       )!,
+      isFavorite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_favorite'],
+      )!,
     );
   }
 
@@ -197,6 +223,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
   final Difficulty difficulty;
   final List<String> examples;
   final String notes;
+  final bool isFavorite;
   const SentenceEntry({
     required this.id,
     required this.order,
@@ -205,6 +232,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     required this.difficulty,
     required this.examples,
     required this.notes,
+    required this.isFavorite,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -228,6 +256,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       );
     }
     map['notes'] = Variable<String>(notes);
+    map['is_favorite'] = Variable<bool>(isFavorite);
     return map;
   }
 
@@ -240,6 +269,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       difficulty: Value(difficulty),
       examples: Value(examples),
       notes: Value(notes),
+      isFavorite: Value(isFavorite),
     );
   }
 
@@ -256,6 +286,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       difficulty: serializer.fromJson<Difficulty>(json['difficulty']),
       examples: serializer.fromJson<List<String>>(json['examples']),
       notes: serializer.fromJson<String>(json['notes']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
     );
   }
   @override
@@ -269,6 +300,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       'difficulty': serializer.toJson<Difficulty>(difficulty),
       'examples': serializer.toJson<List<String>>(examples),
       'notes': serializer.toJson<String>(notes),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
     };
   }
 
@@ -280,6 +312,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     Difficulty? difficulty,
     List<String>? examples,
     String? notes,
+    bool? isFavorite,
   }) => SentenceEntry(
     id: id ?? this.id,
     order: order ?? this.order,
@@ -288,6 +321,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     difficulty: difficulty ?? this.difficulty,
     examples: examples ?? this.examples,
     notes: notes ?? this.notes,
+    isFavorite: isFavorite ?? this.isFavorite,
   );
   SentenceEntry copyWithCompanion(SentencesCompanion data) {
     return SentenceEntry(
@@ -302,6 +336,9 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           : this.difficulty,
       examples: data.examples.present ? data.examples.value : this.examples,
       notes: data.notes.present ? data.notes.value : this.notes,
+      isFavorite: data.isFavorite.present
+          ? data.isFavorite.value
+          : this.isFavorite,
     );
   }
 
@@ -314,7 +351,8 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           ..write('translation: $translation, ')
           ..write('difficulty: $difficulty, ')
           ..write('examples: $examples, ')
-          ..write('notes: $notes')
+          ..write('notes: $notes, ')
+          ..write('isFavorite: $isFavorite')
           ..write(')'))
         .toString();
   }
@@ -328,6 +366,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     difficulty,
     examples,
     notes,
+    isFavorite,
   );
   @override
   bool operator ==(Object other) =>
@@ -339,7 +378,8 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           other.translation == this.translation &&
           other.difficulty == this.difficulty &&
           other.examples == this.examples &&
-          other.notes == this.notes);
+          other.notes == this.notes &&
+          other.isFavorite == this.isFavorite);
 }
 
 class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
@@ -350,6 +390,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
   final Value<Difficulty> difficulty;
   final Value<List<String>> examples;
   final Value<String> notes;
+  final Value<bool> isFavorite;
   const SentencesCompanion({
     this.id = const Value.absent(),
     this.order = const Value.absent(),
@@ -358,6 +399,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     this.difficulty = const Value.absent(),
     this.examples = const Value.absent(),
     this.notes = const Value.absent(),
+    this.isFavorite = const Value.absent(),
   });
   SentencesCompanion.insert({
     this.id = const Value.absent(),
@@ -367,6 +409,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     required Difficulty difficulty,
     required List<String> examples,
     required String notes,
+    this.isFavorite = const Value.absent(),
   }) : order = Value(order),
        original = Value(original),
        translation = Value(translation),
@@ -381,6 +424,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Expression<String>? difficulty,
     Expression<String>? examples,
     Expression<String>? notes,
+    Expression<bool>? isFavorite,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -390,6 +434,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       if (difficulty != null) 'difficulty': difficulty,
       if (examples != null) 'examples': examples,
       if (notes != null) 'notes': notes,
+      if (isFavorite != null) 'is_favorite': isFavorite,
     });
   }
 
@@ -401,6 +446,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Value<Difficulty>? difficulty,
     Value<List<String>>? examples,
     Value<String>? notes,
+    Value<bool>? isFavorite,
   }) {
     return SentencesCompanion(
       id: id ?? this.id,
@@ -410,6 +456,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       difficulty: difficulty ?? this.difficulty,
       examples: examples ?? this.examples,
       notes: notes ?? this.notes,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
@@ -443,6 +490,9 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
+    if (isFavorite.present) {
+      map['is_favorite'] = Variable<bool>(isFavorite.value);
+    }
     return map;
   }
 
@@ -455,7 +505,8 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
           ..write('translation: $translation, ')
           ..write('difficulty: $difficulty, ')
           ..write('examples: $examples, ')
-          ..write('notes: $notes')
+          ..write('notes: $notes, ')
+          ..write('isFavorite: $isFavorite')
           ..write(')'))
         .toString();
   }
@@ -481,6 +532,7 @@ typedef $$SentencesTableCreateCompanionBuilder =
       required Difficulty difficulty,
       required List<String> examples,
       required String notes,
+      Value<bool> isFavorite,
     });
 typedef $$SentencesTableUpdateCompanionBuilder =
     SentencesCompanion Function({
@@ -491,6 +543,7 @@ typedef $$SentencesTableUpdateCompanionBuilder =
       Value<Difficulty> difficulty,
       Value<List<String>> examples,
       Value<String> notes,
+      Value<bool> isFavorite,
     });
 
 class $$SentencesTableFilterComposer
@@ -539,6 +592,11 @@ class $$SentencesTableFilterComposer
     column: $table.notes,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SentencesTableOrderingComposer
@@ -584,6 +642,11 @@ class $$SentencesTableOrderingComposer
     column: $table.notes,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SentencesTableAnnotationComposer
@@ -620,6 +683,11 @@ class $$SentencesTableAnnotationComposer
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => column,
+  );
 }
 
 class $$SentencesTableTableManager
@@ -660,6 +728,7 @@ class $$SentencesTableTableManager
                 Value<Difficulty> difficulty = const Value.absent(),
                 Value<List<String>> examples = const Value.absent(),
                 Value<String> notes = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
               }) => SentencesCompanion(
                 id: id,
                 order: order,
@@ -668,6 +737,7 @@ class $$SentencesTableTableManager
                 difficulty: difficulty,
                 examples: examples,
                 notes: notes,
+                isFavorite: isFavorite,
               ),
           createCompanionCallback:
               ({
@@ -678,6 +748,7 @@ class $$SentencesTableTableManager
                 required Difficulty difficulty,
                 required List<String> examples,
                 required String notes,
+                Value<bool> isFavorite = const Value.absent(),
               }) => SentencesCompanion.insert(
                 id: id,
                 order: order,
@@ -686,6 +757,7 @@ class $$SentencesTableTableManager
                 difficulty: difficulty,
                 examples: examples,
                 notes: notes,
+                isFavorite: isFavorite,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
