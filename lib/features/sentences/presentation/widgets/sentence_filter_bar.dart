@@ -79,9 +79,10 @@ class SentenceFilterBar extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: SortType.values.map((type) {
               return ListTile(
-                leading: type == current
-                    ? const Icon(Icons.check, color: Colors.blue)
-                    : null,
+                leading: Icon(
+                  Icons.check,
+                  color: type == current ? Colors.blue : Colors.transparent,
+                ),
                 title: Text(type.label),
                 onTap: () {
                   notifier.setSortType(type);
@@ -109,9 +110,12 @@ class SentenceFilterBar extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: (current == null && !showFavoritesOnly)
-                    ? const Icon(Icons.check, color: Colors.blue)
-                    : null,
+                leading: Icon(
+                  Icons.check,
+                  color: (current == null && !showFavoritesOnly)
+                      ? Colors.blue
+                      : Colors.transparent,
+                ),
                 title: const Text('All'),
                 onTap: () {
                   notifier.setDifficulty(null);
@@ -120,9 +124,10 @@ class SentenceFilterBar extends ConsumerWidget {
                 },
               ),
               ListTile(
-                leading: showFavoritesOnly
-                    ? const Icon(Icons.check, color: Colors.blue)
-                    : null,
+                leading: Icon(
+                  Icons.check,
+                  color: showFavoritesOnly ? Colors.blue : Colors.transparent,
+                ),
                 title: const Text('Favorites'),
                 onTap: () {
                   if (!showFavoritesOnly) notifier.toggleFavoritesOnly();
@@ -132,9 +137,12 @@ class SentenceFilterBar extends ConsumerWidget {
               ),
               ...Difficulty.values.map((diff) {
                 return ListTile(
-                  leading: (diff == current && !showFavoritesOnly)
-                      ? const Icon(Icons.check, color: Colors.blue)
-                      : null,
+                  leading: Icon(
+                    Icons.check,
+                    color: (diff == current && !showFavoritesOnly)
+                        ? Colors.blue
+                        : Colors.transparent,
+                  ),
                   title: Text(
                     diff.name[0].toUpperCase() + diff.name.substring(1),
                     style: const TextStyle(fontSize: 14),
