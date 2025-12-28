@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AiGeneratedContent {
 
- String get translation; String get notes; String get examples;
+ String get translation; String get notes; String get examples; Difficulty? get difficulty;
 /// Create a copy of AiGeneratedContent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AiGeneratedContentCopyWith<AiGeneratedContent> get copyWith => _$AiGeneratedCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiGeneratedContent&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.examples, examples) || other.examples == examples));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiGeneratedContent&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.examples, examples) || other.examples == examples)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,translation,notes,examples);
+int get hashCode => Object.hash(runtimeType,translation,notes,examples,difficulty);
 
 @override
 String toString() {
-  return 'AiGeneratedContent(translation: $translation, notes: $notes, examples: $examples)';
+  return 'AiGeneratedContent(translation: $translation, notes: $notes, examples: $examples, difficulty: $difficulty)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AiGeneratedContentCopyWith<$Res>  {
   factory $AiGeneratedContentCopyWith(AiGeneratedContent value, $Res Function(AiGeneratedContent) _then) = _$AiGeneratedContentCopyWithImpl;
 @useResult
 $Res call({
- String translation, String notes, String examples
+ String translation, String notes, String examples, Difficulty? difficulty
 });
 
 
@@ -65,12 +65,13 @@ class _$AiGeneratedContentCopyWithImpl<$Res>
 
 /// Create a copy of AiGeneratedContent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? translation = null,Object? notes = null,Object? examples = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? translation = null,Object? notes = null,Object? examples = null,Object? difficulty = freezed,}) {
   return _then(_self.copyWith(
 translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
-as String,
+as String,difficulty: freezed == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
+as Difficulty?,
   ));
 }
 
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String translation,  String notes,  String examples)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String translation,  String notes,  String examples,  Difficulty? difficulty)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AiGeneratedContent() when $default != null:
-return $default(_that.translation,_that.notes,_that.examples);case _:
+return $default(_that.translation,_that.notes,_that.examples,_that.difficulty);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.translation,_that.notes,_that.examples);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String translation,  String notes,  String examples)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String translation,  String notes,  String examples,  Difficulty? difficulty)  $default,) {final _that = this;
 switch (_that) {
 case _AiGeneratedContent():
-return $default(_that.translation,_that.notes,_that.examples);case _:
+return $default(_that.translation,_that.notes,_that.examples,_that.difficulty);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.translation,_that.notes,_that.examples);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String translation,  String notes,  String examples)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String translation,  String notes,  String examples,  Difficulty? difficulty)?  $default,) {final _that = this;
 switch (_that) {
 case _AiGeneratedContent() when $default != null:
-return $default(_that.translation,_that.notes,_that.examples);case _:
+return $default(_that.translation,_that.notes,_that.examples,_that.difficulty);case _:
   return null;
 
 }
@@ -211,12 +212,13 @@ return $default(_that.translation,_that.notes,_that.examples);case _:
 @JsonSerializable()
 
 class _AiGeneratedContent implements AiGeneratedContent {
-  const _AiGeneratedContent({required this.translation, required this.notes, required this.examples});
+  const _AiGeneratedContent({required this.translation, required this.notes, required this.examples, this.difficulty});
   factory _AiGeneratedContent.fromJson(Map<String, dynamic> json) => _$AiGeneratedContentFromJson(json);
 
 @override final  String translation;
 @override final  String notes;
 @override final  String examples;
+@override final  Difficulty? difficulty;
 
 /// Create a copy of AiGeneratedContent
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiGeneratedContent&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.examples, examples) || other.examples == examples));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiGeneratedContent&&(identical(other.translation, translation) || other.translation == translation)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.examples, examples) || other.examples == examples)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,translation,notes,examples);
+int get hashCode => Object.hash(runtimeType,translation,notes,examples,difficulty);
 
 @override
 String toString() {
-  return 'AiGeneratedContent(translation: $translation, notes: $notes, examples: $examples)';
+  return 'AiGeneratedContent(translation: $translation, notes: $notes, examples: $examples, difficulty: $difficulty)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$AiGeneratedContentCopyWith<$Res> implements $AiGeneratedC
   factory _$AiGeneratedContentCopyWith(_AiGeneratedContent value, $Res Function(_AiGeneratedContent) _then) = __$AiGeneratedContentCopyWithImpl;
 @override @useResult
 $Res call({
- String translation, String notes, String examples
+ String translation, String notes, String examples, Difficulty? difficulty
 });
 
 
@@ -268,12 +270,13 @@ class __$AiGeneratedContentCopyWithImpl<$Res>
 
 /// Create a copy of AiGeneratedContent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? translation = null,Object? notes = null,Object? examples = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? translation = null,Object? notes = null,Object? examples = null,Object? difficulty = freezed,}) {
   return _then(_AiGeneratedContent(
 translation: null == translation ? _self.translation : translation // ignore: cast_nullable_to_non_nullable
 as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
-as String,
+as String,difficulty: freezed == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
+as Difficulty?,
   ));
 }
 

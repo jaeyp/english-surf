@@ -11,6 +11,7 @@ _AiGeneratedContent _$AiGeneratedContentFromJson(Map<String, dynamic> json) =>
       translation: json['translation'] as String,
       notes: json['notes'] as String,
       examples: json['examples'] as String,
+      difficulty: $enumDecodeNullable(_$DifficultyEnumMap, json['difficulty']),
     );
 
 Map<String, dynamic> _$AiGeneratedContentToJson(_AiGeneratedContent instance) =>
@@ -18,4 +19,11 @@ Map<String, dynamic> _$AiGeneratedContentToJson(_AiGeneratedContent instance) =>
       'translation': instance.translation,
       'notes': instance.notes,
       'examples': instance.examples,
+      'difficulty': instance.difficulty,
     };
+
+const _$DifficultyEnumMap = {
+  Difficulty.beginner: 'beginner',
+  Difficulty.intermediate: 'intermediate',
+  Difficulty.advanced: 'advanced',
+};
