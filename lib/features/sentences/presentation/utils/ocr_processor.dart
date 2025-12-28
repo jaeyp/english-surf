@@ -12,15 +12,21 @@ class DisplayBlock {
 
 class OcrProcessor {
   /// Processes raw ML Kit text blocks into refined DisplayBlocks.
-  /// 1. Filters out noise (short text).
-  /// 2. Merges adjacent lines into paragraphs (using punctuation and gap heuristics).
-  /// 3. Forces full width and computes dynamic height.
+  /// 1. Optionally filters by focus region (in image coordinates).
+  /// 2. Filters out noise (short text).
+  /// 3. Merges adjacent lines into paragraphs (using punctuation and gap heuristics).
+  /// 4. Forces full width and computes dynamic height.
+  ///
+  /// [focusRegion] - Optional rect in normalized coordinates (0.0 to 1.0).
+  ///   For portrait: filters by vertical position (e.g., (0, 0.33, 1, 0.33) for middle third)
+  ///   For landscape: filters by horizontal position
   static List<DisplayBlock> processBlocks(
     RecognizedText recognizedText,
     Size canvasSize,
     Size imageSize,
-    InputImageRotation rotation,
-  ) {
+    InputImageRotation rotation, {
+    Rect? focusRegion,
+  }) {
     final rawBlocks = recognizedText.blocks;
     if (rawBlocks.isEmpty) return [];
 
@@ -30,6 +36,26 @@ class OcrProcessor {
     for (var block in rawBlocks) {
       // Filter noise: < 10 chars
       if (block.text.length < 10) continue;
+
+      // Filter by focus region if provided (using normalized image coordinates)
+      if (focusRegion != null) {
+        final centerY = block.boundingBox.center.dy / imageSize.height;
+        final centerX = block.boundingBox.center.dx / imageSize.width;
+
+        // Check based on orientation
+        final isLandscape = imageSize.width > imageSize.height;
+        if (isLandscape) {
+          // For landscape images, filter by horizontal position
+          if (centerX < focusRegion.left || centerX > focusRegion.right) {
+            continue;
+          }
+        } else {
+          // For portrait images, filter by vertical position
+          if (centerY < focusRegion.top || centerY > focusRegion.bottom) {
+            continue;
+          }
+        }
+      }
 
       final rect = _mapToScreen(
         block.boundingBox,
@@ -68,27 +94,40 @@ class OcrProcessor {
 
     // 4. Force Full Width and Compute Dynamic Height
     const double kHorizontalMargin = 16.0;
-    const double kLineHeight = 22.0;
+    const double kLineHeight = 20.0;
     const int kCharsPerLine = 45;
-    const double kVerticalPadding = 16.0;
+    const double kVerticalPadding = 8.0;
 
-    return mergedBlocks.map((b) {
+    // Stack blocks consecutively from top of focus region with fixed gap
+    const double kStartY = 100.0; // Start from below safe area
+    const double kGapBetweenBlocks = 24.0;
+
+    List<DisplayBlock> stackedBlocks = [];
+    double currentY = kStartY;
+
+    for (final b in mergedBlocks) {
       final estimatedLines = (b.text.length / kCharsPerLine).ceil().clamp(
         1,
         10,
       );
       final estimatedHeight = (estimatedLines * kLineHeight) + kVerticalPadding;
 
-      return DisplayBlock(
-        text: b.text,
-        rect: Rect.fromLTRB(
-          kHorizontalMargin,
-          b.rect.top,
-          canvasSize.width - kHorizontalMargin,
-          b.rect.top + estimatedHeight,
+      stackedBlocks.add(
+        DisplayBlock(
+          text: b.text,
+          rect: Rect.fromLTRB(
+            kHorizontalMargin,
+            currentY,
+            canvasSize.width - kHorizontalMargin,
+            currentY + estimatedHeight,
+          ),
         ),
       );
-    }).toList();
+
+      currentY += estimatedHeight + kGapBetweenBlocks;
+    }
+
+    return stackedBlocks;
   }
 
   /// Check if block A should merge with block B.

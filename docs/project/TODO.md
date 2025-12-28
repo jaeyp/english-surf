@@ -129,24 +129,12 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Edit Button**: Pencil icon. Tap to navigate to `SentenceEditScreen`.
     - [x] **Delete Button**: Trash icon. Tap to show delete confirmation popup.
 - [x] **Filter UI Improvements**
-    - [x] Remove "Sort: " and "Difficulty: " text labels from `SentenceFilterBar` chips.
-    - [x] Add "Favorites" option to the filter menu (placed after "All").
-- [x] **Study Mode Enhancements & Testing**
-    - [x] **Stable List View**: Implemented "Frozen IDs" to prevent cards from vanishing when unstarred during study.
-    - [x] **Timer Pause Logic**: Timer automatically pauses when card is flipped and resumes on flip-back.
-    - [x] **Resource Management**: Verified timer cancellation on page change and screen disposal.
-    - [x] **Gesture Reliability**: Replaced `SelectableText` with `Text` to fix tap propagation issues.
-    - [x] **TDD Hardening**: 41 unit/widget/stability tests passing.
-- [x] **Stability & Performance Fixes** (2024-12-27)
-    - [x] **Filtering Lag Fix**: Simplified filter update logic in `SentenceListScreen` to reset visible IDs immediately, resolving the "one step behind" issue.
-    - [x] **Post-Study Sync**: Ensured the list view refreshes after returning from the study screen to reflect any changes in favorite status.
-    - [x] **Direct Favorite Toggle Sync**: Fixed immediate UI update when toggling favorites directly in the list while filtered.
-    - [x] **Housecleaning**: Removed all temporary `test_results*.txt` and `flutter_run_log.txt` files to keep the project directory clean.
-- [x] **AI Integration & Bug Fixes** (2024-12-28)
-    - [x] **AI Auto-Generation**: Implemented Phase 5.2 with `googleai_dart` package and `gemini-2.0-flash` model.
-    - [x] **Prompt Engineering**: Refined prompts for better key expression extraction and diverse example generation.
-    - [x] **Card Save Bug Fix**: Fixed critical bug where saving a card deleted it (missing `folderId` and `isFavorite` preservation).
-    - [x] **Camera OCR 2x Zoom**: Added automatic 2x zoom when opening OCR camera for better text readability.
+  - [x] Remove "Sort: " and "Difficulty: " text labels from `SentenceFilterBar` chips.
+  - [x] Add "Favorites" option to the filter menu (placed after "All").
+- [x] **Study Mode Stability & Hardening**
+  - [x] **Stable List View**: Implemented "Frozen IDs" to prevent cards from vanishing during study.
+  - [x] **Timer & Gestures**: Verified timer pause on flip and fixed tap propagation issues.
+  - [x] **TDD**: 41 unit/widget/stability tests passing.
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 
@@ -172,18 +160,21 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] 3-second scan throttling for stability.
         - [x] Tap-to-select with visual feedback (green highlight).
         - [x] Pause stream on interaction for easier selection.
-        - [x] **2x Zoom**: Camera auto-zooms 2x for better text capture.
+        - [x] **Zoom Optimization**: 1.5x auto-zoom for better text capture.
+        - [x] **Focus Region Logic**: Only recognize text in the center 1/3 of the screen (portrait & landscape).
+        - [x] **Tight Block Stacking**: Blocks are now stacked with consistent margin and padding for a compact UI.
+        - [x] **Z-Index Correction**: Fixed overlay covering interactive text blocks.
     - [x] **Integration**:
         - [x] Pass selected text to `SentenceEditScreen`.
 
 ### 2. Back Content Generation (AI Auto-Fill) - Smart Card Creation
 - [x] **Method A: Manual Entry** (Already implemented)
     - [x] Input fields for Translation, Notes, and Examples in `SentenceEditScreen`.
-- [ ] **Method B: AI Auto-Generation** (Tomorrow's Priority)
+- [ ] **Method B: AI Auto-Generation** (Current Priority)
     - [ ] **UX Flow from Camera OCR**:
         - [ ] When form opens with `initialOriginalText`, auto-select all text in the field.
         - [ ] User can immediately paste/edit, or tap AI button.
-    - [x] **Phase 5.2: AI Auto-Generation Implementation (.env basis)**:
+    - [x] **AI Auto-Generation Implementation (.env basis)**:
         - [x] **Plan AI infrastructure and prompt engineering**.
         - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
         - [x] **Model**: Using `gemini-2.0-flash` with v1 API endpoint.
@@ -213,10 +204,26 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] **Testing**:
             - [x] Unit test for prompt formatting and JSON parsing.
             - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
-    - [ ] **Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
-        - [ ] **Update `SettingsRepository` to store user-provided Gemini Key**.
-        - [ ] **Implement a Settings Dialog for users to manage their own key**.
-        - [ ] **Switch `AiRepository` to use the user-provided key if available**.
+- [ ] **Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
+    - [ ] Update `SettingsRepository` to store user-provided Gemini Key.
+    - [ ] Implement a Settings Dialog for users to manage their own key.
+    - [ ] Switch `AiRepository` to use the user-provided key if available.
+- [ ] **Phase 5.4: Global Language Support (Multi-language AI)**:
+    - [ ] **Native Language Setting**: Add an option in Settings to choose the user's native language (e.g., Franch, Spanish, Italian, Japanese, Chinese, etc.).
+    - [ ] **Dynamic Prompt**: Update the AI system prompt to generate content in the selected native language instead of hardcoded Korean.
+    - [ ] **Localization Prep**: Ensure the AI instructions ("You are a helpful English tutor...") handle different target languages naturally.
+- [ ] **Phase 5.5: Data Portability (Import/Export)**:
+    - [ ] **JSON Portability (Full Backup)**:
+        - [ ] Design a JSON schema that wraps sentences inside folder objects to preserve **Folder Names** during export/import.
+        - [ ] Export/Import the entire database as a single `.json` file.
+    - [ ] **CSV Portability (Folder-specific)**:
+        - [ ] **Folder Name as Filename**: When exporting a specific folder to CSV, use the folder name as the filename (e.g., `Travel_English.csv`).
+        - [ ] support flat CSV structure for tabular editing (Columns: Original, Translation, Notes, Examples).
+    - [ ] **UX & Integration**:
+        - [ ] Implement a "Data Management" menu in Settings.
+        - [ ] Use `file_picker` for importing and `share_plus` for exporting files to other apps/cloud storage.
+        - [ ] **Conflict Resolution**: Logic to handle duplicates (by ID or original text) during import.
+
 
 ### 3. User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**
@@ -253,6 +260,22 @@ English sentence learning app with rich text styling and flashcard features.
 - [ ] **Compliance**
     - [ ] Add Privacy Policy link.
     - [ ] Add Terms of Service.
+
+---
+
+## 🛠 Maintenance & Stability Log
+
+### 🔋 Stability & Performance Fixes (2024-12-28)
+- [x] **Card Save Bug Fix**: Fixed critical bug where saving a card deleted it (missing `folderId` and `isFavorite` preservation).
+- [x] **OCR Selection Refresh Fix**: Fixed bug where card list wouldn't refresh after creating a card from OCR (navigation stack fix).
+- [x] **Camera OCR Polish**: Adjusted zoom to 1.5x, added focus region overlay, and implemented tight block stacking.
+- [x] **AI Prompt Tuning**: Refined prompts for better key expression extraction and diverse example generation.
+
+### 🔋 Stability & Performance Fixes (2024-12-27)
+- [x] **Filtering Lag Fix**: Simplified filter update logic in `SentenceListScreen` to reset visible IDs immediately.
+- [x] **Post-Study Sync**: Ensured the list view refreshes after returning from the study screen.
+- [x] **Direct Favorite Toggle Sync**: Fixed immediate UI update when toggling favorites directly in the list while filtered.
+- [x] **Housecleaning**: Removed all temporary `test_results*.txt` and `flutter_run_log.txt` files to keep the project directory clean.
 
 ---
 
