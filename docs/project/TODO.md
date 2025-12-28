@@ -137,11 +137,16 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Resource Management**: Verified timer cancellation on page change and screen disposal.
     - [x] **Gesture Reliability**: Replaced `SelectableText` with `Text` to fix tap propagation issues.
     - [x] **TDD Hardening**: 41 unit/widget/stability tests passing.
-- [x] **Stability & Performance Fixes** (Today)
+- [x] **Stability & Performance Fixes** (2024-12-27)
     - [x] **Filtering Lag Fix**: Simplified filter update logic in `SentenceListScreen` to reset visible IDs immediately, resolving the "one step behind" issue.
     - [x] **Post-Study Sync**: Ensured the list view refreshes after returning from the study screen to reflect any changes in favorite status.
     - [x] **Direct Favorite Toggle Sync**: Fixed immediate UI update when toggling favorites directly in the list while filtered.
     - [x] **Housecleaning**: Removed all temporary `test_results*.txt` and `flutter_run_log.txt` files to keep the project directory clean.
+- [x] **AI Integration & Bug Fixes** (2024-12-28)
+    - [x] **AI Auto-Generation**: Implemented Phase 5.2 with `googleai_dart` package and `gemini-2.0-flash` model.
+    - [x] **Prompt Engineering**: Refined prompts for better key expression extraction and diverse example generation.
+    - [x] **Card Save Bug Fix**: Fixed critical bug where saving a card deleted it (missing `folderId` and `isFavorite` preservation).
+    - [x] **Camera OCR 2x Zoom**: Added automatic 2x zoom when opening OCR camera for better text readability.
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 
@@ -167,6 +172,7 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] 3-second scan throttling for stability.
         - [x] Tap-to-select with visual feedback (green highlight).
         - [x] Pause stream on interaction for easier selection.
+        - [x] **2x Zoom**: Camera auto-zooms 2x for better text capture.
     - [x] **Integration**:
         - [x] Pass selected text to `SentenceEditScreen`.
 
@@ -177,36 +183,40 @@ English sentence learning app with rich text styling and flashcard features.
     - [ ] **UX Flow from Camera OCR**:
         - [ ] When form opens with `initialOriginalText`, auto-select all text in the field.
         - [ ] User can immediately paste/edit, or tap AI button.
-    - [ ] **UI Changes (`SentenceEditScreen`)**:
-        - [ ] Add `✨ AI` button in the bottom action bar (alongside Cancel/Save).
-        - [ ] **Loading State**: Show overlay/spinner on the form while AI is generating.
-        - [ ] **Error Handling**: Toast/Snackbar for API errors, timeout handling.
-    - [ ] **AI Service Layer**:
-        - [ ] Create `AiService` class (or use a Provider).
-        - [ ] Integrate **Gemini API** (or OpenAI as fallback).
-        - [ ] Secure API Key management (`.env` file, `flutter_dotenv` package).
-    - [ ] **Prompt Engineering**:
-        - [ ] System Prompt: "You are a helpful English tutor for Korean learners."
-        - [ ] User Prompt Template:
-            ```
-            Given the following English sentence:
-            "{originalText}"
-            
-            Generate:
-            1. A natural Korean translation.
-            2. Key grammar or vocabulary notes (1-2 bullet points).
-            3. 2-3 example sentences using similar patterns.
-            
-            Return as JSON: { "translation": "...", "notes": "...", "examples": "..." }
-            ```
-        - [ ] Parse JSON response and populate form fields.
-    - [ ] **Auto-Fill Logic**:
-        - [ ] On AI button tap: Call `AiService.generateContent(originalText)`.
-        - [ ] On success: Populate `translationController`, `notesController`, `examplesController`.
-        - [ ] Allow user to review and edit before saving.
-    - [ ] **Testing**:
-        - [ ] Unit test for prompt formatting.
-        - [ ] Mock API response for widget tests.
+    - [x] **Phase 5.2: AI Auto-Generation Implementation (.env basis)**:
+        - [x] **Plan AI infrastructure and prompt engineering**.
+        - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
+        - [x] **Model**: Using `gemini-2.0-flash` with v1 API endpoint.
+        - [x] **AI Service Layer**:
+            - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
+            - [x] Secure API Key management via `.env`.
+        - [x] **Prompt Engineering & Logic**:
+            - [x] System Prompt: "You are a helpful English tutor for Korean learners."
+            - [x] User Prompt:
+                ```
+                Given the following English sentence:
+                "{originalText}"
+                
+                Generate:
+                1. A natural Korean translation.
+                2. Key grammar or vocabulary notes (1-2 bullet points).
+                3. Provide 2-3 example sentences using that specific patterns or phrasal verbs if it exists in the original sentences. Also add more casual versions of the example sentences if the original sentences are a bit formal.
+
+                Return as JSON: { "translation": "...", "notes": "...", "examples": "..." }
+                ```
+            - [x] Parse JSON response and populate form fields.
+        - [x] **UI Changes (`SentenceEditScreen`)**:
+            - [x] Add `✨ AI Auto-fill` button in the action bar.
+            - [x] **Loading State**: Show overlay/spinner while generating.
+            - [x] **Error Handling**: Toast/Snackbar for API errors.
+            - [x] **Auto-Fill**: Populate controllers (`translation`, `notes`, `examples`) on success.
+        - [x] **Testing**:
+            - [x] Unit test for prompt formatting and JSON parsing.
+            - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
+    - [ ] **Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
+        - [ ] **Update `SettingsRepository` to store user-provided Gemini Key**.
+        - [ ] **Implement a Settings Dialog for users to manage their own key**.
+        - [ ] **Switch `AiRepository` to use the user-provided key if available**.
 
 ### 3. User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**

@@ -87,7 +87,7 @@ final class SentenceListProvider
   SentenceList create() => SentenceList();
 }
 
-String _$sentenceListHash() => r'54e222bcdd37342b32ab02b8d031481adc3e6fe5';
+String _$sentenceListHash() => r'6eb6b01ac61ab809f7448770221f1faaa2cfd74b';
 
 /// ----------------------------------------------------------------------------
 /// Provider: SentenceList
@@ -339,7 +339,7 @@ final class FilteredSentencesProvider
   }
 }
 
-String _$filteredSentencesHash() => r'4f7286db4bf0cc6acb02bb900e01d3e64805081d';
+String _$filteredSentencesHash() => r'5b9b5c65cc10f3d9572b2de1a5c07663a71fe8e1';
 
 /// ----------------------------------------------------------------------------
 /// Provider: LanguageMode

@@ -9,6 +9,8 @@ import '../../domain/enums/text_style_type.dart';
 import '../../application/providers/sentence_providers.dart';
 
 import '../widgets/styled_text_editing_controller.dart';
+import '../../data/providers/ai_providers.dart';
+import '../../application/providers/folder_providers.dart';
 
 class SentenceEditScreen extends ConsumerStatefulWidget {
   final Sentence? sentence;
@@ -31,6 +33,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
   late TextEditingController _notesController;
   late List<TextEditingController> _exampleControllers;
   late Difficulty _difficulty;
+  bool _isAiGenerating = false;
 
   @override
   void initState() {
@@ -104,6 +107,9 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
           .map((c) => c.text)
           .where((t) => t.isNotEmpty)
           .toList(),
+      // For new cards, use the current folder; for edits, preserve the original folderId
+      folderId: widget.sentence?.folderId ?? ref.read(currentFolderProvider),
+      isFavorite: widget.sentence?.isFavorite ?? false,
     );
 
     if (widget.sentence == null) {
@@ -114,6 +120,65 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
     if (mounted) {
       context.pop();
+    }
+  }
+
+  Future<void> _generateAiContent() async {
+    final originalText = _originalController.text.trim();
+    if (originalText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter an English sentence first')),
+      );
+      return;
+    }
+
+    setState(() => _isAiGenerating = true);
+
+    try {
+      final aiRepo = ref.read(aiRepositoryProvider);
+      final result = await aiRepo.generateSentenceContent(originalText);
+
+      setState(() {
+        _translationController.text = result.translation;
+        _notesController.text = result.notes;
+
+        // Populate examples
+        final examplesList = result.examples
+            .split('\n')
+            .where((line) => line.trim().isNotEmpty)
+            .toList();
+
+        if (examplesList.isNotEmpty) {
+          _exampleControllers.clear();
+          for (var ex in examplesList) {
+            final cleanEx = ex
+                .replaceFirst(RegExp(r'^(\d+\.|\-|\*)\s*'), '')
+                .trim();
+            if (cleanEx.isNotEmpty) {
+              _exampleControllers.add(TextEditingController(text: cleanEx));
+            }
+          }
+          if (_exampleControllers.isEmpty) {
+            _exampleControllers.add(TextEditingController());
+          }
+        }
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('AI content generated successfully!')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('AI Generation Error: $e')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAiGenerating = false);
+      }
     }
   }
 
@@ -210,146 +275,193 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Key Sentence:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                _buildOriginalField(),
-                const SizedBox(height: 24),
-                const Text(
-                  'Translation:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _translationController,
-                  maxLines: null,
-                  style: const TextStyle(color: Colors.black87),
-                  decoration: InputDecoration(
-                    hintText: 'Enter Korean translation',
-                    filled: true,
-                    fillColor: const Color(0xFFF1F8E9),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  validator: (value) => value == null || value.isEmpty
-                      ? 'Translation is required'
-                      : null,
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Difficulty:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                DropdownButtonFormField<Difficulty>(
-                  value: _difficulty,
-                  dropdownColor: const Color(
-                    0xFFF1F8E9,
-                  ), // Background of the popup menu
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xFFF1F8E9),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  items: Difficulty.values.map((d) {
-                    return DropdownMenuItem(
-                      value: d,
-                      child: Text(
-                        d.name.toUpperCase(),
-                        style: const TextStyle(color: Colors.black87),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    if (value != null) setState(() => _difficulty = value);
-                  },
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Notes:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: _notesController,
-                  maxLines: null,
-                  style: const TextStyle(color: Colors.black87),
-                  decoration: InputDecoration(
-                    hintText: 'Grammar or vocabulary notes',
-                    filled: true,
-                    fillColor: const Color(0xFFF1F8E9),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Examples:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      onPressed: _addExample,
-                      icon: const Icon(Icons.add_circle_outline),
-                    ),
-                  ],
-                ),
-                ..._exampleControllers.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final controller = entry.value;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: Row(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: controller,
-                            style: const TextStyle(color: Colors.black87),
-                            decoration: InputDecoration(
-                              hintText: 'Example ${index + 1}',
-                              filled: true,
-                              fillColor: const Color(0xFFF1F8E9),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
+                        const Text(
+                          'Key Sentence:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(width: 8),
-                        IconButton(
-                          onPressed: () => _removeExample(index),
-                          icon: const Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.red,
+                        TextButton.icon(
+                          onPressed: _isAiGenerating
+                              ? null
+                              : _generateAiContent,
+                          icon: const Icon(Icons.auto_awesome, size: 18),
+                          label: const Text('AI Auto-fill'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: const Color(0xFF1B5E20),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                           ),
                         ),
                       ],
                     ),
-                  );
-                }),
-                const SizedBox(height: 40),
-              ],
+                    const SizedBox(height: 8),
+                    _buildOriginalField(),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Translation:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _translationController,
+                      maxLines: null,
+                      style: const TextStyle(color: Colors.black87),
+                      decoration: InputDecoration(
+                        hintText: 'Enter Korean translation',
+                        filled: true,
+                        fillColor: const Color(0xFFF1F8E9),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Translation is required'
+                          : null,
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Difficulty:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    DropdownButtonFormField<Difficulty>(
+                      value: _difficulty,
+                      dropdownColor: const Color(
+                        0xFFF1F8E9,
+                      ), // Background of the popup menu
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFF1F8E9),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      items: Difficulty.values.map((d) {
+                        return DropdownMenuItem(
+                          value: d,
+                          child: Text(
+                            d.name.toUpperCase(),
+                            style: const TextStyle(color: Colors.black87),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != null) setState(() => _difficulty = value);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Notes:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _notesController,
+                      maxLines: null,
+                      style: const TextStyle(color: Colors.black87),
+                      decoration: InputDecoration(
+                        hintText: 'Grammar or vocabulary notes',
+                        filled: true,
+                        fillColor: const Color(0xFFF1F8E9),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Examples:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          onPressed: _addExample,
+                          icon: const Icon(Icons.add_circle_outline),
+                        ),
+                      ],
+                    ),
+                    ..._exampleControllers.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final controller = entry.value;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: controller,
+                                style: const TextStyle(color: Colors.black87),
+                                decoration: InputDecoration(
+                                  hintText: 'Example ${index + 1}',
+                                  filled: true,
+                                  fillColor: const Color(0xFFF1F8E9),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            IconButton(
+                              onPressed: () => _removeExample(index),
+                              icon: const Icon(
+                                Icons.remove_circle_outline,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 40),
+                  ],
+                ),
+              ),
             ),
-          ),
+            if (_isAiGenerating)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black26,
+                  child: const Center(
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 24,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(color: Color(0xFF1B5E20)),
+                            SizedBox(height: 16),
+                            Text(
+                              'AI is generating content...',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
