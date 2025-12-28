@@ -391,7 +391,9 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                         ),
                         IconButton(
                           onPressed: _addExample,
-                          icon: const Icon(Icons.add_circle_outline),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          icon: const Icon(Icons.add_circle_outline, size: 24),
                         ),
                       ],
                     ),
@@ -405,6 +407,8 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                             Expanded(
                               child: TextFormField(
                                 controller: controller,
+                                minLines: 1,
+                                maxLines: 5, // Grow dynamically up to 5 lines
                                 style: const TextStyle(color: Colors.black87),
                                 decoration: InputDecoration(
                                   hintText: 'Example ${index + 1}',
@@ -417,12 +421,16 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 4), // Reduced from 8
                             IconButton(
                               onPressed: () => _removeExample(index),
+                              padding: EdgeInsets.zero, // Remove padding
+                              constraints:
+                                  const BoxConstraints(), // Tight constraints
                               icon: const Icon(
                                 Icons.remove_circle_outline,
                                 color: Colors.red,
+                                size: 24,
                               ),
                             ),
                           ],

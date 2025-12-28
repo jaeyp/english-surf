@@ -231,16 +231,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                           .read(sentenceListProvider.notifier)
                           .deleteSentence(idToDelete);
 
-                      // Explicitly remove from stable list to avoid "Deleted" placeholder
-                      if (mounted) {
-                        setState(() {
-                          _initialSentenceIds?.remove(idToDelete);
-                        });
-                      }
-
-                      if (_initialSentenceIds == null ||
-                          _initialSentenceIds!.isEmpty) {
-                        if (context.mounted) Navigator.pop(context);
+                      if (context.mounted) {
+                        Navigator.pop(context); // Return to list view
                       }
                     }
                   },
