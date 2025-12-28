@@ -92,6 +92,18 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     );
 
     await _controller!.initialize();
+
+    // Apply 2x zoom for better text readability
+    try {
+      final maxZoom = await _controller!.getMaxZoomLevel();
+      final minZoom = await _controller!.getMinZoomLevel();
+      // Set to 2x zoom, but clamp within device limits
+      final targetZoom = 2.0.clamp(minZoom, maxZoom);
+      await _controller!.setZoomLevel(targetZoom);
+    } catch (e) {
+      debugPrint('Failed to set zoom level: $e');
+    }
+
     if (mounted) {
       setState(() {
         _isCameraInitialized = true;
