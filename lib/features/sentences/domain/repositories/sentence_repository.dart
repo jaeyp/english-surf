@@ -11,10 +11,19 @@ abstract class SentenceRepository {
   /// Returns a list of all sentences without any filtering or sorting.
   Future<List<Sentence>> getAllSentences();
 
+  /// Watches all sentences from the data source.
+  Stream<List<Sentence>> watchAllSentences();
+
   /// Retrieves a single sentence by its ID.
   ///
   /// Returns the sentence if found, null otherwise.
   Future<Sentence?> getSentenceById(int id);
+
+  /// Retrieves sentences belonging to a specific folder.
+  Future<List<Sentence>> getSentencesByFolder(String folderId);
+
+  /// Watches sentences belonging to a specific folder.
+  Stream<List<Sentence>> watchSentencesByFolder(String folderId);
 
   /// Adds a new sentence to the data source.
   ///
@@ -35,5 +44,8 @@ abstract class SentenceRepository {
   Future<void> reorderSentences(List<Sentence> sentences);
 
   /// Toggles the favorite status of a sentence.
-  Future<void> toggleFavorite(int id);
+  Future<void> toggleFavorite(int id, bool isFavorite);
+
+  /// Moves a list of sentences to a specific folder.
+  Future<void> moveSentences(List<int> ids, String folderId);
 }

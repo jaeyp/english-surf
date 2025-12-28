@@ -115,14 +115,16 @@ void main() {
       when(
         () => mockRepository.getAllSentences(),
       ).thenAnswer((_) async => [testSentence]);
-      when(() => mockRepository.toggleFavorite(any())).thenAnswer((_) async {});
+      when(
+        () => mockRepository.toggleFavorite(any(), any()),
+      ).thenAnswer((_) async {});
 
       final container = createContainer();
       await container.read(sentenceListProvider.future);
 
       await container.read(sentenceListProvider.notifier).toggleFavorite(1);
 
-      verify(() => mockRepository.toggleFavorite(1)).called(1);
+      verify(() => mockRepository.toggleFavorite(1, true)).called(1);
       expect(
         container.read(sentenceListProvider).value!.first.isFavorite,
         !testSentence.isFavorite,

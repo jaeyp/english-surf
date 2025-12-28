@@ -4,6 +4,7 @@ import '../../domain/entities/sentence.dart';
 import '../../domain/enums/difficulty.dart';
 import '../../domain/enums/sort_type.dart';
 import '../../data/providers/sentence_providers.dart';
+import 'folder_providers.dart';
 
 part 'sentence_providers.g.dart';
 
@@ -67,14 +68,17 @@ class SentenceList extends _$SentenceList {
   }
 
   Future<void> toggleFavorite(int id) async {
-    final repository = ref.read(sentenceRepositoryProvider);
-    await repository.toggleFavorite(id);
+    final sentences = state.value ?? [];
+    final index = sentences.indexWhere((s) => s.id == id);
+    if (index == -1) return;
 
-    final currentSentences = state.value;
-    if (currentSentences != null) {
-      print('DEBUG: Toggling favorite for $id in memory state');
+    final sentence = sentences[index];
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.toggleFavorite(id, !sentence.isFavorite);
+
+    if (state.value != null) {
       state = AsyncData(
-        currentSentences.map((s) {
+        state.value!.map((s) {
           if (s.id == id) {
             return s.copyWith(isFavorite: !s.isFavorite);
           }
@@ -85,6 +89,14 @@ class SentenceList extends _$SentenceList {
       // If state is not loaded, just invalidate to fetch fresh data
       ref.invalidateSelf();
     }
+  }
+
+  /// Moves sentences to a different folder and refreshes the list.
+  Future<void> moveSentences(List<int> ids, String folderId) async {
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.moveSentences(ids, folderId);
+    ref.invalidateSelf();
+    await future;
   }
 }
 
@@ -207,8 +219,14 @@ class SentenceFilter extends _$SentenceFilter {
 Future<List<Sentence>> filteredSentences(Ref ref) async {
   final sentences = await ref.watch(sentenceListProvider.future);
   final filterState = await ref.watch(sentenceFilterProvider.future);
+  final currentFolderId = ref.watch(currentFolderProvider);
 
   var result = List<Sentence>.from(sentences);
+
+  // 0. Filter by Folder
+  if (currentFolderId != null) {
+    result = result.where((s) => s.folderId == currentFolderId).toList();
+  }
 
   // 1. Filter by Difficulty
   if (filterState.difficulty != null) {
@@ -222,10 +240,7 @@ Future<List<Sentence>> filteredSentences(Ref ref) async {
     result = result.where((s) => s.isFavorite).toList();
   }
 
-  // 2. Sort
-  print(
-    'DEBUG: Sorting ${result.length} sentences by ${filterState.sortType}...',
-  );
+  // 3. Sort
   switch (filterState.sortType) {
     case SortType.order:
       result.sort((a, b) => a.order.compareTo(b.order));

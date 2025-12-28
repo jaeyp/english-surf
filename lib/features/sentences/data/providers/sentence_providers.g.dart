@@ -146,6 +146,52 @@ final class SentenceRepositoryProvider
 String _$sentenceRepositoryHash() =>
     r'891a11070644e1f2096931a536dab320c039bc7a';
 
+@ProviderFor(folderRepository)
+const folderRepositoryProvider = FolderRepositoryProvider._();
+
+final class FolderRepositoryProvider
+    extends
+        $FunctionalProvider<
+          FolderRepository,
+          FolderRepository,
+          FolderRepository
+        >
+    with $Provider<FolderRepository> {
+  const FolderRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'folderRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$folderRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<FolderRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  FolderRepository create(Ref ref) {
+    return folderRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FolderRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FolderRepository>(value),
+    );
+  }
+}
+
+String _$folderRepositoryHash() => r'7fafc846d583aa26e35eb0162de33143bef6b668';
+
 @ProviderFor(sharedPreferences)
 const sharedPreferencesProvider = SharedPreferencesProvider._();
 

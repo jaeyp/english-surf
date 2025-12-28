@@ -13,6 +13,7 @@ extension SentenceEntryMapper on SentenceEntry {
       examples: examples,
       notes: notes,
       isFavorite: isFavorite,
+      folderId: folderId,
     );
   }
 }
@@ -28,6 +29,7 @@ extension SentenceMapper on Sentence {
       examples: examples,
       notes: notes,
       isFavorite: isFavorite,
+      folderId: folderId,
     );
   }
 
@@ -41,6 +43,7 @@ extension SentenceMapper on Sentence {
       examples: Value(examples),
       notes: Value(notes),
       isFavorite: Value(isFavorite),
+      folderId: Value(folderId),
     );
   }
 }

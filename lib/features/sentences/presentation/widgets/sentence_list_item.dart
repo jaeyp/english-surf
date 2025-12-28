@@ -11,6 +11,10 @@ class SentenceListItem extends ConsumerStatefulWidget {
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final VoidCallback? onToggleFavorite;
+  final bool isSelectionMode;
+  final bool isSelected;
+  final ValueChanged<bool?>? onSelect;
+  final VoidCallback? onLongPress;
 
   const SentenceListItem({
     super.key,
@@ -20,6 +24,10 @@ class SentenceListItem extends ConsumerStatefulWidget {
     this.onEdit,
     this.onDelete,
     this.onToggleFavorite,
+    this.isSelectionMode = false,
+    this.isSelected = false,
+    this.onSelect,
+    this.onLongPress,
   });
 
   @override
@@ -76,6 +84,7 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
       child: Slidable(
         key: ValueKey(widget.sentence.id),
         controller: _slidableController,
+        enabled: !widget.isSelectionMode,
         // Right side menu (End to Start swipe)
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
@@ -123,45 +132,67 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
         ),
         child: Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          elevation: 2,
-          color: const Color(0xFFF1F8E9), // Light Pastel Green Background
+          elevation: widget.isSelected ? 4 : 2,
+          color: widget.isSelected
+              ? Colors.blue.shade50
+              : const Color(0xFFF1F8E9), // Highlight if selected
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
+            side: widget.isSelected
+                ? const BorderSide(color: Colors.blueAccent, width: 2)
+                : BorderSide.none,
           ),
           child: Container(
             width: double.infinity,
             child: InkWell(
-              onTap: widget.onTap,
-              onLongPress: widget.onEdit,
+              onTap: widget.isSelectionMode
+                  ? () => widget.onSelect?.call(!widget.isSelected)
+                  : widget.onTap,
+              onLongPress: widget.onLongPress,
               borderRadius: BorderRadius.circular(12),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Row(
                   children: [
-                    // Display as Plain Text in List View
-                    Text(
-                      mainText,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87,
-                        height: 1.4,
+                    if (widget.isSelectionMode)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Checkbox(
+                          value: widget.isSelected,
+                          onChanged: widget.onSelect,
+                          activeColor: Colors.blueAccent,
+                        ),
                       ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    // Display sub-text (translation/original) faintly for learning purposes
-                    Text(
-                      subText,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors
-                            .grey
-                            .shade400, // Slightly fainter for better hierarchy
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Display as Plain Text in List View
+                          Text(
+                            mainText,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              height: 1.4,
+                            ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8),
+                          // Display sub-text (translation/original) faintly for learning purposes
+                          Text(
+                            subText,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors
+                                  .grey
+                                  .shade400, // Slightly fainter for better hierarchy
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

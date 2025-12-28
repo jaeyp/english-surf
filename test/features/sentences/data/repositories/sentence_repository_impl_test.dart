@@ -117,14 +117,14 @@ void main() {
       await repository.getAllSentences(); // Seed
 
       // act
-      await repository.toggleFavorite(1);
+      await repository.toggleFavorite(1, true);
 
       // assert
       final sentence = await repository.getSentenceById(1);
       expect(sentence?.isFavorite, true);
 
       // act again
-      await repository.toggleFavorite(1);
+      await repository.toggleFavorite(1, false);
 
       // assert again
       final sentence2 = await repository.getSentenceById(1);

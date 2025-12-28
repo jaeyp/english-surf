@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:english_surf/features/sentences/data/local/db/app_database.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
@@ -24,6 +25,7 @@ void main() {
       difficulty: Difficulty.beginner,
       examples: const ['Hello!', 'World!'],
       notes: 'Basic greeting',
+      folderId: const Value('default_folder'),
     );
 
     // Act
@@ -35,6 +37,7 @@ void main() {
     expect(retrieved.first.id, id);
     expect(retrieved.first.original.text, 'Hello world');
     expect(retrieved.first.difficulty, Difficulty.beginner);
+    expect(retrieved.first.folderId, 'default_folder');
   });
 
   test('should update a sentence', () async {
@@ -47,6 +50,7 @@ void main() {
         difficulty: Difficulty.beginner,
         examples: const [],
         notes: '',
+        folderId: const Value('default_folder'),
       ),
     );
 
@@ -59,6 +63,7 @@ void main() {
       examples: const [],
       notes: 'Updated',
       isFavorite: false,
+      folderId: 'default_folder',
     );
 
     // Act

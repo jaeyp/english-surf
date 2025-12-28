@@ -3,6 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../datasources/sentence_local_data_source.dart';
 import '../repositories/sentence_repository_impl.dart';
 import '../repositories/settings_repository_impl.dart';
+import '../repositories/folder_repository_impl.dart';
+import '../../domain/repositories/folder_repository.dart';
 import '../../domain/repositories/sentence_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../local/db/app_database.dart';
@@ -30,6 +32,12 @@ SentenceRepository sentenceRepository(Ref ref) {
     localDataSource: localDataSource,
     database: database,
   );
+}
+
+@riverpod
+FolderRepository folderRepository(Ref ref) {
+  final database = ref.watch(appDatabaseProvider);
+  return FolderRepositoryImpl(database: database);
 }
 
 @riverpod

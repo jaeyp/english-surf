@@ -3,6 +3,264 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FoldersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'folders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FolderEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FolderEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FolderEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $FoldersTable createAlias(String alias) {
+    return $FoldersTable(attachedDatabase, alias);
+  }
+}
+
+class FolderEntry extends DataClass implements Insertable<FolderEntry> {
+  final String id;
+  final String name;
+  final DateTime createdAt;
+  const FolderEntry({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  FoldersCompanion toCompanion(bool nullToAbsent) {
+    return FoldersCompanion(
+      id: Value(id),
+      name: Value(name),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory FolderEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FolderEntry(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  FolderEntry copyWith({String? id, String? name, DateTime? createdAt}) =>
+      FolderEntry(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  FolderEntry copyWithCompanion(FoldersCompanion data) {
+    return FolderEntry(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FolderEntry(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FolderEntry &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.createdAt == this.createdAt);
+}
+
+class FoldersCompanion extends UpdateCompanion<FolderEntry> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const FoldersCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FoldersCompanion.insert({
+    required String id,
+    required String name,
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<FolderEntry> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FoldersCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return FoldersCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FoldersCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $SentencesTable extends Sentences
     with TableInfo<$SentencesTable, SentenceEntry> {
   @override
@@ -93,6 +351,20 @@ class $SentencesTable extends Sentences
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _folderIdMeta = const VerificationMeta(
+    'folderId',
+  );
+  @override
+  late final GeneratedColumn<String> folderId = GeneratedColumn<String>(
+    'folder_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES folders (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -103,6 +375,7 @@ class $SentencesTable extends Sentences
     examples,
     notes,
     isFavorite,
+    folderId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -152,6 +425,12 @@ class $SentencesTable extends Sentences
         isFavorite.isAcceptableOrUnknown(data['is_favorite']!, _isFavoriteMeta),
       );
     }
+    if (data.containsKey('folder_id')) {
+      context.handle(
+        _folderIdMeta,
+        folderId.isAcceptableOrUnknown(data['folder_id']!, _folderIdMeta),
+      );
+    }
     return context;
   }
 
@@ -199,6 +478,10 @@ class $SentencesTable extends Sentences
         DriftSqlType.bool,
         data['${effectivePrefix}is_favorite'],
       )!,
+      folderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}folder_id'],
+      ),
     );
   }
 
@@ -224,6 +507,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
   final List<String> examples;
   final String notes;
   final bool isFavorite;
+  final String? folderId;
   const SentenceEntry({
     required this.id,
     required this.order,
@@ -233,6 +517,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     required this.examples,
     required this.notes,
     required this.isFavorite,
+    this.folderId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -257,6 +542,9 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     }
     map['notes'] = Variable<String>(notes);
     map['is_favorite'] = Variable<bool>(isFavorite);
+    if (!nullToAbsent || folderId != null) {
+      map['folder_id'] = Variable<String>(folderId);
+    }
     return map;
   }
 
@@ -270,6 +558,9 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       examples: Value(examples),
       notes: Value(notes),
       isFavorite: Value(isFavorite),
+      folderId: folderId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderId),
     );
   }
 
@@ -287,6 +578,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       examples: serializer.fromJson<List<String>>(json['examples']),
       notes: serializer.fromJson<String>(json['notes']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      folderId: serializer.fromJson<String?>(json['folderId']),
     );
   }
   @override
@@ -301,6 +593,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       'examples': serializer.toJson<List<String>>(examples),
       'notes': serializer.toJson<String>(notes),
       'isFavorite': serializer.toJson<bool>(isFavorite),
+      'folderId': serializer.toJson<String?>(folderId),
     };
   }
 
@@ -313,6 +606,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     List<String>? examples,
     String? notes,
     bool? isFavorite,
+    Value<String?> folderId = const Value.absent(),
   }) => SentenceEntry(
     id: id ?? this.id,
     order: order ?? this.order,
@@ -322,6 +616,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     examples: examples ?? this.examples,
     notes: notes ?? this.notes,
     isFavorite: isFavorite ?? this.isFavorite,
+    folderId: folderId.present ? folderId.value : this.folderId,
   );
   SentenceEntry copyWithCompanion(SentencesCompanion data) {
     return SentenceEntry(
@@ -339,6 +634,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       isFavorite: data.isFavorite.present
           ? data.isFavorite.value
           : this.isFavorite,
+      folderId: data.folderId.present ? data.folderId.value : this.folderId,
     );
   }
 
@@ -352,7 +648,8 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           ..write('difficulty: $difficulty, ')
           ..write('examples: $examples, ')
           ..write('notes: $notes, ')
-          ..write('isFavorite: $isFavorite')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('folderId: $folderId')
           ..write(')'))
         .toString();
   }
@@ -367,6 +664,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     examples,
     notes,
     isFavorite,
+    folderId,
   );
   @override
   bool operator ==(Object other) =>
@@ -379,7 +677,8 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           other.difficulty == this.difficulty &&
           other.examples == this.examples &&
           other.notes == this.notes &&
-          other.isFavorite == this.isFavorite);
+          other.isFavorite == this.isFavorite &&
+          other.folderId == this.folderId);
 }
 
 class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
@@ -391,6 +690,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
   final Value<List<String>> examples;
   final Value<String> notes;
   final Value<bool> isFavorite;
+  final Value<String?> folderId;
   const SentencesCompanion({
     this.id = const Value.absent(),
     this.order = const Value.absent(),
@@ -400,6 +700,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     this.examples = const Value.absent(),
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
+    this.folderId = const Value.absent(),
   });
   SentencesCompanion.insert({
     this.id = const Value.absent(),
@@ -410,6 +711,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     required List<String> examples,
     required String notes,
     this.isFavorite = const Value.absent(),
+    this.folderId = const Value.absent(),
   }) : order = Value(order),
        original = Value(original),
        translation = Value(translation),
@@ -425,6 +727,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Expression<String>? examples,
     Expression<String>? notes,
     Expression<bool>? isFavorite,
+    Expression<String>? folderId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -435,6 +738,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       if (examples != null) 'examples': examples,
       if (notes != null) 'notes': notes,
       if (isFavorite != null) 'is_favorite': isFavorite,
+      if (folderId != null) 'folder_id': folderId,
     });
   }
 
@@ -447,6 +751,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Value<List<String>>? examples,
     Value<String>? notes,
     Value<bool>? isFavorite,
+    Value<String?>? folderId,
   }) {
     return SentencesCompanion(
       id: id ?? this.id,
@@ -457,6 +762,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       examples: examples ?? this.examples,
       notes: notes ?? this.notes,
       isFavorite: isFavorite ?? this.isFavorite,
+      folderId: folderId ?? this.folderId,
     );
   }
 
@@ -493,6 +799,9 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     if (isFavorite.present) {
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
+    if (folderId.present) {
+      map['folder_id'] = Variable<String>(folderId.value);
+    }
     return map;
   }
 
@@ -506,7 +815,8 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
           ..write('difficulty: $difficulty, ')
           ..write('examples: $examples, ')
           ..write('notes: $notes, ')
-          ..write('isFavorite: $isFavorite')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('folderId: $folderId')
           ..write(')'))
         .toString();
   }
@@ -515,14 +825,274 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $FoldersTable folders = $FoldersTable(this);
   late final $SentencesTable sentences = $SentencesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [sentences];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [folders, sentences];
 }
 
+typedef $$FoldersTableCreateCompanionBuilder =
+    FoldersCompanion Function({
+      required String id,
+      required String name,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$FoldersTableUpdateCompanionBuilder =
+    FoldersCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+final class $$FoldersTableReferences
+    extends BaseReferences<_$AppDatabase, $FoldersTable, FolderEntry> {
+  $$FoldersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$SentencesTable, List<SentenceEntry>>
+  _sentencesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.sentences,
+    aliasName: $_aliasNameGenerator(db.folders.id, db.sentences.folderId),
+  );
+
+  $$SentencesTableProcessedTableManager get sentencesRefs {
+    final manager = $$SentencesTableTableManager(
+      $_db,
+      $_db.sentences,
+    ).filter((f) => f.folderId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sentencesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$FoldersTableFilterComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> sentencesRefs(
+    Expression<bool> Function($$SentencesTableFilterComposer f) f,
+  ) {
+    final $$SentencesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sentences,
+      getReferencedColumn: (t) => t.folderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SentencesTableFilterComposer(
+            $db: $db,
+            $table: $db.sentences,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$FoldersTableOrderingComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FoldersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FoldersTable> {
+  $$FoldersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> sentencesRefs<T extends Object>(
+    Expression<T> Function($$SentencesTableAnnotationComposer a) f,
+  ) {
+    final $$SentencesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sentences,
+      getReferencedColumn: (t) => t.folderId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SentencesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sentences,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$FoldersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FoldersTable,
+          FolderEntry,
+          $$FoldersTableFilterComposer,
+          $$FoldersTableOrderingComposer,
+          $$FoldersTableAnnotationComposer,
+          $$FoldersTableCreateCompanionBuilder,
+          $$FoldersTableUpdateCompanionBuilder,
+          (FolderEntry, $$FoldersTableReferences),
+          FolderEntry,
+          PrefetchHooks Function({bool sentencesRefs})
+        > {
+  $$FoldersTableTableManager(_$AppDatabase db, $FoldersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FoldersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FoldersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FoldersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FoldersCompanion(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => FoldersCompanion.insert(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$FoldersTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({sentencesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (sentencesRefs) db.sentences],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (sentencesRefs)
+                    await $_getPrefetchedData<
+                      FolderEntry,
+                      $FoldersTable,
+                      SentenceEntry
+                    >(
+                      currentTable: table,
+                      referencedTable: $$FoldersTableReferences
+                          ._sentencesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$FoldersTableReferences(db, table, p0).sentencesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.folderId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$FoldersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FoldersTable,
+      FolderEntry,
+      $$FoldersTableFilterComposer,
+      $$FoldersTableOrderingComposer,
+      $$FoldersTableAnnotationComposer,
+      $$FoldersTableCreateCompanionBuilder,
+      $$FoldersTableUpdateCompanionBuilder,
+      (FolderEntry, $$FoldersTableReferences),
+      FolderEntry,
+      PrefetchHooks Function({bool sentencesRefs})
+    >;
 typedef $$SentencesTableCreateCompanionBuilder =
     SentencesCompanion Function({
       Value<int> id,
@@ -533,6 +1103,7 @@ typedef $$SentencesTableCreateCompanionBuilder =
       required List<String> examples,
       required String notes,
       Value<bool> isFavorite,
+      Value<String?> folderId,
     });
 typedef $$SentencesTableUpdateCompanionBuilder =
     SentencesCompanion Function({
@@ -544,7 +1115,30 @@ typedef $$SentencesTableUpdateCompanionBuilder =
       Value<List<String>> examples,
       Value<String> notes,
       Value<bool> isFavorite,
+      Value<String?> folderId,
     });
+
+final class $$SentencesTableReferences
+    extends BaseReferences<_$AppDatabase, $SentencesTable, SentenceEntry> {
+  $$SentencesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $FoldersTable _folderIdTable(_$AppDatabase db) => db.folders
+      .createAlias($_aliasNameGenerator(db.sentences.folderId, db.folders.id));
+
+  $$FoldersTableProcessedTableManager? get folderId {
+    final $_column = $_itemColumn<String>('folder_id');
+    if ($_column == null) return null;
+    final manager = $$FoldersTableTableManager(
+      $_db,
+      $_db.folders,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_folderIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$SentencesTableFilterComposer
     extends Composer<_$AppDatabase, $SentencesTable> {
@@ -597,6 +1191,29 @@ class $$SentencesTableFilterComposer
     column: $table.isFavorite,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$FoldersTableFilterComposer get folderId {
+    final $$FoldersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.folderId,
+      referencedTable: $db.folders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FoldersTableFilterComposer(
+            $db: $db,
+            $table: $db.folders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SentencesTableOrderingComposer
@@ -647,6 +1264,29 @@ class $$SentencesTableOrderingComposer
     column: $table.isFavorite,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$FoldersTableOrderingComposer get folderId {
+    final $$FoldersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.folderId,
+      referencedTable: $db.folders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FoldersTableOrderingComposer(
+            $db: $db,
+            $table: $db.folders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SentencesTableAnnotationComposer
@@ -688,6 +1328,29 @@ class $$SentencesTableAnnotationComposer
     column: $table.isFavorite,
     builder: (column) => column,
   );
+
+  $$FoldersTableAnnotationComposer get folderId {
+    final $$FoldersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.folderId,
+      referencedTable: $db.folders,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FoldersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.folders,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SentencesTableTableManager
@@ -701,12 +1364,9 @@ class $$SentencesTableTableManager
           $$SentencesTableAnnotationComposer,
           $$SentencesTableCreateCompanionBuilder,
           $$SentencesTableUpdateCompanionBuilder,
-          (
-            SentenceEntry,
-            BaseReferences<_$AppDatabase, $SentencesTable, SentenceEntry>,
-          ),
+          (SentenceEntry, $$SentencesTableReferences),
           SentenceEntry,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool folderId})
         > {
   $$SentencesTableTableManager(_$AppDatabase db, $SentencesTable table)
     : super(
@@ -729,6 +1389,7 @@ class $$SentencesTableTableManager
                 Value<List<String>> examples = const Value.absent(),
                 Value<String> notes = const Value.absent(),
                 Value<bool> isFavorite = const Value.absent(),
+                Value<String?> folderId = const Value.absent(),
               }) => SentencesCompanion(
                 id: id,
                 order: order,
@@ -738,6 +1399,7 @@ class $$SentencesTableTableManager
                 examples: examples,
                 notes: notes,
                 isFavorite: isFavorite,
+                folderId: folderId,
               ),
           createCompanionCallback:
               ({
@@ -749,6 +1411,7 @@ class $$SentencesTableTableManager
                 required List<String> examples,
                 required String notes,
                 Value<bool> isFavorite = const Value.absent(),
+                Value<String?> folderId = const Value.absent(),
               }) => SentencesCompanion.insert(
                 id: id,
                 order: order,
@@ -758,11 +1421,57 @@ class $$SentencesTableTableManager
                 examples: examples,
                 notes: notes,
                 isFavorite: isFavorite,
+                folderId: folderId,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SentencesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({folderId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (folderId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.folderId,
+                                referencedTable: $$SentencesTableReferences
+                                    ._folderIdTable(db),
+                                referencedColumn: $$SentencesTableReferences
+                                    ._folderIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -777,17 +1486,16 @@ typedef $$SentencesTableProcessedTableManager =
       $$SentencesTableAnnotationComposer,
       $$SentencesTableCreateCompanionBuilder,
       $$SentencesTableUpdateCompanionBuilder,
-      (
-        SentenceEntry,
-        BaseReferences<_$AppDatabase, $SentencesTable, SentenceEntry>,
-      ),
+      (SentenceEntry, $$SentencesTableReferences),
       SentenceEntry,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool folderId})
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$FoldersTableTableManager get folders =>
+      $$FoldersTableTableManager(_db, _db.folders);
   $$SentencesTableTableManager get sentences =>
       $$SentencesTableTableManager(_db, _db.sentences);
 }

@@ -17,6 +17,7 @@ _Sentence _$SentenceFromJson(Map<String, dynamic> json) => _Sentence(
       const [],
   notes: json['notes'] as String? ?? '',
   isFavorite: json['isFavorite'] as bool? ?? false,
+  folderId: json['folderId'] as String?,
 );
 
 Map<String, dynamic> _$SentenceToJson(_Sentence instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$SentenceToJson(_Sentence instance) => <String, dynamic>{
   'examples': instance.examples,
   'notes': instance.notes,
   'isFavorite': instance.isFavorite,
+  'folderId': instance.folderId,
 };

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 import 'package:english_surf/features/sentences/domain/enums/sort_type.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
 import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
+import 'package:english_surf/features/sentences/application/providers/folder_providers.dart';
 
 class MockSentenceList extends SentenceList {
   final List<Sentence> sentences;
@@ -31,7 +33,15 @@ class MockSentenceFilter extends SentenceFilter {
   MockSentenceFilter(this.initialState);
 
   @override
-  SentenceFilterState build() => initialState;
+  FutureOr<SentenceFilterState> build() => initialState;
+}
+
+class MockCurrentFolder extends CurrentFolder {
+  final String? initialFolderId;
+  MockCurrentFolder(this.initialFolderId);
+
+  @override
+  String? build() => initialFolderId;
 }
 
 void main() {
@@ -50,6 +60,10 @@ void main() {
         overrides: [
           filteredSentencesProvider.overrideWith((ref) => []),
           sentenceListProvider.overrideWith(() => MockSentenceList([])),
+          sentenceFilterProvider.overrideWith(
+            () => MockSentenceFilter(const SentenceFilterState()),
+          ),
+          currentFolderProvider.overrideWith(() => MockCurrentFolder(null)),
         ],
         child: const MaterialApp(home: SentenceListScreen()),
       ),
@@ -77,6 +91,7 @@ void main() {
               () => MockSentenceFilter(filterState),
             ),
             sentenceListProvider.overrideWith(() => mockList),
+            currentFolderProvider.overrideWith(() => MockCurrentFolder(null)),
           ],
           child: const MaterialApp(home: SentenceListScreen()),
         ),
@@ -116,4 +131,74 @@ void main() {
       expect(find.text('Translation 1'), findsNothing);
     },
   );
+
+  testWidgets('should enter selection mode on long press', (tester) async {
+    final sentences = [favoriteSentence];
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          sentenceListProvider.overrideWith(() => MockSentenceList(sentences)),
+          sentenceFilterProvider.overrideWith(
+            () => MockSentenceFilter(const SentenceFilterState()),
+          ),
+          currentFolderProvider.overrideWith(() => MockCurrentFolder(null)),
+        ],
+        child: const MaterialApp(home: SentenceListScreen()),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    // 1. Long press a list item
+    await tester.longPress(find.text('Translation 1'));
+    await tester.pumpAndSettle();
+
+    // 2. Verify selection mode is active (Found in both AppBar and SelectionBottomBar)
+    expect(find.text('1 selected'), findsNWidgets(2));
+    // 3. Verify selection bottom bar is visible
+    expect(
+      find.byIcon(Icons.drive_file_move_outlined),
+      findsOneWidget,
+    ); // Move icon in SelectionBottomBar
+    expect(
+      find.byIcon(Icons.delete_outline),
+      findsOneWidget,
+    ); // Delete icon in SelectionBottomBar
+  });
+
+  testWidgets('should select all visible items when Select All is pressed', (
+    tester,
+  ) async {
+    final sentences = [
+      favoriteSentence,
+      favoriteSentence.copyWith(id: 2, translation: 'Translation 2'),
+    ];
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          sentenceListProvider.overrideWith(() => MockSentenceList(sentences)),
+          sentenceFilterProvider.overrideWith(
+            () => MockSentenceFilter(const SentenceFilterState()),
+          ),
+          currentFolderProvider.overrideWith(() => MockCurrentFolder(null)),
+        ],
+        child: const MaterialApp(home: SentenceListScreen()),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    // 1. Enter selection mode
+    await tester.longPress(find.text('Translation 1'));
+    await tester.pumpAndSettle();
+
+    // 2. Tap Select All
+    await tester.tap(find.byIcon(Icons.select_all));
+    await tester.pumpAndSettle();
+
+    // 3. Verify all selected (Found in both AppBar and SelectionBottomBar)
+    expect(find.text('2 selected'), findsNWidgets(2));
+  });
 }

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../features/sentences/presentation/screens/home_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
 import '../../features/sentences/presentation/screens/study_mode_screen.dart';
@@ -14,8 +15,9 @@ GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
+      GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
       GoRoute(
-        path: '/',
+        path: '/sentences',
         builder: (context, state) => const SentenceListScreen(),
       ),
       GoRoute(

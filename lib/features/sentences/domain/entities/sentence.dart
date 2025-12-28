@@ -26,6 +26,7 @@ abstract class Sentence with _$Sentence {
     @Default([]) List<String> examples,
     @Default('') String notes,
     @Default(false) bool isFavorite,
+    String? folderId,
   }) = _Sentence;
 
   factory Sentence.fromJson(Map<String, dynamic> json) =>

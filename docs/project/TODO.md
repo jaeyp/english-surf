@@ -14,8 +14,8 @@ English sentence learning app with rich text styling and flashcard features.
 - **Phase 2: Data Layer Implementation** (✅ Completed)
 - **Phase 3: Application Layer (State Management)** (✅ Completed)
 - **Phase 4: Presentation Layer (UI)** (✅ Completed)
-- **Phase 4.1: Polishing & Hardening** (🚧 In Progress - Polishing Done)
-- **Phase 4.2: Folder System** (⏳ Pending)
+- **Phase 4.1: Polishing & Hardening** (✅ Completed)
+- **Phase 4.2: Folder System** (✅ Completed)
 - Phase 5: Advanced Input & AI Integration (🚧 In Progress)
 - **Phase 6: Monetization & Deployment** - Launch Ready (⏳ Pending)
 
@@ -87,30 +87,30 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Smooth Transitions**: Enhance list animations (e.g., using `AnimatedList` for deletions).
     - [x] **Loading Shimmer**: Add a loading state/shimmer while DB is initializing.
 
-## Phase 4.2: Folder System (Enhanced Organization)
-- [ ] **Data Layer (Core)**
-    - [ ] Create `Folder` entity: `id`, `name`, `createdAt`.
-    - [ ] **Update `Sentence` entity**: Add `folderId` (nullable, UUID).
-    - [ ] **Database Migration**: 
-        - [ ] Add `folders` table.
-        - [ ] Add `folder_id` column to `sentences` table (Foreign Key).
-    - [ ] Implement `FolderRepository` for CRUD.
-    - [ ] **Seeding Logic**: Auto-create "Default" folder and move all existing sentences into it during first migration.
-- [ ] **State Management**
-    - [ ] `FolderListProvider`: Manage all folders.
-    - [ ] `CurrentFolderProvider`: Track which folder the user is currently viewing.
-    - [ ] Update `SentenceListProvider`: Add filtering logic by `folderId`.
-- [ ] **UI Implementation**
-    - [ ] **Home Screen (Folder Grid/List)**: Show list of folders with sentence counts.
-    - [ ] **Folder Operations**: Create/Rename/Delete Folder with name validation.
-    - [ ] **Sentence List (Folder View)**: Breadcrumbs (Home > Folder Name) and empty state UI.
-- [ ] **Multi-selection & Bulk Actions**
-    - [ ] **Selection Mode**: Long-press activation + Contextual AppBar (Selection Count, Select All).
-    - [ ] **Floating Action Bottom Bar**: Quick actions for [Move] / [Delete].
-    - [ ] **Visual Feedback**: Checkbox slide-in + card highlight.
-    - [ ] **Batch Operations**: 
-        - [ ] Bulk Move: "Folder Picker" via Bottom Sheet.
-        - [ ] Bulk Delete: Multi-item confirmation dialog.
+## Phase 4.2: Folder System (Enhanced Organization) [Completed]
+- [x] **Data Layer (Core)**
+    - [x] Create `Folder` entity: `id`, `name`, `createdAt`.
+    - [x] **Update `Sentence` entity**: Add `folderId` (nullable, UUID).
+    - [x] **Database Migration**: 
+        - [x] Add `folders` table.
+        - [x] Add `folder_id` column to `sentences` table (Foreign Key).
+    - [x] Implement `FolderRepository` for CRUD.
+    - [x] **Seeding Logic**: Auto-create "Default" folder and move all existing sentences into it during first migration.
+- [x] **State Management**
+    - [x] `FolderListProvider`: Manage all folders.
+    - [x] `CurrentFolderProvider`: Track which folder the user is currently viewing.
+    - [x] Update `SentenceListProvider`: Add filtering logic by `folderId`.
+- [x] **UI Implementation**
+    - [x] **Home Screen (Folder Grid/List)**: Show list of folders with sentence counts.
+    - [x] **Folder Operations**: Create/Rename/Delete Folder with name validation.
+    - [x] **Sentence List (Folder View)**: Breadcrumbs (Home > Folder Name) and empty state UI.
+- [x] **Multi-selection & Bulk Actions**
+    - [x] **Selection Mode**: Long-press activation + Contextual AppBar (Selection Count, Select All).
+    - [x] **Floating Action Bottom Bar**: Quick actions for [Move] / [Delete].
+    - [x] **Visual Feedback**: Checkbox slide-in + card highlight.
+    - [x] **Batch Operations**: 
+        - [x] Bulk Move: "Folder Picker" via Bottom Sheet (Select from existing folders, including current).
+        - [x] Bulk Delete: Multi-item confirmation dialog.
 - [ ] **Testing**
     - [ ] Unit tests for `FolderRepository`.
     - [ ] Widget tests for folder CRUD UI.
@@ -137,6 +137,11 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Resource Management**: Verified timer cancellation on page change and screen disposal.
     - [x] **Gesture Reliability**: Replaced `SelectableText` with `Text` to fix tap propagation issues.
     - [x] **TDD Hardening**: 41 unit/widget/stability tests passing.
+- [x] **Stability & Performance Fixes** (Today)
+    - [x] **Filtering Lag Fix**: Simplified filter update logic in `SentenceListScreen` to reset visible IDs immediately, resolving the "one step behind" issue.
+    - [x] **Post-Study Sync**: Ensured the list view refreshes after returning from the study screen to reflect any changes in favorite status.
+    - [x] **Direct Favorite Toggle Sync**: Fixed immediate UI update when toggling favorites directly in the list while filtered.
+    - [x] **Housecleaning**: Removed all temporary `test_results*.txt` and `flutter_run_log.txt` files to keep the project directory clean.
 
 ## Phase 5: Advanced Input & AI Integration (Next Step)
 
