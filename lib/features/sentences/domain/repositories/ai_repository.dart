@@ -1,5 +1,8 @@
 import '../entities/ai_generated_content.dart';
 
 abstract class AiRepository {
-  Future<AiGeneratedContent> generateSentenceContent(String originalText);
+  Future<AiGeneratedContent> generateSentenceContent(
+    String originalText, {
+    List<String>? targetExpressions,
+  });
 }

@@ -11,14 +11,20 @@ class AiRepositoryImpl implements AiRepository {
 
   @override
   Future<AiGeneratedContent> generateSentenceContent(
-    String originalText,
-  ) async {
+    String originalText, {
+    List<String>? targetExpressions,
+  }) async {
+    final targetSection =
+        (targetExpressions != null && targetExpressions.isNotEmpty)
+        ? '\nTARGET EXPRESSIONS: ${targetExpressions.join(", ")}\n(CRITICAL: ONLY generate notes and examples for these specific expressions. Do not pick others.)\n'
+        : '';
+
     final prompt =
         '''
 You are a modern English tutor. HELP learners master NATURALLY USED phrasal verbs and important vocabulary.
 
 INPUT SENTENCE: "$originalText"
-
+$targetSection
 TASK:
 1. "translation": A natural Korean translation.
 2. "difficulty": Categorize the sentence into one of: beginner, intermediate, advanced.
@@ -47,7 +53,7 @@ Complex Example:
 Input: "I had to call off the meeting because I came down with a nasty cold."
 Output: {
   "translation": "심한 감기에 걸려서 회의를 취소해야 했어요.",
-  "difficulty": "intermediate",
+  "difficulty": "advanced",
   "notes": "call off: (이미 계획된 행사 등을) 취소하다\\ncome down with: (심각하지 않은 병에) 걸리다/앓아눕다\\nnasty: (상황, 병 등이) 심한, 고약한",
   "examples": "They decided to call off the picnic due to rain.\\nI think I'm coming down with the flu.\\nThat's a nasty cough you've got there."
 }

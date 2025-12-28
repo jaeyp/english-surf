@@ -97,8 +97,8 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     try {
       final maxZoom = await _controller!.getMaxZoomLevel();
       final minZoom = await _controller!.getMinZoomLevel();
-      // Set to 1.5x zoom, but clamp within device limits
-      final targetZoom = 1.5.clamp(minZoom, maxZoom);
+      // Set to 1.0x zoom, but clamp within device limits
+      final targetZoom = 1.0.clamp(minZoom, maxZoom);
       await _controller!.setZoomLevel(targetZoom);
     } catch (e) {
       debugPrint('Failed to set zoom level: $e');
@@ -113,6 +113,9 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
   }
 
   Future<void> _startLiveFeed() async {
+    if (_controller == null || !_controller!.value.isInitialized) return;
+    // Give the user 1.5 seconds to position the camera before starting scanning
+    await Future.delayed(const Duration(milliseconds: 1500));
     if (_controller == null || !_controller!.value.isInitialized) return;
     await _controller!.startImageStream(_processCameraImage);
   }

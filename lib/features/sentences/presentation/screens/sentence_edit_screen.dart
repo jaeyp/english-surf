@@ -136,7 +136,25 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
     try {
       final aiRepo = ref.read(aiRepositoryProvider);
-      final result = await aiRepo.generateSentenceContent(originalText);
+
+      // Extract styled text sections (bold or highlight) as target expressions
+      final originalTextValue = _originalController.text;
+      final targetExpressions = _originalController.styles
+          .map((s) {
+            if (s.start >= 0 &&
+                s.end <= originalTextValue.length &&
+                s.start < s.end) {
+              return originalTextValue.substring(s.start, s.end).trim();
+            }
+            return '';
+          })
+          .where((t) => t.isNotEmpty)
+          .toList();
+
+      final result = await aiRepo.generateSentenceContent(
+        originalText,
+        targetExpressions: targetExpressions.isEmpty ? null : targetExpressions,
+      );
 
       setState(() {
         _translationController.text = result.translation;
