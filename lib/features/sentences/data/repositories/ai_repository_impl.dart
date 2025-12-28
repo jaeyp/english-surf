@@ -15,29 +15,42 @@ class AiRepositoryImpl implements AiRepository {
   ) async {
     final prompt =
         '''
-You are a creative English tutor helping Korean learners master idiomatic expressions.
+You are a modern English tutor. HELP learners master NATURALLY USED phrasal verbs and important vocabulary.
 
 INPUT SENTENCE: "$originalText"
 
 TASK:
 1. "translation": A natural Korean translation.
-2. "notes": Key phrasal verbs or vocabulary notes (separates with newline character).
-3. "examples": Generate 2-4 example sentences that:
-   - Focus ONLY on the KEY EXPRESSION/PHRASAL VERB identified in notes (show examples using ONLY that key expression, NOT copying the full sentence structure)
-   - Each example should have a COMPLETELY DIFFERENT sentence structure
-   - VARY sentence types: statements, questions, exclamations, conditionals
-   - VARY tenses: present, past, future, perfect
-   - Write casual examples that people actually use in daily talk.
-   ENGLISH ONLY. Single string, separate examples with newline character.
+2. "difficulty": Categorize the sentence into one of: beginner, intermediate, advanced.
+3. "notes": Identify 1 to 3 key natural expressions (phrasal verbs or essential vocabulary) actually used in modern daily conversation. 
+   - CRITICAL: DO NOT use outdated or "old-fashioned" idioms (e.g., "piece of cake", "raining cats and dogs").
+   - FLEXIBILITY: Only generate the number of notes that are truly meaningful. If a sentence is simple, 1 note is enough. Do not force 3 notes.
+   - Separate each item with a newline character (\\n).
+4. "examples": For EACH expression identified in "notes", provide 1-2 daily life examples.
+   - Examples must identify the same pattern/expression.
+   - Use casual, natural daily talk.
+   - Separate examples with a newline character (\\n).
 
 OUTPUT FORMAT: Return ONLY a valid JSON object. All values must be plain strings.
 
-EXAMPLE:
-If input is "I'm looking forward to seeing you.", output should be:
-{"translation": "너를 만나기를 고대하고 있어.", "notes": "look forward to + V-ing: ~을 기대하다/고대하다", "examples": "I'm looking forward to the weekend.\\nWe're really looking forward to working with you.\\nCan't wait to see you! (casual)"}
+EXAMPLES:
+Simple Example:
+Input: "I usually get up at 7."
+Output: {
+  "translation": "나는 보통 7시에 일어난다.",
+  "difficulty": "beginner",
+  "notes": "get up: (잠자리에서) 일어나다",
+  "examples": "I find it hard to get up early on Mondays.\\nWhat time do you usually get up?"
+}
 
-If input is "I've never tried to fix a sink before, but here goes nothing!", the KEY expression is "here goes nothing" (not the whole sentence). Output should be:
-{"translation": "싱크대를 고쳐본 적은 없지만, 한번 해보지 뭐!", "notes": "here goes nothing: 밑져야 본전이지, 한번 해보지 뭐 (불확실하지만 시도할 때)", "examples": "I'm about to hit the 'send' button on this risky email, so here goes nothing.\\nOkay, here goes nothing. Wish me luck.\\nShe took a deep breath and thought, 'Here goes nothing.'\\nAfter months of preparation, here goes nothing—time to launch the startup."}
+Complex Example:
+Input: "I had to call off the meeting because I came down with a nasty cold."
+Output: {
+  "translation": "심한 감기에 걸려서 회의를 취소해야 했어요.",
+  "difficulty": "intermediate",
+  "notes": "call off: (이미 계획된 행사 등을) 취소하다\\ncome down with: (심각하지 않은 병에) 걸리다/앓아눕다\\nnasty: (상황, 병 등이) 심한, 고약한",
+  "examples": "They decided to call off the picnic due to rain.\\nI think I'm coming down with the flu.\\nThat's a nasty cough you've got there."
+}
 
 Now generate for: "$originalText"
 ''';
@@ -81,12 +94,6 @@ Now generate for: "$originalText"
         'Parsed data keys: ${data.keys.toList()}',
         name: 'AiRepository',
       );
-      developer.log(
-        'translation: ${data['translation']}',
-        name: 'AiRepository',
-      );
-      developer.log('notes: ${data['notes']}', name: 'AiRepository');
-      developer.log('examples: ${data['examples']}', name: 'AiRepository');
 
       return AiGeneratedContent.fromJson(data);
     } catch (e, stackTrace) {

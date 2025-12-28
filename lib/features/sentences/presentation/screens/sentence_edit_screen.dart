@@ -142,6 +142,10 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
         _translationController.text = result.translation;
         _notesController.text = result.notes;
 
+        if (result.difficulty != null) {
+          _difficulty = result.difficulty!;
+        }
+
         // Populate examples
         final examplesList = result.examples
             .split('\n')

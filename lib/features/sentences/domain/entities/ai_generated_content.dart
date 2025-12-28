@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../enums/difficulty.dart';
 
 part 'ai_generated_content.freezed.dart';
 part 'ai_generated_content.g.dart';
@@ -9,6 +10,7 @@ abstract class AiGeneratedContent with _$AiGeneratedContent {
     required String translation,
     required String notes,
     required String examples,
+    Difficulty? difficulty,
   }) = _AiGeneratedContent;
 
   factory AiGeneratedContent.fromJson(Map<String, dynamic> json) =>
