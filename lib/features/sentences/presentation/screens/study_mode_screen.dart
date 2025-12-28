@@ -28,6 +28,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   Timer? _timer;
   int _timeLeft = 5;
   bool _isFlipped = false;
+  bool _isPaused = false;
 
   // Stable list of IDs to prevent cards from disappearing during the session
   List<int>? _initialSentenceIds;
@@ -71,6 +72,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
         }
 
         setState(() {
+          if (_isPaused) return; // Stop countdown if paused
+
           if (_timeLeft > 0) {
             _timeLeft--;
           } else {
@@ -326,20 +329,29 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     return Positioned(
       bottom: 20,
       right: 20,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.7),
-          shape: BoxShape.circle,
-        ),
-        child: Text(
-          '$_timeLeft',
-          key: const ValueKey('timer_text'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _isPaused = !_isPaused;
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.7),
+            shape: BoxShape.circle,
           ),
+          child: _isPaused
+              ? const Icon(Icons.pause, color: Colors.white, size: 24)
+              : Text(
+                  '$_timeLeft',
+                  key: const ValueKey('timer_text'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ),
       ),
     );

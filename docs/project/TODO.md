@@ -136,11 +136,10 @@ English sentence learning app with rich text styling and flashcard features.
   - [x] **Timer & Gestures**: Verified timer pause on flip and fixed tap propagation issues.
   - [x] **TDD**: 41 unit/widget/stability tests passing.
 
-## Phase 5: Advanced Input & AI Integration (Next Step)
+## Phase 5: Advanced Input & AI Integration (🚧 In Progress)
 
-### 1. New Sentence Addition Methods (Input)
-- [ ] **Method A: Manual Entry**
-    - [x] Standard text input form in `SentenceEditScreen`.
+### Phase 5.1: New Sentence Addition Methods (Camera OCR)
+- [x] **Method A: Manual Entry** (Standard form in `SentenceEditScreen`)
 - [x] **Method B: Camera OCR (Live Text)**
     - [x] Add dependencies & Permissions.
     - [x] **Live Overlay Implementation**:
@@ -167,13 +166,7 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Integration**:
         - [x] Pass selected text to `SentenceEditScreen`.
 
-### 2. Back Content Generation (AI Auto-Fill) - Smart Card Creation
-- [x] **Method A: Manual Entry** (Already implemented)
-    - [x] Input fields for Translation, Notes, and Examples in `SentenceEditScreen`.
-- [ ] **Method B: AI Auto-Generation** (Current Priority)
-    - [ ] **UX Flow from Camera OCR**:
-        - [ ] When form opens with `initialOriginalText`, auto-select all text in the field.
-        - [ ] User can immediately paste/edit, or tap AI button.
+- [x] **Phase 5.2: Back Content Generation (AI Auto-Fill) - Smart Card Creation** (Completed)
     - [x] **AI Auto-Generation Implementation (.env basis)**:
         - [x] **Plan AI infrastructure and prompt engineering**.
         - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
@@ -181,26 +174,17 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] **AI Service Layer**:
             - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
             - [x] Secure API Key management via `.env`.
-        - [x] **Prompt Engineering & Logic**:
-            - [x] System Prompt: "You are a helpful English tutor for Korean learners."
-            - [x] User Prompt:
-                ```
-                Given the following English sentence:
-                "{originalText}"
-                
-                Generate:
-                1. A natural Korean translation.
-                2. Key grammar or vocabulary notes (1-2 bullet points).
-                3. Provide 2-3 example sentences using that specific patterns or phrasal verbs if it exists in the original sentences. Also add more casual versions of the example sentences if the original sentences are a bit formal.
-
-                Return as JSON: { "translation": "...", "notes": "...", "examples": "..." }
-                ```
-            - [x] Parse JSON response and populate form fields.
+        - [x] **Prompt Engineering 2.0 (Multi-Note & Style Focus)**:
+            - [x] System Prompt: "You are a modern English tutor."
+            - [x] **Style Interaction**: AI extracts notes based on bold/highlight text.
+            - [x] **Flexible Notes**: Support for 1-3 natural notes.
+            - [x] **Difficulty Suggestion**: AI recommends sentence difficulty.
+            - [x] Parse complex JSON response and populate form fields.
         - [x] **UI Changes (`SentenceEditScreen`)**:
             - [x] Add `✨ AI Auto-fill` button in the action bar.
             - [x] **Loading State**: Show overlay/spinner while generating.
             - [x] **Error Handling**: Toast/Snackbar for API errors.
-            - [x] **Auto-Fill**: Populate controllers (`translation`, `notes`, `examples`) on success.
+            - [x] **Auto-Fill**: Populate controllers (`translation`, `difficulty`, `notes`, `examples`) on success.
         - [x] **Testing**:
             - [x] Unit test for prompt formatting and JSON parsing.
             - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
@@ -264,6 +248,22 @@ English sentence learning app with rich text styling and flashcard features.
 ---
 
 ## 🛠 Maintenance & Stability Log
+
+### 🔋 UX & AI Intelligence Polish (2024-12-29)
+- [x] **AI Auto-Fill 2.0**:
+    - [x] **Style-based Focus**: AI now extracts notes based on user's bold/highlight styling.
+    - [x] **Flexible Notes**: Support for 1-3 natural notes instead of fixed quantity.
+    - [x] **Smart Difficulty**: AI suggests and applies sentence difficulty (Beginner/Inter/Adv).
+    - [x] **Refined Prompt**: Prioritized modern daily talk over outdated idioms.
+- [x] **Editor UX Improvements**:
+    - [x] **Multi-line Examples**: Text fields now grow dynamically up to 5 lines.
+    - [x] **Wider Layout**: Reduced button spacing to maximize text input width.
+- [x] **Study & Navigation**:
+    - [x] **Timer Control**: Added Pause/Resume functionality to Test Mode timer.
+    - [x] **Deletion Logic**: Fixed navigation to return to list after card deletion.
+- [x] **OCR Camera Polish**:
+    - [x] **Scanning Delay**: Added 1.5s delay before start to allow positioning.
+    - [x] **Wide Angle**: Reset default zoom to 1.0x for better overall vision.
 
 ### 🔋 Stability & Performance Fixes (2024-12-28)
 - [x] **Card Save Bug Fix**: Fixed critical bug where saving a card deleted it (missing `folderId` and `isFavorite` preservation).
