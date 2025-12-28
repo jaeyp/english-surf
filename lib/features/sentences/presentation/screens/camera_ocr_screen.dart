@@ -93,12 +93,12 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
 
     await _controller!.initialize();
 
-    // Apply 2x zoom for better text readability
+    // Apply 1.5x zoom for better text readability
     try {
       final maxZoom = await _controller!.getMaxZoomLevel();
       final minZoom = await _controller!.getMinZoomLevel();
-      // Set to 2x zoom, but clamp within device limits
-      final targetZoom = 2.0.clamp(minZoom, maxZoom);
+      // Set to 1.5x zoom, but clamp within device limits
+      final targetZoom = 1.5.clamp(minZoom, maxZoom);
       await _controller!.setZoomLevel(targetZoom);
     } catch (e) {
       debugPrint('Failed to set zoom level: $e');
@@ -142,18 +142,24 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     try {
       final recognizedText = await _textRecognizer.processImage(inputImage);
       if (mounted) {
-        // Use whole screen size for canvas mapping (assuming full screen preview)
+        // Use whole screen size for canvas mapping
         final canvasSize = MediaQuery.of(context).size;
+        final imageSize = inputImage.metadata!.size;
 
-        final blocks = OcrProcessor.processBlocks(
+        // Normalized focus region: middle 1/3 (from 0.33 to 0.67)
+        // This is in normalized image coordinates (0.0 to 1.0)
+        const focusRegion = Rect.fromLTRB(0.33, 0.33, 0.67, 0.67);
+
+        final filteredBlocks = OcrProcessor.processBlocks(
           recognizedText,
           canvasSize,
-          inputImage.metadata!.size,
+          imageSize,
           inputImage.metadata!.rotation,
+          focusRegion: focusRegion,
         );
 
         setState(() {
-          _displayBlocks = blocks;
+          _displayBlocks = filteredBlocks;
         });
         _paint();
       }
@@ -162,6 +168,32 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     }
 
     _isBusy = false;
+  }
+
+  /// Returns the focus region rect based on screen orientation.
+  /// Portrait: middle 1/3 vertically (excludes top and bottom 1/3)
+  /// Landscape: middle 1/3 horizontally (excludes left and right 1/3)
+  Rect _getFocusRegion(Size screenSize) {
+    final isLandscape = screenSize.width > screenSize.height;
+    if (isLandscape) {
+      // Landscape: exclude left and right 1/3
+      final excludeWidth = screenSize.width / 3;
+      return Rect.fromLTWH(
+        excludeWidth,
+        0,
+        screenSize.width - excludeWidth * 2,
+        screenSize.height,
+      );
+    } else {
+      // Portrait: exclude top and bottom 1/3
+      final excludeHeight = screenSize.height / 3;
+      return Rect.fromLTWH(
+        0,
+        excludeHeight,
+        screenSize.width,
+        screenSize.height - excludeHeight * 2,
+      );
+    }
   }
 
   void _paint() {
@@ -308,9 +340,12 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
 
   // Duplication of Painter logic for hit testing
 
-  void _confirmSelection() {
+  Future<void> _confirmSelection() async {
     final text = _selectedTextBlocks.join('\n\n');
-    context.pushReplacement('/edit', extra: text);
+    await context.push('/edit', extra: text);
+    if (mounted) {
+      context.pop();
+    }
   }
 
   @override
@@ -324,11 +359,26 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. Camera Preview
-          CameraPreview(
-            _controller!,
-            child: _customPaint, // Pass CustomPaint as child to overlay
+          // 1. Camera Preview (base layer)
+          CameraPreview(_controller!),
+
+          // 2. Focus Region Overlay (gray out excluded areas)
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final screenSize = Size(
+                constraints.maxWidth,
+                constraints.maxHeight,
+              );
+              final focusRegion = _getFocusRegion(screenSize);
+              return CustomPaint(
+                size: screenSize,
+                painter: _FocusOverlayPainter(focusRegion),
+              );
+            },
           ),
+
+          // 3. Text Recognition Overlay (on top of focus overlay)
+          if (_customPaint != null) _customPaint!,
 
           // 2. Gesture Detector for Taps
           GestureDetector(
@@ -428,5 +478,48 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
         ],
       ),
     );
+  }
+}
+
+/// Custom painter that draws a semi-transparent gray overlay on excluded areas.
+/// The focus region (center 1/3) remains clear while outer areas are dimmed.
+class _FocusOverlayPainter extends CustomPainter {
+  final Rect focusRegion;
+
+  _FocusOverlayPainter(this.focusRegion);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final overlayPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.5)
+      ..style = PaintingStyle.fill;
+
+    final fullRect = Rect.fromLTWH(0, 0, size.width, size.height);
+
+    // Create a path that covers the entire screen
+    final path = Path()..addRect(fullRect);
+
+    // Subtract the focus region (creates a "hole" in the overlay)
+    final focusPath = Path()..addRect(focusRegion);
+    final combinedPath = Path.combine(
+      PathOperation.difference,
+      path,
+      focusPath,
+    );
+
+    canvas.drawPath(combinedPath, overlayPaint);
+
+    // Draw a subtle border around the focus region
+    final borderPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    canvas.drawRect(focusRegion, borderPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _FocusOverlayPainter oldDelegate) {
+    return oldDelegate.focusRegion != focusRegion;
   }
 }
