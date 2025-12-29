@@ -168,50 +168,52 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Integration**:
         - [x] Pass selected text to `SentenceEditScreen`.
 
-- [x] **Phase 5.2: Back Content Generation (AI Auto-Fill) - Smart Card Creation** (Completed)
-    - [x] **AI Auto-Generation Implementation (.env basis)**:
-        - [x] **Plan AI infrastructure and prompt engineering**.
-        - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
-        - [x] **Model**: Using **`gemini-2.5-flash-lite`** with **v1beta** API endpoint.
-        - [x] **AI Service Layer**:
-            - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
-            - [x] Secure API Key management via `.env`.
-        - [x] **Prompt Engineering 2.0 (Multi-Note & Style Focus)**:
-            - [x] System Prompt: "You are a modern English tutor."
-            - [x] **Style Interaction**: AI extracts notes based on bold/highlight text.
-            - [x] **Flexible Notes**: Support for 1-3 natural notes.
-            - [x] **Difficulty Suggestion**: AI recommends sentence difficulty.
-            - [x] Parse complex JSON response and populate form fields.
-        - [x] **UI Changes (`SentenceEditScreen`)**:
-            - [x] Add `✨ AI Auto-fill` button in the action bar.
-            - [x] **Loading State**: Show overlay/spinner while generating.
-            - [x] **Error Handling**: Toast/Snackbar for API errors.
-            - [x] **Auto-Fill**: Populate controllers (`translation`, `difficulty`, `notes`, `examples`) on success.
-        - [x] **Testing**:
-            - [x] Unit test for prompt formatting and JSON parsing.
-            - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
-- [ ] **Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
-    - [ ] Update `SettingsRepository` to store user-provided Gemini Key.
-    - [ ] Implement a Settings Dialog for users to manage their own key.
-    - [ ] Switch `AiRepository` to use the user-provided key if available.
-- [ ] **Phase 5.4: Global Language Support (Multi-language AI)**:
-    - [ ] **Native Language Setting**: Add an option in Settings to choose the user's native language (e.g., Franch, Spanish, Italian, Japanese, Chinese, etc.).
-    - [ ] **Dynamic Prompt**: Update the AI system prompt to generate content in the selected native language instead of hardcoded Korean.
-    - [ ] **Localization Prep**: Ensure the AI instructions ("You are a helpful English tutor...") handle different target languages naturally.
-- [ ] **Phase 5.5: Data Portability (Import/Export)**:
-    - [ ] **JSON Portability (Full Backup)**:
-        - [ ] Design a JSON schema that wraps sentences inside folder objects to preserve **Folder Names** during export/import.
-        - [ ] Export/Import the entire database as a single `.json` file.
-    - [ ] **CSV Portability (Folder-specific)**:
-        - [ ] **Folder Name as Filename**: When exporting a specific folder to CSV, use the folder name as the filename (e.g., `Travel_English.csv`).
-        - [ ] support flat CSV structure for tabular editing (Columns: Original, Translation, Notes, Examples).
-    - [ ] **UX & Integration**:
-        - [ ] Implement a "Data Management" menu in Settings.
-        - [ ] Use `file_picker` for importing and `share_plus` for exporting files to other apps/cloud storage.
-        - [ ] **Conflict Resolution**: Logic to handle duplicates (by ID or original text) during import.
+### Phase 5.2: Back Content Generation (AI Auto-Fill) - Smart Card Creation** (Completed)
+- [x] **AI Auto-Generation Implementation (.env basis)**:
+    - [x] **Plan AI infrastructure and prompt engineering**.
+    - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
+    - [x] **Model**: Using **`gemini-2.5-flash-lite`** with **v1beta** API endpoint.
+    - [x] **AI Service Layer**:
+        - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
+        - [x] Secure API Key management via `.env`.
+    - [x] **Prompt Engineering 2.0 (Multi-Note & Style Focus)**:
+        - [x] System Prompt: "You are a modern English tutor."
+        - [x] **Style Interaction**: AI extracts notes based on bold/highlight text.
+        - [x] **Flexible Notes**: Support for 1-3 natural notes.
+        - [x] **Difficulty Suggestion**: AI recommends sentence difficulty.
+        - [x] Parse complex JSON response and populate form fields.
+    - [x] **UI Changes (`SentenceEditScreen`)**:
+        - [x] Add `✨ AI Auto-fill` button in the action bar.
+        - [x] **Loading State**: Show overlay/spinner while generating.
+        - [x] **Error Handling**: Toast/Snackbar for API errors.
+        - [x] **Auto-Fill**: Populate controllers (`translation`, `difficulty`, `notes`, `examples`) on success.
+    - [x] **Testing**:
+        - [x] Unit test for prompt formatting and JSON parsing.
+        - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
 
+### Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
+- [ ] Update `SettingsRepository` to store user-provided Gemini Key.
+- [ ] Implement a Settings Dialog for users to manage their own key.
+- [ ] Switch `AiRepository` to use the user-provided key if available.
 
-### 3. User Onboarding (Tutorial)
+### Phase 5.4: Global Language Support (Multi-language AI)**:
+- [ ] **Native Language Setting**: Add an option in Settings to choose the user's native language (e.g., Franch, Spanish, Italian, Japanese, Chinese, etc.).
+- [ ] **Dynamic Prompt**: Update the AI system prompt to generate content in the selected native language instead of hardcoded Korean.
+- [ ] **Localization Prep**: Ensure the AI instructions ("You are a helpful English tutor...") handle different target languages naturally.
+
+### Phase 5.5: Data Portability (Import/Export)**:
+- [ ] **JSON Portability (Full Backup)**:
+    - [ ] Design a JSON schema that wraps sentences inside folder objects to preserve **Folder Names** during export/import.
+    - [ ] Export/Import the entire database as a single `.json` file.
+- [ ] **CSV Portability (Folder-specific)**:
+    - [ ] **Folder Name as Filename**: When exporting a specific folder to CSV, use the folder name as the filename (e.g., `Travel_English.csv`).
+    - [ ] support flat CSV structure for tabular editing (Columns: Original, Translation, Notes, Examples).
+- [ ] **UX & Integration**:
+    - [ ] Implement a "Data Management" menu in Settings.
+    - [ ] Use `file_picker` for importing and `share_plus` for exporting files to other apps/cloud storage.
+    - [ ] **Conflict Resolution**: Logic to handle duplicates (by ID or original text) during import.
+
+### Phase 5.6: User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**
     - [ ] Integrate `tutorial_coach_mark` package.
     - [ ] **Design**: Use "Hand-drawn" style assets (arrows, circles) & Handwriting Font.
@@ -237,7 +239,7 @@ English sentence learning app with rich text styling and flashcard features.
 ### 2. Store Deployment (Release)
 - [ ] **App Store (iOS) Prep**
     - [ ] Configure `Info.plist` (Permissions, Ad tracking usage description).
-    - [ ] Create App Icons & Launch Screens.
+    - [x] Create App Icons & Launch Screen(Splash Screen).
     - [ ] Generate Screenshots & App Description.
 - [ ] **Play Store (Android) Prep**
     - [ ] Configure `AndroidManifest.xml`.
