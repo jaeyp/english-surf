@@ -131,9 +131,10 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Filter UI Improvements**
   - [x] Remove "Sort: " and "Difficulty: " text labels from `SentenceFilterBar` chips.
   - [x] Add "Favorites" option to the filter menu (placed after "All").
-- [x] **Study Mode Stability & Hardening**
+  - [x] **Study Mode Stability & Hardening**
   - [x] **Stable List View**: Implemented "Frozen IDs" to prevent cards from vanishing during study.
-  - [x] **Timer & Gestures**: Verified timer pause on flip and fixed tap propagation issues.
+  - [x] **Timer & Gestures**: Verified timer pause on flip and fixed tap propagation issues. Added manual Pause/Resume on tap.
+  - [x] **Drag & Drop Reordering**: Integrated `SliverReorderableList` with selection mode (active when sorted by 'order').
   - [x] **TDD**: 41 unit/widget/stability tests passing.
 
 ## Phase 5: Advanced Input & AI Integration (🚧 In Progress)
@@ -159,8 +160,9 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] 3-second scan throttling for stability.
         - [x] Tap-to-select with visual feedback (green highlight).
         - [x] Pause stream on interaction for easier selection.
-        - [x] **Zoom Optimization**: 1.5x auto-zoom for better text capture.
-        - [x] **Focus Region Logic**: Only recognize text in the center 1/3 of the screen (portrait & landscape).
+        - [x] **Zoom Optimization**: Balanced **1.2x zoom** for better readability.
+        - [x] **Scan Throttling**: 1.5s initial delay before scanning begins for stability.
+        - [x] **Focus Region Logic**: Optimized middle 40% region (portrait & landscape).
         - [x] **Tight Block Stacking**: Blocks are now stacked with consistent margin and padding for a compact UI.
         - [x] **Z-Index Correction**: Fixed overlay covering interactive text blocks.
     - [x] **Integration**:
@@ -170,7 +172,7 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **AI Auto-Generation Implementation (.env basis)**:
         - [x] **Plan AI infrastructure and prompt engineering**.
         - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
-        - [x] **Model**: Using `gemini-2.0-flash` with v1 API endpoint.
+        - [x] **Model**: Using **`gemini-2.5-flash-lite`** with **v1beta** API endpoint.
         - [x] **AI Service Layer**:
             - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
             - [x] Secure API Key management via `.env`.

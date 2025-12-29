@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/folder.dart';
-import '../../domain/repositories/folder_repository.dart';
 import '../../data/providers/sentence_providers.dart';
 
 part 'folder_providers.g.dart';

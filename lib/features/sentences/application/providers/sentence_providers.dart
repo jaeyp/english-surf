@@ -98,6 +98,44 @@ class SentenceList extends _$SentenceList {
     ref.invalidateSelf();
     await future;
   }
+
+  /// Reorders sentences based on a new list of IDs.
+  /// Re-assigns 'order' values from the current pool of orders to the new positions.
+  Future<void> reorderSentences(List<int> reorderedIds) async {
+    print('DEBUG: reorderSentences called with ${reorderedIds.length} IDs');
+    final sentences = state.value ?? [];
+    if (sentences.isEmpty) return;
+
+    final map = {for (var s in sentences) s.id: s};
+
+    // Get the sentences being reordered (might be a subset if filtered)
+    final targetSentences = reorderedIds
+        .map((id) => map[id])
+        .where((s) => s != null)
+        .cast<Sentence>()
+        .toList();
+
+    if (targetSentences.isEmpty) return;
+
+    // Get sorted pool of existing order values to maintain the same "slots"
+    final sortedOrders = targetSentences.map((s) => s.order).toList()..sort();
+
+    final updatedSentences = <Sentence>[];
+    for (int i = 0; i < targetSentences.length; i++) {
+      updatedSentences.add(targetSentences[i].copyWith(order: sortedOrders[i]));
+    }
+
+    final repository = ref.read(sentenceRepositoryProvider);
+    await repository.reorderSentences(updatedSentences);
+
+    // Update local state to reflect changes immediately
+    state = AsyncData(
+      sentences.map((s) {
+        final index = updatedSentences.indexWhere((us) => us.id == s.id);
+        return index != -1 ? updatedSentences[index] : s;
+      }).toList(),
+    );
+  }
 }
 
 /// ----------------------------------------------------------------------------

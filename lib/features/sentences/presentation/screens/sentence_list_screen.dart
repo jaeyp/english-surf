@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../application/providers/folder_providers.dart';
 import '../../application/providers/selection_providers.dart';
 import '../../application/providers/sentence_providers.dart';
+import '../../domain/enums/sort_type.dart';
 import '../widgets/sentence_list_item.dart';
 import '../widgets/sentence_filter_bar.dart';
 import '../widgets/selection_bottom_bar.dart';
@@ -150,6 +151,9 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                       .toList() ??
                   [];
 
+              final filterState = ref.watch(sentenceFilterProvider).value;
+              final sortType = filterState?.sortType ?? SortType.random;
+
               if (displaySentences.isEmpty) {
                 return const SliverFillRemaining(
                   child: Center(child: Text('No sentences found.')),
@@ -161,13 +165,32 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                   horizontal: isLandscape ? 32.0 : 0.0,
                   vertical: 8.0,
                 ),
-                sliver: SliverList.builder(
+                sliver: SliverReorderableList(
                   itemCount: displaySentences.length,
+                  onReorder: (oldIndex, newIndex) {
+                    if (newIndex > oldIndex) {
+                      newIndex -= 1;
+                    }
+                    if (oldIndex == newIndex) return;
+
+                    setState(() {
+                      final item = _visibleIds!.removeAt(oldIndex);
+                      _visibleIds!.insert(newIndex, item);
+                    });
+
+                    // Persist to database
+                    ref
+                        .read(sentenceListProvider.notifier)
+                        .reorderSentences(_visibleIds!);
+                  },
                   itemBuilder: (context, index) {
                     final sentence = displaySentences[index];
                     return SentenceListItem(
+                      key: ValueKey(sentence.id),
                       sentence: sentence,
                       languageMode: languageMode,
+                      sortType: sortType,
+                      index: index,
                       isSelectionMode: isSelectionMode,
                       isSelected: selection.contains(sentence.id),
                       onSelect: (val) => ref

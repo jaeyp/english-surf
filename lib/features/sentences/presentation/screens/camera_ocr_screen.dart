@@ -93,12 +93,11 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
 
     await _controller!.initialize();
 
-    // Apply 1.5x zoom for better text readability
     try {
       final maxZoom = await _controller!.getMaxZoomLevel();
       final minZoom = await _controller!.getMinZoomLevel();
       // Set to 1.0x zoom, but clamp within device limits
-      final targetZoom = 1.0.clamp(minZoom, maxZoom);
+      final targetZoom = 1.2.clamp(minZoom, maxZoom);
       await _controller!.setZoomLevel(targetZoom);
     } catch (e) {
       debugPrint('Failed to set zoom level: $e');
@@ -149,9 +148,9 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
         final canvasSize = MediaQuery.of(context).size;
         final imageSize = inputImage.metadata!.size;
 
-        // Normalized focus region: middle 1/3 (from 0.33 to 0.67)
+        // Normalized focus region: middle 40% (from 0.30 to 0.70)
         // This is in normalized image coordinates (0.0 to 1.0)
-        const focusRegion = Rect.fromLTRB(0.33, 0.33, 0.67, 0.67);
+        const focusRegion = Rect.fromLTRB(0.3, 0.3, 0.7, 0.7);
 
         final filteredBlocks = OcrProcessor.processBlocks(
           recognizedText,
@@ -179,22 +178,22 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
   Rect _getFocusRegion(Size screenSize) {
     final isLandscape = screenSize.width > screenSize.height;
     if (isLandscape) {
-      // Landscape: exclude left and right 1/3
-      final excludeWidth = screenSize.width / 3;
+      // Landscape: exclude left and right 30% (middle 40%)
+      final excludeWidth = screenSize.width * 0.3;
       return Rect.fromLTWH(
         excludeWidth,
         0,
-        screenSize.width - excludeWidth * 2,
+        screenSize.width * 0.4,
         screenSize.height,
       );
     } else {
-      // Portrait: exclude top and bottom 1/3
-      final excludeHeight = screenSize.height / 3;
+      // Portrait: exclude top and bottom 30% (middle 40%)
+      final excludeHeight = screenSize.height * 0.3;
       return Rect.fromLTWH(
         0,
         excludeHeight,
         screenSize.width,
-        screenSize.height - excludeHeight * 2,
+        screenSize.height * 0.4,
       );
     }
   }

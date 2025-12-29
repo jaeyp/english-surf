@@ -99,7 +99,7 @@ class OcrProcessor {
     const double kVerticalPadding = 8.0;
 
     // Stack blocks consecutively from top of focus region with fixed gap
-    const double kStartY = 100.0; // Start from below safe area
+    const double kStartY = 280.0; // Start from below safe area
     const double kGapBetweenBlocks = 24.0;
 
     List<DisplayBlock> stackedBlocks = [];

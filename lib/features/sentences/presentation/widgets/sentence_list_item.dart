@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../domain/entities/sentence.dart';
+import '../../domain/enums/sort_type.dart';
 import '../../application/providers/sentence_providers.dart'; // LanguageMode
 
 class SentenceListItem extends ConsumerStatefulWidget {
   final Sentence sentence;
   final LanguageMode languageMode;
+  final SortType sortType;
+  final int index;
   final VoidCallback? onTap;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
@@ -20,6 +23,8 @@ class SentenceListItem extends ConsumerStatefulWidget {
     super.key,
     required this.sentence,
     required this.languageMode,
+    required this.sortType,
+    required this.index,
     this.onTap,
     this.onEdit,
     this.onDelete,
@@ -142,61 +147,100 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
                 ? const BorderSide(color: Colors.blueAccent, width: 2)
                 : BorderSide.none,
           ),
-          child: Container(
-            width: double.infinity,
-            child: InkWell(
-              onTap: widget.isSelectionMode
-                  ? () => widget.onSelect?.call(!widget.isSelected)
-                  : widget.onTap,
-              onLongPress: widget.onLongPress,
-              borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    if (widget.isSelectionMode)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: Checkbox(
-                          value: widget.isSelected,
-                          onChanged: widget.onSelect,
-                          activeColor: Colors.blueAccent,
-                        ),
-                      ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: widget.isSelectionMode
+                        ? () => widget.onSelect?.call(!widget.isSelected)
+                        : widget.onTap,
+                    onLongPress: widget.onLongPress,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(12),
+                      bottomLeft: const Radius.circular(12),
+                      topRight:
+                          widget.isSelectionMode &&
+                              widget.sortType == SortType.order
+                          ? Radius.zero
+                          : const Radius.circular(12),
+                      bottomRight:
+                          widget.isSelectionMode &&
+                              widget.sortType == SortType.order
+                          ? Radius.zero
+                          : const Radius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
                         children: [
-                          // Display as Plain Text in List View
-                          Text(
-                            mainText,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              height: 1.4,
+                          if (widget.isSelectionMode)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Checkbox(
+                                value: widget.isSelected,
+                                onChanged: widget.onSelect,
+                                activeColor: Colors.blueAccent,
+                              ),
                             ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 8),
-                          // Display sub-text (translation/original) faintly for learning purposes
-                          Text(
-                            subText,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors
-                                  .grey
-                                  .shade400, // Slightly fainter for better hierarchy
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // Display as Plain Text in List View
+                                Text(
+                                  mainText,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+                                    height: 1.4,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 8),
+                                // Display sub-text (translation/original) faintly for learning purposes
+                                Text(
+                                  subText,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors
+                                        .grey
+                                        .shade400, // Slightly fainter for better hierarchy
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                if (widget.isSelectionMode && widget.sortType == SortType.order)
+                  ReorderableDragStartListener(
+                    index: widget.index,
+                    child: Container(
+                      width: 48,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            color: Colors.grey.shade200,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Tooltip(
+                        message: 'Drag to reorder',
+                        child: Icon(Icons.reorder, color: Colors.grey.shade600),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
