@@ -16,10 +16,10 @@ AiRepository aiRepository(Ref ref) {
     );
   }
 
-  // Using googleai_dart v3.0.0 with v1 API version and gemini-1.5-flash model.
+  // Using googleai_dart v3.0.0 with v1beta API version and gemini-2.5-flash-lite model.
   final client = GoogleAIClient(
     config: GoogleAIConfig.googleAI(
-      apiVersion: ApiVersion.v1,
+      apiVersion: ApiVersion.v1beta,
       authProvider: ApiKeyProvider(apiKey),
     ),
   );

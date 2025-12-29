@@ -67,7 +67,7 @@ Now generate for: "$originalText"
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash-lite',
       request: GenerateContentRequest(contents: [Content.text(prompt)]),
     );
 
