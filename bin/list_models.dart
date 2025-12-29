@@ -27,10 +27,6 @@ Future<void> main() async {
 
   print('API Key loaded (first 10 chars): ${apiKey.substring(0, 10)}...');
 
-  // Try v1 API
-  print('\n--- Listing models with v1 API ---');
-  await listModels(apiKey, 'v1');
-
   // Try v1beta API
   print('\n--- Listing models with v1beta API ---');
   await listModels(apiKey, 'v1beta');
