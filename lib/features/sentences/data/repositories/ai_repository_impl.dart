@@ -14,71 +14,42 @@ class AiRepositoryImpl implements AiRepository {
     String originalText, {
     List<String>? targetExpressions,
   }) async {
-    final targetSection =
-        (targetExpressions != null && targetExpressions.isNotEmpty)
-        ? '\nTARGET EXPRESSIONS: ${targetExpressions.join(", ")}\n(CRITICAL: ONLY generate notes and examples for these specific expressions. Do not pick others.)\n'
-        : '';
-
-    final prompt =
-        '''
-You are a modern English tutor. HELP learners master NATURALLY USED phrasal verbs and important vocabulary.
-
-INPUT SENTENCE: "$originalText"
-$targetSection
-TASK:
-1. "translation": A natural Korean translation.
-2. "difficulty": Categorize the sentence into one of: beginner, intermediate, advanced.
-3. "notes": Identify 1 to 3 key natural expressions (phrasal verbs or essential vocabulary) actually used in modern daily conversation. 
-   - CRITICAL: DO NOT use outdated or "old-fashioned" idioms (e.g., "piece of cake", "raining cats and dogs").
-   - FLEXIBILITY: Only generate the number of notes that are truly meaningful. If a sentence is simple, 1 note is enough. Do not force 3 notes.
-   - Separate each item with a newline character (\\n).
-4. "examples": For EACH expression identified in "notes", provide 1-2 daily life examples.
-   - Examples must identify the same pattern/expression.
-   - Use casual, natural daily talk.
-   - Separate examples with a newline character (\\n).
-
-OUTPUT FORMAT: Return ONLY a valid JSON object. All values must be plain strings.
-
-EXAMPLES:
-Simple Example:
-Input: "I usually get up at 7."
-Output: {
-  "translation": "나는 보통 7시에 일어난다.",
-  "difficulty": "beginner",
-  "notes": "get up: (잠자리에서) 일어나다",
-  "examples": "I find it hard to get up early on Mondays.\\nWhat time do you usually get up?"
-}
-
-Complex Example:
-Input: "I had to call off the meeting because I came down with a nasty cold."
-Output: {
-  "translation": "심한 감기에 걸려서 회의를 취소해야 했어요.",
-  "difficulty": "advanced",
-  "notes": "call off: (이미 계획된 행사 등을) 취소하다\\ncome down with: (심각하지 않은 병에) 걸리다/앓아눕다\\nnasty: (상황, 병 등이) 심한, 고약한",
-  "examples": "They decided to call off the picnic due to rain.\\nI think I'm coming down with the flu.\\nThat's a nasty cough you've got there."
-}
-
-Now generate for: "$originalText"
+    const systemInstruction = '''
+You are a modern English tutor. Task:
+1. "translation": Natural Korean translation of the input.
+2. "difficulty": one of [beginner, intermediate, advanced].
+3. "notes": 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT. 
+   - FORMAT: "English expression: Korean meaning" (e.g., "get up: 일어나다").
+   - Separate items with \\n.
+4. "examples": 1-2 casual and natural ENGLISH sentences for EACH expression identified in "notes".
+   - Separate with \\n.
 ''';
 
+    final userPrompt =
+        (targetExpressions != null && targetExpressions.isNotEmpty)
+        ? 'ENGLISH INPUT: "$originalText"\nTARGET: ${targetExpressions.join(", ")}'
+        : 'ENGLISH INPUT: "$originalText"';
+
     developer.log(
-      'AI Request - Original text: $originalText',
+      'AI Request (Optimized) - Text: $originalText',
       name: 'AiRepository',
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.5-flash-lite',
-      request: GenerateContentRequest(contents: [Content.text(prompt)]),
+      model: 'gemini-2.5-flash',
+      request: GenerateContentRequest(
+        contents: [Content.text(userPrompt)],
+        systemInstruction: Content.text(systemInstruction),
+        generationConfig: const GenerationConfig(
+          responseMimeType: 'application/json',
+        ),
+      ),
     );
 
     final text = response.text;
     developer.log('AI Response - Raw text: $text', name: 'AiRepository');
 
     if (text == null || text.isEmpty) {
-      developer.log(
-        'AI Response - ERROR: Response was empty',
-        name: 'AiRepository',
-      );
       throw Exception('AI response was empty');
     }
 
