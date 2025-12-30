@@ -191,37 +191,79 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] Unit test for prompt formatting and JSON parsing.
         - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
 
-### Phase 5.3: BYOK (Bring Your Own Key) Settings UI**:
+### Phase 5.3: Multi-Language Foundation (Schema, Model & AI Sync)
+- [ ] **Database Migration (v3 -> v4)**:
+    - [ ] Update `Sentences` table: Change `translation` (String) to `translations` (JSON Map).
+    - [ ] **Migration Logic**: Move existing string to `{"korean": value}` using lowercase keys.
+- [ ] **Domain Model Refactoring**:
+    - [ ] Update `Sentence` entity to use `Map<String, String> translations`.
+    - [ ] Update all repository and mapper implementations.
+- [ ] **AI Multi-Language Sync**:
+    - [ ] **Dynamic Multi-Fill**: AI auto-fills translation for *all* selected languages (Casual tone).
+    - [ ] **Prompt Tuning**: Dynamically inject selected languages into the AI system prompt.
+    - [ ] **Localization Prep**: Ensure the AI instructions handle different favorite translation languages naturally.
+- [ ] **Edit Screen UI Update**:
+    - [ ] Display translations for all selected languages in `SentenceEditScreen`.
+    - [ ] **Primary Focus**: Place the Primary Translation at the top.
+    - [ ] **Visual Distinction**: Apply a blue border to the Primary Translation field.
+
+### Phase 5.4: Setup Onboarding & Core Settings
+- [ ] **Settings Screen Entry**:
+    - [ ] Add Settings button to Folder View (top title bar, left end).
+- [ ] **Language Preferences**:
+    - [ ] **Multi-Language Selection**: Select up to 4 favorite translation languages.
+    - [ ] **Default Selection**: Designate 1 Primary language for the card back view.
+    - [ ] **Language List**: Support 24 languages in alphabetical order:
+        - Arabic, Chinese, Czech, Danish, Dutch, Finnish, French, German, Greek, Hindi, Hungarian, Italian, Japanese, Korean, Latin, Polish, Portuguese, Romanian, Russian, Spanish, Swedish, Thai, Turkish, Vietnamese.
+- [ ] **Setup Onboarding**:
+    - [ ] Implement a setup-onboarding screen for first-run language selection.
+    - [ ] Skip onboarding if preferences are already set.
+- [ ] **AI Model Selection**:
+    - [ ] Add option to select Gemini model (default: `gemini-2.5-flash-lite`).
+    - [ ] **Exposed Models**:
+        - `Gemini 2.5 Flash`
+        - `Gemini 2.5 Flash Lite` (Default)
+        - `Gemini 2.5 Pro`
+
+### Phase 5.5: AI+ Advanced Editing
+- [ ] **AI+ Example Generator**:
+    - [ ] Add `AI+` button next to "Add Example" in `SentenceEditScreen`.
+    - [ ] **Logic**: Generate relevant example sentences based on the current `Notes` content.
+    - [ ] **UX**: Show inline loading and append generated examples to the list.
+
+### Phase 5.6: Speech & Audio (TTS)
+- [ ] **Text-to-Speech (TTS) Integration**:
+    - [ ] Integrate `flutter_tts` package.
+- [ ] **UI Integration**:
+    - [ ] Add Speaker icon at the end of text on Card Front (Original).
+    - [ ] Add Speaker icon at the end of text on Card Back (Translation).
+- [ ] **Logic**: Detect language (Original: English, Translation: Selected Preference) and play audio on tap.
+
+### Phase 5.7: User Onboarding (Tutorial)
+- [ ] **Coach Mark Overlay**
+    - [ ] Integrate `tutorial_coach_mark` package.
+    - [ ] **Design**: Use "Hand-drawn" style assets (arrows, circles) & Handwriting Font.
+    - [ ] **Logic**: Implement First-run check (Show only once per screen).
+    - [ ] **Scenarios**:
+        - `SentenceListScreen`: Explain Swipe actions, Filter chips, Language toggle.
+        - `StudyModeScreen`: Explain Tap to Flip, Swipe to Navigate.
+        - `SentenceEditScreen`: Explain AI Auto-fill, OCR options, Text Styling, AI+ examples.
+
+### Phase 5.8: BYOK (Bring Your Own Key) Settings UI
 - [ ] Update `SettingsRepository` to store user-provided Gemini Key.
 - [ ] Implement a Settings Dialog for users to manage their own key.
 - [ ] Switch `AiRepository` to use the user-provided key if available.
 
-### Phase 5.4: Global Language Support (Multi-language AI)**:
-- [ ] **Native Language Setting**: Add an option in Settings to choose the user's native language (e.g., Franch, Spanish, Italian, Japanese, Chinese, etc.).
-- [ ] **Dynamic Prompt**: Update the AI system prompt to generate content in the selected native language instead of hardcoded Korean.
-- [ ] **Localization Prep**: Ensure the AI instructions ("You are a helpful English tutor...") handle different target languages naturally.
-
-### Phase 5.5: Data Portability (Import/Export)**:
+### Phase 5.9: Data Portability (Import/Export)
 - [ ] **JSON Portability (Full Backup)**:
-    - [ ] Design a JSON schema that wraps sentences inside folder objects to preserve **Folder Names** during export/import.
+    - [ ] Design a JSON schema that wraps sentences inside folder objects.
     - [ ] Export/Import the entire database as a single `.json` file.
 - [ ] **CSV Portability (Folder-specific)**:
-    - [ ] **Folder Name as Filename**: When exporting a specific folder to CSV, use the folder name as the filename (e.g., `Travel_English.csv`).
-    - [ ] support flat CSV structure for tabular editing (Columns: Original, Translation, Notes, Examples).
+    - [ ] **Folder Name as Filename**: Use folder name as filename during export.
+    - [ ] Support flat CSV structure for tabular editing.
 - [ ] **UX & Integration**:
     - [ ] Implement a "Data Management" menu in Settings.
-    - [ ] Use `file_picker` for importing and `share_plus` for exporting files to other apps/cloud storage.
-    - [ ] **Conflict Resolution**: Logic to handle duplicates (by ID or original text) during import.
-
-### Phase 5.6: User Onboarding (Tutorial)
-- [ ] **Coach Mark Overlay**
-    - [ ] Integrate `tutorial_coach_mark` package.
-    - [ ] **Design**: Use "Hand-drawn" style assets (arrows, circles) & Handwriting Font.
-    - [ ] **Logic**: Implement First-run check (Show only once per screen using `SharedPreferences`).
-    - [ ] **Scenarios**:
-        - `SentenceListScreen`: Explain Swipe actions (Edit/Delete), Filter chips, Language toggle.
-        - `StudyModeScreen`: Explain Tap to Flip, Swipe to Navigate.
-        - `SentenceEditScreen`: Explain AI Auto-fill, OCR options, Text Styling.
+    - [ ] Use `file_picker` for importing and `share_plus` for exporting.
 
 ## Phase 6: Monetization & Deployment (Launch Ready)
 
@@ -309,4 +351,3 @@ English sentence learning app with rich text styling and flashcard features.
     - [ ] Integrate `image_picker` for gallery access.
     - [ ] Perform OCR on selected image.
     - [ ] Workflow: Select Image -> Extract Text -> Paste to New Card -> Open Edit Screen.
-
