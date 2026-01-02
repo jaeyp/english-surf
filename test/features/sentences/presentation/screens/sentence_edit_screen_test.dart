@@ -43,10 +43,10 @@ void main() {
     testWidgets('should display existing sentence data in edit mode', (
       tester,
     ) async {
-      final sentence = Sentence(
+      const sentence = Sentence(
         id: 1,
         order: 1,
-        original: const SentenceText(text: 'Original Text'),
+        original: SentenceText(text: 'Original Text'),
         translation: 'Translated Text',
         difficulty: Difficulty.beginner,
         notes: 'Some notes',
@@ -58,7 +58,9 @@ void main() {
           overrides: [
             sentenceRepositoryProvider.overrideWithValue(mockRepository),
           ],
-          child: MaterialApp(home: SentenceEditScreen(sentence: sentence)),
+          child: const MaterialApp(
+            home: SentenceEditScreen(sentence: sentence),
+          ),
         ),
       );
 

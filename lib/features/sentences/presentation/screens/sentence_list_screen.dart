@@ -44,9 +44,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
 
     // Update _visibleIds only when filters change or it's null
     sentencesAsync.whenData((sentences) {
-      if (_visibleIds == null) {
-        _visibleIds = sentences.map((s) => s.id).toList();
-      }
+      _visibleIds ??= sentences.map((s) => s.id).toList();
     });
 
     // Helper to reset visible IDs

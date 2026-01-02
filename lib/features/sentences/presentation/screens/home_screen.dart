@@ -136,10 +136,12 @@ class _FolderCard extends ConsumerWidget {
                     color: Colors.grey,
                   ),
                   onSelected: (value) {
-                    if (value == 'rename')
+                    if (value == 'rename') {
                       _showRenameDialog(context, ref, folder);
-                    if (value == 'delete')
+                    }
+                    if (value == 'delete') {
                       _showDeleteDialog(context, ref, folder);
+                    }
                   },
                   itemBuilder: (context) => [
                     const PopupMenuItem(value: 'rename', child: Text('Rename')),

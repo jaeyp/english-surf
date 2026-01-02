@@ -50,11 +50,10 @@ class MockCurrentFolder extends CurrentFolder {
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
-
-  final favoriteSentence = Sentence(
+  const favoriteSentence = Sentence(
     id: 1,
     order: 1,
-    original: const SentenceText(text: 'Original 1'),
+    original: SentenceText(text: 'Original 1'),
     translation: 'Translation 1',
     difficulty: Difficulty.beginner,
     isFavorite: true,
@@ -87,7 +86,7 @@ void main() {
     'Stability: card should remain visible when unstarred while menu is open',
     (tester) async {
       final mockList = MockSentenceList([favoriteSentence]);
-      final filterState = SentenceFilterState(
+      const filterState = SentenceFilterState(
         difficulty: null,
         sortType: SortType.order,
         showFavoritesOnly: true,

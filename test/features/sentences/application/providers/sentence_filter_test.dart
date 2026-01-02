@@ -66,17 +66,17 @@ void main() {
   }
 
   final sentences = [
-    Sentence(
+    const Sentence(
       id: 1,
       order: 1,
-      original: const SentenceText(text: 'Easy'),
+      original: SentenceText(text: 'Sentence 1'),
       translation: '쉬움',
       difficulty: Difficulty.beginner,
     ),
-    Sentence(
+    const Sentence(
       id: 2,
       order: 2,
-      original: const SentenceText(text: 'Hard'),
+      original: SentenceText(text: 'Sentence 2'),
       translation: '어려움',
       difficulty: Difficulty.advanced,
     ),
@@ -154,7 +154,9 @@ void main() {
       await container.read(sentenceFilterProvider.future);
 
       // Act
-      container.read(sentenceFilterProvider.notifier).toggleFavoritesOnly();
+      await container
+          .read(sentenceFilterProvider.notifier)
+          .toggleFavoritesOnly();
       final filtered = await container.read(filteredSentencesProvider.future);
 
       // Assert

@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../datasources/sentence_local_data_source.dart';
 import '../repositories/sentence_repository_impl.dart';

@@ -13,10 +13,10 @@ class MockSentenceRepository extends Mock implements SentenceRepository {}
 void main() {
   setUpAll(() {
     registerFallbackValue(
-      Sentence(
+      const Sentence(
         id: 0,
         order: 0,
-        original: const SentenceText(text: ''),
+        original: SentenceText(text: ''),
         translation: '',
         difficulty: Difficulty.beginner,
       ),
@@ -37,10 +37,10 @@ void main() {
     return container;
   }
 
-  final testSentence = Sentence(
+  const testSentence = Sentence(
     id: 1,
     order: 1,
-    original: const SentenceText(text: 'Hello'),
+    original: SentenceText(text: 'Hello'),
     translation: '안녕',
     difficulty: Difficulty.beginner,
   );

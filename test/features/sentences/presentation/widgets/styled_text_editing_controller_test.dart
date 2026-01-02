@@ -8,7 +8,7 @@ import 'package:english_surf/features/sentences/domain/enums/text_style_type.dar
 void main() {
   group('StyledTextEditingController Smart Tracking', () {
     test('should shift styles forward when text is inserted before them', () {
-      final style = domain.TextStyle(
+      const style = domain.TextStyle(
         type: TextStyleType.bold,
         start: 5,
         end: 10,
@@ -29,7 +29,7 @@ void main() {
     });
 
     test('should expand styles when text is inserted inside them', () {
-      final style = domain.TextStyle(
+      const style = domain.TextStyle(
         type: TextStyleType.bold,
         start: 6,
         end: 11,
@@ -50,14 +50,11 @@ void main() {
     });
 
     test('should remove style if the text containing it is deleted', () {
-      final style = domain.TextStyle(
-        type: TextStyleType.bold,
-        start: 6,
-        end: 11,
-      );
       final controller = StyledTextEditingController(
         text: 'Hello World',
-        styles: [style],
+        styles: [
+          const domain.TextStyle(type: TextStyleType.bold, start: 6, end: 11),
+        ],
       );
 
       // Delete " World"

@@ -29,15 +29,15 @@ void main() {
     await database.close();
   });
 
-  final tSentenceList = [
-    Sentence(
-      id: 1,
-      order: 1,
-      original: SentenceText(text: 'Test'),
-      translation: '테스트',
-      difficulty: Difficulty.beginner,
-    ),
-  ];
+  const testSentence = Sentence(
+    id: 1,
+    order: 1,
+    original: SentenceText(text: 'Hello'),
+    translation: '안녕하세요',
+    difficulty: Difficulty.beginner,
+  );
+
+  final tSentenceList = [testSentence];
 
   group('getAllSentences', () {
     test('should seed from local data source when database is empty', () async {

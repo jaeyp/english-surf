@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/sentence.dart';
 import '../../domain/enums/difficulty.dart';
@@ -30,18 +29,14 @@ part 'sentence_providers.g.dart';
 class SentenceList extends _$SentenceList {
   @override
   Future<List<Sentence>> build() async {
-    print('DEBUG: SentenceList.build called. Fetching all sentences...');
     final repository = ref.watch(sentenceRepositoryProvider);
     final sentences = await repository.getAllSentences();
-    print('DEBUG: SentenceList.build received ${sentences.length} sentences.');
     return sentences;
   }
 
   Future<void> addSentence(Sentence sentence) async {
     final repository = ref.read(sentenceRepositoryProvider);
-    print('DEBUG: Adding sentence to repository: ${sentence.original.text}');
     await repository.addSentence(sentence);
-    print('DEBUG: Sentence added. Invalidating provider...');
     // Refresh the list from the source of truth to get the correct auto-generated ID
     ref.invalidateSelf();
     await future;
@@ -102,7 +97,6 @@ class SentenceList extends _$SentenceList {
   /// Reorders sentences based on a new list of IDs.
   /// Re-assigns 'order' values from the current pool of orders to the new positions.
   Future<void> reorderSentences(List<int> reorderedIds) async {
-    print('DEBUG: reorderSentences called with ${reorderedIds.length} IDs');
     final sentences = state.value ?? [];
     if (sentences.isEmpty) return;
 
