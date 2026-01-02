@@ -358,7 +358,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                     ),
                     const SizedBox(height: 8),
                     DropdownButtonFormField<Difficulty>(
-                      value: _difficulty,
+                      initialValue: _difficulty,
                       dropdownColor: const Color(
                         0xFFF1F8E9,
                       ), // Background of the popup menu

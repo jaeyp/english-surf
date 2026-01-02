@@ -30,22 +30,21 @@ class MockSentenceList extends SentenceList {
 }
 
 void main() {
-  final sentences = [
-    Sentence(
-      id: 1,
-      order: 1,
-      original: SentenceText(text: 'Sentence 1'),
-      translation: 'Translation 1',
-      difficulty: Difficulty.beginner,
-    ),
-    Sentence(
-      id: 2,
-      order: 2,
-      original: SentenceText(text: 'Sentence 2'),
-      translation: 'Translation 2',
-      difficulty: Difficulty.beginner,
-    ),
-  ];
+  const s1 = Sentence(
+    id: 1,
+    order: 1,
+    original: SentenceText(text: 'Sentence 1'),
+    translation: 'Translation 1',
+    difficulty: Difficulty.beginner,
+  );
+  const s2 = Sentence(
+    id: 2,
+    order: 2,
+    original: SentenceText(text: 'Sentence 2'),
+    translation: 'Translation 2',
+    difficulty: Difficulty.intermediate,
+  );
+  final sentences = [s1, s2];
 
   Widget createSubject({required bool isTestMode, int initialIndex = 0}) {
     return ProviderScope(
@@ -156,7 +155,7 @@ void main() {
                 () => MockLanguageModeNotifier(),
               ),
             ],
-            child: MaterialApp(
+            child: const MaterialApp(
               home: StudyModeScreen(initialIndex: 0, isTestMode: false),
             ),
           ),

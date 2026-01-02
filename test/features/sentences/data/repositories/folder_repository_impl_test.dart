@@ -20,6 +20,17 @@ void main() {
     await database.close();
   });
 
+  // Note: The Folder constructor cannot be 'const' if it contains a non-const DateTime object.
+  // The instruction implies adding 'const' to constructors.
+  // If Folder had a const constructor and all its arguments were const, it would be:
+  // const tFolder = Folder(
+  //   id: 'test_folder',
+  //   name: 'Test Folder',
+  //   createdAt: DateTime(2025, 1, 1), // This part prevents 'const'
+  // );
+  // Since DateTime(2025, 1, 1) is not a const expression, the Folder instance cannot be const.
+  // The provided instruction snippet also had a syntax error in the DateTime part.
+  // Keeping the original values and removing the problematic 'const' application.
   final tFolder = Folder(
     id: 'test_folder',
     name: 'Test Folder',
@@ -77,7 +88,7 @@ void main() {
           .into(database.sentences)
           .insert(
             SentencesCompanion.insert(
-              original: SentenceText(text: 'Test Sentence'),
+              original: const SentenceText(text: 'Test Sentence'),
               translation: '테스트',
               difficulty: Difficulty.beginner,
               folderId: drift.Value(tFolder.id),

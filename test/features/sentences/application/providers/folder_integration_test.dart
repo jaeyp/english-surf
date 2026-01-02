@@ -40,10 +40,10 @@ void main() {
       createdAt: DateTime.now(),
     );
 
-    final sentenceInDefault = Sentence(
+    const sentenceInDefault = Sentence(
       id: 1,
       order: 1,
-      original: const SentenceText(text: 'Test sentence'),
+      original: SentenceText(text: 'Sentence 1'),
       translation: 'Translation',
       difficulty: Difficulty.beginner,
       folderId: 'default_folder',

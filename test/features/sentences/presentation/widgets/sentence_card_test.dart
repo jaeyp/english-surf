@@ -7,7 +7,7 @@ import 'package:english_surf/features/sentences/presentation/widgets/sentence_ca
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
 
 void main() {
-  final testSentence = Sentence(
+  final testSentence = const Sentence(
     id: 1,
     order: 1,
     original: SentenceText(text: 'Hello World'),
