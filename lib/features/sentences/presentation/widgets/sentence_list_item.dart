@@ -84,8 +84,8 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
     };
 
     // Swipe-to-Action Implementation using flutter_slidable
-    return SizedBox(
-      width: double.infinity,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Slidable(
         key: ValueKey(widget.sentence.id),
         controller: _slidableController,
@@ -93,10 +93,18 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
         // Right side menu (End to Start swipe)
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
-          extentRatio: 0.6, // Ratio of the total width for 3 buttons
+          extentRatio: 0.65, // Increased to accommodate the gap
           children: [
+            // 16px Gap between card and menu (approximate via flex ratio)
+            const CustomSlidableAction(
+              flex: 1,
+              onPressed: null,
+              backgroundColor: Colors.transparent,
+              child: SizedBox.shrink(),
+            ),
             // Favorite Action
             SlidableAction(
+              flex: 6,
               onPressed: (context) {
                 ref
                     .read(sentenceListProvider.notifier)
@@ -109,9 +117,14 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
                   : Colors.grey,
               icon: widget.sentence.isFavorite ? Icons.star : Icons.star_border,
               label: 'Favorite',
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
             ),
             // Edit Action
             SlidableAction(
+              flex: 6,
               onPressed: (context) {
                 if (widget.onEdit != null) widget.onEdit!();
               },
@@ -122,6 +135,7 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
             ),
             // Delete Action
             SlidableAction(
+              flex: 6,
               onPressed: (context) async {
                 final confirmed = await _showDeleteConfirmation(context);
                 if (confirmed && widget.onDelete != null) {
@@ -132,11 +146,15 @@ class _SentenceListItemState extends ConsumerState<SentenceListItem>
               foregroundColor: Colors.white,
               icon: Icons.delete,
               label: 'Delete',
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
             ),
           ],
         ),
         child: Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          margin: EdgeInsets.zero,
           elevation: widget.isSelected ? 4 : 2,
           color: widget.isSelected
               ? Colors.blue.shade50
