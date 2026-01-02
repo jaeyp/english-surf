@@ -295,6 +295,12 @@ English sentence learning app with rich text styling and flashcard features.
 
 ## 🛠 Maintenance & Stability Log
 
+### 🔋 UX & Configuration Adjustments (2025-01-02)
+- [x] **Test Mode Repeat**: Implemented infinite repeat logic for Test Mode.
+    - Automatically jumps back to the first card when the cycle ends.
+    - Re-shuffles the list for each new cycle if the sort mode is "Random".
+- [x] **Test Mode Timer**: Increased auto-advance timer from 5 seconds to **10 seconds** in `StudyModeScreen`. (2024-12-31)
+
 ### 🔋 UX & AI Intelligence Polish (2024-12-29)
 - [x] **AI Auto-Fill 2.0**:
     - [x] **Style-based Focus**: AI now extracts notes based on user's bold/highlight styling.

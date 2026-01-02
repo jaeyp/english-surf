@@ -36,7 +36,7 @@ You are a modern English tutor. Task:
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-2.5-flash-lite',
       request: GenerateContentRequest(
         contents: [Content.text(userPrompt)],
         systemInstruction: Content.text(systemInstruction),
