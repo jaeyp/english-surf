@@ -1,6 +1,8 @@
 # Miscellaneous
 *.class
 *.log
+*.txt
+!CMakeLists.txt
 *.pyc
 *.swp
 .DS_Store
