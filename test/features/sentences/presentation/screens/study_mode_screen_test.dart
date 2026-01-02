@@ -68,7 +68,7 @@ void main() {
       await tester.pumpWidget(createSubject(isTestMode: false));
       await tester.pumpAndSettle(); // Wait for AsyncValue
 
-      expect(find.text('5'), findsNothing);
+      expect(find.text('10'), findsNothing);
       expect(find.byType(PageView), findsOneWidget);
     });
 
@@ -77,20 +77,20 @@ void main() {
       await tester.pumpAndSettle(); // Wait for AsyncValue
 
       // Initial timer value
-      expect(find.text('5'), findsOneWidget);
+      expect(find.text('10'), findsOneWidget);
 
       // Advance 1 second
       await tester.pump(const Duration(seconds: 1));
       await tester.pump(); // Update UI
-      expect(find.text('4'), findsOneWidget);
+      expect(find.text('9'), findsOneWidget);
 
       // Advance another second
       await tester.pump(const Duration(seconds: 1));
       await tester.pump(); // Update UI
-      expect(find.text('3'), findsOneWidget);
+      expect(find.text('8'), findsOneWidget);
     });
 
-    testWidgets('Test Mode: should auto-advance page after 5 seconds', (
+    testWidgets('Test Mode: should auto-advance page after 10 seconds', (
       tester,
     ) async {
       await tester.pumpWidget(createSubject(isTestMode: true));
@@ -99,9 +99,9 @@ void main() {
       // Check initial page content
       expect(find.text('Translation 1'), findsOneWidget);
 
-      // Advance 6 seconds (trigger auto-advance)
-      // 5 seconds to count down to 0, 1 second to trigger _nextPage
-      for (int i = 0; i < 6; i++) {
+      // Advance 11 seconds (trigger auto-advance)
+      // 10 seconds to count down to 0, 1 second to trigger _nextPage
+      for (int i = 0; i < 11; i++) {
         await tester.pump(const Duration(seconds: 1));
         await tester.pump();
       }
@@ -111,23 +111,26 @@ void main() {
 
       // Check next page content and reset timer
       expect(find.text('Translation 2'), findsOneWidget);
-      expect(find.text('5'), findsOneWidget); // Timer resets to 5
+      expect(find.text('10'), findsOneWidget); // Timer resets to 10
     });
 
-    testWidgets('Test Mode: should stop timer on last page', (tester) async {
+    testWidgets('Test Mode: should loop to first page after last page', (
+      tester,
+    ) async {
       await tester.pumpWidget(createSubject(isTestMode: true, initialIndex: 1));
       await tester.pumpAndSettle();
 
       // Check last page content
       expect(find.text('Translation 2'), findsOneWidget);
-      expect(find.text('5'), findsOneWidget);
+      expect(find.text('10'), findsOneWidget);
 
-      // Advance 6 seconds (past timer)
-      await tester.pump(const Duration(seconds: 6));
+      // Advance 11 seconds (past timer)
+      await tester.pump(const Duration(seconds: 11));
       await tester.pump();
+      await tester.pumpAndSettle();
 
-      // Should still be on the same page (no loop or crash)
-      expect(find.text('Translation 2'), findsOneWidget);
+      // Should loop back to first page
+      expect(find.text('Translation 1'), findsOneWidget);
     });
 
     testWidgets(
@@ -193,22 +196,22 @@ void main() {
       await tester.pumpAndSettle();
 
       // Initial timer value
-      expect(find.text('5'), findsOneWidget);
+      expect(find.text('10'), findsOneWidget);
 
-      // Advance 1 second -> should be 4
+      // Advance 1 second -> should be 9
       await tester.pump(const Duration(seconds: 1));
       await tester.pump();
       expect(find.byKey(const ValueKey('timer_text')), findsOneWidget);
       expect(
         (tester.widget<Text>(find.byKey(const ValueKey('timer_text')))).data,
-        '4',
+        '9',
       );
 
       // 1. Flip the card to back (pauses timer)
       await tester.tapAt(const Offset(400, 300));
       await tester.pumpAndSettle(); // Wait for flip animation
 
-      // Advance 2 seconds -> should STILL be 4
+      // Advance 2 seconds -> should STILL be 9
       await tester.pump(const Duration(seconds: 1));
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
@@ -219,20 +222,20 @@ void main() {
           .data;
       expect(
         timerTextAfterFlip,
-        '4',
-        reason: 'Timer should be paused at 4 while flipped',
+        '9',
+        reason: 'Timer should be paused at 9 while flipped',
       );
 
       // 2. Flip back to front (resumes timer)
       await tester.tapAt(const Offset(400, 300));
       await tester.pumpAndSettle();
 
-      // Advance 1 second -> should be 3
+      // Advance 1 second -> should be 8
       await tester.pump(const Duration(seconds: 1));
       await tester.pump();
       expect(
         tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
-        '3',
+        '8',
       );
     });
 
@@ -242,18 +245,18 @@ void main() {
         await tester.pumpWidget(createSubject(isTestMode: true));
         await tester.pumpAndSettle();
 
-        // 1. Initial timer at 5
+        // 1. Initial timer at 10
         expect(
           tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
-          '5',
+          '10',
         );
 
-        // 2. Advance to 3
+        // 2. Advance to 8
         await tester.pump(const Duration(seconds: 2));
         await tester.pump();
         expect(
           tester.widget<Text>(find.byKey(const ValueKey('timer_text'))).data,
-          '3',
+          '8',
         );
 
         // 3. Manually swipe to next page
@@ -267,21 +270,21 @@ void main() {
             .widget<Text>(find.byKey(const ValueKey('timer_text')))
             .data;
         expect(
-          timerValue == '5' || timerValue == '4',
+          timerValue == '10' || timerValue == '9',
           true,
-          reason: 'Timer should reset to 5 (might tick to 4 during settle)',
+          reason: 'Timer should reset to 10 (might tick to 9 during settle)',
         );
 
-        // 5. Advance 1 second -> should be 3 or 4
+        // 5. Advance 1 second -> should be 8 or 9
         await tester.pump(const Duration(seconds: 1));
         await tester.pump();
         final finalTimerValue = tester
             .widget<Text>(find.byKey(const ValueKey('timer_text')))
             .data;
         expect(
-          finalTimerValue == '4' || finalTimerValue == '3',
+          finalTimerValue == '9' || finalTimerValue == '8',
           true,
-          reason: 'Timer should continue from 5/4 down to 4/3',
+          reason: 'Timer should continue from 10/9 down to 9/8',
         );
       },
     );

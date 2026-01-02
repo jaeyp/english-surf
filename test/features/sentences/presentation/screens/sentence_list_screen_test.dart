@@ -6,9 +6,13 @@ import 'package:english_surf/features/sentences/presentation/screens/sentence_li
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
-import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
+import 'package:drift/native.dart';
+import 'package:drift/drift.dart';
 import 'package:english_surf/features/sentences/application/providers/folder_providers.dart';
+import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
+import 'package:english_surf/features/sentences/data/local/db/app_database.dart';
+import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart';
+import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
 
 class MockSentenceList extends SentenceList {
   final List<Sentence> sentences;
@@ -45,6 +49,8 @@ class MockCurrentFolder extends CurrentFolder {
 }
 
 void main() {
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+
   final favoriteSentence = Sentence(
     id: 1,
     order: 1,
@@ -58,6 +64,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          appDatabaseProvider.overrideWithValue(
+            AppDatabase(NativeDatabase.memory()),
+          ),
           filteredSentencesProvider.overrideWith((ref) => []),
           sentenceListProvider.overrideWith(() => MockSentenceList([])),
           sentenceFilterProvider.overrideWith(
@@ -138,6 +147,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          appDatabaseProvider.overrideWithValue(
+            AppDatabase(NativeDatabase.memory()),
+          ),
           sentenceListProvider.overrideWith(() => MockSentenceList(sentences)),
           sentenceFilterProvider.overrideWith(
             () => MockSentenceFilter(const SentenceFilterState()),
@@ -178,6 +190,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          appDatabaseProvider.overrideWithValue(
+            AppDatabase(NativeDatabase.memory()),
+          ),
           sentenceListProvider.overrideWith(() => MockSentenceList(sentences)),
           sentenceFilterProvider.overrideWith(
             () => MockSentenceFilter(const SentenceFilterState()),
