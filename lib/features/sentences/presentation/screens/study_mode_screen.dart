@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../domain/entities/sentence.dart';
 import '../../domain/value_objects/sentence_text.dart';
 import '../../domain/enums/difficulty.dart';
+import '../../domain/enums/sort_type.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../widgets/sentence_card.dart';
 
@@ -26,7 +27,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   late PageController _pageController;
   late int _currentIndex;
   Timer? _timer;
-  int _timeLeft = 5;
+  int _timeLeft = 10;
   bool _isFlipped = false;
   bool _isPaused = false;
 
@@ -54,7 +55,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     _timer?.cancel();
     if (!mounted) return;
     setState(() {
-      _timeLeft = 5;
+      _timeLeft = 10;
       _isFlipped = false;
     });
     _resumeTimer();
@@ -92,13 +93,22 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   }
 
   void _nextPage() {
-    // Note: This now uses the stable list derived in build
-    if (_initialSentenceIds != null &&
-        _currentIndex < _initialSentenceIds!.length - 1) {
+    if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) return;
+
+    if (_currentIndex < _initialSentenceIds!.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+    } else if (widget.isTestMode) {
+      // Repeat logic for Test Mode
+      final filterState = ref.read(sentenceFilterProvider).value;
+      if (filterState?.sortType == SortType.random) {
+        setState(() {
+          _initialSentenceIds!.shuffle();
+        });
+      }
+      _pageController.jumpToPage(0);
     } else {
       _timer?.cancel();
     }
