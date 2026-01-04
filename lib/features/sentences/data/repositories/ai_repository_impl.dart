@@ -6,8 +6,10 @@ import '../../domain/repositories/ai_repository.dart';
 
 class AiRepositoryImpl implements AiRepository {
   final GoogleAIClient _client;
+  final String _modelName;
 
-  AiRepositoryImpl(this._client);
+  AiRepositoryImpl(this._client, {required String modelName})
+    : _modelName = modelName;
 
   @override
   Future<AiGeneratedContent> generateSentenceContent(
@@ -37,7 +39,7 @@ You are a modern English tutor. Task:
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.5-flash-lite',
+      model: _modelName,
       request: GenerateContentRequest(
         contents: [Content.text(userPrompt)],
         systemInstruction: Content.text(systemInstruction),
@@ -123,7 +125,7 @@ Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.5-flash-lite',
+      model: _modelName,
       request: GenerateContentRequest(
         contents: [Content.text('ENGLISH INPUT: "$originalText"')],
         systemInstruction: Content.text(systemInstruction),
@@ -140,35 +142,26 @@ Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
   }
 
   @override
-  Future<String> generateExamples({
-    required String originalText,
-    required String notes,
-  }) async {
+  Future<String> generateExamples({required String notes}) async {
     const systemInstruction = '''
 You are a modern English tutor. Task:
 Create 1-2 casual and natural ENGLISH sentences for EACH expression identified in the provided NOTES.
-- INPUT CONTEXT: Use the original english input to understand the context.
-- NOTES CONTEXT: Use the expressions listed in notes.
+- NOTES CONTEXT: Use the expressions and meanings listed in notes to generate relevant examples.
 - STRICTLY ONLY English sentences. 
 - Do NOT include the expression label or key (e.g., do NOT write "expression: sentence"). Just the sentence.
 - return as a SINGLE STRING joined by \\n.
 - Do NOT return JSON. Just the raw string text.
 ''';
 
-    final userPrompt =
-        '''
-original english input: "$originalText"
-notes:
-$notes
-''';
+    final userPrompt = 'NOTES:\n$notes';
 
     developer.log(
-      'AI Request (Examples) - Text: $originalText',
+      'AI Request (Examples) - Notes: $notes',
       name: 'AiRepository',
     );
 
     final response = await _client.models.generateContent(
-      model: 'gemini-2.5-flash-lite',
+      model: _modelName,
       request: GenerateContentRequest(
         contents: [Content.text(userPrompt)],
         systemInstruction: Content.text(systemInstruction),

@@ -16,7 +16,7 @@ AiRepository aiRepository(Ref ref) {
     );
   }
 
-  // Using googleai_dart v3.0.0 with v1beta API version and gemini-2.5-flash-lite model.
+  // Using googleai_dart v3.0.0 with v1beta API version.
   final client = GoogleAIClient(
     config: GoogleAIConfig.googleAI(
       apiVersion: ApiVersion.v1beta,
@@ -24,5 +24,6 @@ AiRepository aiRepository(Ref ref) {
     ),
   );
 
-  return AiRepositoryImpl(client);
+  final modelName = dotenv.env['AI_MODEL'] ?? 'gemini-2.5-flash-lite';
+  return AiRepositoryImpl(client, modelName: modelName);
 }
