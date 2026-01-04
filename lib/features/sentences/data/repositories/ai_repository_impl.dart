@@ -20,9 +20,10 @@ You are a modern English tutor. Task:
 2. "difficulty": one of [beginner, intermediate, advanced].
 3. "notes": 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT. 
    - FORMAT: "English expression: Korean meaning" (e.g., "get up: 일어나다").
-   - Separate items with \\n.
+   - return as a SINGLE STRING joined by \\n. NOT a JSON array.
 4. "examples": 1-2 casual and natural ENGLISH sentences for EACH expression identified in "notes".
-   - Separate with \\n.
+   - return as a SINGLE STRING joined by \\n. NOT a JSON array.
+   - STRICTLY ONLY English sentences. Do NOT include the expression label or key (e.g., do NOT write "expression: sentence"). Just the sentence.
 ''';
 
     final userPrompt =
@@ -72,6 +73,28 @@ You are a modern English tutor. Task:
         name: 'AiRepository',
       );
 
+      // Robust handling: Convert List to String if necessary
+      if (data['notes'] is List) {
+        data['notes'] = (data['notes'] as List).join('\n');
+      }
+      if (data['examples'] is List) {
+        data['examples'] = (data['examples'] as List).join('\n');
+      }
+
+      // Sanitization: Remove expression keys from examples if present
+      if (data['examples'] is String) {
+        final lines = (data['examples'] as String).split('\n');
+        final cleanedLines = lines
+            .map((line) {
+              // Regex to remove prefix like "expression: " or "- "
+              // Matches start of line, optional non-word chars, some word chars, colon, whitespace
+              return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
+            })
+            .where((l) => l.isNotEmpty)
+            .toList();
+        data['examples'] = cleanedLines.join('\n');
+      }
+
       return AiGeneratedContent.fromJson(data);
     } catch (e, stackTrace) {
       developer.log(
@@ -82,5 +105,92 @@ You are a modern English tutor. Task:
       );
       throw Exception('Failed to parse AI response: $e\nOriginal text: $text');
     }
+  }
+
+  @override
+  Future<String> generateNotes(String originalText) async {
+    const systemInstruction = '''
+You are a modern English tutor. Task:
+Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
+- FORMAT: "English expression: Korean meaning" (e.g., "get up: 일어나다").
+- return as a SINGLE STRING joined by \\n.
+- Do NOT return JSON. Just the raw string text.
+''';
+
+    developer.log(
+      'AI Request (Notes) - Text: $originalText',
+      name: 'AiRepository',
+    );
+
+    final response = await _client.models.generateContent(
+      model: 'gemini-2.5-flash-lite',
+      request: GenerateContentRequest(
+        contents: [Content.text('ENGLISH INPUT: "$originalText"')],
+        systemInstruction: Content.text(systemInstruction),
+      ),
+    );
+
+    final text = response.text;
+    if (text == null || text.isEmpty) {
+      throw Exception('AI response was empty');
+    }
+
+    // Cleanup just in case AI wraps in JSON or code blocks
+    return text.replaceAll('```', '').trim();
+  }
+
+  @override
+  Future<String> generateExamples({
+    required String originalText,
+    required String notes,
+  }) async {
+    const systemInstruction = '''
+You are a modern English tutor. Task:
+Create 1-2 casual and natural ENGLISH sentences for EACH expression identified in the provided NOTES.
+- INPUT CONTEXT: Use the original english input to understand the context.
+- NOTES CONTEXT: Use the expressions listed in notes.
+- STRICTLY ONLY English sentences. 
+- Do NOT include the expression label or key (e.g., do NOT write "expression: sentence"). Just the sentence.
+- return as a SINGLE STRING joined by \\n.
+- Do NOT return JSON. Just the raw string text.
+''';
+
+    final userPrompt =
+        '''
+original english input: "$originalText"
+notes:
+$notes
+''';
+
+    developer.log(
+      'AI Request (Examples) - Text: $originalText',
+      name: 'AiRepository',
+    );
+
+    final response = await _client.models.generateContent(
+      model: 'gemini-2.5-flash-lite',
+      request: GenerateContentRequest(
+        contents: [Content.text(userPrompt)],
+        systemInstruction: Content.text(systemInstruction),
+      ),
+    );
+
+    final text = response.text;
+    if (text == null || text.isEmpty) {
+      throw Exception('AI response was empty');
+    }
+
+    // Sanitize: strip markdown and labels if present
+    var cleanText = text.replaceAll('```', '').trim();
+    final lines = cleanText.split('\n');
+    final cleanedLines = lines
+        .map((line) {
+          // Regex to remove prefix like "expression: " or "- "
+          return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
+        })
+        .where((l) => l.isNotEmpty)
+        .toList();
+
+    return cleanedLines.join('\n');
   }
 }

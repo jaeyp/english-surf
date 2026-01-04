@@ -204,6 +204,101 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     }
   }
 
+  Future<void> _generateNotes() async {
+    final originalText = _originalController.text.trim();
+    if (originalText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter an English sentence first')),
+      );
+      return;
+    }
+
+    setState(() => _isAiGenerating = true);
+
+    try {
+      final aiRepo = ref.read(aiRepositoryProvider);
+      final notes = await aiRepo.generateNotes(originalText);
+
+      setState(() {
+        _notesController.text = notes;
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Notes refreshed!')));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error generating notes: $e')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAiGenerating = false);
+      }
+    }
+  }
+
+  Future<void> _generateExamples() async {
+    final originalText = _originalController.text.trim();
+    if (originalText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter an English sentence first')),
+      );
+      return;
+    }
+
+    setState(() => _isAiGenerating = true);
+
+    try {
+      final aiRepo = ref.read(aiRepositoryProvider);
+      final notes = _notesController.text; // Use current notes context
+      final examplesText = await aiRepo.generateExamples(
+        originalText: originalText,
+        notes: notes,
+      );
+
+      setState(() {
+        // Populate examples
+        final examplesList = examplesText
+            .split('\n')
+            .where((line) => line.trim().isNotEmpty)
+            .toList();
+
+        if (examplesList.isNotEmpty) {
+          _exampleControllers.clear();
+          for (var ex in examplesList) {
+            // Further cleanup if needed, though repo handles it
+            if (ex.isNotEmpty) {
+              _exampleControllers.add(TextEditingController(text: ex));
+            }
+          }
+          if (_exampleControllers.isEmpty) {
+            _exampleControllers.add(TextEditingController());
+          }
+        }
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Examples refreshed!')));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error generating examples: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAiGenerating = false);
+      }
+    }
+  }
+
   void _applyStyle(TextStyleType type) {
     final selection = _originalController.selection;
     if (selection.isCollapsed) return;
@@ -384,10 +479,23 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                       },
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Notes:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Notes:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          onPressed: _isAiGenerating ? null : _generateNotes,
+                          icon: const Icon(Icons.refresh, size: 24),
+                          tooltip: 'Refresh Notes with AI',
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        ),
+                      ],
                     ),
+
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _notesController,
@@ -411,11 +519,28 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                           'Examples:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        IconButton(
-                          onPressed: _addExample,
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(Icons.add_circle_outline, size: 24),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: _isAiGenerating
+                                  ? null
+                                  : _generateExamples,
+                              icon: const Icon(Icons.refresh, size: 24),
+                              tooltip: 'Refresh Examples with AI',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            IconButton(
+                              onPressed: _addExample,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                size: 24,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
