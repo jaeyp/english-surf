@@ -8,8 +8,5 @@ abstract class AiRepository {
 
   Future<String> generateNotes(String originalText);
 
-  Future<String> generateExamples({
-    required String originalText,
-    required String notes,
-  });
+  Future<String> generateExamples({required String notes});
 }
