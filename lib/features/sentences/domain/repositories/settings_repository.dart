@@ -14,4 +14,7 @@ abstract class SettingsRepository {
 
   Future<bool> getShowFavoritesOnly();
   Future<void> saveShowFavoritesOnly(bool showOnly);
+
+  Future<int> getTimerDuration();
+  Future<void> saveTimerDuration(int duration);
 }

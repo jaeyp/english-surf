@@ -28,8 +28,10 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   late int _currentIndex;
   Timer? _timer;
   int _timeLeft = 10;
+  int _timerDuration = 10;
   bool _isFlipped = false;
   bool _isPaused = false;
+  bool _showDurationPicker = false;
 
   // Stable list of IDs to prevent cards from disappearing during the session
   List<int>? _initialSentenceIds;
@@ -55,7 +57,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     _timer?.cancel();
     if (!mounted) return;
     setState(() {
-      _timeLeft = 10;
+      _timeLeft = _timerDuration;
       _isFlipped = false;
     });
     _resumeTimer();
@@ -67,8 +69,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
-        if (_isFlipped) {
-          timer.cancel(); // Safety: cancel if flipped
+        if (_isFlipped || _showDurationPicker) {
+          timer.cancel(); // Safety: cancel if flipped or picker open
           return;
         }
 
@@ -131,6 +133,21 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
       _initialSentenceIds = filteredSentencesAsync.value!
           .map((s) => s.id)
           .toList();
+    }
+
+    // Sync persistent timer duration
+    final persistentDuration = ref.watch(timerDurationProvider).value ?? 10;
+    if (_timerDuration != persistentDuration && !_showDurationPicker) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _timerDuration = persistentDuration;
+            if (widget.isTestMode && _timeLeft > persistentDuration) {
+              _timeLeft = persistentDuration;
+            }
+          });
+        }
+      });
     }
 
     return rawSentencesAsync.when(
@@ -336,33 +353,129 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   Widget _buildTimerOverlay() {
     if (!widget.isTestMode) return const SizedBox.shrink();
 
+    final durations = [5, 10, 15, 20, 30, 60];
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final pickerButtons = durations.reversed.map((d) {
+      final isCurrent = d == _timerDuration;
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: isLandscape ? 0 : 8.0,
+          right: isLandscape ? 8.0 : 0,
+        ),
+        child: GestureDetector(
+          onTap: () async {
+            await ref.read(timerDurationProvider.notifier).setDuration(d);
+            if (mounted) {
+              setState(() {
+                _timerDuration = d;
+                _showDurationPicker = false;
+                _startTimer();
+              });
+            }
+          },
+          child: Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: isCurrent
+                  ? Colors.green.withValues(alpha: 0.8)
+                  : Colors.green.withValues(alpha: 0.4),
+              shape: BoxShape.circle,
+              border: isCurrent
+                  ? Border.all(color: Colors.white, width: 2)
+                  : null,
+            ),
+            child: Center(
+              child: Text(
+                '$d',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+
     return Positioned(
       bottom: 20,
       right: 20,
-      child: GestureDetector(
-        onTap: () {
+      child: isLandscape
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (_showDurationPicker) ...pickerButtons,
+                _buildMainTimerButton(),
+              ],
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (_showDurationPicker) ...pickerButtons,
+                _buildMainTimerButton(),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildMainTimerButton() {
+    return GestureDetector(
+      onLongPress: () {
+        setState(() {
+          _showDurationPicker = !_showDurationPicker;
+          if (_showDurationPicker) {
+            _pauseTimer();
+          } else {
+            _resumeTimer();
+          }
+        });
+      },
+      onTap: () {
+        if (_showDurationPicker) {
+          setState(() {
+            _showDurationPicker = false;
+            _resumeTimer();
+          });
+        } else {
           setState(() {
             _isPaused = !_isPaused;
           });
-        },
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.7),
-            shape: BoxShape.circle,
-          ),
-          child: _isPaused
-              ? const Icon(Icons.pause, color: Colors.white, size: 24)
-              : Text(
+        }
+      },
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: _showDurationPicker
+              ? Colors.grey.withValues(alpha: 0.5)
+              : Colors.black.withValues(alpha: 0.7),
+          shape: BoxShape.circle,
+          border: _showDurationPicker
+              ? Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1)
+              : null,
+        ),
+        child: _isPaused
+            ? const Icon(Icons.pause, color: Colors.white, size: 24)
+            : Center(
+                child: Text(
                   '$_timeLeft',
                   key: const ValueKey('timer_text'),
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: _showDurationPicker
+                        ? Colors.white.withValues(alpha: 0.7)
+                        : Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }
