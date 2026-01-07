@@ -316,3 +316,21 @@ class LanguageModeNotifier extends _$LanguageModeNotifier {
     state = AsyncData(next);
   }
 }
+
+/// ----------------------------------------------------------------------------
+/// Provider: TimerDuration
+/// ----------------------------------------------------------------------------
+@riverpod
+class TimerDuration extends _$TimerDuration {
+  @override
+  FutureOr<int> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getTimerDuration();
+  }
+
+  Future<void> setDuration(int duration) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveTimerDuration(duration);
+    state = AsyncData(duration);
+  }
+}

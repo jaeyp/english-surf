@@ -11,6 +11,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keyDifficulty = 'difficulty_filter';
   static const String _keyLanguageMode = 'language_mode';
   static const String _keyShowFavoritesOnly = 'show_favorites_only';
+  static const String _keyTimerDuration = 'timer_duration';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -65,5 +66,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveShowFavoritesOnly(bool showOnly) async {
     await _prefs.setBool(_keyShowFavoritesOnly, showOnly);
+  }
+
+  @override
+  Future<int> getTimerDuration() async {
+    return _prefs.getInt(_keyTimerDuration) ?? 10;
+  }
+
+  @override
+  Future<void> saveTimerDuration(int duration) async {
+    await _prefs.setInt(_keyTimerDuration, duration);
   }
 }

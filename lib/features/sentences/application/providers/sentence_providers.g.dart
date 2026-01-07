@@ -87,7 +87,7 @@ final class SentenceListProvider
   SentenceList create() => SentenceList();
 }
 
-String _$sentenceListHash() => r'6eb6b01ac61ab809f7448770221f1faaa2cfd74b';
+String _$sentenceListHash() => r'7146f3ce9dde26afb4243df78013798bb3d5ab79';
 
 /// ----------------------------------------------------------------------------
 /// Provider: SentenceList
@@ -394,6 +394,65 @@ abstract class _$LanguageModeNotifier extends $AsyncNotifier<LanguageMode> {
             as $ClassProviderElement<
               AnyNotifier<AsyncValue<LanguageMode>, LanguageMode>,
               AsyncValue<LanguageMode>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: TimerDuration
+/// ----------------------------------------------------------------------------
+
+@ProviderFor(TimerDuration)
+const timerDurationProvider = TimerDurationProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: TimerDuration
+/// ----------------------------------------------------------------------------
+final class TimerDurationProvider
+    extends $AsyncNotifierProvider<TimerDuration, int> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: TimerDuration
+  /// ----------------------------------------------------------------------------
+  const TimerDurationProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'timerDurationProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$timerDurationHash();
+
+  @$internal
+  @override
+  TimerDuration create() => TimerDuration();
+}
+
+String _$timerDurationHash() => r'8584ce196f28c53e315b569b907930a92200fb8a';
+
+/// ----------------------------------------------------------------------------
+/// Provider: TimerDuration
+/// ----------------------------------------------------------------------------
+
+abstract class _$TimerDuration extends $AsyncNotifier<int> {
+  FutureOr<int> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<int>, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<int>, int>,
+              AsyncValue<int>,
               Object?,
               Object?
             >;
