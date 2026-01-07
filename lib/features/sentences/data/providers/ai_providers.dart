@@ -24,6 +24,6 @@ AiRepository aiRepository(Ref ref) {
     ),
   );
 
-  final modelName = dotenv.env['AI_MODEL'] ?? 'gemini-2.5-flash-lite';
+  final modelName = dotenv.env['GOOGLE_AI_MODEL'] ?? 'gemini-2.5-flash-lite';
   return AiRepositoryImpl(client, modelName: modelName);
 }
