@@ -1,29 +1,53 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:googleai_dart/googleai_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../domain/enums/ai_provider.dart';
 import '../../domain/repositories/ai_repository.dart';
 import '../repositories/ai_repository_impl.dart';
+import '../datasources/ai_data_source.dart';
+import '../datasources/google_ai_data_source.dart';
+import '../datasources/groq_ai_data_source.dart';
+import '../providers/sentence_providers.dart'; // For settingsRepositoryProvider
 
 part 'ai_providers.g.dart';
 
 @riverpod
-AiRepository aiRepository(Ref ref) {
-  final apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
-  if (apiKey.trim().isEmpty) {
-    throw Exception(
-      'GEMINI_API_KEY is missing or empty in .env. '
-      'Current .env keys: ${dotenv.env.keys.join(', ')}',
+Future<AiRepository> aiRepository(Ref ref) async {
+  final settingsRepository = ref.watch(settingsRepositoryProvider);
+
+  // Initialize Data Sources
+  final Map<AiProvider, AiDataSource> dataSources = {};
+
+  // 1. Google AI
+  final googleApiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
+  if (googleApiKey.trim().isNotEmpty) {
+    final client = GoogleAIClient(
+      config: GoogleAIConfig.googleAI(
+        apiVersion: ApiVersion.v1beta,
+        authProvider: ApiKeyProvider(googleApiKey),
+      ),
+    );
+
+    final googleModel = await settingsRepository.getAiModel(AiProvider.google);
+
+    dataSources[AiProvider.google] = GoogleAiDataSource(
+      client,
+      modelName: googleModel,
     );
   }
 
-  // Using googleai_dart v3.0.0 with v1beta API version.
-  final client = GoogleAIClient(
-    config: GoogleAIConfig.googleAI(
-      apiVersion: ApiVersion.v1beta,
-      authProvider: ApiKeyProvider(apiKey),
-    ),
-  );
+  // 2. Groq AI
+  final groqApiKey = dotenv.env['GROQ_API_KEY'] ?? '';
+  if (groqApiKey.trim().isNotEmpty) {
+    final groqModel = await settingsRepository.getAiModel(AiProvider.groq);
+    dataSources[AiProvider.groq] = GroqAiDataSource(
+      apiKey: groqApiKey,
+      modelName: groqModel,
+    );
+  }
 
-  final modelName = dotenv.env['GOOGLE_AI_MODEL'] ?? 'gemini-2.5-flash-lite';
-  return AiRepositoryImpl(client, modelName: modelName);
+  return AiRepositoryImpl(
+    settingsRepository: settingsRepository,
+    dataSources: dataSources,
+  );
 }

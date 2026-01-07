@@ -11,7 +11,15 @@ class HomeScreen extends ConsumerWidget {
     final folderListAsync = ref.watch(folderListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('EnglishSurf')),
+      appBar: AppBar(
+        title: const Text('EnglishSurf'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
       body: folderListAsync.when(
         data: (folders) => _FolderGrid(folders: folders),
         loading: () => const Center(child: CircularProgressIndicator()),

@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../../domain/enums/difficulty.dart';
 import '../../domain/enums/sort_type.dart';
+import '../../domain/enums/ai_provider.dart';
 import '../../domain/repositories/settings_repository.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
@@ -12,6 +13,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keyLanguageMode = 'language_mode';
   static const String _keyShowFavoritesOnly = 'show_favorites_only';
   static const String _keyTimerDuration = 'timer_duration';
+  static const String _keyAiProvider = 'ai_provider';
+  static const String _keyAiModelPrefix = 'ai_model_';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -76,5 +79,28 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveTimerDuration(int duration) async {
     await _prefs.setInt(_keyTimerDuration, duration);
+  }
+
+  @override
+  Future<AiProvider> getAiProvider() async {
+    final value = _prefs.getString(_keyAiProvider);
+    return AiProvider.fromString(value);
+  }
+
+  @override
+  Future<void> saveAiProvider(AiProvider provider) async {
+    await _prefs.setString(_keyAiProvider, provider.name);
+  }
+
+  @override
+  Future<String> getAiModel(AiProvider provider) async {
+    final key = '$_keyAiModelPrefix${provider.name}';
+    return _prefs.getString(key) ?? provider.defaultModel;
+  }
+
+  @override
+  Future<void> saveAiModel(AiProvider provider, String modelName) async {
+    final key = '$_keyAiModelPrefix${provider.name}';
+    await _prefs.setString(key, modelName);
   }
 }

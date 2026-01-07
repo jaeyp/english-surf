@@ -135,7 +135,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     setState(() => _isAiGenerating = true);
 
     try {
-      final aiRepo = ref.read(aiRepositoryProvider);
+      final aiRepo = await ref.read(aiRepositoryProvider.future);
 
       // Extract styled text sections (bold or highlight) as target expressions
       final originalTextValue = _originalController.text;
@@ -216,7 +216,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     setState(() => _isAiGenerating = true);
 
     try {
-      final aiRepo = ref.read(aiRepositoryProvider);
+      final aiRepo = await ref.read(aiRepositoryProvider.future);
       final notes = await aiRepo.generateNotes(originalText);
 
       setState(() {
@@ -253,7 +253,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     setState(() => _isAiGenerating = true);
 
     try {
-      final aiRepo = ref.read(aiRepositoryProvider);
+      final aiRepo = await ref.read(aiRepositoryProvider.future);
       final notes = _notesController.text; // Use current notes context
       final examplesText = await aiRepo.generateExamples(notes: notes);
 

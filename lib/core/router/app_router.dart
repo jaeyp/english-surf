@@ -5,6 +5,7 @@ import '../../features/sentences/presentation/screens/sentence_list_screen.dart'
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
 import '../../features/sentences/presentation/screens/study_mode_screen.dart';
 import '../../features/sentences/presentation/screens/camera_ocr_screen.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/sentences/presentation/arguments/study_mode_arguments.dart';
 import '../../features/sentences/domain/entities/sentence.dart';
 
@@ -48,6 +49,10 @@ GoRouter goRouter(Ref ref) {
             isTestMode: args.isTestMode,
           );
         },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );

@@ -13,8 +13,13 @@ part of 'ai_providers.dart';
 const aiRepositoryProvider = AiRepositoryProvider._();
 
 final class AiRepositoryProvider
-    extends $FunctionalProvider<AiRepository, AiRepository, AiRepository>
-    with $Provider<AiRepository> {
+    extends
+        $FunctionalProvider<
+          AsyncValue<AiRepository>,
+          AiRepository,
+          FutureOr<AiRepository>
+        >
+    with $FutureModifier<AiRepository>, $FutureProvider<AiRepository> {
   const AiRepositoryProvider._()
     : super(
         from: null,
@@ -31,21 +36,14 @@ final class AiRepositoryProvider
 
   @$internal
   @override
-  $ProviderElement<AiRepository> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<AiRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  AiRepository create(Ref ref) {
+  FutureOr<AiRepository> create(Ref ref) {
     return aiRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AiRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AiRepository>(value),
-    );
   }
 }
 
-String _$aiRepositoryHash() => r'7db86bae6c9cb682dc4d3c5114bb2c8ac36446a6';
+String _$aiRepositoryHash() => r'9489f28a47ab9a8e5d3316bfa7cee46a675e2022';
