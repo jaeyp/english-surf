@@ -168,13 +168,16 @@ English sentence learning app with rich text styling and flashcard features.
     - [x] **Integration**:
         - [x] Pass selected text to `SentenceEditScreen`.
 
-### Phase 5.2: Back Content Generation (AI Auto-Fill) - Smart Card Creation** (Completed)
+### Phase 5.2: Back Content Generation (AI Auto-Fill) - Smart Card Creation (✅ Completed)
 - [x] **AI Auto-Generation Implementation (.env basis)**:
     - [x] **Plan AI infrastructure and prompt engineering**.
     - [x] **Add `googleai_dart` dependency (v3.0.0) and API key in `.env`**.
     - [x] **Model**: Using **`gemini-2.5-flash-lite`** with **v1beta** API endpoint.
+    - [x] **Multi-Provider AI Architecture**:
+        - [x] Refactored into `AiDataSource` (Interface) and `AiRepository` (Facade).
+        - [x] Implemented `GroqAiDataSource` using `http` package.
+        - [x] Integrated `GROQ_API_KEY` supporting models like `Llama 3.3`.
     - [x] **AI Service Layer**:
-        - [x] Create `AiDataSource` and `AiRepository` (using `googleai_dart`).
         - [x] Secure API Key management via `.env`.
     - [x] **Prompt Engineering 2.0 (Multi-Note & Style Focus)**:
         - [x] System Prompt: "You are a modern English tutor."
@@ -207,9 +210,9 @@ English sentence learning app with rich text styling and flashcard features.
     - [ ] **Primary Focus**: Place the Primary Translation at the top.
     - [ ] **Visual Distinction**: Apply a blue border to the Primary Translation field.
 
-### Phase 5.4: Setup Onboarding & Core Settings
-- [ ] **Settings Screen Entry**:
-    - [ ] Add Settings button to Folder View (top title bar, left end).
+### Phase 5.4: Setup Onboarding & Core Settings (✅ Completed)
+- [x] **Settings Screen Entry**:
+    - [x] Add Settings button to Folder View (top title bar, right end).
 - [ ] **Language Preferences**:
     - [ ] **Multi-Language Selection**: Select up to 4 favorite translation languages.
     - [ ] **Default Selection**: Designate 1 Primary language for the card back view.
@@ -218,12 +221,10 @@ English sentence learning app with rich text styling and flashcard features.
 - [ ] **Setup Onboarding**:
     - [ ] Implement a setup-onboarding screen for first-run language selection.
     - [ ] Skip onboarding if preferences are already set.
-- [ ] **AI Model Selection**:
-    - [ ] Add option to select Gemini model (default: `gemini-2.5-flash-lite`).
-    - [ ] **Exposed Models**:
-        - `Gemini 2.5 Flash`
-        - `Gemini 2.5 Flash Lite` (Default)
-        - `Gemini 2.5 Pro`
+- [x] **AI Model Selection (Multi-Provider)**:
+    - [x] Add option to select between AI Providers (Google, Groq).
+    - [x] Dynamically switch models based on selected provider.
+    - [x] **Persistence**: Save selection in `SharedPreferences`.
 
 ### Phase 5.5: AI+ Advanced Editing
 - [ ] **AI+ Example Generator**:
@@ -294,6 +295,14 @@ English sentence learning app with rich text styling and flashcard features.
 ---
 
 ## 🛠 Maintenance & Stability Log
+
+### 🔋 Multi-Provider AI & Advanced Settings (2026-01-07)
+- [x] **Groq Integration**: Added support for Groq AI via REST API with `http` package.
+- [x] **Multi-Provider Architecture**: Refactored `AiRepository` as a facade pattern for easy provider switching.
+- [x] **Settings UI**: Created dedicated Settings screen for AI provider and model selection.
+- [x] **Persistence**: All AI settings (provider, model) are now persistent via `SharedPreferences`.
+- [x] **Bug Fix**: Resolved `AsyncValue` related build errors in `SentenceEditScreen` after provider refactoring.
+- [x] **UI Polish**: Relocated Settings icon from card list to folder view (main screen).
 
 ### 🔋 UX & Configuration Adjustments (2025-01-02)
 - [x] **Test Mode Repeat**: Implemented infinite repeat logic for Test Mode.
