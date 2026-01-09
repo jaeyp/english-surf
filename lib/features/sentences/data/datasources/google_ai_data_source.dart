@@ -4,6 +4,8 @@ import 'package:googleai_dart/googleai_dart.dart';
 import '../../domain/entities/ai_generated_content.dart';
 import 'ai_data_source.dart';
 
+import '../constants/ai_prompts.dart';
+
 class GoogleAiDataSource implements AiDataSource {
   final GoogleAIClient _client;
   final String _modelName;
@@ -16,23 +18,12 @@ class GoogleAiDataSource implements AiDataSource {
     String originalText, {
     List<String>? targetExpressions,
   }) async {
-    const systemInstruction = '''
-You are a modern English tutor. Task:
-1. "translation": Natural Korean translation of the input.
-2. "difficulty": one of [beginner, intermediate, advanced].
-3. "notes": 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT. 
-   - FORMAT: "English expression: Korean meaning" (e.g., "get up: 일어나다").
-   - return as a SINGLE STRING joined by \\n. NOT a JSON array.
-4. "examples": 1-2 casual and natural ENGLISH sentences for EACH expression identified in "notes".
-   - return as a SINGLE STRING joined by \\n. NOT a JSON array.
-   - STRICTLY ONLY English sentences. Do NOT include the expression label or key (e.g., do NOT write "expression: sentence"). Just the sentence.
-''';
+    const systemInstruction = AiPrompts.autoFillInstruction;
 
     final userPrompt =
         (targetExpressions != null && targetExpressions.isNotEmpty)
         ? 'ENGLISH INPUT: "$originalText"\nTARGET: ${targetExpressions.join(", ")}'
         : 'ENGLISH INPUT: "$originalText"';
-
     developer.log(
       'Google AI Request - Model: $_modelName, Text: $originalText',
       name: 'GoogleAiDataSource',
@@ -92,13 +83,7 @@ You are a modern English tutor. Task:
 
   @override
   Future<String> generateNotes(String originalText) async {
-    const systemInstruction = '''
-You are a modern English tutor. Task:
-Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
-- FORMAT: "English expression: Korean meaning" (e.g., "get up: 일어나다").
-- return as a SINGLE STRING joined by \\n.
-- Do NOT return JSON. Just the raw string text.
-''';
+    const systemInstruction = AiPrompts.notesInstruction;
 
     final response = await _client.models.generateContent(
       model: _modelName,
@@ -117,18 +102,14 @@ Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
   }
 
   @override
-  Future<String> generateExamples({required String notes}) async {
-    const systemInstruction = '''
-You are a modern English tutor. Task:
-Create 1-2 casual and natural ENGLISH sentences for EACH expression identified in the provided NOTES.
-- NOTES CONTEXT: Use the expressions and meanings listed in notes to generate relevant examples.
-- STRICTLY ONLY English sentences. 
-- Do NOT include the expression label or key (e.g., do NOT write "expression: sentence"). Just the sentence.
-- return as a SINGLE STRING joined by \\n.
-- Do NOT return JSON. Just the raw string text.
-''';
+  Future<String> generateExamples({
+    required String originalText,
+    required String translation,
+  }) async {
+    const systemInstruction = AiPrompts.examplesInstruction;
 
-    final userPrompt = 'NOTES:\n$notes';
+    final userPrompt =
+        'ENGLISH INPUT: "$originalText"\nTRANSLATION: "$translation"';
 
     final response = await _client.models.generateContent(
       model: _modelName,

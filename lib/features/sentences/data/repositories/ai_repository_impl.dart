@@ -43,8 +43,14 @@ class AiRepositoryImpl implements AiRepository {
   }
 
   @override
-  Future<String> generateExamples({required String notes}) async {
+  Future<String> generateExamples({
+    required String originalText,
+    required String translation,
+  }) async {
     final dataSource = await _getCurrentDataSource();
-    return dataSource.generateExamples(notes: notes);
+    return dataSource.generateExamples(
+      originalText: originalText,
+      translation: translation,
+    );
   }
 }

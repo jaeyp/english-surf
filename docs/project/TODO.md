@@ -302,6 +302,12 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Dynamic Filtering**: Added a smart Filter Bar that automatically shows only active flags.
 - [x] **UI Refinement**: Polished the folder list item layout (Stack-based, 54px text indentation, absolute bookmark positioning) and removed generic folder icons.
 
+### 🔋 AI Intelligence & UI Styling (2026-01-09)
+- [x] **AI Prompt Constraints**: Enforced strict "Native-level" and "Plain Text Only" constraints for example generation (No quotes, no numbering).
+- [x] **Prompt Centralization**: Consolidated all AI prompts into `AiPrompts` constant class for easier management and deduplication.
+- [x] **Sentence Note Styling**: Enhanced readability by parsing notes to highlight English expressions in darker text.
+- [x] **Bug Fix**: Fixed `AiRepositoryImpl` test failures by correctly pointing to `GoogleAiDataSource`.
+
 ### 🔋 Multi-Provider AI & Advanced Settings (2026-01-07)
 - [x] **Groq Integration**: Added support for Groq AI via REST API with `http` package.
 - [x] **Multi-Provider Architecture**: Refactored `AiRepository` as a facade pattern for easy provider switching.
