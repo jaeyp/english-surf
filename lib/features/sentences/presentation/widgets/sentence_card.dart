@@ -146,6 +146,57 @@ class _SentenceCardState extends State<SentenceCard>
     );
   }
 
+  Widget _buildStyledNotes(String notes) {
+    if (notes.isEmpty) return const SizedBox.shrink();
+
+    final lines = notes.split('\n');
+
+    return Column(
+      children: lines.map((line) {
+        // Find the first occurrence of '/' which usually starts the phonetic spelling
+        final splitIndex = line.indexOf('/');
+
+        if (splitIndex != -1) {
+          final expression = line.substring(0, splitIndex);
+          final rest = line.substring(splitIndex);
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: const TextStyle(fontSize: 14, height: 1.4),
+                children: [
+                  TextSpan(
+                    text: expression,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  TextSpan(
+                    text: rest,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          // Fallback if no '/' found
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Text(
+              line,
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+          );
+        }
+      }).toList(),
+    );
+  }
+
   Widget _buildOriginalContent({bool showNotes = false}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -156,11 +207,7 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            Text(
-              widget.sentence.notes,
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
-              textAlign: TextAlign.center,
-            ),
+            _buildStyledNotes(widget.sentence.notes),
           ],
           if (widget.sentence.examples.isNotEmpty) ...[
             const SizedBox(height: 16),
@@ -212,11 +259,7 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
-            Text(
-              widget.sentence.notes,
-              style: const TextStyle(fontSize: 14, color: Colors.black54),
-              textAlign: TextAlign.center,
-            ),
+            _buildStyledNotes(widget.sentence.notes),
           ],
           if (widget.sentence.examples.isNotEmpty) ...[
             const SizedBox(height: 16),

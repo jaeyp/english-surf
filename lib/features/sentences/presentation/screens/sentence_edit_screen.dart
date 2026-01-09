@@ -254,8 +254,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
     try {
       final aiRepo = await ref.read(aiRepositoryProvider.future);
-      final notes = _notesController.text; // Use current notes context
-      final examplesText = await aiRepo.generateExamples(notes: notes);
+      final translation = _translationController.text;
+      final examplesText = await aiRepo.generateExamples(
+        originalText: originalText,
+        translation: translation,
+      );
 
       setState(() {
         // Populate examples
