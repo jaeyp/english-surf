@@ -53,6 +53,8 @@ void main() {
     // assert
     expect(find.text('Default'), findsOneWidget);
     expect(find.text('Study Folder'), findsOneWidget);
+    // Folder icons are removed, so we shouldn't find them
+    expect(find.byIcon(Icons.folder), findsNothing);
   });
 
   testWidgets('shows add folder dialog and calls repository on save', (
@@ -98,8 +100,19 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pumpAndSettle();
 
-    // Default folder usually doesn't have delete option. folder1 should be the one with more_vert.
-    await tester.tap(find.byIcon(Icons.more_vert));
+    // Find the More Vert icon specifically for 'Study Folder' (folder1)
+    // Since 'Default' doesn't have one, finding by Icon should invoke only one if there are 2 folders and 1 has menu.
+    // However, if there are other MoreVerts (e.g. AppBar?), we need to be specific.
+    // The previous test failed due to ambiguity.
+    // Assuming 'Default' (index 0) has NO menu, 'Study Folder' (index 1) HAS menu.
+    // Safe finder: find descendant of the row with text "Study Folder".
+    final studyFolderFinder = find.widgetWithText(InkWell, 'Study Folder');
+    final moreIconFinder = find.descendant(
+      of: studyFolderFinder,
+      matching: find.byIcon(Icons.more_vert),
+    );
+
+    await tester.tap(moreIconFinder);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Delete'));

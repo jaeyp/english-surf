@@ -106,3 +106,95 @@ abstract class _$CurrentFolder extends $Notifier<String?> {
     element.handleValue(ref, created);
   }
 }
+
+@ProviderFor(SelectedFlag)
+const selectedFlagProvider = SelectedFlagProvider._();
+
+final class SelectedFlagProvider
+    extends $NotifierProvider<SelectedFlag, String?> {
+  const SelectedFlagProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedFlagProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$selectedFlagHash();
+
+  @$internal
+  @override
+  SelectedFlag create() => SelectedFlag();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$selectedFlagHash() => r'353898adfc307860907300a509d871c6ff5ccc25';
+
+abstract class _$SelectedFlag extends $Notifier<String?> {
+  String? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<String?, String?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(filteredFolders)
+const filteredFoldersProvider = FilteredFoldersProvider._();
+
+final class FilteredFoldersProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Folder>>,
+          List<Folder>,
+          FutureOr<List<Folder>>
+        >
+    with $FutureModifier<List<Folder>>, $FutureProvider<List<Folder>> {
+  const FilteredFoldersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'filteredFoldersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$filteredFoldersHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<Folder>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<Folder>> create(Ref ref) {
+    return filteredFolders(ref);
+  }
+}
+
+String _$filteredFoldersHash() => r'949e7af8010b2ded52091ee00fcec59036f7f2e4';
