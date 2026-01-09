@@ -5,17 +5,6 @@ import '../../application/providers/folder_providers.dart';
 class FolderFilterBar extends ConsumerWidget {
   const FolderFilterBar({super.key});
 
-  static const List<String?> _flags = [
-    null, // All
-    'Red',
-    'Blue',
-    'Green',
-    'Orange',
-    'Purple',
-    'Cyan',
-    'Pink',
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFlag = ref.watch(selectedFlagProvider);
