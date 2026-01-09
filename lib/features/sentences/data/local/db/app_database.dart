@@ -29,6 +29,7 @@ class Folders extends Table {
   TextColumn get id => text()();
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
+  TextColumn get flagColor => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -39,7 +40,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -68,6 +69,9 @@ class AppDatabase extends _$AppDatabase {
           await (update(sentences)..where((t) => t.folderId.isNull())).write(
             SentencesCompanion(folderId: Value(defaultFolderId)),
           );
+        }
+        if (from < 4) {
+          await m.addColumn(folders, folders.flagColor);
         }
       },
       beforeOpen: (details) async {

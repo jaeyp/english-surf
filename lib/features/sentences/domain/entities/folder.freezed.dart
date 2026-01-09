@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Folder {
 
- String get id; String get name; DateTime get createdAt;
+ String get id; String get name; DateTime get createdAt; String? get flagColor;
 /// Create a copy of Folder
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FolderCopyWith<Folder> get copyWith => _$FolderCopyWithImpl<Folder>(this as Fol
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Folder&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Folder&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.flagColor, flagColor) || other.flagColor == flagColor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,createdAt);
+int get hashCode => Object.hash(runtimeType,id,name,createdAt,flagColor);
 
 @override
 String toString() {
-  return 'Folder(id: $id, name: $name, createdAt: $createdAt)';
+  return 'Folder(id: $id, name: $name, createdAt: $createdAt, flagColor: $flagColor)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FolderCopyWith<$Res>  {
   factory $FolderCopyWith(Folder value, $Res Function(Folder) _then) = _$FolderCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, DateTime createdAt
+ String id, String name, DateTime createdAt, String? flagColor
 });
 
 
@@ -65,12 +65,13 @@ class _$FolderCopyWithImpl<$Res>
 
 /// Create a copy of Folder
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? createdAt = null,Object? flagColor = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,flagColor: freezed == flagColor ? _self.flagColor : flagColor // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  DateTime createdAt,  String? flagColor)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Folder() when $default != null:
-return $default(_that.id,_that.name,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.createdAt,_that.flagColor);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.id,_that.name,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  DateTime createdAt,  String? flagColor)  $default,) {final _that = this;
 switch (_that) {
 case _Folder():
-return $default(_that.id,_that.name,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.createdAt,_that.flagColor);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.id,_that.name,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  DateTime createdAt,  String? flagColor)?  $default,) {final _that = this;
 switch (_that) {
 case _Folder() when $default != null:
-return $default(_that.id,_that.name,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.createdAt,_that.flagColor);case _:
   return null;
 
 }
@@ -211,12 +212,13 @@ return $default(_that.id,_that.name,_that.createdAt);case _:
 @JsonSerializable()
 
 class _Folder implements Folder {
-  const _Folder({required this.id, required this.name, required this.createdAt});
+  const _Folder({required this.id, required this.name, required this.createdAt, this.flagColor});
   factory _Folder.fromJson(Map<String, dynamic> json) => _$FolderFromJson(json);
 
 @override final  String id;
 @override final  String name;
 @override final  DateTime createdAt;
+@override final  String? flagColor;
 
 /// Create a copy of Folder
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Folder&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Folder&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.flagColor, flagColor) || other.flagColor == flagColor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,createdAt);
+int get hashCode => Object.hash(runtimeType,id,name,createdAt,flagColor);
 
 @override
 String toString() {
-  return 'Folder(id: $id, name: $name, createdAt: $createdAt)';
+  return 'Folder(id: $id, name: $name, createdAt: $createdAt, flagColor: $flagColor)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$FolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
   factory _$FolderCopyWith(_Folder value, $Res Function(_Folder) _then) = __$FolderCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, DateTime createdAt
+ String id, String name, DateTime createdAt, String? flagColor
 });
 
 
@@ -268,12 +270,13 @@ class __$FolderCopyWithImpl<$Res>
 
 /// Create a copy of Folder
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? createdAt = null,Object? flagColor = freezed,}) {
   return _then(_Folder(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,flagColor: freezed == flagColor ? _self.flagColor : flagColor // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -9,6 +9,7 @@ abstract class Folder with _$Folder {
     required String id,
     required String name,
     required DateTime createdAt,
+    String? flagColor,
   }) = _Folder;
 
   factory Folder.fromJson(Map<String, dynamic> json) => _$FolderFromJson(json);

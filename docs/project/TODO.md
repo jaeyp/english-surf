@@ -296,6 +296,12 @@ English sentence learning app with rich text styling and flashcard features.
 
 ## 🛠 Maintenance & Stability Log
 
+### 🔋 UI Polish & Flagging System (2026-01-09)
+- [x] **Home Screen Redesign**: Transitioned from Grid View to a clean, edge-to-edge List View layout.
+- [x] **Persistent Filters**: Implemented folder-specific color flags (Bookmarks) that persist in the database.
+- [x] **Dynamic Filtering**: Added a smart Filter Bar that automatically shows only active flags.
+- [x] **UI Refinement**: Polished the folder list item layout (Stack-based, 54px text indentation, absolute bookmark positioning) and removed generic folder icons.
+
 ### 🔋 Multi-Provider AI & Advanced Settings (2026-01-07)
 - [x] **Groq Integration**: Added support for Groq AI via REST API with `http` package.
 - [x] **Multi-Provider Architecture**: Refactored `AiRepository` as a facade pattern for easy provider switching.

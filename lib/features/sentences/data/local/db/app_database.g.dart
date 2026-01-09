@@ -37,8 +37,19 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _flagColorMeta = const VerificationMeta(
+    'flagColor',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, createdAt];
+  late final GeneratedColumn<String> flagColor = GeneratedColumn<String>(
+    'flag_color',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, createdAt, flagColor];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -72,6 +83,12 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('flag_color')) {
+      context.handle(
+        _flagColorMeta,
+        flagColor.isAcceptableOrUnknown(data['flag_color']!, _flagColorMeta),
+      );
+    }
     return context;
   }
 
@@ -93,6 +110,10 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      flagColor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flag_color'],
+      ),
     );
   }
 
@@ -106,10 +127,12 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
   final String id;
   final String name;
   final DateTime createdAt;
+  final String? flagColor;
   const FolderEntry({
     required this.id,
     required this.name,
     required this.createdAt,
+    this.flagColor,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -117,6 +140,9 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || flagColor != null) {
+      map['flag_color'] = Variable<String>(flagColor);
+    }
     return map;
   }
 
@@ -125,6 +151,9 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       id: Value(id),
       name: Value(name),
       createdAt: Value(createdAt),
+      flagColor: flagColor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flagColor),
     );
   }
 
@@ -137,6 +166,7 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      flagColor: serializer.fromJson<String?>(json['flagColor']),
     );
   }
   @override
@@ -146,20 +176,27 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'flagColor': serializer.toJson<String?>(flagColor),
     };
   }
 
-  FolderEntry copyWith({String? id, String? name, DateTime? createdAt}) =>
-      FolderEntry(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        createdAt: createdAt ?? this.createdAt,
-      );
+  FolderEntry copyWith({
+    String? id,
+    String? name,
+    DateTime? createdAt,
+    Value<String?> flagColor = const Value.absent(),
+  }) => FolderEntry(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    createdAt: createdAt ?? this.createdAt,
+    flagColor: flagColor.present ? flagColor.value : this.flagColor,
+  );
   FolderEntry copyWithCompanion(FoldersCompanion data) {
     return FolderEntry(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      flagColor: data.flagColor.present ? data.flagColor.value : this.flagColor,
     );
   }
 
@@ -168,37 +205,42 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
     return (StringBuffer('FolderEntry(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('flagColor: $flagColor')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, createdAt);
+  int get hashCode => Object.hash(id, name, createdAt, flagColor);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is FolderEntry &&
           other.id == this.id &&
           other.name == this.name &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.flagColor == this.flagColor);
 }
 
 class FoldersCompanion extends UpdateCompanion<FolderEntry> {
   final Value<String> id;
   final Value<String> name;
   final Value<DateTime> createdAt;
+  final Value<String?> flagColor;
   final Value<int> rowid;
   const FoldersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.flagColor = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   FoldersCompanion.insert({
     required String id,
     required String name,
     required DateTime createdAt,
+    this.flagColor = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -207,12 +249,14 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     Expression<String>? id,
     Expression<String>? name,
     Expression<DateTime>? createdAt,
+    Expression<String>? flagColor,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (createdAt != null) 'created_at': createdAt,
+      if (flagColor != null) 'flag_color': flagColor,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -221,12 +265,14 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     Value<String>? id,
     Value<String>? name,
     Value<DateTime>? createdAt,
+    Value<String?>? flagColor,
     Value<int>? rowid,
   }) {
     return FoldersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
+      flagColor: flagColor ?? this.flagColor,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -243,6 +289,9 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (flagColor.present) {
+      map['flag_color'] = Variable<String>(flagColor.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -255,6 +304,7 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
+          ..write('flagColor: $flagColor, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -839,6 +889,7 @@ typedef $$FoldersTableCreateCompanionBuilder =
       required String id,
       required String name,
       required DateTime createdAt,
+      Value<String?> flagColor,
       Value<int> rowid,
     });
 typedef $$FoldersTableUpdateCompanionBuilder =
@@ -846,6 +897,7 @@ typedef $$FoldersTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> name,
       Value<DateTime> createdAt,
+      Value<String?> flagColor,
       Value<int> rowid,
     });
 
@@ -893,6 +945,11 @@ class $$FoldersTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get flagColor => $composableBuilder(
+    column: $table.flagColor,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -945,6 +1002,11 @@ class $$FoldersTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get flagColor => $composableBuilder(
+    column: $table.flagColor,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$FoldersTableAnnotationComposer
@@ -964,6 +1026,9 @@ class $$FoldersTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get flagColor =>
+      $composableBuilder(column: $table.flagColor, builder: (column) => column);
 
   Expression<T> sentencesRefs<T extends Object>(
     Expression<T> Function($$SentencesTableAnnotationComposer a) f,
@@ -1022,11 +1087,13 @@ class $$FoldersTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> flagColor = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => FoldersCompanion(
                 id: id,
                 name: name,
                 createdAt: createdAt,
+                flagColor: flagColor,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -1034,11 +1101,13 @@ class $$FoldersTableTableManager
                 required String id,
                 required String name,
                 required DateTime createdAt,
+                Value<String?> flagColor = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => FoldersCompanion.insert(
                 id: id,
                 name: name,
                 createdAt: createdAt,
+                flagColor: flagColor,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
