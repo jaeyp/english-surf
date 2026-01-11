@@ -10,7 +10,7 @@ _AiGeneratedContent _$AiGeneratedContentFromJson(Map<String, dynamic> json) =>
     _AiGeneratedContent(
       translation: json['translation'] as String,
       notes: json['notes'] as String,
-      examples: json['examples'] as String,
+      paraphrases: json['paraphrases'] as String,
       difficulty: $enumDecodeNullable(_$DifficultyEnumMap, json['difficulty']),
     );
 
@@ -18,7 +18,7 @@ Map<String, dynamic> _$AiGeneratedContentToJson(_AiGeneratedContent instance) =>
     <String, dynamic>{
       'translation': instance.translation,
       'notes': instance.notes,
-      'examples': instance.examples,
+      'paraphrases': instance.paraphrases,
       'difficulty': instance.difficulty,
     };
 

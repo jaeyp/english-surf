@@ -8,7 +8,7 @@ part 'sentence.g.dart';
 /// Represents a single English sentence for learning purposes.
 ///
 /// This entity contains an English sentence with translations,
-/// difficulty level, examples, and additional notes.
+/// difficulty level, paraphrases, and additional notes.
 @freezed
 abstract class Sentence with _$Sentence {
   const factory Sentence({
@@ -23,7 +23,7 @@ abstract class Sentence with _$Sentence {
     required String translation,
     @JsonKey(fromJson: Difficulty.fromJson, toJson: _difficultyToJson)
     required Difficulty difficulty,
-    @Default([]) List<String> examples,
+    @Default([]) List<String> paraphrases,
     @Default('') String notes,
     @Default(false) bool isFavorite,
     String? folderId,

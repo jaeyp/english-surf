@@ -6,9 +6,9 @@ Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
   - return as a SINGLE STRING joined by new line(\\n). NOT a JSON array.
   - STRICTLY ONLY English sentences. ONLY TEXT. Do NOT include any label, mark, or icon.''';
 
-  static const String _examplesContent = '''
-Create 2-3 examples that PARAPHRASE the original meaning (based on "translation") into casual and natural daily conversation english.
-  - CRITICAL: Generate ONLY if you can provide "Native-level", "Modern", and "Natural" daily conversation sentences.
+  static const String _paraphrasesContent = '''
+Create 1-2 sentences that PARAPHRASE the original meaning (based on "translation") into casual and natural daily conversation english.
+  - CRITICAL: Generate ONLY if you can provide "Native-level", "Casual", and "Natural" daily conversation sentences.
   - If the input is too simple, textbook-style, or awkward to paraphrase naturally, RETURN AN EMPTY STRING.
   - If you are not 100% sure it sounds like a native speaker, RETURN AN EMPTY STRING.
   - STRICTLY PLAIN TEXT ONLY. NO numbering, NO bullets, NO labels, NO quotation marks.
@@ -21,7 +21,7 @@ You are a modern English tutor. Task:
 2. "difficulty": one of [beginner, intermediate, advanced].
   - Classify simple sentence structures frequently used in daily conversation as 'beginner' unless they contain advanced vocabulary.
 3. "notes": $_notesContent
-4. "examples": $_examplesContent
+4. "paraphrases": $_paraphrasesContent
 
 Return JSON object.
 ''';
@@ -32,10 +32,10 @@ You are a modern English tutor. Task:
 $_notesContent
 ''';
 
-  static const String examplesInstruction =
+  static const String paraphrasesInstruction =
       '''
 You are a modern English tutor. Task:
-$_examplesContent
+$_paraphrasesContent
 Do NOT return JSON. Just the raw string text.
 ''';
 }

@@ -369,14 +369,14 @@ class $SentencesTable extends Sentences
         requiredDuringInsert: true,
       ).withConverter<Difficulty>($SentencesTable.$converterdifficulty);
   @override
-  late final GeneratedColumnWithTypeConverter<List<String>, String> examples =
-      GeneratedColumn<String>(
-        'examples',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<List<String>>($SentencesTable.$converterexamples);
+  late final GeneratedColumnWithTypeConverter<List<String>, String>
+  paraphrases = GeneratedColumn<String>(
+    'paraphrases',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  ).withConverter<List<String>>($SentencesTable.$converterparaphrases);
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
@@ -422,7 +422,7 @@ class $SentencesTable extends Sentences
     original,
     translation,
     difficulty,
-    examples,
+    paraphrases,
     notes,
     isFavorite,
     folderId,
@@ -514,10 +514,10 @@ class $SentencesTable extends Sentences
           data['${effectivePrefix}difficulty'],
         )!,
       ),
-      examples: $SentencesTable.$converterexamples.fromSql(
+      paraphrases: $SentencesTable.$converterparaphrases.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.string,
-          data['${effectivePrefix}examples'],
+          data['${effectivePrefix}paraphrases'],
         )!,
       ),
       notes: attachedDatabase.typeMapping.read(
@@ -544,7 +544,7 @@ class $SentencesTable extends Sentences
       const SentenceTextConverter();
   static TypeConverter<Difficulty, String> $converterdifficulty =
       const DifficultyConverter();
-  static TypeConverter<List<String>, String> $converterexamples =
+  static TypeConverter<List<String>, String> $converterparaphrases =
       const StringListConverter();
 }
 
@@ -554,7 +554,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
   final SentenceText original;
   final String translation;
   final Difficulty difficulty;
-  final List<String> examples;
+  final List<String> paraphrases;
   final String notes;
   final bool isFavorite;
   final String? folderId;
@@ -564,7 +564,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     required this.original,
     required this.translation,
     required this.difficulty,
-    required this.examples,
+    required this.paraphrases,
     required this.notes,
     required this.isFavorite,
     this.folderId,
@@ -586,8 +586,8 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       );
     }
     {
-      map['examples'] = Variable<String>(
-        $SentencesTable.$converterexamples.toSql(examples),
+      map['paraphrases'] = Variable<String>(
+        $SentencesTable.$converterparaphrases.toSql(paraphrases),
       );
     }
     map['notes'] = Variable<String>(notes);
@@ -605,7 +605,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       original: Value(original),
       translation: Value(translation),
       difficulty: Value(difficulty),
-      examples: Value(examples),
+      paraphrases: Value(paraphrases),
       notes: Value(notes),
       isFavorite: Value(isFavorite),
       folderId: folderId == null && nullToAbsent
@@ -625,7 +625,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       original: serializer.fromJson<SentenceText>(json['original']),
       translation: serializer.fromJson<String>(json['translation']),
       difficulty: serializer.fromJson<Difficulty>(json['difficulty']),
-      examples: serializer.fromJson<List<String>>(json['examples']),
+      paraphrases: serializer.fromJson<List<String>>(json['paraphrases']),
       notes: serializer.fromJson<String>(json['notes']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       folderId: serializer.fromJson<String?>(json['folderId']),
@@ -640,7 +640,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       'original': serializer.toJson<SentenceText>(original),
       'translation': serializer.toJson<String>(translation),
       'difficulty': serializer.toJson<Difficulty>(difficulty),
-      'examples': serializer.toJson<List<String>>(examples),
+      'paraphrases': serializer.toJson<List<String>>(paraphrases),
       'notes': serializer.toJson<String>(notes),
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'folderId': serializer.toJson<String?>(folderId),
@@ -653,7 +653,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     SentenceText? original,
     String? translation,
     Difficulty? difficulty,
-    List<String>? examples,
+    List<String>? paraphrases,
     String? notes,
     bool? isFavorite,
     Value<String?> folderId = const Value.absent(),
@@ -663,7 +663,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     original: original ?? this.original,
     translation: translation ?? this.translation,
     difficulty: difficulty ?? this.difficulty,
-    examples: examples ?? this.examples,
+    paraphrases: paraphrases ?? this.paraphrases,
     notes: notes ?? this.notes,
     isFavorite: isFavorite ?? this.isFavorite,
     folderId: folderId.present ? folderId.value : this.folderId,
@@ -679,7 +679,9 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
       difficulty: data.difficulty.present
           ? data.difficulty.value
           : this.difficulty,
-      examples: data.examples.present ? data.examples.value : this.examples,
+      paraphrases: data.paraphrases.present
+          ? data.paraphrases.value
+          : this.paraphrases,
       notes: data.notes.present ? data.notes.value : this.notes,
       isFavorite: data.isFavorite.present
           ? data.isFavorite.value
@@ -696,7 +698,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           ..write('original: $original, ')
           ..write('translation: $translation, ')
           ..write('difficulty: $difficulty, ')
-          ..write('examples: $examples, ')
+          ..write('paraphrases: $paraphrases, ')
           ..write('notes: $notes, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('folderId: $folderId')
@@ -711,7 +713,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
     original,
     translation,
     difficulty,
-    examples,
+    paraphrases,
     notes,
     isFavorite,
     folderId,
@@ -725,7 +727,7 @@ class SentenceEntry extends DataClass implements Insertable<SentenceEntry> {
           other.original == this.original &&
           other.translation == this.translation &&
           other.difficulty == this.difficulty &&
-          other.examples == this.examples &&
+          other.paraphrases == this.paraphrases &&
           other.notes == this.notes &&
           other.isFavorite == this.isFavorite &&
           other.folderId == this.folderId);
@@ -737,7 +739,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
   final Value<SentenceText> original;
   final Value<String> translation;
   final Value<Difficulty> difficulty;
-  final Value<List<String>> examples;
+  final Value<List<String>> paraphrases;
   final Value<String> notes;
   final Value<bool> isFavorite;
   final Value<String?> folderId;
@@ -747,7 +749,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     this.original = const Value.absent(),
     this.translation = const Value.absent(),
     this.difficulty = const Value.absent(),
-    this.examples = const Value.absent(),
+    this.paraphrases = const Value.absent(),
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.folderId = const Value.absent(),
@@ -758,7 +760,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     required SentenceText original,
     required String translation,
     required Difficulty difficulty,
-    required List<String> examples,
+    required List<String> paraphrases,
     required String notes,
     this.isFavorite = const Value.absent(),
     this.folderId = const Value.absent(),
@@ -766,7 +768,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
        original = Value(original),
        translation = Value(translation),
        difficulty = Value(difficulty),
-       examples = Value(examples),
+       paraphrases = Value(paraphrases),
        notes = Value(notes);
   static Insertable<SentenceEntry> custom({
     Expression<int>? id,
@@ -774,7 +776,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Expression<String>? original,
     Expression<String>? translation,
     Expression<String>? difficulty,
-    Expression<String>? examples,
+    Expression<String>? paraphrases,
     Expression<String>? notes,
     Expression<bool>? isFavorite,
     Expression<String>? folderId,
@@ -785,7 +787,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       if (original != null) 'original': original,
       if (translation != null) 'translation': translation,
       if (difficulty != null) 'difficulty': difficulty,
-      if (examples != null) 'examples': examples,
+      if (paraphrases != null) 'paraphrases': paraphrases,
       if (notes != null) 'notes': notes,
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (folderId != null) 'folder_id': folderId,
@@ -798,7 +800,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
     Value<SentenceText>? original,
     Value<String>? translation,
     Value<Difficulty>? difficulty,
-    Value<List<String>>? examples,
+    Value<List<String>>? paraphrases,
     Value<String>? notes,
     Value<bool>? isFavorite,
     Value<String?>? folderId,
@@ -809,7 +811,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
       original: original ?? this.original,
       translation: translation ?? this.translation,
       difficulty: difficulty ?? this.difficulty,
-      examples: examples ?? this.examples,
+      paraphrases: paraphrases ?? this.paraphrases,
       notes: notes ?? this.notes,
       isFavorite: isFavorite ?? this.isFavorite,
       folderId: folderId ?? this.folderId,
@@ -838,9 +840,9 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
         $SentencesTable.$converterdifficulty.toSql(difficulty.value),
       );
     }
-    if (examples.present) {
-      map['examples'] = Variable<String>(
-        $SentencesTable.$converterexamples.toSql(examples.value),
+    if (paraphrases.present) {
+      map['paraphrases'] = Variable<String>(
+        $SentencesTable.$converterparaphrases.toSql(paraphrases.value),
       );
     }
     if (notes.present) {
@@ -863,7 +865,7 @@ class SentencesCompanion extends UpdateCompanion<SentenceEntry> {
           ..write('original: $original, ')
           ..write('translation: $translation, ')
           ..write('difficulty: $difficulty, ')
-          ..write('examples: $examples, ')
+          ..write('paraphrases: $paraphrases, ')
           ..write('notes: $notes, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('folderId: $folderId')
@@ -1169,7 +1171,7 @@ typedef $$SentencesTableCreateCompanionBuilder =
       required SentenceText original,
       required String translation,
       required Difficulty difficulty,
-      required List<String> examples,
+      required List<String> paraphrases,
       required String notes,
       Value<bool> isFavorite,
       Value<String?> folderId,
@@ -1181,7 +1183,7 @@ typedef $$SentencesTableUpdateCompanionBuilder =
       Value<SentenceText> original,
       Value<String> translation,
       Value<Difficulty> difficulty,
-      Value<List<String>> examples,
+      Value<List<String>> paraphrases,
       Value<String> notes,
       Value<bool> isFavorite,
       Value<String?> folderId,
@@ -1246,8 +1248,8 @@ class $$SentencesTableFilterComposer
   );
 
   ColumnWithTypeConverterFilters<List<String>, List<String>, String>
-  get examples => $composableBuilder(
-    column: $table.examples,
+  get paraphrases => $composableBuilder(
+    column: $table.paraphrases,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -1319,8 +1321,8 @@ class $$SentencesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get examples => $composableBuilder(
-    column: $table.examples,
+  ColumnOrderings<String> get paraphrases => $composableBuilder(
+    column: $table.paraphrases,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1387,8 +1389,11 @@ class $$SentencesTableAnnotationComposer
         builder: (column) => column,
       );
 
-  GeneratedColumnWithTypeConverter<List<String>, String> get examples =>
-      $composableBuilder(column: $table.examples, builder: (column) => column);
+  GeneratedColumnWithTypeConverter<List<String>, String> get paraphrases =>
+      $composableBuilder(
+        column: $table.paraphrases,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
@@ -1455,7 +1460,7 @@ class $$SentencesTableTableManager
                 Value<SentenceText> original = const Value.absent(),
                 Value<String> translation = const Value.absent(),
                 Value<Difficulty> difficulty = const Value.absent(),
-                Value<List<String>> examples = const Value.absent(),
+                Value<List<String>> paraphrases = const Value.absent(),
                 Value<String> notes = const Value.absent(),
                 Value<bool> isFavorite = const Value.absent(),
                 Value<String?> folderId = const Value.absent(),
@@ -1465,7 +1470,7 @@ class $$SentencesTableTableManager
                 original: original,
                 translation: translation,
                 difficulty: difficulty,
-                examples: examples,
+                paraphrases: paraphrases,
                 notes: notes,
                 isFavorite: isFavorite,
                 folderId: folderId,
@@ -1477,7 +1482,7 @@ class $$SentencesTableTableManager
                 required SentenceText original,
                 required String translation,
                 required Difficulty difficulty,
-                required List<String> examples,
+                required List<String> paraphrases,
                 required String notes,
                 Value<bool> isFavorite = const Value.absent(),
                 Value<String?> folderId = const Value.absent(),
@@ -1487,7 +1492,7 @@ class $$SentencesTableTableManager
                 original: original,
                 translation: translation,
                 difficulty: difficulty,
-                examples: examples,
+                paraphrases: paraphrases,
                 notes: notes,
                 isFavorite: isFavorite,
                 folderId: folderId,

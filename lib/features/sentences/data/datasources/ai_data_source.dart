@@ -8,7 +8,7 @@ abstract class AiDataSource {
 
   Future<String> generateNotes(String originalText);
 
-  Future<String> generateExamples({
+  Future<String> generateParaphrases({
     required String originalText,
     required String translation,
   });

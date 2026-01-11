@@ -1,4 +1,3 @@
-import 'package:googleai_dart/googleai_dart.dart';
 import '../../domain/entities/ai_generated_content.dart';
 import '../../domain/repositories/ai_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
@@ -43,12 +42,12 @@ class AiRepositoryImpl implements AiRepository {
   }
 
   @override
-  Future<String> generateExamples({
+  Future<String> generateParaphrases({
     required String originalText,
     required String translation,
   }) async {
     final dataSource = await _getCurrentDataSource();
-    return dataSource.generateExamples(
+    return dataSource.generateParaphrases(
       originalText: originalText,
       translation: translation,
     );
