@@ -209,10 +209,10 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 8),
             _buildStyledNotes(widget.sentence.notes),
           ],
-          if (widget.sentence.examples.isNotEmpty) ...[
+          if (widget.sentence.paraphrases.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Text(
-              'Examples:',
+              'Paraphrases:',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -220,11 +220,11 @@ class _SentenceCardState extends State<SentenceCard>
               ),
             ),
             const SizedBox(height: 12),
-            ...widget.sentence.examples.map(
-              (example) => Padding(
+            ...widget.sentence.paraphrases.map(
+              (paraphrase) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  example,
+                  paraphrase,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black87,
@@ -261,10 +261,10 @@ class _SentenceCardState extends State<SentenceCard>
             const SizedBox(height: 8),
             _buildStyledNotes(widget.sentence.notes),
           ],
-          if (widget.sentence.examples.isNotEmpty) ...[
+          if (widget.sentence.paraphrases.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Text(
-              'Examples:',
+              'Paraphrases:',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -272,11 +272,11 @@ class _SentenceCardState extends State<SentenceCard>
               ),
             ),
             const SizedBox(height: 12),
-            ...widget.sentence.examples.map(
-              (example) => Padding(
+            ...widget.sentence.paraphrases.map(
+              (paraphrase) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  example,
+                  paraphrase,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black87,

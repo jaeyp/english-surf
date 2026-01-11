@@ -50,7 +50,7 @@ void main() {
         translation: 'Translated Text',
         difficulty: Difficulty.beginner,
         notes: 'Some notes',
-        examples: ['Example 1'],
+        paraphrases: ['Example 1'],
       );
 
       await tester.pumpWidget(

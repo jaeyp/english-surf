@@ -31,7 +31,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
   late StyledTextEditingController _originalController;
   late TextEditingController _translationController;
   late TextEditingController _notesController;
-  late List<TextEditingController> _exampleControllers;
+  late List<TextEditingController> _paraphraseControllers;
   late Difficulty _difficulty;
   bool _isAiGenerating = false;
 
@@ -47,10 +47,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     _translationController = TextEditingController(text: s?.translation ?? '');
     _notesController = TextEditingController(text: s?.notes ?? '');
     _difficulty = s?.difficulty ?? Difficulty.beginner;
-    _exampleControllers =
-        s?.examples.map((e) => TextEditingController(text: e)).toList() ?? [];
-    if (_exampleControllers.isEmpty) {
-      _exampleControllers.add(TextEditingController());
+    _paraphraseControllers =
+        s?.paraphrases.map((e) => TextEditingController(text: e)).toList() ??
+        [];
+    if (_paraphraseControllers.isEmpty) {
+      _paraphraseControllers.add(TextEditingController());
     }
   }
 
@@ -59,21 +60,21 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     _originalController.dispose();
     _translationController.dispose();
     _notesController.dispose();
-    for (var controller in _exampleControllers) {
+    for (var controller in _paraphraseControllers) {
       controller.dispose();
     }
     super.dispose();
   }
 
-  void _addExample() {
+  void _addParaphrase() {
     setState(() {
-      _exampleControllers.add(TextEditingController());
+      _paraphraseControllers.add(TextEditingController());
     });
   }
 
-  void _removeExample(int index) {
+  void _removeParaphrase(int index) {
     setState(() {
-      _exampleControllers.removeAt(index);
+      _paraphraseControllers.removeAt(index);
     });
   }
 
@@ -103,7 +104,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
       translation: _translationController.text,
       difficulty: _difficulty,
       notes: _notesController.text,
-      examples: _exampleControllers
+      paraphrases: _paraphraseControllers
           .map((c) => c.text)
           .where((t) => t.isNotEmpty)
           .toList(),
@@ -164,24 +165,26 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
           _difficulty = result.difficulty!;
         }
 
-        // Populate examples
-        final examplesList = result.examples
+        // Populate paraphrases
+        final paraphrasesList = result.paraphrases
             .split('\n')
             .where((line) => line.trim().isNotEmpty)
             .toList();
 
-        if (examplesList.isNotEmpty) {
-          _exampleControllers.clear();
-          for (var ex in examplesList) {
-            final cleanEx = ex
+        if (paraphrasesList.isNotEmpty) {
+          _paraphraseControllers.clear();
+          for (var item in paraphrasesList) {
+            final cleanItem = item
                 .replaceFirst(RegExp(r'^(\d+\.|\-|\*)\s*'), '')
                 .trim();
-            if (cleanEx.isNotEmpty) {
-              _exampleControllers.add(TextEditingController(text: cleanEx));
+            if (cleanItem.isNotEmpty) {
+              _paraphraseControllers.add(
+                TextEditingController(text: cleanItem),
+              );
             }
           }
-          if (_exampleControllers.isEmpty) {
-            _exampleControllers.add(TextEditingController());
+          if (_paraphraseControllers.isEmpty) {
+            _paraphraseControllers.add(TextEditingController());
           }
         }
       });
@@ -241,7 +244,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     }
   }
 
-  Future<void> _generateExamples() async {
+  Future<void> _generateParaphrases() async {
     final originalText = _originalController.text.trim();
     if (originalText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -255,28 +258,28 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     try {
       final aiRepo = await ref.read(aiRepositoryProvider.future);
       final translation = _translationController.text;
-      final examplesText = await aiRepo.generateExamples(
+      final paraphrasesText = await aiRepo.generateParaphrases(
         originalText: originalText,
         translation: translation,
       );
 
       setState(() {
-        // Populate examples
-        final examplesList = examplesText
+        // Populate paraphrases
+        final paraphrasesList = paraphrasesText
             .split('\n')
             .where((line) => line.trim().isNotEmpty)
             .toList();
 
-        if (examplesList.isNotEmpty) {
-          _exampleControllers.clear();
-          for (var ex in examplesList) {
+        if (paraphrasesList.isNotEmpty) {
+          _paraphraseControllers.clear();
+          for (var item in paraphrasesList) {
             // Further cleanup if needed, though repo handles it
-            if (ex.isNotEmpty) {
-              _exampleControllers.add(TextEditingController(text: ex));
+            if (item.isNotEmpty) {
+              _paraphraseControllers.add(TextEditingController(text: item));
             }
           }
-          if (_exampleControllers.isEmpty) {
-            _exampleControllers.add(TextEditingController());
+          if (_paraphraseControllers.isEmpty) {
+            _paraphraseControllers.add(TextEditingController());
           }
         }
       });
@@ -284,12 +287,12 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Examples refreshed!')));
+        ).showSnackBar(const SnackBar(content: Text('Paraphrases refreshed!')));
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error generating examples: $e')),
+          SnackBar(content: Text('Error generating paraphrases: $e')),
         );
       }
     } finally {
@@ -516,7 +519,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Examples:',
+                          'Paraphrases:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Row(
@@ -525,14 +528,14 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                             IconButton(
                               onPressed: _isAiGenerating
                                   ? null
-                                  : _generateExamples,
+                                  : _generateParaphrases,
                               icon: const Icon(Icons.refresh, size: 24),
-                              tooltip: 'Refresh Examples with AI',
+                              tooltip: 'Refresh Paraphrases with AI',
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                             ),
                             IconButton(
-                              onPressed: _addExample,
+                              onPressed: _addParaphrase,
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                               icon: const Icon(
@@ -544,7 +547,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                         ),
                       ],
                     ),
-                    ..._exampleControllers.asMap().entries.map((entry) {
+                    ..._paraphraseControllers.asMap().entries.map((entry) {
                       final index = entry.key;
                       final controller = entry.value;
                       return Padding(
@@ -558,7 +561,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                                 maxLines: 5, // Grow dynamically up to 5 lines
                                 style: const TextStyle(color: Colors.black87),
                                 decoration: InputDecoration(
-                                  hintText: 'Example ${index + 1}',
+                                  hintText: 'Paraphrase ${index + 1}',
                                   filled: true,
                                   fillColor: const Color(0xFFF1F8E9),
                                   border: OutlineInputBorder(
@@ -570,7 +573,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                             ),
                             const SizedBox(width: 4), // Reduced from 8
                             IconButton(
-                              onPressed: () => _removeExample(index),
+                              onPressed: () => _removeParaphrase(index),
                               padding: EdgeInsets.zero, // Remove padding
                               constraints:
                                   const BoxConstraints(), // Tight constraints

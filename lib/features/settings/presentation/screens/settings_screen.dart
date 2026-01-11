@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../sentences/application/providers/sentence_providers.dart';
 import '../../../sentences/domain/enums/ai_provider.dart';
 import '../../../sentences/data/providers/ai_providers.dart';
 import '../../../sentences/data/providers/sentence_providers.dart';
@@ -38,17 +37,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Widget _buildAiSection(SettingsRepository settingsRepo) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
             'AI Configuration',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        const _AiSettingsCard(),
+        _AiSettingsCard(),
       ],
     );
   }

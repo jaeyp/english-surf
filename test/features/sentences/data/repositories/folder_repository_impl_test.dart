@@ -93,7 +93,7 @@ void main() {
               difficulty: Difficulty.beginner,
               folderId: drift.Value(tFolder.id),
               order: 1,
-              examples: const [],
+              paraphrases: const [],
               notes: '',
             ),
           );

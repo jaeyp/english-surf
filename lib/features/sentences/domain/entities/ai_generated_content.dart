@@ -9,7 +9,7 @@ abstract class AiGeneratedContent with _$AiGeneratedContent {
   const factory AiGeneratedContent({
     required String translation,
     required String notes,
-    required String examples,
+    required String paraphrases,
     Difficulty? difficulty,
   }) = _AiGeneratedContent;
 

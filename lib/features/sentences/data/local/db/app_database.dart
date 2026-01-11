@@ -18,7 +18,7 @@ class Sentences extends Table {
   TextColumn get original => text().map(const SentenceTextConverter())();
   TextColumn get translation => text()();
   TextColumn get difficulty => text().map(const DifficultyConverter())();
-  TextColumn get examples => text().map(const StringListConverter())();
+  TextColumn get paraphrases => text().map(const StringListConverter())();
   TextColumn get notes => text()();
   BoolColumn get isFavorite => boolean().withDefault(const Constant(false))();
   TextColumn get folderId => text().nullable().references(Folders, #id)();
@@ -40,7 +40,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -72,6 +72,9 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from < 4) {
           await m.addColumn(folders, folders.flagColor);
+        }
+        if (from < 5) {
+          await m.renameColumn(sentences, 'examples', sentences.paraphrases);
         }
       },
       beforeOpen: (details) async {

@@ -26,7 +26,7 @@ class FolderFilterBar extends ConsumerWidget {
         return _sortFlags(flags);
       },
       loading: () => [null],
-      error: (_, __) => [null],
+      error: (err, st) => [null],
     );
 
     return SizedBox(

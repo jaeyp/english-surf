@@ -10,7 +10,7 @@ void main() {
   "translation": "테스트 번역",
   "difficulty": "beginner",
   "notes": "테스트 노트",
-  "examples": "Example 1\\nExample 2"
+  "paraphrases": "Example 1\\nExample 2"
 }
 ''';
 
@@ -19,7 +19,7 @@ void main() {
       expect(result.translation, '테스트 번역');
       expect(result.difficulty, Difficulty.beginner);
       expect(result.notes, '테스트 노트');
-      expect(result.examples, 'Example 1\nExample 2');
+      expect(result.paraphrases, 'Example 1\nExample 2');
     });
 
     test('successfully parses AI content wrapped in markdown code blocks', () {
@@ -29,7 +29,7 @@ void main() {
   "translation": "마크다운 번역",
   "difficulty": "intermediate",
   "notes": "마크다운 노트",
-  "examples": "Markdown Example"
+  "paraphrases": "Markdown Example"
 }
 ```
 ''';
@@ -39,7 +39,7 @@ void main() {
       expect(result.translation, '마크다운 번역');
       expect(result.difficulty, Difficulty.intermediate);
       expect(result.notes, '마크다운 노트');
-      expect(result.examples, 'Markdown Example');
+      expect(result.paraphrases, 'Markdown Example');
     });
 
     test('throws exception when response is invalid JSON', () {
@@ -53,7 +53,7 @@ void main() {
 {
   "translation": "심한 감기에 걸려서 회의를 취소해야 했어요.",
   "notes": "call off: (이미 계획된 행사 등을) 취소하다\\ncome down with: (심각하지 않은 병에) 걸리다/앓아눕다\\nnasty: (상황, 병 등이) 심한, 고약한",
-  "examples": "They decided to call off the picnic due to rain.\\nI think I'm coming down with the flu.\\nThat's a nasty cough you've got there."
+  "paraphrases": "They decided to call off the picnic due to rain.\\nI think I'm coming down with the flu.\\nThat's a nasty cough you've got there."
 }
 ''';
 
@@ -64,7 +64,7 @@ void main() {
       expect(result.notes, contains('come down with'));
       expect(result.notes, contains('nasty'));
       expect(result.notes.split('\n').length, 3);
-      expect(result.examples.split('\n').length, 3);
+      expect(result.paraphrases.split('\n').length, 3);
     });
 
     test('throws exception when some keys are missing', () {

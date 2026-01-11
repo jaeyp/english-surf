@@ -14,7 +14,7 @@ void main() {
     translation: '안녕 세상',
     difficulty: Difficulty.beginner,
     notes: 'Test Note',
-    examples: ['Example 1'],
+    paraphrases: ['Example 1'],
   );
 
   group('SentenceCard', () {

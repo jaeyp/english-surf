@@ -103,19 +103,19 @@ class GroqAiDataSource implements AiDataSource {
       if (data['notes'] is List) {
         data['notes'] = (data['notes'] as List).join('\n');
       }
-      if (data['examples'] is List) {
-        data['examples'] = (data['examples'] as List).join('\n');
+      if (data['paraphrases'] is List) {
+        data['paraphrases'] = (data['paraphrases'] as List).join('\n');
       }
 
-      if (data['examples'] is String) {
-        final lines = (data['examples'] as String).split('\n');
+      if (data['paraphrases'] is String) {
+        final lines = (data['paraphrases'] as String).split('\n');
         final cleanedLines = lines
             .map((line) {
               return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
             })
             .where((l) => l.isNotEmpty)
             .toList();
-        data['examples'] = cleanedLines.join('\n');
+        data['paraphrases'] = cleanedLines.join('\n');
       }
 
       return AiGeneratedContent.fromJson(data);
@@ -138,11 +138,11 @@ class GroqAiDataSource implements AiDataSource {
   }
 
   @override
-  Future<String> generateExamples({
+  Future<String> generateParaphrases({
     required String originalText,
     required String translation,
   }) async {
-    const systemInstruction = AiPrompts.examplesInstruction;
+    const systemInstruction = AiPrompts.paraphrasesInstruction;
 
     final userPrompt =
         'ENGLISH INPUT: "$originalText"\nTRANSLATION: "$translation"';
