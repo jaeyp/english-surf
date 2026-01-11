@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import '../../domain/entities/folder.dart';
-import '../local/db/app_database.dart';
+import '../../../../core/database/app_database.dart';
 
 extension FolderEntryMapper on FolderEntry {
   Folder toDomain() {

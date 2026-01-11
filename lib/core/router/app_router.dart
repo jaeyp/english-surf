@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../features/sentences/presentation/screens/home_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
-import '../../features/sentences/presentation/screens/study_mode_screen.dart';
-import '../../features/sentences/presentation/screens/camera_ocr_screen.dart';
+import '../../features/study/presentation/screens/study_mode_screen.dart';
+import '../../features/ocr/presentation/screens/camera_ocr_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
-import '../../features/sentences/presentation/arguments/study_mode_arguments.dart';
+import '../../features/study/presentation/arguments/study_mode_arguments.dart';
 import '../../features/sentences/domain/entities/sentence.dart';
 
 part 'app_router.g.dart';

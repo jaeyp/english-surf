@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/native.dart';
 import 'package:english_surf/features/sentences/data/repositories/folder_repository_impl.dart';
-import 'package:english_surf/features/sentences/data/local/db/app_database.dart';
+import 'package:english_surf/core/database/app_database.dart';
 import 'package:english_surf/features/sentences/domain/entities/folder.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';

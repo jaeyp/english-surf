@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import '../local/db/app_database.dart';
+import '../../../../core/database/app_database.dart';
 import '../../domain/entities/folder.dart';
 import '../../domain/repositories/folder_repository.dart';
 import '../models/folder_mapper.dart';

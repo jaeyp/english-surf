@@ -5,8 +5,8 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '../../../domain/enums/difficulty.dart';
-import '../../../domain/value_objects/sentence_text.dart';
+import '../../../features/sentences/domain/enums/difficulty.dart';
+import '../../../features/sentences/domain/value_objects/sentence_text.dart';
 import 'converters.dart';
 
 part 'app_database.g.dart';

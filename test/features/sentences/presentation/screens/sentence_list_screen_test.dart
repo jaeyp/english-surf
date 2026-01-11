@@ -10,7 +10,7 @@ import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
 import 'package:english_surf/features/sentences/application/providers/folder_providers.dart';
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
-import 'package:english_surf/features/sentences/data/local/db/app_database.dart';
+import 'package:english_surf/core/database/app_database.dart';
 import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart';
 import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
 

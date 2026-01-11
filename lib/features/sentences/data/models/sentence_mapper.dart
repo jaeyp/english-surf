@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import '../../domain/entities/sentence.dart';
-import '../local/db/app_database.dart';
+import '../../../../core/database/app_database.dart';
 
 extension SentenceEntryMapper on SentenceEntry {
   Sentence toDomain() {

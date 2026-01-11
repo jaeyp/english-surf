@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../application/providers/folder_providers.dart';
+import '../../../sentences/application/providers/folder_providers.dart';
 
 class FolderFilterBar extends ConsumerWidget {
   const FolderFilterBar({super.key});

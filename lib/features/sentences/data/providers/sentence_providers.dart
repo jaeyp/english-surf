@@ -6,7 +6,7 @@ import '../repositories/folder_repository_impl.dart';
 import '../../domain/repositories/folder_repository.dart';
 import '../../domain/repositories/sentence_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
-import '../local/db/app_database.dart';
+import '../../../../core/database/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'sentence_providers.g.dart';

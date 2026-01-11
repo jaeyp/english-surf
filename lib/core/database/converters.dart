@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:drift/drift.dart';
-import '../../../domain/enums/difficulty.dart';
-import '../../../domain/value_objects/sentence_text.dart';
+import '../../features/sentences/domain/enums/difficulty.dart';
+import '../../features/sentences/domain/value_objects/sentence_text.dart';
 
 class DifficultyConverter extends TypeConverter<Difficulty, String> {
   const DifficultyConverter();

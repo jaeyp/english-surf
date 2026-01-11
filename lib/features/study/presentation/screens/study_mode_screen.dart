@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../domain/entities/sentence.dart';
-import '../../domain/value_objects/sentence_text.dart';
-import '../../domain/enums/difficulty.dart';
-import '../../domain/enums/sort_type.dart';
-import '../../application/providers/sentence_providers.dart';
-import '../widgets/sentence_card.dart';
+import '../../../sentences/domain/entities/sentence.dart';
+import '../../../sentences/domain/value_objects/sentence_text.dart';
+import '../../../sentences/domain/enums/difficulty.dart';
+import '../../../sentences/domain/enums/sort_type.dart';
+import '../../../sentences/application/providers/sentence_providers.dart';
+import '../../../sentences/presentation/widgets/sentence_card.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;

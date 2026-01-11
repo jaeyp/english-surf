@@ -8,7 +8,7 @@ import '../widgets/sentence_list_item.dart';
 import '../widgets/sentence_filter_bar.dart';
 import '../widgets/selection_bottom_bar.dart';
 import 'package:go_router/go_router.dart';
-import '../../presentation/arguments/study_mode_arguments.dart';
+import '../../../study/presentation/arguments/study_mode_arguments.dart';
 
 class SentenceListScreen extends ConsumerStatefulWidget {
   const SentenceListScreen({super.key});

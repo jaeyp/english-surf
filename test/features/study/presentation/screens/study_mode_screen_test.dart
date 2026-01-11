@@ -3,7 +3,7 @@ import 'package:english_surf/features/sentences/application/providers/sentence_p
 import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';
-import 'package:english_surf/features/sentences/presentation/screens/study_mode_screen.dart';
+import 'package:english_surf/features/study/presentation/screens/study_mode_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

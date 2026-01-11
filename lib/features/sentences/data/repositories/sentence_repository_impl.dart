@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import '../../domain/entities/sentence.dart';
 import '../../domain/repositories/sentence_repository.dart';
 import '../datasources/sentence_local_data_source.dart';
-import '../local/db/app_database.dart';
+import '../../../../core/database/app_database.dart';
 import '../models/sentence_mapper.dart';
 
 class SentenceRepositoryImpl implements SentenceRepository {
