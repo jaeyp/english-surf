@@ -296,6 +296,12 @@ English sentence learning app with rich text styling and flashcard features.
 
 ## 🛠 Maintenance & Stability Log
 
+### 🔋 Modular Architecture & Content Refresh (2026-01-11)
+- [x] **Feature-First Refactoring**: Restructured the entire codebase into modular features (`features/home`, `features/study`, `features/ocr`) and a core layer (`core/database`).
+- [x] **Code Cleanup**: Removed massive unused boilerplate code (`features/home`), cleaned up `features/sentences`, and centralized routing and database logic.
+- [x] **Content Refresh ("Paraphrases")**: Renamed "Examples" to "Paraphrases" across the entire domain (Entities, AI Prompts, UI, DB).
+- [x] **Data Quality**: Refreshed all 100+ items in `sentences.json` to have high-quality, casual 1-2 sentence paraphrases instead of rigorous examples.
+
 ### 🔋 UI Polish & Flagging System (2026-01-09)
 - [x] **Home Screen Redesign**: Transitioned from Grid View to a clean, edge-to-edge List View layout.
 - [x] **Persistent Filters**: Implemented folder-specific color flags (Bookmarks) that persist in the database.

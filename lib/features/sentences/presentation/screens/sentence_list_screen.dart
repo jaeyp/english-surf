@@ -129,7 +129,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
             bottom: isSelectionMode
                 ? null
                 : const PreferredSize(
-                    preferredSize: Size.fromHeight(66),
+                    preferredSize: Size.fromHeight(60),
                     child: SentenceFilterBar(),
                   ),
           ),

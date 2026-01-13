@@ -24,7 +24,7 @@ class SentenceFilterBar extends ConsumerWidget {
             left: 16,
             right: 16,
             top: 8,
-            bottom: 20,
+            bottom: 8,
           ),
           child: Row(
             children: [
