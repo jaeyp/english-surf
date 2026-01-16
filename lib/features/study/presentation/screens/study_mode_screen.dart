@@ -218,16 +218,6 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: Icon(
-                    currentSentence.isFavorite ? Icons.star : Icons.star_border,
-                    size: 20,
-                    color: currentSentence.isFavorite ? Colors.red : null,
-                  ),
-                  onPressed: () => ref
-                      .read(sentenceListProvider.notifier)
-                      .toggleFavorite(currentSentence.id),
-                ),
-                IconButton(
                   icon: const Icon(Icons.edit, size: 20),
                   onPressed: () =>
                       context.push('/edit', extra: currentSentence),
@@ -327,6 +317,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                                 }
                               }
                             },
+                            onFavoriteToggle: () => ref
+                                .read(sentenceListProvider.notifier)
+                                .toggleFavorite(sentences[index].id),
                           );
                         },
                       ),

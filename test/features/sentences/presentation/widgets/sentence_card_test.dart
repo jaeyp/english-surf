@@ -119,6 +119,35 @@ void main() {
         expect(find.text('안녕 세상'), findsOneWidget);
       },
     );
+
+    testWidgets('should display star icon and trigger callback', (
+      tester,
+    ) async {
+      bool isFavoriteToggled = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SentenceCard(
+              sentence: testSentence.copyWith(isFavorite: true),
+              languageMode: LanguageMode.originalToTranslation,
+              onFavoriteToggle: () {
+                isFavoriteToggled = true;
+              },
+            ),
+          ),
+        ),
+      );
+
+      // Verify star icon presence
+      expect(find.byIcon(Icons.star), findsOneWidget);
+
+      // Tap the star icon
+      await tester.tap(find.byIcon(Icons.star));
+      await tester.pump();
+
+      // Verify callback triggered
+      expect(isFavoriteToggled, isTrue);
+    });
   });
 }
 

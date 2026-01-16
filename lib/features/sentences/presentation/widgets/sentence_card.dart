@@ -9,6 +9,7 @@ class SentenceCard extends StatefulWidget {
   final LanguageMode languageMode;
   final EdgeInsets padding;
   final ValueChanged<bool>? onFlip;
+  final VoidCallback? onFavoriteToggle;
 
   const SentenceCard({
     super.key,
@@ -16,6 +17,7 @@ class SentenceCard extends StatefulWidget {
     required this.languageMode,
     this.padding = EdgeInsets.zero,
     this.onFlip,
+    this.onFavoriteToggle,
   });
 
   @override
@@ -111,37 +113,53 @@ class _SentenceCardState extends State<SentenceCard>
       elevation: 4,
       color: const Color(0xFFF1F8E9), // Light Pastel Green
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Container(
-        width: double.infinity,
-        height: 400, // Fixed height for card
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
-                      child: Center(child: content),
-                    ),
-                  );
-                },
-              ),
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: 400, // Fixed height for card
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: Center(child: content),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                if (isFront) ...[
+                  const SizedBox(height: 16),
+                  const Text(
+                    '💡 Tap to see answer',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ],
             ),
-            if (isFront) ...[
-              const SizedBox(height: 16),
-              const Text(
-                '💡 Tap to see answer',
-                style: TextStyle(color: Colors.grey),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: IconButton(
+              icon: Icon(
+                widget.sentence.isFavorite ? Icons.star : Icons.star_border,
+                size: 28,
+                color: widget.sentence.isFavorite ? Colors.teal : Colors.grey,
               ),
-            ],
-          ],
-        ),
+              onPressed: widget.onFavoriteToggle,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -153,8 +171,7 @@ class _SentenceCardState extends State<SentenceCard>
 
     return Column(
       children: lines.map((line) {
-        // Find the first occurrence of '/' which usually starts the phonetic spelling
-        final splitIndex = line.indexOf('/');
+        final splitIndex = line.indexOf(':');
 
         if (splitIndex != -1) {
           final expression = line.substring(0, splitIndex);
@@ -201,10 +218,16 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SentenceTextView(sentenceText: widget.sentence.original, fontSize: 24),
+        Padding(
+          padding: showNotes ? const EdgeInsets.all(6.0) : EdgeInsets.zero,
+          child: SentenceTextView(
+            sentenceText: widget.sentence.original,
+            fontSize: showNotes ? 22 : 24,
+          ),
+        ),
         if (showNotes) ...[
           if (widget.sentence.notes.isNotEmpty) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             const Divider(),
             const SizedBox(height: 8),
             _buildStyledNotes(widget.sentence.notes),
@@ -244,19 +267,23 @@ class _SentenceCardState extends State<SentenceCard>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          widget.sentence.translation,
-          style: const TextStyle(
-            fontSize: 22,
-            height: 1.5,
-            color: Colors.black87,
-            fontWeight: FontWeight.w500,
+        Padding(
+          padding: showNotes ? const EdgeInsets.all(6.0) : EdgeInsets.zero,
+          child: Text(
+            widget.sentence.translation,
+            style: TextStyle(
+              fontSize: showNotes ? 21 : 22,
+              height: showNotes ? 1.4 : 1.5,
+              color: Colors.black87,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
+
         if (showNotes) ...[
           if (widget.sentence.notes.isNotEmpty) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             const Divider(),
             const SizedBox(height: 8),
             _buildStyledNotes(widget.sentence.notes),
