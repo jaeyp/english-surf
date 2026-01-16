@@ -200,7 +200,7 @@ class _SentenceCardState extends State<SentenceCard>
             ),
           );
         } else {
-          // Fallback if no '/' found
+          // Fallback if no ':' found
           return Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: Text(
@@ -214,15 +214,58 @@ class _SentenceCardState extends State<SentenceCard>
     );
   }
 
+  double _getAdaptiveFontSize(
+    int textLength, {
+    required bool isOriginal,
+    required bool showNotes,
+  }) {
+    double baseSize;
+    double offset = 0;
+    if (isOriginal) {
+      if (textLength < 100) {
+        baseSize = 24;
+        offset = 2;
+      } else if (textLength < 200) {
+        baseSize = 22;
+        offset = 1;
+      } else {
+        baseSize = 20;
+      }
+    } else {
+      // Translation tends to be shorter/denser in Korean
+      if (textLength < 80) {
+        baseSize = 22;
+        offset = 1;
+      } else if (textLength < 160) {
+        baseSize = 20;
+        offset = 1;
+      } else {
+        baseSize = 18;
+      }
+    }
+
+    if (!showNotes) return baseSize;
+
+    return baseSize - offset;
+  }
+
   Widget _buildOriginalContent({bool showNotes = false}) {
+    final fontSize = _getAdaptiveFontSize(
+      widget.sentence.original.text.length,
+      isOriginal: true,
+      showNotes: showNotes,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: showNotes ? const EdgeInsets.all(6.0) : EdgeInsets.zero,
+          padding: showNotes
+              ? const EdgeInsets.fromLTRB(4, 12, 4, 4)
+              : const EdgeInsets.only(top: 12),
           child: SentenceTextView(
             sentenceText: widget.sentence.original,
-            fontSize: showNotes ? 22 : 24,
+            fontSize: fontSize,
           ),
         ),
         if (showNotes) ...[
@@ -264,15 +307,23 @@ class _SentenceCardState extends State<SentenceCard>
   }
 
   Widget _buildTranslationContent({bool showNotes = false}) {
+    final fontSize = _getAdaptiveFontSize(
+      widget.sentence.translation.length,
+      isOriginal: false,
+      showNotes: showNotes,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: showNotes ? const EdgeInsets.all(6.0) : EdgeInsets.zero,
+          padding: showNotes
+              ? const EdgeInsets.fromLTRB(4, 12, 4, 4)
+              : const EdgeInsets.only(top: 12),
           child: Text(
             widget.sentence.translation,
             style: TextStyle(
-              fontSize: showNotes ? 21 : 22,
+              fontSize: fontSize,
               height: showNotes ? 1.4 : 1.5,
               color: Colors.black87,
               fontWeight: FontWeight.w500,
