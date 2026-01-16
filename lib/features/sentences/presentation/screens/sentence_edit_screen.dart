@@ -271,13 +271,15 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
             .toList();
 
         if (paraphrasesList.isNotEmpty) {
-          _paraphraseControllers.clear();
+          // Remove ALL empty controllers to keep the list clean
+          _paraphraseControllers.removeWhere((c) => c.text.trim().isEmpty);
+
           for (var item in paraphrasesList) {
-            // Further cleanup if needed, though repo handles it
             if (item.isNotEmpty) {
               _paraphraseControllers.add(TextEditingController(text: item));
             }
           }
+
           if (_paraphraseControllers.isEmpty) {
             _paraphraseControllers.add(TextEditingController());
           }

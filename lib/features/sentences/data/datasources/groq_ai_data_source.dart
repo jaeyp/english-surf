@@ -26,6 +26,7 @@ class GroqAiDataSource implements AiDataSource {
     required String prompt,
     required String systemInstruction,
     bool jsonMode = false,
+    double? temperature,
   }) async {
     final body = {
       'model': _modelName,
@@ -34,6 +35,7 @@ class GroqAiDataSource implements AiDataSource {
         {'role': 'user', 'content': prompt},
       ],
       if (jsonMode) 'response_format': {'type': 'json_object'},
+      if (temperature != null) 'temperature': temperature,
     };
 
     developer.log(
@@ -151,6 +153,7 @@ class GroqAiDataSource implements AiDataSource {
       prompt: userPrompt,
       systemInstruction: systemInstruction,
       jsonMode: false,
+      temperature: 1.3, // Higher temperature for more variety
     );
 
     var cleanText = text.replaceAll('```', '').trim();
