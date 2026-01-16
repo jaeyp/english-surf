@@ -372,6 +372,17 @@ English sentence learning app with rich text styling and flashcard features.
     - *Requirement*: Instead of 134 items, provide only one "perfect" representative sentence for each difficulty (Beginner, Intermediate, Advanced) with rich notes/examples to guide the user.
 - [ ] **Spaced Repetition System (SRS)**: Implement an algorithm like Anki for more efficient learning.
 - [ ] **Voice Pronunciation**: Integrate Text-to-Speech (TTS) for the original sentences.
+    - [ ] **Supertonic TTS (High Quality On-Device)**
+        - *Consideration*: App size impact is ~290MB (268MB models + 20MB engine).
+        - *Requirement*: Must implement **On-Demand Download** logic (e.g., "Download Voice Pack").
+        - *Version*: Supertonic v2.0.0 (Supports English, Korean).
+        - **Implementation Guide** (Verified 2026-01-13):
+            1. **No Package**: Not available on pub.dev. Must verify `flutter_onnxruntime` support.
+            2. **Code Porting**: Must manually copy logic from `flutter/lib/helper.dart` (TTS engine, text preprocessing) from [supertone-inc/supertonic](https://github.com/supertone-inc/supertonic).
+            3. **Assets**: ONNX models must be downloaded from HuggingFace (`Supertone/supertonic-2`) and placed in a known directory.
+            4. **Engine**: Relies on `flutter_onnxruntime` for inference and `just_audio` for playback.
+            5. **iOS Optimization**: Convert ONNX models to Core ML format to utilize Apple Neural Engine (ANE) efficiently on iPhone.
+    - [ ] **System TTS**: Fallback lightweight option.
 - [ ] **Cloud Sync**: Allow users to sync their data across devices using Firebase or Supabase.
 - [ ] **Performance & Hardening**
     - [ ] **Database Stress Test**: Ensure performance remains stable with 1000+ sentences.
