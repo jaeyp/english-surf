@@ -162,7 +162,10 @@ class _AiSettingsCardState extends ConsumerState<_AiSettingsCard> {
                   border: OutlineInputBorder(),
                 ),
                 items: _selectedProvider!.availableModels.map((model) {
-                  return DropdownMenuItem(value: model, child: Text(model));
+                  return DropdownMenuItem(
+                    value: model,
+                    child: Text(_selectedProvider!.getModelDisplayLabel(model)),
+                  );
                 }).toList(),
                 onChanged: _updateModel,
               ),

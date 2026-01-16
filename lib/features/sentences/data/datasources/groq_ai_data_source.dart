@@ -159,6 +159,8 @@ class GroqAiDataSource implements AiDataSource {
     );
 
     var cleanText = text.replaceAll('```', '').trim();
+    cleanText = cleanText.replaceAll('\\n', '\n');
+
     final lines = cleanText.split('\n');
     final cleanedLines = lines
         .map((line) {
