@@ -88,6 +88,8 @@ class GroqAiDataSource implements AiDataSource {
       prompt: userPrompt,
       systemInstruction: systemInstruction,
       jsonMode: true,
+      temperature:
+          0.3, // Lower temperature for accurate translation/definitions
     );
 
     return parseResponse(text);

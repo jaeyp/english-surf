@@ -1,8 +1,8 @@
 class AiPrompts {
   static const String _notesContent = '''
 Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
-  - FORMAT: "English expression: meaning" (e.g., "get up /ɡɛt ʌp/ (got up-gotten up): to rise from a bed after sleeping").
-  - If an expression has multiple meanings, provide up to 2-3 most representative meanings. (e.g., "take off /teɪk ɔːf/ (took off-taken off): (1) to leave the ground and begin to fly (2) to remove a piece of clothing (3) to suddenly become very successful or popular")
+  - FORMAT: "English expression: meaning" (e.g., "get up: to rise from a bed after sleeping").
+  - If an expression has multiple meanings, provide up to 2-3 most representative meanings. (e.g., "take off: (1) to leave the ground and begin to fly (2) to remove a piece of clothing (3) to suddenly become very successful or popular")
   - return as a SINGLE STRING joined by new line(\\n). NOT a JSON array.
   - STRICTLY ONLY English sentences. ONLY TEXT. Do NOT include any label, mark, or icon.''';
 
@@ -17,13 +17,20 @@ Create 1-2 sentences that PARAPHRASE the original meaning (based on "translation
   static const String autoFillInstruction =
       '''
 You are a modern English tutor. Task:
-1. "translation": Natural Korean translation of the input.
+1. "translation": Natural Korean translation of the input. STRICTLY KOREAN ONLY. Do NOT use any other foreign languages.
 2. "difficulty": one of [beginner, intermediate, advanced].
   - Classify simple sentence structures frequently used in daily conversation as 'beginner' unless they contain advanced vocabulary.
 3. "notes": $_notesContent
 4. "paraphrases": $_paraphrasesContent
 
 Return JSON object.
+Example format:
+{
+  "translation": "한국어 번역 결과",
+  "difficulty": "beginner",
+  "notes": "notes content...",
+  "paraphrases": "paraphrases content..."
+}
 ''';
 
   static const String notesInstruction =
