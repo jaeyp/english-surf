@@ -101,14 +101,14 @@ void main() {
     await tester.pumpAndSettle();
 
     // Find the More Vert icon specifically for 'Study Folder' (folder1)
-    // Since 'Default' doesn't have one, finding by Icon should invoke only one if there are 2 folders and 1 has menu.
-    // However, if there are other MoreVerts (e.g. AppBar?), we need to be specific.
-    // The previous test failed due to ambiguity.
-    // Assuming 'Default' (index 0) has NO menu, 'Study Folder' (index 1) HAS menu.
-    // Safe finder: find descendant of the row with text "Study Folder".
-    final studyFolderFinder = find.widgetWithText(InkWell, 'Study Folder');
+    // Safe finder: Find the interactive card (InkWell) that contains "Study Folder"
+    final folderCardFinder = find.ancestor(
+      of: find.text('Study Folder'),
+      matching: find.byType(InkWell),
+    );
+
     final moreIconFinder = find.descendant(
-      of: studyFolderFinder,
+      of: folderCardFinder,
       matching: find.byIcon(Icons.more_vert),
     );
 

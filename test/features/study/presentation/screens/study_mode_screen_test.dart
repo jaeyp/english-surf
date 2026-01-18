@@ -207,7 +207,8 @@ void main() {
       );
 
       // 1. Flip the card to back (pauses timer)
-      await tester.tapAt(const Offset(400, 300));
+      // Tap near top of card to avoid SelectableText consuming the tap
+      await tester.tapAt(const Offset(400, 150));
       await tester.pumpAndSettle(); // Wait for flip animation
 
       // Advance 2 seconds -> should STILL be 9
@@ -226,7 +227,7 @@ void main() {
       );
 
       // 2. Flip back to front (resumes timer)
-      await tester.tapAt(const Offset(400, 300));
+      await tester.tapAt(const Offset(400, 150));
       await tester.pumpAndSettle();
 
       // Advance 1 second -> should be 8

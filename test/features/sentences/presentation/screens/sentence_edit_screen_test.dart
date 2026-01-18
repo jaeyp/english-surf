@@ -30,14 +30,17 @@ void main() {
         ),
       );
 
+      // Verify Title
       expect(find.text('Add Sentence'), findsOneWidget);
-      expect(find.byType(TextFormField), findsAtLeastNWidgets(3));
 
-      // Verify Bottom Buttons
-      expect(find.text('Save'), findsOneWidget);
-      expect(find.text('Cancel'), findsOneWidget);
-      expect(find.byType(ElevatedButton), findsOneWidget); // Save
-      expect(find.byType(OutlinedButton), findsOneWidget); // Cancel
+      // Verify Labels/Hints (Behavior: User sees these prompts)
+      expect(find.text('Key Sentence:'), findsOneWidget);
+      expect(find.text('Translation:'), findsOneWidget);
+      expect(find.text('Difficulty:'), findsOneWidget);
+
+      // Verify Buttons
+      expect(find.widgetWithText(ElevatedButton, 'Save'), findsOneWidget);
+      expect(find.widgetWithText(OutlinedButton, 'Cancel'), findsOneWidget);
     });
 
     testWidgets('should display existing sentence data in edit mode', (
@@ -64,17 +67,16 @@ void main() {
         ),
       );
 
+      // Verify Title
       expect(find.text('Edit Sentence'), findsOneWidget);
 
-      final textFields = tester
-          .widgetList<TextFormField>(find.byType(TextFormField))
-          .toList();
-      expect(textFields[0].controller?.text, 'Original Text');
-      expect(textFields[1].controller?.text, 'Translated Text');
-      expect(textFields[2].controller?.text, 'Some notes');
-      expect(textFields[3].controller?.text, 'Example 1');
+      // Verify Content is visible (Behavior: User sees the data they are editing)
+      expect(find.text('Original Text'), findsOneWidget);
+      expect(find.text('Translated Text'), findsOneWidget);
+      expect(find.text('Some notes'), findsOneWidget);
+      expect(find.text('Example 1'), findsOneWidget);
 
-      // Verify Save button is still there
+      // Verify Save button
       expect(find.widgetWithText(ElevatedButton, 'Save'), findsOneWidget);
     });
   });

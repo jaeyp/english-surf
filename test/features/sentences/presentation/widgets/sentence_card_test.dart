@@ -33,7 +33,7 @@ void main() {
         );
 
         // Front should show Original (RichText)
-        expect(findRichText('Hello World'), findsOneWidget);
+        expect(find.text('Hello World', findRichText: true), findsOneWidget);
         expect(find.text('안녕 세상'), findsNothing);
       },
     );
@@ -54,7 +54,7 @@ void main() {
 
         // Front should show Translation (Text)
         expect(find.text('안녕 세상'), findsOneWidget);
-        expect(findRichText('Hello World'), findsNothing);
+        expect(find.text('Hello World', findRichText: true), findsNothing);
       },
     );
 
@@ -73,7 +73,7 @@ void main() {
         );
 
         // Initial: Front (Original)
-        expect(findRichText('Hello World'), findsOneWidget);
+        expect(find.text('Hello World', findRichText: true), findsOneWidget);
 
         // Tap near top of card to avoid SelectableText (which consumes taps)
         // Card is centered in 600h screen. Height 400. Top at 100.
@@ -109,7 +109,7 @@ void main() {
         );
 
         // Initial: Front
-        expect(findRichText('Hello World'), findsOneWidget);
+        expect(find.text('Hello World', findRichText: true), findsOneWidget);
 
         // Card is centered in 800x600 screen, occupying 300x600.
         // It starts at x = (800-300)/2 = 250.
@@ -150,23 +150,5 @@ void main() {
       // Verify callback triggered
       expect(isFavoriteToggled, isTrue);
     });
-  });
-}
-
-Finder findRichText(String text) {
-  return find.byWidgetPredicate((widget) {
-    if (widget is RichText) {
-      final span = widget.text as TextSpan;
-      return span.toPlainText().contains(text);
-    }
-    if (widget is SelectableText) {
-      if (widget.data != null) {
-        return widget.data!.contains(text);
-      }
-      if (widget.textSpan != null) {
-        return widget.textSpan!.toPlainText().contains(text);
-      }
-    }
-    return false;
   });
 }
