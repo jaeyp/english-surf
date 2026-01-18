@@ -73,3 +73,29 @@ When approaching a new feature:
 Follow this process precisely, always prioritizing clean, well-tested code over quick implementation.
 
 Always write one test at a time, make it run, then improve structure. Always run all the tests (except long-running tests) each time.
+
+---
+
+# PROJECT-SPECIFIC TEST STRATEGY & RULES
+
+To maintain high productivity and avoid "test fatigue," adhere to the following additional rules tailored for this project:
+
+## 1. Test Behavior, Not Implementation
+- **Do:** Verify that a user action results in the expected outcome (e.g., "Tapping card flips it").
+- **Don't:** Verify internal implementation details (e.g., "Widget must be of type X", "Text must be inside a Container").
+- **Goal:** Tests should survive refactoring. Changing a widget from `Text` to `SelectableText` should NOT break the test if the visible text remains the same.
+
+## 2. Relaxed UI Testing
+- UI components change frequently. Avoid overly specific widget matchers.
+- Use `find.text()` or `find.byKey()` as primary finders.
+- Avoid `find.byType()` unless checking for a specific custom widget essential to the feature.
+- Don't test pixel-perfect layouts unless it's a layout-specific utility.
+
+## 3. Strong Logic Testing
+- Business logic (Repositories, Providers, Models) changes less often and is critical.
+- **Strictly** test all edge cases, error handling, and state transformations in these layers.
+- Invest 70% of testing effort here, and 30% on UI/Integration.
+
+## 4. Fragile Tests
+- If a test fails solely due to a harmless UI change (e.g., padding adjustment, color change), it is a "Fragile Test."
+- **Action:** Rewrite the test to be less specific, or delete it if it adds no behavioral value.

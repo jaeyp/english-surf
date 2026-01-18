@@ -75,8 +75,10 @@ void main() {
         // Initial: Front (Original)
         expect(findRichText('Hello World'), findsOneWidget);
 
-        // Tap to flip
-        await tester.tap(find.byType(SentenceCard));
+        // Tap near top of card to avoid SelectableText (which consumes taps)
+        // Card is centered in 600h screen. Height 400. Top at 100.
+        // Tap at 150 is inside card (100 < 150 < 500).
+        await tester.tapAt(const Offset(400, 150));
         await tester.pumpAndSettle(); // Wait for animation
 
         // Back: Translation + Notes + Examples
