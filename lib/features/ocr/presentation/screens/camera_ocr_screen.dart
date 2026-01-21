@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -212,68 +213,67 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
       _selectedTextBlocks.clear();
     });
 
-    XFile? xFile;
     try {
-      xFile = await _controller!.takePicture();
-      final input = OcrInput.fromFile(xFile.path);
+      bool isCaptured = false;
+      await _controller!.startImageStream((image) async {
+        if (isCaptured) return;
+        isCaptured = true;
 
-      final currentScript = _isBilingualMode
-          ? OcrScript.korean
-          : OcrScript.latin;
-
-      final recognizedBlocks = await _ocrService.processImage(
-        input,
-        script: currentScript,
-      );
-
-      if (mounted) {
-        final canvasSize = MediaQuery.of(context).size;
-
-        // Get image dimensions from file
-        final imageBytes = await xFile.readAsBytes();
-        final decodedImage = await decodeImageFromList(imageBytes);
-        final imageSize = Size(
-          decodedImage.width.toDouble(),
-          decodedImage.height.toDouble(),
-        );
-
-        // Normalized focus region for iOS - center 40% of screen (portrait only)
-        const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
-
-        final filteredBlocks = OcrProcessor.processBlocks(
-          recognizedBlocks,
-          canvasSize,
-          imageSize,
-          0, // No rotation needed for captured image
-          focusRegion: focusRegion,
-          shouldMerge: true, // iOS: Merge blocks into paragraphs
-        );
-
-        setState(() {
-          _displayBlocks = filteredBlocks;
-          _isProcessingCapture = false;
-        });
-        _paint();
-      }
-    } catch (e) {
-      debugPrint('Error capturing/processing image: $e');
-      if (mounted) {
-        setState(() {
-          _isProcessingCapture = false;
-        });
-      }
-    } finally {
-      // Cleanup: Delete the temporary file
-      if (xFile != null) {
         try {
-          final file = File(xFile.path);
-          if (await file.exists()) {
-            await file.delete();
-            debugPrint('Deleted temporary capture file: ${xFile.path}');
+          final input = OcrInput.fromCameraImage(image, 0); // iOS rotation 0
+
+          final currentScript = _isBilingualMode
+              ? OcrScript.korean
+              : OcrScript.latin;
+
+          final recognizedBlocks = await _ocrService.processImage(
+            input,
+            script: currentScript,
+          );
+
+          await _controller!.stopImageStream();
+
+          if (mounted) {
+            final canvasSize = MediaQuery.of(context).size;
+            final imageSize = Size(
+              image.width.toDouble(),
+              image.height.toDouble(),
+            );
+
+            // Normalized focus region for iOS - center 40% of screen (portrait only)
+            const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
+
+            final filteredBlocks = OcrProcessor.processBlocks(
+              recognizedBlocks,
+              canvasSize,
+              imageSize,
+              0, // No rotation needed
+              focusRegion: focusRegion,
+              shouldMerge: true, // iOS: Merge blocks into paragraphs
+            );
+
+            setState(() {
+              _displayBlocks = filteredBlocks;
+              _isProcessingCapture = false;
+            });
+            _paint();
           }
         } catch (e) {
-          debugPrint('Failed to delete temporary file: $e');
+          debugPrint('Error capturing/processing image: $e');
+          await _controller?.stopImageStream();
+          if (mounted) {
+            setState(() {
+              _isProcessingCapture = false;
+            });
+          }
         }
+      });
+    } catch (e) {
+      debugPrint('Error starting capture stream: $e');
+      if (mounted) {
+        setState(() {
+          _isProcessingCapture = false;
+        });
       }
     }
   }
@@ -333,7 +333,11 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
   }
 
   void _paint() {
-    final painter = TextRecognizerPainter(_displayBlocks, _selectedTextBlocks);
+    // Pass a copy of the set to ensure changes are detected by shouldRepaint
+    final painter = TextRecognizerPainter(
+      _displayBlocks,
+      Set.of(_selectedTextBlocks),
+    );
     _customPaint = CustomPaint(painter: painter);
   }
 
@@ -403,7 +407,10 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
   }
 
   void _updatePainterOnly() {
-    final painter = TextRecognizerPainter(_displayBlocks, _selectedTextBlocks);
+    final painter = TextRecognizerPainter(
+      _displayBlocks,
+      Set.of(_selectedTextBlocks),
+    );
     _customPaint = CustomPaint(painter: painter);
   }
 
