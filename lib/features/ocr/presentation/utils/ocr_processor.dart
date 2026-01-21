@@ -1,7 +1,27 @@
 import 'dart:ui';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-
+import 'dart:math' as math;
+import '../../domain/models/ocr_block.dart';
 import 'coordinates_translator.dart';
+
+/// Constants for OCR Logic
+class OcrConstants {
+  static const int minTextLength = 5;
+
+  // Merge Thresholds (relative to average line height)
+  static const double gapThreshold = 0.5;
+  static const double leftIndentMin = 0.5;
+  static const double leftIndentMax = 8.0;
+  static const double rightIndentThreshold = 2.5;
+
+  // Layout Constants
+  static const double layoutHorizontalMargin = 16.0;
+  static const double layoutLineHeight = 24.0;
+  static const int layoutCharsPerLine = 40;
+  static const double layoutVerticalPadding = 12.0;
+  static const double layoutStartY = 120.0;
+  static const double layoutBlockGap = 16.0;
+  static const int layoutMaxEstimatedLines = 10;
+}
 
 class DisplayBlock {
   final String text;
@@ -11,167 +31,245 @@ class DisplayBlock {
 }
 
 class OcrProcessor {
-  /// Processes raw ML Kit text blocks into refined DisplayBlocks.
-  /// 1. Optionally filters by focus region (in image coordinates).
-  /// 2. Filters out noise (short text).
-  /// 3. Merges adjacent lines into paragraphs (using punctuation and gap heuristics).
-  /// 4. Forces full width and computes dynamic height.
-  ///
-  /// [focusRegion] - Optional rect in normalized coordinates (0.0 to 1.0).
-  ///   For portrait: filters by vertical position (e.g., (0, 0.33, 1, 0.33) for middle third)
-  ///   For landscape: filters by horizontal position
+  /// Processes raw OCR blocks into refined DisplayBlocks.
   static List<DisplayBlock> processBlocks(
-    RecognizedText recognizedText,
+    List<OcrBlock> rawBlocks,
     Size canvasSize,
     Size imageSize,
-    InputImageRotation rotation, {
+    int rotationDegrees, {
     Rect? focusRegion,
+    bool shouldMerge = true,
   }) {
-    final rawBlocks = recognizedText.blocks;
     if (rawBlocks.isEmpty) return [];
 
-    // 1. Convert to DisplayBlock with mapped coordinates
+    // 1. Prepare: Map coordinates, clean text, filter noise, sort
+    List<DisplayBlock> blocks = _prepareBlocks(
+      rawBlocks,
+      canvasSize,
+      imageSize,
+      rotationDegrees,
+      focusRegion,
+    );
+
+    if (blocks.isEmpty) return [];
+
+    // 2. Merge Logic: Group into paragraphs then merge
+    List<DisplayBlock> mergedBlocks = [];
+    if (!shouldMerge) {
+      mergedBlocks = blocks;
+    } else {
+      final paragraphs = _groupBlocksIntoParagraphs(blocks);
+      mergedBlocks = _mergeParagraphBlocks(paragraphs);
+    }
+
+    // 3. Layout: Stack blocks for display
+    return _layoutBlocks(mergedBlocks, canvasSize);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Phase 1: Preparation (Map, Filter, Sort)
+  // ---------------------------------------------------------------------------
+
+  static List<DisplayBlock> _prepareBlocks(
+    List<OcrBlock> rawBlocks,
+    Size canvasSize,
+    Size imageSize,
+    int rotationDegrees,
+    Rect? focusRegion,
+  ) {
     List<DisplayBlock> displayBlocks = [];
 
+    // Calculate absolute focus rect if region is provided
+    Rect? absoluteFocusRect;
+    if (focusRegion != null) {
+      absoluteFocusRect = Rect.fromLTRB(
+        focusRegion.left * canvasSize.width,
+        focusRegion.top * canvasSize.height,
+        focusRegion.right * canvasSize.width,
+        focusRegion.bottom * canvasSize.height,
+      );
+    }
+
     for (var block in rawBlocks) {
-      // Filter noise: < 10 chars
-      if (block.text.length < 10) continue;
-
-      // Filter by focus region if provided (using normalized image coordinates)
-      if (focusRegion != null) {
-        final centerY = block.boundingBox.center.dy / imageSize.height;
-        final centerX = block.boundingBox.center.dx / imageSize.width;
-
-        // Check based on orientation
-        final isLandscape = imageSize.width > imageSize.height;
-        if (isLandscape) {
-          // For landscape images, filter by horizontal position
-          if (centerX < focusRegion.left || centerX > focusRegion.right) {
-            continue;
-          }
-        } else {
-          // For portrait images, filter by vertical position
-          if (centerY < focusRegion.top || centerY > focusRegion.bottom) {
-            continue;
-          }
-        }
-      }
+      // Filter noise: too short
+      if (block.text.length < OcrConstants.minTextLength) continue;
 
       final rect = _mapToScreen(
-        block.boundingBox,
+        block.rect,
         canvasSize,
         imageSize,
-        rotation,
+        rotationDegrees,
       );
-      // Replace newlines with spaces for cleaner display
+
+      // Filter by Focus Region
+      if (absoluteFocusRect != null &&
+          !absoluteFocusRect.contains(rect.center)) {
+        continue;
+      }
+
+      // Clean text
       final cleanedText = block.text
           .replaceAll('\n', ' ')
           .replaceAll(RegExp(r'\s+'), ' ')
           .trim();
+
       displayBlocks.add(DisplayBlock(text: cleanedText, rect: rect));
     }
 
-    // 2. Sort by Y position (Top to Bottom)
-    displayBlocks.sort((a, b) => a.rect.top.compareTo(b.rect.top));
+    // Sort by Reading Order (Top-Down, Left-Right)
+    displayBlocks.sort((a, b) {
+      final yDiff = a.rect.top.compareTo(b.rect.top);
+      if (yDiff != 0) return yDiff;
+      return a.rect.left.compareTo(b.rect.left);
+    });
 
-    // 3. Merge Heuristic (with paragraph awareness)
-    List<DisplayBlock> mergedBlocks = [];
-    if (displayBlocks.isEmpty) return [];
+    return displayBlocks;
+  }
 
-    DisplayBlock current = displayBlocks.first;
+  // ---------------------------------------------------------------------------
+  // Phase 2: Grouping & Merging
+  // ---------------------------------------------------------------------------
 
-    for (int i = 1; i < displayBlocks.length; i++) {
-      final next = displayBlocks[i];
+  static List<List<DisplayBlock>> _groupBlocksIntoParagraphs(
+    List<DisplayBlock> blocks,
+  ) {
+    List<List<DisplayBlock>> paragraphs = [];
+    List<DisplayBlock> currentParagraph = [blocks.first];
+    bool forceSplitNext = false;
 
-      if (_shouldMerge(current, next)) {
-        current = _merge(current, next);
+    for (int i = 0; i < blocks.length - 1; i++) {
+      final a = blocks[i];
+      final b = blocks[i + 1];
+      final avgH = (a.rect.height + b.rect.height) / 2;
+
+      // Calculate Paragraph Context (Longest line so far in current paragraph)
+      // In mirrored world, Left is End. Smallest Left = Most Right End = Longest Line.
+      final paraMinLeft = currentParagraph
+          .map((blk) => blk.rect.left)
+          .reduce(math.min);
+
+      bool split = false;
+      // String reason = ""; // Debug reason, can be removed or logged if needed
+
+      // 0. Check forced split from previous iteration
+      if (forceSplitNext) {
+        split = true;
+        // reason = "Forced Split";
+        forceSplitNext = false;
+      }
+
+      // Rule 1: Vertical Gap
+      if (!split) {
+        final gap = b.rect.top - a.rect.bottom;
+        if (gap > avgH * OcrConstants.gapThreshold) {
+          split = true;
+          // reason = "Vertical Gap";
+        }
+      }
+
+      // Rule 2: Left Indentation (Paragraph Start)
+      if (!split) {
+        final rightDiff =
+            a.rect.right - b.rect.right; // Positive if B is indented
+        if (rightDiff > avgH * OcrConstants.leftIndentMin &&
+            rightDiff < avgH * OcrConstants.leftIndentMax) {
+          split = true;
+          // reason = "Left Indent";
+        }
+      }
+
+      // Rule 3: Right Indentation (Paragraph End / Short Line)
+      if (!split) {
+        final leftDiff = a.rect.left - paraMinLeft;
+        if (leftDiff > avgH * OcrConstants.rightIndentThreshold) {
+          // Defer split: Merge A & B, but force split AFTER B
+          forceSplitNext = true;
+          // reason = "Right Indent (Deferred Split)";
+        }
+      }
+
+      // Execute Split or Merge
+      if (split) {
+        paragraphs.add(currentParagraph);
+        currentParagraph = [b];
       } else {
-        mergedBlocks.add(current);
-        current = next;
+        currentParagraph.add(b);
       }
     }
-    mergedBlocks.add(current);
+    paragraphs.add(currentParagraph);
+    return paragraphs;
+  }
 
-    // 4. Force Full Width and Compute Dynamic Height
-    const double kHorizontalMargin = 16.0;
-    const double kLineHeight = 20.0;
-    const int kCharsPerLine = 45;
-    const double kVerticalPadding = 8.0;
+  static List<DisplayBlock> _mergeParagraphBlocks(
+    List<List<DisplayBlock>> paragraphs,
+  ) {
+    List<DisplayBlock> mergedBlocks = [];
+    for (var paragraph in paragraphs) {
+      if (paragraph.isEmpty) continue;
 
-    // Stack blocks consecutively from top of focus region with fixed gap
-    const double kStartY = 280.0; // Start from below safe area
-    const double kGapBetweenBlocks = 24.0;
+      DisplayBlock merged = paragraph.first;
+      for (int i = 1; i < paragraph.length; i++) {
+        merged = _mergeTwoBlocks(merged, paragraph[i]);
+      }
+      mergedBlocks.add(merged);
+    }
+    return mergedBlocks;
+  }
 
+  static DisplayBlock _mergeTwoBlocks(DisplayBlock a, DisplayBlock b) {
+    final newRect = a.rect.expandToInclude(b.rect);
+    final separator = (a.text.endsWith('-')) ? '' : ' ';
+    final newText = '${a.text}$separator${b.text}';
+    return DisplayBlock(text: newText, rect: newRect);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Phase 3: Layout
+  // ---------------------------------------------------------------------------
+
+  static List<DisplayBlock> _layoutBlocks(
+    List<DisplayBlock> blocks,
+    Size canvasSize,
+  ) {
     List<DisplayBlock> stackedBlocks = [];
-    double currentY = kStartY;
+    double currentY = OcrConstants.layoutStartY;
 
-    for (final b in mergedBlocks) {
-      final estimatedLines = (b.text.length / kCharsPerLine).ceil().clamp(
-        1,
-        10,
-      );
-      final estimatedHeight = (estimatedLines * kLineHeight) + kVerticalPadding;
+    for (final b in blocks) {
+      final estimatedLines = (b.text.length / OcrConstants.layoutCharsPerLine)
+          .ceil()
+          .clamp(1, OcrConstants.layoutMaxEstimatedLines);
+
+      final estimatedHeight =
+          (estimatedLines * OcrConstants.layoutLineHeight) +
+          OcrConstants.layoutVerticalPadding;
 
       stackedBlocks.add(
         DisplayBlock(
           text: b.text,
           rect: Rect.fromLTRB(
-            kHorizontalMargin,
+            OcrConstants.layoutHorizontalMargin,
             currentY,
-            canvasSize.width - kHorizontalMargin,
+            canvasSize.width - OcrConstants.layoutHorizontalMargin,
             currentY + estimatedHeight,
           ),
         ),
       );
 
-      currentY += estimatedHeight + kGapBetweenBlocks;
+      currentY += estimatedHeight + OcrConstants.layoutBlockGap;
     }
 
     return stackedBlocks;
   }
 
-  /// Check if block A should merge with block B.
-  static bool _shouldMerge(DisplayBlock a, DisplayBlock b) {
-    // 0. Paragraph Boundary Check (Punctuation)
-    final trimmedA = a.text.trim();
-    if (trimmedA.endsWith('.') ||
-        trimmedA.endsWith('!') ||
-        trimmedA.endsWith('?') ||
-        trimmedA.endsWith('"') ||
-        trimmedA.endsWith("'")) {
-      return false;
-    }
-
-    // 1. Vertical Distance Check (Stricter)
-    final verticalGap = b.rect.top - a.rect.bottom;
-    if (verticalGap > a.rect.height * 0.8) {
-      return false;
-    }
-    if (verticalGap < -a.rect.height * 0.3) {
-      return false;
-    }
-
-    // 2. Horizontal Alignment Check
-    final horizontalIntersect =
-        (a.rect.left < b.rect.right) && (a.rect.right > b.rect.left);
-    if (!horizontalIntersect) {
-      return false;
-    }
-
-    return true;
-  }
-
-  static DisplayBlock _merge(DisplayBlock a, DisplayBlock b) {
-    final newRect = a.rect.expandToInclude(b.rect);
-    final newText = '${a.text} ${b.text}';
-    return DisplayBlock(text: newText, rect: newRect);
-  }
+  // ---------------------------------------------------------------------------
+  // Utilities
+  // ---------------------------------------------------------------------------
 
   static Rect _mapToScreen(
     Rect boundingBox,
     Size canvasSize,
     Size imageSize,
-    InputImageRotation rotation,
+    int rotation,
   ) {
     final left = translateX(boundingBox.left, canvasSize, imageSize, rotation);
     final top = translateY(boundingBox.top, canvasSize, imageSize, rotation);

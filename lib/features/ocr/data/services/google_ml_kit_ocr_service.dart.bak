@@ -1,0 +1,100 @@
+import 'dart:ui';
+import 'package:flutter/foundation.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:camera/camera.dart';
+import '../../domain/services/ocr_service.dart';
+import '../../domain/models/ocr_block.dart';
+import '../../domain/models/ocr_input.dart';
+
+class GoogleMlKitOcrService implements OcrService {
+  TextRecognizer? _textRecognizer;
+  OcrScript _currentScript = OcrScript.latin;
+
+  @override
+  Future<List<OcrBlock>> processImage(
+    OcrInput input, {
+    OcrScript script = OcrScript.latin,
+  }) async {
+    InputImage? inputImage;
+
+    if (input.filePath != null) {
+      inputImage = InputImage.fromFilePath(input.filePath!);
+    } else if (input.cameraImage != null) {
+      inputImage = _inputImageFromCameraImage(
+        input.cameraImage!,
+        input.rotationDegrees ?? 0,
+      );
+    }
+
+    if (inputImage == null) return [];
+
+    // Re-initialize if script changes or recognizer is null
+    if (_textRecognizer == null || _currentScript != script) {
+      await _disposeRecognizer();
+      _currentScript = script;
+      final mlKitScript = script == OcrScript.korean
+          ? TextRecognitionScript.korean
+          : TextRecognitionScript.latin;
+      _textRecognizer = TextRecognizer(script: mlKitScript);
+    }
+
+    final recognizedText = await _textRecognizer!.processImage(inputImage);
+
+    return recognizedText.blocks.map((block) {
+      return OcrBlock(
+        text: block.text,
+        rect: block.boundingBox,
+        cornerPoints: block.cornerPoints.map((p) => '${p.x},${p.y}').toList(),
+      );
+    }).toList();
+  }
+
+  InputImage? _inputImageFromCameraImage(
+    CameraImage image,
+    int rotationDegrees,
+  ) {
+    final rotation = InputImageRotationValue.fromRawValue(rotationDegrees);
+    if (rotation == null) return null;
+
+    final format = InputImageFormatValue.fromRawValue(image.format.raw);
+
+    // Verify supported formats
+    // Android: usually NV21 (17)
+    // iOS: usually BGRA8888 (1111970369)
+    // We allow others if ML Kit supports them, but basic check is good.
+    if (format == null) return null;
+
+    // Combine bytes
+    final WriteBuffer allBytes = WriteBuffer();
+    for (final Plane plane in image.planes) {
+      allBytes.putUint8List(plane.bytes);
+    }
+    final bytes = allBytes.done().buffer.asUint8List();
+
+    final Size imageSize = Size(
+      image.width.toDouble(),
+      image.height.toDouble(),
+    );
+
+    final inputImageMetadata = InputImageMetadata(
+      size: imageSize,
+      rotation: rotation,
+      format: format,
+      bytesPerRow: image.planes[0].bytesPerRow,
+    );
+
+    return InputImage.fromBytes(bytes: bytes, metadata: inputImageMetadata);
+  }
+
+  Future<void> _disposeRecognizer() async {
+    if (_textRecognizer != null) {
+      await _textRecognizer!.close();
+      _textRecognizer = null;
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposeRecognizer();
+  }
+}

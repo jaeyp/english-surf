@@ -1,35 +1,28 @@
 import 'dart:ui';
-import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
-double translateX(
-  double x,
-  Size canvasSize,
-  Size imageSize,
-  InputImageRotation rotation,
-) {
+double translateX(double x, Size canvasSize, Size imageSize, int rotation) {
   switch (rotation) {
-    case InputImageRotation.rotation90deg:
+    case 90:
       return x * canvasSize.width / imageSize.height;
-    case InputImageRotation.rotation270deg:
+    case 270:
       return canvasSize.width - x * canvasSize.width / imageSize.height;
-    case InputImageRotation.rotation0deg:
-    case InputImageRotation.rotation180deg:
+    case 0:
+    case 180:
+      return x * canvasSize.width / imageSize.width;
+    default:
       return x * canvasSize.width / imageSize.width;
   }
 }
 
-double translateY(
-  double y,
-  Size canvasSize,
-  Size imageSize,
-  InputImageRotation rotation,
-) {
+double translateY(double y, Size canvasSize, Size imageSize, int rotation) {
   switch (rotation) {
-    case InputImageRotation.rotation90deg:
-    case InputImageRotation.rotation270deg:
+    case 90:
+    case 270:
       return y * canvasSize.height / imageSize.width;
-    case InputImageRotation.rotation0deg:
-    case InputImageRotation.rotation180deg:
+    case 0:
+    case 180:
+      return y * canvasSize.height / imageSize.height;
+    default:
       return y * canvasSize.height / imageSize.height;
   }
 }

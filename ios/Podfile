@@ -30,9 +30,22 @@ flutter_ios_podfile_setup
 target 'Runner' do
   use_frameworks!
 
+  $exclude_pods = ['google_mlkit_text_recognition', 'google_mlkit_commons', 'GoogleMLKit', 'MLKitTextRecognition', 'MLKitCommon', 'MLKitVision']
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
     inherit! :search_paths
+  end
+end
+
+# Filter out excluded pods from installation
+pre_install do |installer|
+  installer.pod_targets.each do |pod|
+    if $exclude_pods.include?(pod.name)
+      def pod.should_build?
+        false
+      end
+    end
   end
 end
 

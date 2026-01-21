@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../widgets/text_recognizer_painter.dart';
 import '../utils/ocr_processor.dart';
+import '../../domain/services/ocr_service.dart';
+import '../../domain/models/ocr_input.dart';
 
 class CameraOCRScreen extends StatefulWidget {
   const CameraOCRScreen({super.key});
@@ -19,42 +19,44 @@ class CameraOCRScreen extends StatefulWidget {
 
 class _CameraOCRScreenState extends State<CameraOCRScreen> {
   CameraController? _controller;
-  final TextRecognizer _textRecognizer = TextRecognizer();
+  final OcrService _ocrService = OcrService();
+
   bool _isCameraInitialized = false;
-  final bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
-  // RecognizedText? _recognizedText; // Replaced by _displayBlocks
   List<DisplayBlock> _displayBlocks = [];
-  final Set<String> _selectedTextBlocks = {}; // Stores text of selected blocks
-  // In a real app, storing indices/IDs or rects might be safer if text is duplicate,
-  // but ML Kit doesn't expose stable IDs across frames easily. Using text content for now.
-  // Ideally we would freeze the frame to select, but let's try live selection first or pause on touch.
+  final Set<String> _selectedTextBlocks = {};
 
-  // Actually, live selection on a moving stream is UX chaos.
-  // Better UX: Freezing the frame (pause stream) implies taking a picture?
-  // No, proper "Live Text" usually highlights what it sees.
-  // Tap to select: We should store the *exact* block instance from the current frame?
-  // No, frames update too fast.
-  // Strategy: We will just toggle "Auto-Scan Mode" vs "Selection Mode"?
-  // Let's stick to the requirements: "Tap to select".
-  // If I tap a block, it adds to selection.
-  // We need to persist selection across frames? That's hard if the text moves.
-  // SIMPLIFICATION: When user taps, we PAUSE the stream to allow stable selection.
+  // Android-only: Live stream state
   bool _isStreamPaused = false;
   DateTime? _lastProcessedTime;
   static const Duration _throttleDuration = Duration(milliseconds: 3000);
 
+  // iOS-only: Capture state
+  bool _isProcessingCapture = false;
+
+  // Bilingual Mode Toggle
+  bool _isBilingualMode = true;
+
   @override
   void initState() {
     super.initState();
+    // Lock orientation to portrait up
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _initializeCamera();
   }
 
   @override
   void dispose() {
-    _stopLiveFeed();
-    _textRecognizer.close();
+    // Reset orientation preferences
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    _stopCamera();
+    _ocrService.dispose();
     super.dispose();
   }
 
@@ -81,9 +83,15 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
       return;
     }
 
+    // Platform-specific resolution
+    final resolution = Platform.isIOS
+        ? ResolutionPreset
+              .ultraHigh // iOS: Higher res for capture-based OCR
+        : ResolutionPreset.high; // Android: Lower res for smooth live stream
+
     _controller = CameraController(
       cameras.first,
-      ResolutionPreset.high,
+      resolution,
       enableAudio: false,
       imageFormatGroup: Platform.isAndroid
           ? ImageFormatGroup.nv21
@@ -95,7 +103,6 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     try {
       final maxZoom = await _controller!.getMaxZoomLevel();
       final minZoom = await _controller!.getMinZoomLevel();
-      // Set to 1.0x zoom, but clamp within device limits
       final targetZoom = 1.2.clamp(minZoom, maxZoom);
       await _controller!.setZoomLevel(targetZoom);
     } catch (e) {
@@ -106,27 +113,39 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
       setState(() {
         _isCameraInitialized = true;
       });
-      await _startLiveFeed();
+
+      // Android only: Start live stream
+      if (Platform.isAndroid) {
+        await _startLiveFeed();
+      }
     }
   }
 
+  // ========================
+  // Android: Live Stream OCR
+  // ========================
+
   Future<void> _startLiveFeed() async {
     if (_controller == null || !_controller!.value.isInitialized) return;
-    // Give the user 1.5 seconds to position the camera before starting scanning
     await Future.delayed(const Duration(milliseconds: 1500));
     if (_controller == null || !_controller!.value.isInitialized) return;
     await _controller!.startImageStream(_processCameraImage);
   }
 
-  Future<void> _stopLiveFeed() async {
+  Future<void> _stopCamera() async {
     if (_controller == null || !_controller!.value.isInitialized) return;
-    await _controller!.stopImageStream();
+
+    if (Platform.isAndroid) {
+      try {
+        await _controller!.stopImageStream();
+      } catch (_) {}
+    }
+
     await _controller!.dispose();
     _controller = null;
   }
 
   Future<void> _processCameraImage(CameraImage image) async {
-    // 1. Throttle to prevent flickering & high CPU usage (1000ms)
     final now = DateTime.now();
     if (_lastProcessedTime != null &&
         now.difference(_lastProcessedTime!) < _throttleDuration) {
@@ -134,29 +153,36 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     }
     _lastProcessedTime = now;
 
-    final inputImage = _inputImageFromCameraImage(image);
-    if (inputImage == null) return;
-
-    if (!_canProcess || _isBusy || _isStreamPaused) return;
+    if (_isBusy || _isStreamPaused) return;
     _isBusy = true;
 
     try {
-      final recognizedText = await _textRecognizer.processImage(inputImage);
-      if (mounted) {
-        // Use whole screen size for canvas mapping
-        final canvasSize = MediaQuery.of(context).size;
-        final imageSize = inputImage.metadata!.size;
+      final rotationDegrees = _getRotationDegrees();
+      final input = OcrInput.fromCameraImage(image, rotationDegrees);
 
-        // Normalized focus region: middle 40% (from 0.30 to 0.70)
-        // This is in normalized image coordinates (0.0 to 1.0)
-        const focusRegion = Rect.fromLTRB(0.3, 0.3, 0.7, 0.7);
+      final currentScript = _isBilingualMode
+          ? OcrScript.korean
+          : OcrScript.latin;
+
+      final recognizedBlocks = await _ocrService.processImage(
+        input,
+        script: currentScript,
+      );
+
+      if (mounted) {
+        final canvasSize = MediaQuery.of(context).size;
+        final imageSize = Size(image.width.toDouble(), image.height.toDouble());
+
+        // Normalized focus region for Android
+        const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
 
         final filteredBlocks = OcrProcessor.processBlocks(
-          recognizedText,
+          recognizedBlocks,
           canvasSize,
           imageSize,
-          inputImage.metadata!.rotation,
+          rotationDegrees,
           focusRegion: focusRegion,
+          shouldMerge: false, // Android: No merging
         );
 
         setState(() {
@@ -171,13 +197,122 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     _isBusy = false;
   }
 
-  /// Returns the focus region rect based on screen orientation.
-  /// Portrait: middle 1/3 vertically (excludes top and bottom 1/3)
-  /// Landscape: middle 1/3 horizontally (excludes left and right 1/3)
+  // ========================
+  // iOS: Manual Capture OCR
+  // ========================
+
+  Future<void> _captureAndProcess() async {
+    if (_controller == null || !_controller!.value.isInitialized) return;
+    if (_isProcessingCapture) return;
+
+    setState(() {
+      _isProcessingCapture = true;
+      _displayBlocks.clear();
+      _selectedTextBlocks.clear();
+    });
+
+    XFile? xFile;
+    try {
+      xFile = await _controller!.takePicture();
+      final input = OcrInput.fromFile(xFile.path);
+
+      final currentScript = _isBilingualMode
+          ? OcrScript.korean
+          : OcrScript.latin;
+
+      final recognizedBlocks = await _ocrService.processImage(
+        input,
+        script: currentScript,
+      );
+
+      if (mounted) {
+        final canvasSize = MediaQuery.of(context).size;
+
+        // Get image dimensions from file
+        final imageBytes = await xFile.readAsBytes();
+        final decodedImage = await decodeImageFromList(imageBytes);
+        final imageSize = Size(
+          decodedImage.width.toDouble(),
+          decodedImage.height.toDouble(),
+        );
+
+        // Normalized focus region for iOS - center 40% of screen (portrait only)
+        const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
+
+        final filteredBlocks = OcrProcessor.processBlocks(
+          recognizedBlocks,
+          canvasSize,
+          imageSize,
+          0, // No rotation needed for captured image
+          focusRegion: focusRegion,
+          shouldMerge: true, // iOS: Merge blocks into paragraphs
+        );
+
+        setState(() {
+          _displayBlocks = filteredBlocks;
+          _isProcessingCapture = false;
+        });
+        _paint();
+      }
+    } catch (e) {
+      debugPrint('Error capturing/processing image: $e');
+      if (mounted) {
+        setState(() {
+          _isProcessingCapture = false;
+        });
+      }
+    } finally {
+      // Cleanup: Delete the temporary file
+      if (xFile != null) {
+        try {
+          final file = File(xFile.path);
+          if (await file.exists()) {
+            await file.delete();
+            debugPrint('Deleted temporary capture file: ${xFile.path}');
+          }
+        } catch (e) {
+          debugPrint('Failed to delete temporary file: $e');
+        }
+      }
+    }
+  }
+
+  // ========================
+  // Common Methods
+  // ========================
+
+  int _getRotationDegrees() {
+    final camera = _controller!.description;
+    final sensorOrientation = camera.sensorOrientation;
+
+    int rotation = 0;
+    if (Platform.isIOS) {
+      rotation = sensorOrientation;
+    } else if (Platform.isAndroid) {
+      var rotationCompensation =
+          _orientations[_controller!.value.deviceOrientation];
+      if (rotationCompensation == null) return 0;
+      if (camera.lensDirection == CameraLensDirection.front) {
+        rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
+      } else {
+        rotationCompensation =
+            (sensorOrientation - rotationCompensation + 360) % 360;
+      }
+      rotation = rotationCompensation;
+    }
+    return rotation;
+  }
+
+  final _orientations = {
+    DeviceOrientation.portraitUp: 0,
+    DeviceOrientation.landscapeLeft: 90,
+    DeviceOrientation.portraitDown: 180,
+    DeviceOrientation.landscapeRight: 270,
+  };
+
   Rect _getFocusRegion(Size screenSize) {
     final isLandscape = screenSize.width > screenSize.height;
     if (isLandscape) {
-      // Landscape: exclude left and right 30% (middle 40%)
       final excludeWidth = screenSize.width * 0.3;
       return Rect.fromLTWH(
         excludeWidth,
@@ -186,7 +321,6 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
         screenSize.height,
       );
     } else {
-      // Portrait: exclude top and bottom 30% (middle 40%)
       final excludeHeight = screenSize.height * 0.3;
       return Rect.fromLTWH(
         0,
@@ -199,108 +333,31 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
 
   void _paint() {
     final painter = TextRecognizerPainter(_displayBlocks, _selectedTextBlocks);
-
     _customPaint = CustomPaint(painter: painter);
   }
-
-  // =========================================================================
-  // InputImage Conversion Logic (Standard Boilerplate)
-  // =========================================================================
-  InputImage? _inputImageFromCameraImage(CameraImage image) {
-    if (_controller == null) return null;
-
-    final camera = _controller!.description;
-    final sensorOrientation = camera.sensorOrientation;
-
-    // Simplification for rotation
-    InputImageRotation? rotation;
-    if (Platform.isIOS) {
-      rotation = InputImageRotationValue.fromRawValue(sensorOrientation);
-    } else if (Platform.isAndroid) {
-      var rotationCompensation =
-          _orientations[_controller!.value.deviceOrientation];
-      if (rotationCompensation == null) return null;
-      if (camera.lensDirection == CameraLensDirection.front) {
-        // front-facing
-        rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
-      } else {
-        // back-facing
-        rotationCompensation =
-            (sensorOrientation - rotationCompensation + 360) % 360;
-      }
-      rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
-    }
-
-    if (rotation == null) return null;
-
-    // Format
-    final format = InputImageFormatValue.fromRawValue(image.format.raw);
-    if (format == null ||
-        (Platform.isAndroid && format != InputImageFormat.nv21) ||
-        (Platform.isIOS && format != InputImageFormat.bgra8888)) {
-      // Skipping unsupported formats
-      return null;
-    }
-
-    if (image.planes.length != 1 && format == InputImageFormat.bgra8888) {
-      return null;
-    }
-    // NV21 has 3 planes, BGRA8888 has 1
-
-    // Bytes
-    final WriteBuffer allBytes = WriteBuffer();
-    for (final Plane plane in image.planes) {
-      allBytes.putUint8List(plane.bytes);
-    }
-    final bytes = allBytes.done().buffer.asUint8List();
-
-    final Size imageSize = Size(
-      image.width.toDouble(),
-      image.height.toDouble(),
-    );
-
-    final inputImageMetadata = InputImageMetadata(
-      size: imageSize,
-      rotation: rotation,
-      format: format,
-      bytesPerRow: image.planes[0].bytesPerRow,
-    );
-
-    return InputImage.fromBytes(bytes: bytes, metadata: inputImageMetadata);
-  }
-
-  final _orientations = {
-    DeviceOrientation.portraitUp: 0,
-    DeviceOrientation.landscapeLeft: 90,
-    DeviceOrientation.portraitDown: 180,
-    DeviceOrientation.landscapeRight: 270,
-  };
-
-  // =========================================================================
-  // Interaction Logic
-  // =========================================================================
 
   void _onTap(TapUpDetails details) {
     if (_controller == null) return;
 
-    // Pause stream on first interaction to make selection easier
-    if (!_isStreamPaused) {
+    final localPosition = details.localPosition;
+    final screenSize = MediaQuery.of(context).size;
+    final focusRegion = _getFocusRegion(screenSize);
+
+    // Check if tap is within focus region for auto-focus
+    if (focusRegion.contains(localPosition)) {
+      _triggerAutoFocus(localPosition, screenSize);
+    }
+
+    // Android: Pause stream on first tap
+    if (Platform.isAndroid && !_isStreamPaused) {
       setState(() {
         _isStreamPaused = true;
       });
-      // We stop the stream controller callback execution effectively by the bool flag
-      // but we don't necessarily need to stop the camera stream itself if we just ignore frames.
-      // But purely pausing visual updates is enough.
     }
 
-    final localPosition =
-        details.localPosition; // Position in widget coordinates
-
-    // Simplified logic: DisplayBlocks are already in screen coordinates!
+    // Check if tapped on a text block
     String? tappedBlockText;
-
     for (final block in _displayBlocks) {
-      // Inflate slightly for touch area
       if (block.rect.inflate(8.0).contains(localPosition)) {
         tappedBlockText = block.text;
         break;
@@ -314,23 +371,33 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
         } else {
           _selectedTextBlocks.add(tappedBlockText!);
         }
-        // Force repaint with new selection (using existing recognized text)
-        // We construct a fake input image wrapper just to trigger paint?
-        // Or extract paint logic.
-        // Actually `_paint` takes `InputImage`, which we don't have here.
-        // We should store the last used Metadata/Size/Rotation.
       });
-
-      // Manually trigger repaint if we are paused
-      // We can't call `_paint` easily.
-      // We need to update `_customPaint` directly.
       _updatePainterOnly();
-    } else {
-      // Tap outside -> Resume stream?
+    } else if (_displayBlocks.isNotEmpty) {
+      // Tapped outside blocks - clear selection (Android: resume stream)
       setState(() {
-        _isStreamPaused = false;
+        if (Platform.isAndroid) {
+          _isStreamPaused = false;
+        }
         _selectedTextBlocks.clear();
       });
+    }
+  }
+
+  Future<void> _triggerAutoFocus(Offset point, Size screenSize) async {
+    if (_controller == null || !_controller!.value.isInitialized) return;
+
+    try {
+      // Normalize point to 0.0-1.0 range
+      final normalizedPoint = Offset(
+        point.dx / screenSize.width,
+        point.dy / screenSize.height,
+      );
+
+      await _controller!.setFocusPoint(normalizedPoint);
+      await _controller!.setExposurePoint(normalizedPoint);
+    } catch (e) {
+      debugPrint('Auto-focus failed: $e');
     }
   }
 
@@ -339,14 +406,23 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     _customPaint = CustomPaint(painter: painter);
   }
 
-  // Duplication of Painter logic for hit testing
-
   Future<void> _confirmSelection() async {
     final text = _selectedTextBlocks.join('\n\n');
     await context.push('/edit', extra: text);
     if (mounted) {
       context.pop();
     }
+  }
+
+  void _clearAndReset() {
+    setState(() {
+      _displayBlocks.clear();
+      _selectedTextBlocks.clear();
+      _customPaint = null;
+      if (Platform.isAndroid) {
+        _isStreamPaused = false;
+      }
+    });
   }
 
   @override
@@ -360,10 +436,8 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. Camera Preview (base layer)
           CameraPreview(_controller!),
 
-          // 2. Focus Region Overlay (gray out excluded areas)
           LayoutBuilder(
             builder: (context, constraints) {
               final screenSize = Size(
@@ -378,17 +452,15 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
             },
           ),
 
-          // 3. Text Recognition Overlay (on top of focus overlay)
           if (_customPaint != null) _customPaint!,
 
-          // 2. Gesture Detector for Taps
           GestureDetector(
             onTapUp: _onTap,
             behavior: HitTestBehavior.translucent,
-            child: Container(color: Colors.transparent), // Expand to fill
+            child: Container(color: Colors.transparent),
           ),
 
-          // 3. AppBar (Close)
+          // AppBar
           Positioned(
             top: 0,
             left: 0,
@@ -401,22 +473,37 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: () => context.pop(),
               ),
-              title: _isStreamPaused
-                  ? const Text(
-                      'Tap text to select',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : const Text(
-                      'Scanning...',
-                      style: TextStyle(color: Colors.white70),
-                    ),
+              title: _buildTitle(),
+              actions: [
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _isBilingualMode = !_isBilingualMode;
+                      _displayBlocks.clear();
+                    });
+                  },
+                  icon: Icon(
+                    _isBilingualMode ? Icons.translate : Icons.language,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    _isBilingualMode ? 'Eng+Kor' : 'English',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.black45,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
           ),
 
-          // 4. Action Bar (Bottom)
+          // Selection Card (shown when blocks are selected)
           if (_selectedTextBlocks.isNotEmpty)
             Positioned(
-              bottom: 40,
+              bottom: Platform.isIOS ? 120 : 40,
               left: 20,
               right: 20,
               child: Card(
@@ -446,12 +533,7 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedTextBlocks.clear();
-                            _isStreamPaused = false;
-                          });
-                        },
+                        onPressed: _clearAndReset,
                         child: const Text('Clear Selection'),
                       ),
                     ],
@@ -460,8 +542,75 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
               ),
             ),
 
-          // 5. Hint text if nothing selected
-          if (_selectedTextBlocks.isEmpty)
+          // iOS: Capture Button
+          if (Platform.isIOS)
+            Positioned(
+              bottom: 40,
+              left: 0,
+              right: 0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Capture Button
+                  GestureDetector(
+                    onTap: _isProcessingCapture ? null : _captureAndProcess,
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _isProcessingCapture
+                            ? Colors.grey
+                            : Colors.white,
+                        border: Border.all(color: Colors.white, width: 4),
+                      ),
+                      child: _isProcessingCapture
+                          ? const Center(
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 3,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                              size: 32,
+                            ),
+                    ),
+                  ),
+
+                  // Clear/Refresh Button (Right side)
+                  if (_displayBlocks.isNotEmpty)
+                    Positioned(
+                      bottom: 10,
+                      right: 60,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black45,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                          onPressed: _clearAndReset,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+
+          // Android: Hint text (when no blocks selected and stream not paused)
+          if (Platform.isAndroid &&
+              _selectedTextBlocks.isEmpty &&
+              !_isStreamPaused)
             const Positioned(
               bottom: 50,
               left: 0,
@@ -476,17 +625,60 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
                 ),
               ),
             ),
+
+          // iOS: Hint text (when no blocks and not processing)
+          if (Platform.isIOS && _displayBlocks.isEmpty && !_isProcessingCapture)
+            const Positioned(
+              bottom: 130,
+              left: 0,
+              right: 0,
+              child: Text(
+                'Tap the button to scan text',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  shadows: [Shadow(color: Colors.black, blurRadius: 4)],
+                  fontSize: 16,
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
+
+  Widget _buildTitle() {
+    if (Platform.isIOS) {
+      if (_isProcessingCapture) {
+        return const Text(
+          'Processing...',
+          style: TextStyle(color: Colors.white70),
+        );
+      } else if (_displayBlocks.isNotEmpty) {
+        return const Text(
+          'Tap text to select',
+          style: TextStyle(color: Colors.white),
+        );
+      } else {
+        return const Text(
+          'Position camera',
+          style: TextStyle(color: Colors.white70),
+        );
+      }
+    } else {
+      // Android
+      return _isStreamPaused
+          ? const Text(
+              'Tap text to select',
+              style: TextStyle(color: Colors.white),
+            )
+          : const Text('Scanning...', style: TextStyle(color: Colors.white70));
+    }
+  }
 }
 
-/// Custom painter that draws a semi-transparent gray overlay on excluded areas.
-/// The focus region (center 1/3) remains clear while outer areas are dimmed.
 class _FocusOverlayPainter extends CustomPainter {
   final Rect focusRegion;
-
   _FocusOverlayPainter(this.focusRegion);
 
   @override
@@ -494,28 +686,19 @@ class _FocusOverlayPainter extends CustomPainter {
     final overlayPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.5)
       ..style = PaintingStyle.fill;
-
     final fullRect = Rect.fromLTWH(0, 0, size.width, size.height);
-
-    // Create a path that covers the entire screen
     final path = Path()..addRect(fullRect);
-
-    // Subtract the focus region (creates a "hole" in the overlay)
     final focusPath = Path()..addRect(focusRegion);
     final combinedPath = Path.combine(
       PathOperation.difference,
       path,
       focusPath,
     );
-
     canvas.drawPath(combinedPath, overlayPaint);
-
-    // Draw a subtle border around the focus region
     final borderPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
-
     canvas.drawRect(focusRegion, borderPaint);
   }
 

@@ -294,7 +294,42 @@ English sentence learning app with rich text styling and flashcard features.
 
 ---
 
+##  OCR Refactoring & Optimization (2026-01-22)
+- [x] **Platform-Specific OCR Strategy (Hybrid Engine)**:
+    - [x] **iOS (Apple Vision)**: Adopted **Apple Vision Framework (Live Text)** for superior accuracy on Korean/English mixed text. Implemented **Manual Capture Mode** (Tap to Scan) with high-res processing.
+    - [x] **Android (Google ML Kit)**: Retained **Google ML Kit** (Live Stream Mode) for seamless UX on Android.
+    - [x] **Orientation Lock**: Fixed Camera screen to Portrait mode to prevent layout issues.
+- [x] **Advanced Merge Logic (3-Rule System)**:
+    - [x] **Vertical Gap**: Split paragraph if vertical distance between lines is large.
+    - [x] **Left Indent (Paragraph Start)**: Split if next line starts specifically indented (using mirrored coordinate logic).
+    - [x] **Right Indent (Paragraph End - Deferred Split)**: If a line ends early (short line), merge it with the *next* block but **force a split immediately after**. This keeps headers/short endings attached to their context while separating them from the next paragraph.
+- [x] **Code Quality & Optimization**:
+    - [x] **Refactoring**: Decomposed `ocr_processor.dart` into clear stages (Prepare -> Group -> Merge -> Layout) and extracted constants.
+    - [x] **Storage Leak Fix**: Fixed issue where high-res capture files weren't deleted on iOS (saving ~10MB per scan).
+    - [x] **App Size Optimization**: Created `scripts/set_platform_mode.dart` to toggle Google ML Kit dependency.
+        - **Usage**: `dart scripts/set_platform_mode.dart [ios_only | hybrid]`
+        - **Effect**: 
+            - `ios_only`: Comments out `google_mlkit_*` in `pubspec.yaml` and places a Stub service. (Removes ~70MB for iOS).
+            - `hybrid`: Uncomments dependencies and restores the real Android service.
+- [x] **UI/UX Polish**:
+    - [x] **Top Alignment**: OCR text bubbles now start from top (120px) instead of floating largely.
+    - [x] **Clear Button**: Added Refresh button to easily discard current scan.
+
+
 ## 🛠 Maintenance & Stability Log
+
+
+### 🔋 Testing Strategy & Robustness (2026-01-18)
+- [x] **New TDD Guidelines**: Updated `TDD.md` with explicit rules ("Test Behavior, Not Implementation", "Always use `findRichText: true`").
+- [x] **Fragile Test Refactoring**:
+    - [x] **`sentence_card_test.dart`**: Fixed tap simulation failure caused by `SelectableText` blocking events.
+    - [x] **`sentence_edit_screen_test.dart`**: Replaced index-based widget lookup with reliable text/label finders.
+    - [x] **`home_screen_test.dart`**: Removed implementation-specific (`InkWell` + `ListTile`) coupling in finders.
+    - [x] **`study_mode_screen_test.dart`**: Corrected tap offsets to ensure reliable flip interactions.
+- [x] **Test Coverage Audit**:
+    - [x] Removed redundant `widget_test.dart`.
+    - [x] Added missing logic tests for **Folder Operations** and **Reordering** in `SentenceRepository`.
+- [x] **Result**: All 16 test files are now passing and compliant with the new flexible testing strategy.
 
 ### 🔋 Modular Architecture & Content Refresh (2026-01-11)
 - [x] **Feature-First Refactoring**: Restructured the entire codebase into modular features (`features/home`, `features/study`, `features/ocr`) and a core layer (`core/database`).
@@ -313,6 +348,7 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **Prompt Centralization**: Consolidated all AI prompts into `AiPrompts` constant class for easier management and deduplication.
 - [x] **Sentence Note Styling**: Enhanced readability by parsing notes to highlight English expressions in darker text.
 - [x] **Bug Fix**: Fixed `AiRepositoryImpl` test failures by correctly pointing to `GoogleAiDataSource`.
+
 
 ### 🔋 Multi-Provider AI & Advanced Settings (2026-01-07)
 - [x] **Groq Integration**: Added support for Groq AI via REST API with `http` package.
