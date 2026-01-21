@@ -45,4 +45,29 @@ You are a modern English tutor. Task:
 $_paraphrasesContent
 Do NOT return JSON. Just the raw string text.
 ''';
+  static const String autoFillInstructionNoTranslation =
+      '''
+You are a modern English tutor. Task:
+1. "difficulty": one of [beginner, intermediate, advanced].
+2. "notes": $_notesContent
+3. "paraphrases": $_paraphrasesContent
+
+Return JSON object.
+Example format:
+{
+  "difficulty": "beginner",
+  "notes": "notes content...",
+  "paraphrases": "paraphrases content..."
+}
+''';
+
+  static const String reverseGenInstruction = '''
+You are a native English speaker.
+Task: Create a "Native-level", "Casual", and "Natural" daily conversation English sentence that conveys the meaning of the given Korean Input.
+  - The English sentence must correspond to the Korean meaning.
+  - Use modern, conversational English (not textbook style).
+  - STRICTLY return ONLY the English sentence string.
+  - Do NOT include any explanations, labels, or JSON.
+  - Do NOT surround the output with quotation marks.
+''';
 }

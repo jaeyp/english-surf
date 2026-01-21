@@ -25,11 +25,23 @@ GoRouter goRouter(Ref ref) {
         path: '/edit',
         builder: (context, state) {
           final extra = state.extra;
+
           final sentence = extra is Sentence ? extra : null;
-          final initialText = extra is String ? extra : null;
+
+          String? initialOriginal;
+          String? initialTranslation;
+
+          if (extra is String) {
+            initialOriginal = extra;
+          } else if (extra is Map<String, dynamic>) {
+            initialOriginal = extra['original'] as String?;
+            initialTranslation = extra['translation'] as String?;
+          }
+
           return SentenceEditScreen(
             sentence: sentence,
-            initialOriginalText: initialText,
+            initialOriginalText: initialOriginal,
+            initialTranslationText: initialTranslation,
           );
         },
       ),

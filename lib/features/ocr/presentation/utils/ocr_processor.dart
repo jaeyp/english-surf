@@ -158,6 +158,15 @@ class OcrProcessor {
         forceSplitNext = false;
       }
 
+      // Rule 0: Language Mismatch
+      // If one block is Korean and the other is not, we force a split.
+      if (!split) {
+        if (_isKorean(a.text) != _isKorean(b.text)) {
+          split = true;
+          // reason = "Language Mismatch";
+        }
+      }
+
       // Rule 1: Vertical Gap
       if (!split) {
         final gap = b.rect.top - a.rect.bottom;
@@ -286,5 +295,9 @@ class OcrProcessor {
       rotation,
     );
     return Rect.fromLTRB(left, top, right, bottom);
+  }
+
+  static bool _isKorean(String text) {
+    return RegExp(r'[가-힣]').hasMatch(text);
   }
 }

@@ -15,11 +15,13 @@ import '../../application/providers/folder_providers.dart';
 class SentenceEditScreen extends ConsumerStatefulWidget {
   final Sentence? sentence;
   final String? initialOriginalText;
+  final String? initialTranslationText;
 
   const SentenceEditScreen({
     super.key,
     this.sentence,
     this.initialOriginalText,
+    this.initialTranslationText,
   });
 
   @override
@@ -40,11 +42,28 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     super.initState();
     final s = widget.sentence;
     final initialStyles = s?.original.styles.toList() ?? [];
+
+    String initialOriginal =
+        s?.original.text ?? widget.initialOriginalText ?? '';
+    String initialTranslation =
+        s?.translation ?? widget.initialTranslationText ?? '';
+
+    // Fallback Smart Fill: If separate translation wasn't provided, check original for Korean
+    if (s == null &&
+        widget.initialTranslationText == null &&
+        widget.initialOriginalText != null) {
+      final ocrText = widget.initialOriginalText!;
+      if (RegExp(r'[가-힣]').hasMatch(ocrText)) {
+        initialTranslation = ocrText;
+        initialOriginal = ''; // clear original since it was moved
+      }
+    }
+
     _originalController = StyledTextEditingController(
-      text: s?.original.text ?? widget.initialOriginalText ?? '',
+      text: initialOriginal,
       styles: initialStyles,
     );
-    _translationController = TextEditingController(text: s?.translation ?? '');
+    _translationController = TextEditingController(text: initialTranslation);
     _notesController = TextEditingController(text: s?.notes ?? '');
     _difficulty = s?.difficulty ?? Difficulty.beginner;
     _paraphraseControllers =
@@ -126,6 +145,40 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
   Future<void> _generateAiContent() async {
     final originalText = _originalController.text.trim();
+
+    final currentTranslation = _translationController.text.trim();
+
+    // CASE 1: Reverse Generation (Translation populated, Original empty)
+    if (originalText.isEmpty && currentTranslation.isNotEmpty) {
+      setState(() => _isAiGenerating = true);
+      try {
+        final aiRepo = await ref.read(aiRepositoryProvider.future);
+        final englishText = await aiRepo.generateEnglishOriginal(
+          translation: currentTranslation,
+        );
+        setState(() {
+          _originalController.text = englishText;
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('English sentence generated!')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error generating English: $e')),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isAiGenerating = false);
+        }
+      }
+      return;
+    }
+
+    // CASE 2: Standard Auto-Fill (Original populated)
     if (originalText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter an English sentence first')),
@@ -155,6 +208,9 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
       final result = await aiRepo.generateSentenceContent(
         originalText,
         targetExpressions: targetExpressions.isEmpty ? null : targetExpressions,
+        existingTranslation: currentTranslation.isNotEmpty
+            ? currentTranslation
+            : null,
       );
 
       setState(() {

@@ -314,10 +314,21 @@ English sentence learning app with rich text styling and flashcard features.
 - [x] **UI/UX Polish**:
     - [x] **Top Alignment**: OCR text bubbles now start from top (120px) instead of floating largely.
     - [x] **Clear Button**: Added Refresh button to easily discard current scan.
+    - [x] **Smart Field Population**: Automatically sorts text based on language. If scanned text contains Korean, it populates the **Translation** field; otherwise, the **Original** field. Supports **mixed selection**, sending English blocks to Original and Korean blocks to Translation simultaneously.
 
 
 ## 🛠 Maintenance & Stability Log
 
+
+
+### 🚀 AI & OCR Refinement (2026-01-22)
+- [x] **AI Auto-Fill Enhancements**:
+    - [x] **Conditional Fill**: Respects existing translation (only generates missing fields).
+    - [x] **Reverse Generation**: Generates **Native English** if Translation exists but Original is empty.
+    - [x] **Clean Output**: Fixed quotation marks issue in prompt/output.
+- [x] **OCR Enhancements**:
+    - [x] **Language Separation**: Forces split between different languages (e.g. English vs Korean).
+    - [x] **Scrollable UI**: Added scroll support for long OCR results.
 
 ### 🔋 Testing Strategy & Robustness (2026-01-18)
 - [x] **New TDD Guidelines**: Updated `TDD.md` with explicit rules ("Test Behavior, Not Implementation", "Always use `findRichText: true`").

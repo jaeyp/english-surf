@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -407,8 +408,23 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
   }
 
   Future<void> _confirmSelection() async {
-    final text = _selectedTextBlocks.join('\n\n');
-    await context.push('/edit', extra: text);
+    final originalParts = <String>[];
+    final translationParts = <String>[];
+
+    for (final text in _selectedTextBlocks) {
+      if (RegExp(r'[가-힣]').hasMatch(text)) {
+        translationParts.add(text);
+      } else {
+        originalParts.add(text);
+      }
+    }
+
+    final extra = {
+      'original': originalParts.join('\n\n'),
+      'translation': translationParts.join('\n\n'),
+    };
+
+    await context.push('/edit', extra: extra);
     if (mounted) {
       context.pop();
     }
@@ -452,13 +468,43 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
             },
           ),
 
-          if (_customPaint != null) _customPaint!,
+          // Scrollable Text Overlay
+          if (_isCameraInitialized)
+            Positioned.fill(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Calculate required height for text blocks
+                  double contentHeight = constraints.maxHeight;
+                  if (_displayBlocks.isNotEmpty) {
+                    final lastBlockBottom = _displayBlocks.last.rect.bottom;
+                    contentHeight = math.max(
+                      contentHeight,
+                      lastBlockBottom + 150.0, // Extra padding at bottom
+                    );
+                  }
 
-          GestureDetector(
-            onTapUp: _onTap,
-            behavior: HitTestBehavior.translucent,
-            child: Container(color: Colors.transparent),
-          ),
+                  return Scrollbar(
+                    thumbVisibility: true,
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        width: constraints.maxWidth,
+                        height: contentHeight,
+                        child: Stack(
+                          children: [
+                            if (_customPaint != null) _customPaint!,
+                            GestureDetector(
+                              onTapUp: _onTap,
+                              behavior: HitTestBehavior.translucent,
+                              child: Container(color: Colors.transparent),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
 
           // AppBar
           Positioned(

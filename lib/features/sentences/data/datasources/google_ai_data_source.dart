@@ -17,8 +17,11 @@ class GoogleAiDataSource implements AiDataSource {
   Future<AiGeneratedContent> generateSentenceContent(
     String originalText, {
     List<String>? targetExpressions,
+    String? existingTranslation,
   }) async {
-    const systemInstruction = AiPrompts.autoFillInstruction;
+    final systemInstruction = existingTranslation != null
+        ? AiPrompts.autoFillInstructionNoTranslation
+        : AiPrompts.autoFillInstruction;
 
     final userPrompt =
         (targetExpressions != null && targetExpressions.isNotEmpty)
@@ -45,10 +48,13 @@ class GoogleAiDataSource implements AiDataSource {
       throw Exception('AI response was empty');
     }
 
-    return parseResponse(text);
+    return parseResponse(text, existingTranslation);
   }
 
-  static AiGeneratedContent parseResponse(String text) {
+  static AiGeneratedContent parseResponse(
+    String text, [
+    String? existingTranslation,
+  ]) {
     try {
       final cleanJson = text
           .replaceAll('```json', '')
@@ -56,6 +62,10 @@ class GoogleAiDataSource implements AiDataSource {
           .trim();
 
       final Map<String, dynamic> data = jsonDecode(cleanJson);
+
+      if (existingTranslation != null) {
+        data['translation'] = existingTranslation;
+      }
 
       if (data['notes'] is List) {
         data['notes'] = (data['notes'] as List).join('\n');
@@ -99,6 +109,26 @@ class GoogleAiDataSource implements AiDataSource {
     }
 
     return text.replaceAll('```', '').trim();
+  }
+
+  @override
+  Future<String> generateEnglishOriginal({required String translation}) async {
+    const systemInstruction = AiPrompts.reverseGenInstruction;
+
+    final response = await _client.models.generateContent(
+      model: _modelName,
+      request: GenerateContentRequest(
+        contents: [Content.text('KOREAN INPUT: "$translation"')],
+        systemInstruction: Content.text(systemInstruction),
+      ),
+    );
+
+    final text = response.text;
+    if (text == null || text.isEmpty) {
+      throw Exception('AI response was empty');
+    }
+
+    return text.replaceAll('```', '').trim().replaceAll(RegExp(r'^"|"$'), '');
   }
 
   @override

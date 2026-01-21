@@ -76,8 +76,11 @@ class GroqAiDataSource implements AiDataSource {
   Future<AiGeneratedContent> generateSentenceContent(
     String originalText, {
     List<String>? targetExpressions,
+    String? existingTranslation,
   }) async {
-    const systemInstruction = AiPrompts.autoFillInstruction;
+    final systemInstruction = existingTranslation != null
+        ? AiPrompts.autoFillInstructionNoTranslation
+        : AiPrompts.autoFillInstruction;
 
     final userPrompt =
         (targetExpressions != null && targetExpressions.isNotEmpty)
@@ -92,10 +95,13 @@ class GroqAiDataSource implements AiDataSource {
           0.3, // Lower temperature for accurate translation/definitions
     );
 
-    return parseResponse(text);
+    return parseResponse(text, existingTranslation);
   }
 
-  static AiGeneratedContent parseResponse(String text) {
+  static AiGeneratedContent parseResponse(
+    String text, [
+    String? existingTranslation,
+  ]) {
     try {
       final cleanJson = text
           .replaceAll('```json', '')
@@ -103,6 +109,10 @@ class GroqAiDataSource implements AiDataSource {
           .trim();
 
       final Map<String, dynamic> data = jsonDecode(cleanJson);
+
+      if (existingTranslation != null) {
+        data['translation'] = existingTranslation;
+      }
 
       if (data['notes'] is List) {
         data['notes'] = (data['notes'] as List).join('\n');
@@ -139,6 +149,19 @@ class GroqAiDataSource implements AiDataSource {
     );
 
     return text.replaceAll('```', '').trim();
+  }
+
+  @override
+  Future<String> generateEnglishOriginal({required String translation}) async {
+    const systemInstruction = AiPrompts.reverseGenInstruction;
+
+    final text = await _callGroqApi(
+      prompt: 'KOREAN INPUT: "$translation"',
+      systemInstruction: systemInstruction,
+      jsonMode: false,
+    );
+
+    return text.replaceAll('```', '').trim().replaceAll(RegExp(r'^"|"$'), '');
   }
 
   @override

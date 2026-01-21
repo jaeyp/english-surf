@@ -27,11 +27,13 @@ class AiRepositoryImpl implements AiRepository {
   Future<AiGeneratedContent> generateSentenceContent(
     String originalText, {
     List<String>? targetExpressions,
+    String? existingTranslation,
   }) async {
     final dataSource = await _getCurrentDataSource();
     return dataSource.generateSentenceContent(
       originalText,
       targetExpressions: targetExpressions,
+      existingTranslation: existingTranslation,
     );
   }
 
@@ -39,6 +41,12 @@ class AiRepositoryImpl implements AiRepository {
   Future<String> generateNotes(String originalText) async {
     final dataSource = await _getCurrentDataSource();
     return dataSource.generateNotes(originalText);
+  }
+
+  @override
+  Future<String> generateEnglishOriginal({required String translation}) async {
+    final dataSource = await _getCurrentDataSource();
+    return dataSource.generateEnglishOriginal(translation: translation);
   }
 
   @override
