@@ -13,7 +13,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EnglishSurf'),
+        title: const Text('Lingo Pocket'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),

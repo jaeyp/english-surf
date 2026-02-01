@@ -74,7 +74,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
             title: Text(
               isSelectionMode
                   ? '${selection.length} selected'
-                  : (currentFolder?.name ?? 'EnglishSurf'),
+                  : (currentFolder?.name ?? 'LingoPocket'),
             ),
             leading: isSelectionMode
                 ? IconButton(

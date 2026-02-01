@@ -1,4 +1,4 @@
-# UI Specification - EnglishSurf
+# UI Specification - LingoPocket
 
 > 앱의 UI/UX 요구사항 및 설계 사양서
 
