@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../sentences/domain/enums/ai_provider.dart';
 import '../../../sentences/data/providers/ai_providers.dart';
 import '../../../sentences/data/providers/sentence_providers.dart';
+import '../../../sentences/application/providers/folder_providers.dart';
 import '../../../sentences/domain/repositories/settings_repository.dart';
+import '../../data/repositories/data_repository_impl.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -30,7 +32,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return ListView(children: [_buildAiSection(settingsRepo)]);
+          return ListView(
+            children: [
+              _buildAiSection(settingsRepo),
+              const SizedBox(height: 16),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Data Management',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const _DataManagementCard(),
+            ],
+          );
         },
       ),
     );
@@ -53,6 +68,121 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 }
 
+class _DataManagementCard extends ConsumerStatefulWidget {
+  const _DataManagementCard();
+
+  @override
+  ConsumerState<_DataManagementCard> createState() =>
+      _DataManagementCardState();
+}
+
+class _DataManagementCardState extends ConsumerState<_DataManagementCard> {
+  bool _isLoading = false;
+
+  Future<void> _exportData() async {
+    setState(() => _isLoading = true);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref.read(dataRepositoryProvider).exportData();
+      if (mounted) {
+        messenger.showSnackBar(
+          const SnackBar(content: Text('Export ready via Share')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        messenger.showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.download),
+              title: const Text('Export Backup'),
+              subtitle: const Text(
+                'Export each folder as a separate JSON file',
+              ),
+              onTap: _isLoading
+                  ? null
+                  : () async {
+                      await _exportData();
+                    },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.upload),
+              title: const Text('Import Backup'),
+              subtitle: const Text('Restore data from a backup file'),
+              onTap: _isLoading
+                  ? null
+                  : () async {
+                      final messenger = ScaffoldMessenger.of(context);
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Import Data'),
+                          content: const Text(
+                            'Select one or more backup files (.json).\n\nEach file represents a folder. They will be imported and merged with your current data.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text('Import'),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (confirm == true) {
+                        if (!mounted) return;
+                        setState(() => _isLoading = true);
+                        try {
+                          await ref.read(dataRepositoryProvider).importData();
+                          // Invalidate folder list to reflect changes
+                          ref.invalidate(folderListProvider);
+                          if (mounted) {
+                            messenger.showSnackBar(
+                              const SnackBar(
+                                content: Text('Import successful!'),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (mounted) {
+                            messenger.showSnackBar(
+                              SnackBar(content: Text('Import failed: $e')),
+                            );
+                          }
+                        } finally {
+                          if (mounted) setState(() => _isLoading = false);
+                        }
+                      }
+                    },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ... helper Widgets ...
+
+// Existing _AiSettingsCard
 class _AiSettingsCard extends ConsumerStatefulWidget {
   const _AiSettingsCard();
 

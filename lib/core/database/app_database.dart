@@ -112,6 +112,28 @@ class AppDatabase extends _$AppDatabase {
       batch.insertAll(sentences, entries);
     });
   }
+
+  // Folder Operations
+  Future<List<FolderEntry>> getAllFolders() => select(folders).get();
+
+  Future<List<SentenceEntry>> getSentencesInFolder(String folderId) {
+    return (select(sentences)..where((t) => t.folderId.equals(folderId))).get();
+  }
+
+  Future<int> insertFolder(FoldersCompanion entry) =>
+      into(folders).insert(entry);
+
+  Future<void> insertAllFolders(List<FoldersCompanion> entries) async {
+    await batch((batch) {
+      // Create a set of IDs for incoming entries to check existence
+      // Since InsertMode.insertOrReplace is not directly available in batch for all scenarios easily without loop,
+      // or using customized queries.
+      // For simplicity in import (migration), we can try insertOrReplace behavior via batch if supported,
+      // or iterating. Drift batch supports insertAll which usually uses the default mode.
+      // Let's use insertAll with Mode.insertOrReplace
+      batch.insertAll(folders, entries, mode: InsertMode.insertOrReplace);
+    });
+  }
 }
 
 LazyDatabase _openConnection() {
