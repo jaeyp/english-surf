@@ -321,6 +321,16 @@ English sentence learning app with rich text styling and flashcard features.
 
 
 
+### 🐛 Debugging & iOS Stability (2026-02-01)
+- [x] **Data Portability (Import/Export)**:
+    - [x] **Export Strategy**: Implemented folder-based JSON export. Each folder is exported as a separate `.json` file containing all its sentences.
+    - [x] **Share Integration**: Used `share_plus` to create a generic "Share" sheet, allowing users to save to Files, Airdrop, or email.
+    - [x] **Import Integration**: Implemented `file_picker` to select multiple JSON files and restore folders/sentences to the database.
+    - [x] **iOS Fix**: Resolved `MissingPluginException` for `share_plus` on iOS 17 Simulator by deep cleaning Pods.
+- [x] **Rebranding (LingoPocket)**:
+    - [x] Initialize rebranding from TradeBud to LingoPocket.
+    - [x] Update App Name, Bundle ID, and related assets.
+
 ### 🚀 AI & OCR Refinement (2026-01-22)
 - [x] **AI Auto-Fill Enhancements**:
     - [x] **Conditional Fill**: Respects existing translation (only generates missing fields).
