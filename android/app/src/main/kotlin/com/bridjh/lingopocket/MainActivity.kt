@@ -1,4 +1,4 @@
-package com.example.flutter_bp
+package com.bridjh.lingopocket
 
 import io.flutter.embedding.android.FlutterActivity
 
