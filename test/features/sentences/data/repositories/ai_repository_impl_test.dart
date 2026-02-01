@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:english_surf/features/sentences/data/datasources/google_ai_data_source.dart';
+import 'package:english_surf/features/sentences/data/datasources/base_ai_data_source.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 
 void main() {
-  group('GoogleAiDataSource.parseResponse', () {
+  group('BaseAiDataSource.parseResponse', () {
     test('successfully parses clean JSON content', () {
       const mockJson = '''
 {
@@ -14,7 +14,7 @@ void main() {
 }
 ''';
 
-      final result = GoogleAiDataSource.parseResponse(mockJson);
+      final result = BaseAiDataSource.parseResponse(mockJson);
 
       expect(result.translation, '테스트 번역');
       expect(result.difficulty, Difficulty.beginner);
@@ -34,7 +34,7 @@ void main() {
 ```
 ''';
 
-      final result = GoogleAiDataSource.parseResponse(mockJson);
+      final result = BaseAiDataSource.parseResponse(mockJson);
 
       expect(result.translation, '마크다운 번역');
       expect(result.difficulty, Difficulty.intermediate);
@@ -45,7 +45,7 @@ void main() {
     test('throws exception when response is invalid JSON', () {
       const mockJson = 'Invalid JSON';
 
-      expect(() => GoogleAiDataSource.parseResponse(mockJson), throwsException);
+      expect(() => BaseAiDataSource.parseResponse(mockJson), throwsException);
     });
 
     test('successfully parses complex multi-note response', () {
@@ -57,7 +57,7 @@ void main() {
 }
 ''';
 
-      final result = GoogleAiDataSource.parseResponse(mockJson);
+      final result = BaseAiDataSource.parseResponse(mockJson);
 
       expect(result.translation, '심한 감기에 걸려서 회의를 취소해야 했어요.');
       expect(result.notes, contains('call off'));
@@ -70,7 +70,7 @@ void main() {
     test('throws exception when some keys are missing', () {
       const mockJson = '{"translation": "missing other keys"}';
 
-      expect(() => GoogleAiDataSource.parseResponse(mockJson), throwsException);
+      expect(() => BaseAiDataSource.parseResponse(mockJson), throwsException);
     });
   });
 }

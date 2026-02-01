@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 const String kPubspecFile = 'pubspec.yaml';
@@ -82,14 +84,14 @@ Future<void> setIosOnlyMode() async {
   final lines = await pubspec.readAsLines();
   final newLines = lines.map((line) {
     for (final dep in kGoogleMlKitDeps) {
-      if (line.trim().startsWith(dep + ':')) {
+      if (line.trim().startsWith('$dep:')) {
         return '# $line'; // Comment out
       }
     }
     return line;
   }).toList();
 
-  await pubspec.writeAsString(newLines.join('\n') + '\n');
+  await pubspec.writeAsString('${newLines.join('\n')}\n');
   print('Commented out Google ML Kit dependencies in $kPubspecFile.');
 
   // 4. Run pub get
@@ -130,14 +132,14 @@ Future<void> setHybridMode() async {
   final lines = await pubspec.readAsLines();
   final newLines = lines.map((line) {
     for (final dep in kGoogleMlKitDeps) {
-      if (line.trim().startsWith('#') && line.contains(dep + ':')) {
+      if (line.trim().startsWith('#') && line.contains('$dep:')) {
         return line.replaceFirst('# ', ''); // Uncomment
       }
     }
     return line;
   }).toList();
 
-  await pubspec.writeAsString(newLines.join('\n') + '\n');
+  await pubspec.writeAsString('${newLines.join('\n')}\n');
   print('Restored Google ML Kit dependencies in $kPubspecFile.');
 
   // 3. Run pub get

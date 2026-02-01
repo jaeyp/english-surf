@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'dart:developer' as developer;
 import 'package:googleai_dart/googleai_dart.dart';
-import '../../domain/entities/ai_generated_content.dart';
-import 'ai_data_source.dart';
+import 'base_ai_data_source.dart';
 
-import '../constants/ai_prompts.dart';
-
-class GoogleAiDataSource implements AiDataSource {
+class GoogleAiDataSource extends BaseAiDataSource {
   final GoogleAIClient _client;
   final String _modelName;
 
@@ -14,31 +10,25 @@ class GoogleAiDataSource implements AiDataSource {
     : _modelName = modelName;
 
   @override
-  Future<AiGeneratedContent> generateSentenceContent(
-    String originalText, {
-    List<String>? targetExpressions,
-    String? existingTranslation,
+  Future<String> performRequest({
+    required String prompt,
+    required String systemInstruction,
+    bool jsonMode = false,
+    double? temperature,
   }) async {
-    final systemInstruction = existingTranslation != null
-        ? AiPrompts.autoFillInstructionNoTranslation
-        : AiPrompts.autoFillInstruction;
-
-    final userPrompt =
-        (targetExpressions != null && targetExpressions.isNotEmpty)
-        ? 'ENGLISH INPUT: "$originalText"\nTARGET: ${targetExpressions.join(", ")}'
-        : 'ENGLISH INPUT: "$originalText"';
     developer.log(
-      'Google AI Request - Model: $_modelName, Text: $originalText',
+      'Google AI Request - Model: $_modelName',
       name: 'GoogleAiDataSource',
     );
 
     final response = await _client.models.generateContent(
       model: _modelName,
       request: GenerateContentRequest(
-        contents: [Content.text(userPrompt)],
+        contents: [Content.text(prompt)],
         systemInstruction: Content.text(systemInstruction),
-        generationConfig: const GenerationConfig(
-          responseMimeType: 'application/json',
+        generationConfig: GenerationConfig(
+          responseMimeType: jsonMode ? 'application/json' : 'text/plain',
+          temperature: temperature,
         ),
       ),
     );
@@ -48,123 +38,6 @@ class GoogleAiDataSource implements AiDataSource {
       throw Exception('AI response was empty');
     }
 
-    return parseResponse(text, existingTranslation);
-  }
-
-  static AiGeneratedContent parseResponse(
-    String text, [
-    String? existingTranslation,
-  ]) {
-    try {
-      final cleanJson = text
-          .replaceAll('```json', '')
-          .replaceAll('```', '')
-          .trim();
-
-      final Map<String, dynamic> data = jsonDecode(cleanJson);
-
-      if (existingTranslation != null) {
-        data['translation'] = existingTranslation;
-      }
-
-      if (data['notes'] is List) {
-        data['notes'] = (data['notes'] as List).join('\n');
-      }
-      if (data['paraphrases'] is List) {
-        data['paraphrases'] = (data['paraphrases'] as List).join('\n');
-      }
-
-      if (data['paraphrases'] is String) {
-        final lines = (data['paraphrases'] as String).split('\n');
-        final cleanedLines = lines
-            .map((line) {
-              return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
-            })
-            .where((l) => l.isNotEmpty)
-            .toList();
-        data['paraphrases'] = cleanedLines.join('\n');
-      }
-
-      return AiGeneratedContent.fromJson(data);
-    } catch (e) {
-      throw Exception('Failed to parse AI response: $e\nOriginal text: $text');
-    }
-  }
-
-  @override
-  Future<String> generateNotes(String originalText) async {
-    const systemInstruction = AiPrompts.notesInstruction;
-
-    final response = await _client.models.generateContent(
-      model: _modelName,
-      request: GenerateContentRequest(
-        contents: [Content.text('ENGLISH INPUT: "$originalText"')],
-        systemInstruction: Content.text(systemInstruction),
-      ),
-    );
-
-    final text = response.text;
-    if (text == null || text.isEmpty) {
-      throw Exception('AI response was empty');
-    }
-
-    return text.replaceAll('```', '').trim();
-  }
-
-  @override
-  Future<String> generateEnglishOriginal({required String translation}) async {
-    const systemInstruction = AiPrompts.reverseGenInstruction;
-
-    final response = await _client.models.generateContent(
-      model: _modelName,
-      request: GenerateContentRequest(
-        contents: [Content.text('KOREAN INPUT: "$translation"')],
-        systemInstruction: Content.text(systemInstruction),
-      ),
-    );
-
-    final text = response.text;
-    if (text == null || text.isEmpty) {
-      throw Exception('AI response was empty');
-    }
-
-    return text.replaceAll('```', '').trim().replaceAll(RegExp(r'^"|"$'), '');
-  }
-
-  @override
-  Future<String> generateParaphrases({
-    required String originalText,
-    required String translation,
-  }) async {
-    const systemInstruction = AiPrompts.paraphrasesInstruction;
-
-    final userPrompt =
-        'ENGLISH INPUT: "$originalText"\nTRANSLATION: "$translation"';
-
-    final response = await _client.models.generateContent(
-      model: _modelName,
-      request: GenerateContentRequest(
-        contents: [Content.text(userPrompt)],
-        systemInstruction: Content.text(systemInstruction),
-      ),
-    );
-
-    final text = response.text;
-    if (text == null || text.isEmpty) {
-      throw Exception('AI response was empty');
-    }
-
-    var cleanText = text.replaceAll('```', '').trim();
-    cleanText = cleanText.replaceAll('\\n', '\n');
-
-    final lines = cleanText.split('\n');
-    final cleanedLines = lines
-        .map((line) {
-          return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
-        })
-        .where((l) => l.isNotEmpty)
-        .toList();
-
-    return cleanedLines.join('\n');
+    return text;
   }
 }

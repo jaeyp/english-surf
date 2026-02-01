@@ -20,8 +20,8 @@ class TextRecognizerPainter extends CustomPainter {
       // 1. Draw Bubble Background
       final Paint bubblePaint = Paint()
         ..color = isSelected
-            ? Colors.green.withValues(alpha: 0.9)
-            : const Color(0xFFEEEEEE).withValues(alpha: 0.95)
+            ? Colors.green.withValues(alpha: 0.85)
+            : const Color(0xFFEEEEEE).withValues(alpha: 0.8)
         ..style = PaintingStyle.fill;
 
       canvas.drawRRect(rrect, bubblePaint);

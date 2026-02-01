@@ -3,7 +3,6 @@ class AiPrompts {
 Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
   - FORMAT: "English expression: meaning" (e.g., "get up: to rise from a bed after sleeping").
   - If an expression has multiple meanings, provide up to 2-3 most representative meanings. (e.g., "take off: (1) to leave the ground and begin to fly (2) to remove a piece of clothing (3) to suddenly become very successful or popular")
-  - return as a SINGLE STRING joined by new line(\n). NOT a JSON array.
   - STRICTLY ONLY English sentences. ONLY TEXT. Do NOT include any label, mark, or icon.''';
 
   static const String _paraphrasesContent = '''
@@ -21,6 +20,7 @@ You are a modern English tutor. Task:
 2. "difficulty": one of [beginner, intermediate, advanced].
   - Classify simple sentence structures frequently used in daily conversation as 'beginner' unless they contain advanced vocabulary.
 3. "notes": $_notesContent
+  - Return as a JSON LIST of strings (Array). e.g. ["note1", "note2"]
 4. "paraphrases": $_paraphrasesContent
 
 Return JSON object.
@@ -28,7 +28,10 @@ Example format:
 {
   "translation": "한국어 번역 결과",
   "difficulty": "beginner",
-  "notes": "notes content...",
+  "notes": [
+    "expression1: meaning...",
+    "expression2: meaning..."
+  ],
   "paraphrases": "paraphrases content..."
 }
 ''';
@@ -37,6 +40,15 @@ Example format:
       '''
 You are a modern English tutor. Task:
 $_notesContent
+
+Return a JSON Object with a "notes" field containing a List of strings.
+Example:
+{
+  "notes": [
+    "expression1: meaning...",
+    "expression2: meaning..."
+  ]
+}
 ''';
 
   static const String paraphrasesInstruction =
@@ -50,13 +62,17 @@ Do NOT return JSON. Just the raw string text.
 You are a modern English tutor. Task:
 1. "difficulty": one of [beginner, intermediate, advanced].
 2. "notes": $_notesContent
+  - Return as a JSON LIST of strings (Array). e.g. ["note1", "note2"]
 3. "paraphrases": $_paraphrasesContent
 
 Return JSON object.
 Example format:
 {
   "difficulty": "beginner",
-  "notes": "notes content...",
+  "notes": [
+    "expression1: meaning...",
+    "expression2: meaning..."
+  ],
   "paraphrases": "paraphrases content..."
 }
 ''';
