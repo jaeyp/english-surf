@@ -60,6 +60,8 @@ dependencies:
   apple_vision_recognize_text: ^0.0.4
   image: ^4.7.2
   apple_vision_commons: ^0.0.3
+  share_plus: ^12.0.1
+  file_picker: ^10.3.10
 
 dev_dependencies:
   flutter_test:
