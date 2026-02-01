@@ -47,7 +47,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: goRouter,
-      title: 'English Surf',
+      title: 'LingoPocket',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       scrollBehavior: AppScrollBehavior(),
