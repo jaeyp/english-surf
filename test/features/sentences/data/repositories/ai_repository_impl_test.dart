@@ -42,6 +42,23 @@ void main() {
       expect(result.paraphrases, 'Markdown Example');
     });
 
+    test('successfully parses paraphrases as a JSON list', () {
+      const mockJson = '''
+{
+  "translation": "리스트 파라프레이즈",
+  "difficulty": "advanced",
+  "notes": "노트",
+  "paraphrases": ["Para 1", "Para 2", "Para 3"]
+}
+''';
+
+      final result = BaseAiDataSource.parseResponse(mockJson);
+
+      expect(result.translation, '리스트 파라프레이즈');
+      expect(result.paraphrases, 'Para 1\nPara 2\nPara 3');
+      expect(result.paraphrases.split('\n').length, 3);
+    });
+
     test('throws exception when response is invalid JSON', () {
       const mockJson = 'Invalid JSON';
 

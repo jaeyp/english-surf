@@ -94,22 +94,27 @@ abstract class BaseAiDataSource implements AiDataSource {
     final text = await performRequest(
       prompt: userPrompt,
       systemInstruction: systemInstruction,
-      jsonMode: false,
+      jsonMode: true,
       temperature: 1.3, // Higher temperature for more variety
     );
 
-    var cleanText = text.replaceAll('```', '').trim();
-    cleanText = cleanText.replaceAll('\\n', '\n');
+    try {
+      final cleanJson = text
+          .replaceAll('```json', '')
+          .replaceAll('```', '')
+          .trim();
+      final Map<String, dynamic> data = jsonDecode(cleanJson);
 
-    final lines = cleanText.split('\n');
-    final cleanedLines = lines
-        .map((line) {
-          return line.replaceAll(RegExp(r'^.*:\s*'), '').trim();
-        })
-        .where((l) => l.isNotEmpty)
-        .toList();
-
-    return cleanedLines.join('\n');
+      if (data['paraphrases'] is List) {
+        return (data['paraphrases'] as List).join('\n');
+      } else if (data['paraphrases'] is String) {
+        return data['paraphrases'] as String;
+      }
+      return text;
+    } catch (e) {
+      // Fallback if JSON parsing fails
+      return text.replaceAll('```', '').trim();
+    }
   }
 
   static AiGeneratedContent parseResponse(

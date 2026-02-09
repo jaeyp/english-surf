@@ -6,12 +6,12 @@ Extract 1-3 key English expressions (phrasal verbs/vocabulary) from the INPUT.
   - STRICTLY ONLY English sentences. ONLY TEXT. Do NOT include any label, mark, or icon.''';
 
   static const String _paraphrasesContent = '''
-Create 1-2 sentences that PARAPHRASE the original meaning (based on "translation") into casual and natural daily conversation english.
+    Create 1-2 sentences that PARAPHRASE the original meaning (based on "translation") into casual and natural daily conversation english.
   - CRITICAL: Generate ONLY if you can provide "Native-level", "Casual", and "Natural" daily conversation sentences.
-  - If the input is too simple, textbook-style, or awkward to paraphrase naturally, RETURN AN EMPTY STRING.
-  - If you are not 100% sure it sounds like a native speaker, RETURN AN EMPTY STRING.
+  - If the input is too simple, textbook-style, or awkward to paraphrase naturally, RETURN AN EMPTY ARRAY [].
+  - If you are not 100% sure it sounds like a native speaker, RETURN AN EMPTY ARRAY [].
   - STRICTLY PLAIN TEXT ONLY. NO numbering, NO bullets, NO labels, NO quotation marks.
-  - Return as a SINGLE STRING joined by new line(\n).''';
+  - Return as a JSON LIST of strings (Array). e.g. ["paraphrase1", "paraphrase2"]''';
 
   static const String autoFillInstruction =
       '''
@@ -32,7 +32,10 @@ Example format:
     "expression1: meaning...",
     "expression2: meaning..."
   ],
-  "paraphrases": "paraphrases content..."
+  "paraphrases": [
+    "paraphrase1",
+    "paraphrase2"
+  ]
 }
 ''';
 
@@ -55,7 +58,15 @@ Example:
       '''
 You are a modern English tutor. Task:
 $_paraphrasesContent
-Do NOT return JSON. Just the raw string text.
+
+Return a JSON Object with a "paraphrases" field containing a List of strings.
+Example:
+{
+  "paraphrases": [
+    "paraphrase1",
+    "paraphrase2"
+  ]
+}
 ''';
   static const String autoFillInstructionNoTranslation =
       '''
@@ -73,7 +84,10 @@ Example format:
     "expression1: meaning...",
     "expression2: meaning..."
   ],
-  "paraphrases": "paraphrases content..."
+  "paraphrases": [
+    "paraphrase1",
+    "paraphrase2"
+  ]
 }
 ''';
 
