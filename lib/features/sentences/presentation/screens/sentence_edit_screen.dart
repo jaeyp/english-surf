@@ -466,7 +466,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Key Sentence:',
+                          'Expression:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextButton.icon(
