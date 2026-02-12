@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../datasources/sentence_local_data_source.dart';
 import '../repositories/sentence_repository_impl.dart';
 import '../repositories/settings_repository_impl.dart';
 import '../repositories/folder_repository_impl.dart';
@@ -12,11 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'sentence_providers.g.dart';
 
 @riverpod
-SentenceLocalDataSource sentenceLocalDataSource(Ref ref) {
-  return SentenceLocalDataSourceImpl();
-}
-
-@riverpod
 AppDatabase appDatabase(Ref ref) {
   final db = AppDatabase();
   ref.onDispose(() => db.close());
@@ -25,12 +19,8 @@ AppDatabase appDatabase(Ref ref) {
 
 @riverpod
 SentenceRepository sentenceRepository(Ref ref) {
-  final localDataSource = ref.watch(sentenceLocalDataSourceProvider);
   final database = ref.watch(appDatabaseProvider);
-  return SentenceRepositoryImpl(
-    localDataSource: localDataSource,
-    database: database,
-  );
+  return SentenceRepositoryImpl(database: database);
 }
 
 @riverpod

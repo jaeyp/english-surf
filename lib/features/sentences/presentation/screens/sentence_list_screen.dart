@@ -32,10 +32,10 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
     final selection = ref.watch(selectionProvider);
     final currentFolderId = ref.watch(currentFolderProvider);
     final folders = ref.watch(folderListProvider).value ?? [];
-    final currentFolder = currentFolderId != null
-        ? folders.firstWhere(
+    final currentFolder = currentFolderId != null && folders.isNotEmpty
+        ? folders.cast<dynamic>().firstWhere(
             (f) => f.id == currentFolderId,
-            orElse: () => folders.firstWhere((f) => f.id == 'default_folder'),
+            orElse: () => null,
           )
         : null;
 

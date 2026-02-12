@@ -9,54 +9,6 @@ part of 'sentence_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(sentenceLocalDataSource)
-const sentenceLocalDataSourceProvider = SentenceLocalDataSourceProvider._();
-
-final class SentenceLocalDataSourceProvider
-    extends
-        $FunctionalProvider<
-          SentenceLocalDataSource,
-          SentenceLocalDataSource,
-          SentenceLocalDataSource
-        >
-    with $Provider<SentenceLocalDataSource> {
-  const SentenceLocalDataSourceProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'sentenceLocalDataSourceProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$sentenceLocalDataSourceHash();
-
-  @$internal
-  @override
-  $ProviderElement<SentenceLocalDataSource> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  SentenceLocalDataSource create(Ref ref) {
-    return sentenceLocalDataSource(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SentenceLocalDataSource value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<SentenceLocalDataSource>(value),
-    );
-  }
-}
-
-String _$sentenceLocalDataSourceHash() =>
-    r'957cb31c7fdc25cf1b91255897042986a1236ec6';
-
 @ProviderFor(appDatabase)
 const appDatabaseProvider = AppDatabaseProvider._();
 
@@ -144,7 +96,7 @@ final class SentenceRepositoryProvider
 }
 
 String _$sentenceRepositoryHash() =>
-    r'891a11070644e1f2096931a536dab320c039bc7a';
+    r'e5c93b7c694e54a33b27fc2e5cb6897437949e4e';
 
 @ProviderFor(folderRepository)
 const folderRepositoryProvider = FolderRepositoryProvider._();

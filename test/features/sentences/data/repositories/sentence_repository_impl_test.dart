@@ -1,28 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:drift/native.dart';
-import 'package:english_surf/features/sentences/data/datasources/sentence_local_data_source.dart';
 import 'package:english_surf/features/sentences/data/repositories/sentence_repository_impl.dart';
 import 'package:english_surf/core/database/app_database.dart';
 import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';
 
-class MockSentenceLocalDataSource extends Mock
-    implements SentenceLocalDataSource {}
-
 void main() {
   late SentenceRepositoryImpl repository;
-  late MockSentenceLocalDataSource mockLocalDataSource;
   late AppDatabase database;
 
   setUp(() {
-    mockLocalDataSource = MockSentenceLocalDataSource();
     database = AppDatabase(NativeDatabase.memory());
-    repository = SentenceRepositoryImpl(
-      localDataSource: mockLocalDataSource,
-      database: database,
-    );
+    repository = SentenceRepositoryImpl(database: database);
   });
 
   tearDown(() async {
@@ -37,69 +27,41 @@ void main() {
     difficulty: Difficulty.beginner,
   );
 
-  final tSentenceList = [testSentence];
-
   group('getAllSentences', () {
-    test('should seed from local data source when database is empty', () async {
-      // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList);
-
+    test('should return empty list when database is empty', () async {
       // act
       final result = await repository.getAllSentences();
 
       // assert
-      expect(result.length, tSentenceList.length);
-      expect(result.first.original.text, tSentenceList.first.original.text);
-      verify(() => mockLocalDataSource.getSentences()).called(1);
-
-      // Verify it's actually in the database now
-      final dbContent = await database.getAllSentences();
-      expect(dbContent.isNotEmpty, true);
+      expect(result, isEmpty);
     });
 
-    test('should return from database when not empty', () async {
+    test('should return sentences from database', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList);
-
-      // Pre-fill database
-      await repository.getAllSentences();
-      clearInteractions(mockLocalDataSource);
+      await repository.addSentence(testSentence.copyWith(folderId: 'folder_a'));
 
       // act
       final result = await repository.getAllSentences();
 
       // assert
-      expect(result.isNotEmpty, true);
-      verifyNever(() => mockLocalDataSource.getSentences());
+      expect(result.length, 1);
+      expect(result.first.original.text, 'Hello');
     });
   });
 
   group('getSentenceById', () {
     test('should return sentence when id exists', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList);
-      await repository.getAllSentences(); // Ensure seeding
+      await repository.addSentence(testSentence.copyWith(folderId: 'folder_a'));
 
       // act
       final result = await repository.getSentenceById(1);
 
       // assert
-      expect(result?.original.text, tSentenceList.first.original.text);
+      expect(result?.original.text, 'Hello');
     });
 
     test('should return null when id does not exist', () async {
-      // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList);
-      await repository.getAllSentences(); // Ensure seeding
-
       // act
       final result = await repository.getSentenceById(999);
 
@@ -111,10 +73,7 @@ void main() {
   group('toggleFavorite', () {
     test('should toggle isFavorite status in database', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList);
-      await repository.getAllSentences(); // Seed
+      await repository.addSentence(testSentence.copyWith(folderId: 'folder_a'));
 
       // act
       await repository.toggleFavorite(1, true);
@@ -135,10 +94,7 @@ void main() {
   group('Folder Operations', () {
     test('should move sentences to a new folder', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => tSentenceList); // id:1, default folder
-      await repository.getAllSentences();
+      await repository.addSentence(testSentence.copyWith(folderId: 'folder_a'));
 
       // act
       await repository.moveSentences([1], 'new_folder');
@@ -150,11 +106,6 @@ void main() {
 
     test('should get sentences by folder', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => []);
-
-      // Manually add sentences with specific folders
       await repository.addSentence(
         testSentence.copyWith(id: 1, folderId: 'folder_a'),
       );
@@ -184,15 +135,10 @@ void main() {
   group('reorderSentences', () {
     test('should update order for multiple sentences', () async {
       // arrange
-      when(
-        () => mockLocalDataSource.getSentences(),
-      ).thenAnswer((_) async => []);
-
       await repository.addSentence(testSentence.copyWith(id: 1, order: 10));
       await repository.addSentence(testSentence.copyWith(id: 2, order: 20));
 
       // act
-      // Swap orders
       final reordered = [
         testSentence.copyWith(id: 1, order: 20),
         testSentence.copyWith(id: 2, order: 10),
