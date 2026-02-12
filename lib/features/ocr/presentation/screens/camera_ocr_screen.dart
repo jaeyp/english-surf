@@ -7,13 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../../../features/sentences/domain/enums/app_language.dart';
+import '../../../../features/sentences/domain/enums/script_type.dart';
 import '../widgets/text_recognizer_painter.dart';
 import '../utils/ocr_processor.dart';
 import '../../domain/services/ocr_service.dart';
 import '../../domain/models/ocr_input.dart';
 
 class CameraOCRScreen extends StatefulWidget {
-  const CameraOCRScreen({super.key});
+  final AppLanguage originalLang;
+  final AppLanguage translationLang;
+
+  const CameraOCRScreen({
+    super.key,
+    this.originalLang = AppLanguage.english,
+    this.translationLang = AppLanguage.korean,
+  });
 
   @override
   State<CameraOCRScreen> createState() => _CameraOCRScreenState();
@@ -419,7 +428,11 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     final translationParts = <String>[];
 
     for (final text in _selectedTextBlocks) {
-      if (RegExp(r'[가-힣]').hasMatch(text)) {
+      // Use the translation language's script type to classify
+      final textScript = RegExp(r'[가-힣]').hasMatch(text)
+          ? ScriptType.korean
+          : ScriptType.latin;
+      if (textScript == widget.translationLang.scriptType) {
         translationParts.add(text);
       } else {
         originalParts.add(text);
@@ -540,7 +553,9 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
                     color: Colors.white,
                   ),
                   label: Text(
-                    _isBilingualMode ? 'Eng+Kor' : 'English',
+                    _isBilingualMode
+                        ? '${widget.originalLang.displayName}+${widget.translationLang.displayName}'
+                        : widget.originalLang.displayName,
                     style: const TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(

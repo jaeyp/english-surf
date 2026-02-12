@@ -49,7 +49,34 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
     requiredDuringInsert: false,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, name, createdAt, flagColor];
+  late final GeneratedColumnWithTypeConverter<AppLanguage, String>
+  originalLanguage = GeneratedColumn<String>(
+    'original_language',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('en'),
+  ).withConverter<AppLanguage>($FoldersTable.$converteroriginalLanguage);
+  @override
+  late final GeneratedColumnWithTypeConverter<AppLanguage, String>
+  translationLanguage = GeneratedColumn<String>(
+    'translation_language',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('ko'),
+  ).withConverter<AppLanguage>($FoldersTable.$convertertranslationLanguage);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    createdAt,
+    flagColor,
+    originalLanguage,
+    translationLanguage,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -114,6 +141,18 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
         DriftSqlType.string,
         data['${effectivePrefix}flag_color'],
       ),
+      originalLanguage: $FoldersTable.$converteroriginalLanguage.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}original_language'],
+        )!,
+      ),
+      translationLanguage: $FoldersTable.$convertertranslationLanguage.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}translation_language'],
+        )!,
+      ),
     );
   }
 
@@ -121,6 +160,11 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, FolderEntry> {
   $FoldersTable createAlias(String alias) {
     return $FoldersTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<AppLanguage, String> $converteroriginalLanguage =
+      const AppLanguageConverter();
+  static TypeConverter<AppLanguage, String> $convertertranslationLanguage =
+      const AppLanguageConverter();
 }
 
 class FolderEntry extends DataClass implements Insertable<FolderEntry> {
@@ -128,11 +172,15 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
   final String name;
   final DateTime createdAt;
   final String? flagColor;
+  final AppLanguage originalLanguage;
+  final AppLanguage translationLanguage;
   const FolderEntry({
     required this.id,
     required this.name,
     required this.createdAt,
     this.flagColor,
+    required this.originalLanguage,
+    required this.translationLanguage,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -142,6 +190,16 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || flagColor != null) {
       map['flag_color'] = Variable<String>(flagColor);
+    }
+    {
+      map['original_language'] = Variable<String>(
+        $FoldersTable.$converteroriginalLanguage.toSql(originalLanguage),
+      );
+    }
+    {
+      map['translation_language'] = Variable<String>(
+        $FoldersTable.$convertertranslationLanguage.toSql(translationLanguage),
+      );
     }
     return map;
   }
@@ -154,6 +212,8 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       flagColor: flagColor == null && nullToAbsent
           ? const Value.absent()
           : Value(flagColor),
+      originalLanguage: Value(originalLanguage),
+      translationLanguage: Value(translationLanguage),
     );
   }
 
@@ -167,6 +227,12 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       name: serializer.fromJson<String>(json['name']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       flagColor: serializer.fromJson<String?>(json['flagColor']),
+      originalLanguage: serializer.fromJson<AppLanguage>(
+        json['originalLanguage'],
+      ),
+      translationLanguage: serializer.fromJson<AppLanguage>(
+        json['translationLanguage'],
+      ),
     );
   }
   @override
@@ -177,6 +243,10 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       'name': serializer.toJson<String>(name),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'flagColor': serializer.toJson<String?>(flagColor),
+      'originalLanguage': serializer.toJson<AppLanguage>(originalLanguage),
+      'translationLanguage': serializer.toJson<AppLanguage>(
+        translationLanguage,
+      ),
     };
   }
 
@@ -185,11 +255,15 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
     String? name,
     DateTime? createdAt,
     Value<String?> flagColor = const Value.absent(),
+    AppLanguage? originalLanguage,
+    AppLanguage? translationLanguage,
   }) => FolderEntry(
     id: id ?? this.id,
     name: name ?? this.name,
     createdAt: createdAt ?? this.createdAt,
     flagColor: flagColor.present ? flagColor.value : this.flagColor,
+    originalLanguage: originalLanguage ?? this.originalLanguage,
+    translationLanguage: translationLanguage ?? this.translationLanguage,
   );
   FolderEntry copyWithCompanion(FoldersCompanion data) {
     return FolderEntry(
@@ -197,6 +271,12 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
       name: data.name.present ? data.name.value : this.name,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       flagColor: data.flagColor.present ? data.flagColor.value : this.flagColor,
+      originalLanguage: data.originalLanguage.present
+          ? data.originalLanguage.value
+          : this.originalLanguage,
+      translationLanguage: data.translationLanguage.present
+          ? data.translationLanguage.value
+          : this.translationLanguage,
     );
   }
 
@@ -206,13 +286,22 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
-          ..write('flagColor: $flagColor')
+          ..write('flagColor: $flagColor, ')
+          ..write('originalLanguage: $originalLanguage, ')
+          ..write('translationLanguage: $translationLanguage')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, createdAt, flagColor);
+  int get hashCode => Object.hash(
+    id,
+    name,
+    createdAt,
+    flagColor,
+    originalLanguage,
+    translationLanguage,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -220,7 +309,9 @@ class FolderEntry extends DataClass implements Insertable<FolderEntry> {
           other.id == this.id &&
           other.name == this.name &&
           other.createdAt == this.createdAt &&
-          other.flagColor == this.flagColor);
+          other.flagColor == this.flagColor &&
+          other.originalLanguage == this.originalLanguage &&
+          other.translationLanguage == this.translationLanguage);
 }
 
 class FoldersCompanion extends UpdateCompanion<FolderEntry> {
@@ -228,12 +319,16 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
   final Value<String> name;
   final Value<DateTime> createdAt;
   final Value<String?> flagColor;
+  final Value<AppLanguage> originalLanguage;
+  final Value<AppLanguage> translationLanguage;
   final Value<int> rowid;
   const FoldersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.flagColor = const Value.absent(),
+    this.originalLanguage = const Value.absent(),
+    this.translationLanguage = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   FoldersCompanion.insert({
@@ -241,6 +336,8 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     required String name,
     required DateTime createdAt,
     this.flagColor = const Value.absent(),
+    this.originalLanguage = const Value.absent(),
+    this.translationLanguage = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -250,6 +347,8 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     Expression<String>? name,
     Expression<DateTime>? createdAt,
     Expression<String>? flagColor,
+    Expression<String>? originalLanguage,
+    Expression<String>? translationLanguage,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -257,6 +356,9 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
       if (name != null) 'name': name,
       if (createdAt != null) 'created_at': createdAt,
       if (flagColor != null) 'flag_color': flagColor,
+      if (originalLanguage != null) 'original_language': originalLanguage,
+      if (translationLanguage != null)
+        'translation_language': translationLanguage,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -266,6 +368,8 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     Value<String>? name,
     Value<DateTime>? createdAt,
     Value<String?>? flagColor,
+    Value<AppLanguage>? originalLanguage,
+    Value<AppLanguage>? translationLanguage,
     Value<int>? rowid,
   }) {
     return FoldersCompanion(
@@ -273,6 +377,8 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
       flagColor: flagColor ?? this.flagColor,
+      originalLanguage: originalLanguage ?? this.originalLanguage,
+      translationLanguage: translationLanguage ?? this.translationLanguage,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -292,6 +398,18 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
     if (flagColor.present) {
       map['flag_color'] = Variable<String>(flagColor.value);
     }
+    if (originalLanguage.present) {
+      map['original_language'] = Variable<String>(
+        $FoldersTable.$converteroriginalLanguage.toSql(originalLanguage.value),
+      );
+    }
+    if (translationLanguage.present) {
+      map['translation_language'] = Variable<String>(
+        $FoldersTable.$convertertranslationLanguage.toSql(
+          translationLanguage.value,
+        ),
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -305,6 +423,8 @@ class FoldersCompanion extends UpdateCompanion<FolderEntry> {
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
           ..write('flagColor: $flagColor, ')
+          ..write('originalLanguage: $originalLanguage, ')
+          ..write('translationLanguage: $translationLanguage, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -892,6 +1012,8 @@ typedef $$FoldersTableCreateCompanionBuilder =
       required String name,
       required DateTime createdAt,
       Value<String?> flagColor,
+      Value<AppLanguage> originalLanguage,
+      Value<AppLanguage> translationLanguage,
       Value<int> rowid,
     });
 typedef $$FoldersTableUpdateCompanionBuilder =
@@ -900,6 +1022,8 @@ typedef $$FoldersTableUpdateCompanionBuilder =
       Value<String> name,
       Value<DateTime> createdAt,
       Value<String?> flagColor,
+      Value<AppLanguage> originalLanguage,
+      Value<AppLanguage> translationLanguage,
       Value<int> rowid,
     });
 
@@ -953,6 +1077,18 @@ class $$FoldersTableFilterComposer
   ColumnFilters<String> get flagColor => $composableBuilder(
     column: $table.flagColor,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<AppLanguage, AppLanguage, String>
+  get originalLanguage => $composableBuilder(
+    column: $table.originalLanguage,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<AppLanguage, AppLanguage, String>
+  get translationLanguage => $composableBuilder(
+    column: $table.translationLanguage,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   Expression<bool> sentencesRefs(
@@ -1009,6 +1145,16 @@ class $$FoldersTableOrderingComposer
     column: $table.flagColor,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get originalLanguage => $composableBuilder(
+    column: $table.originalLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get translationLanguage => $composableBuilder(
+    column: $table.translationLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$FoldersTableAnnotationComposer
@@ -1031,6 +1177,18 @@ class $$FoldersTableAnnotationComposer
 
   GeneratedColumn<String> get flagColor =>
       $composableBuilder(column: $table.flagColor, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<AppLanguage, String> get originalLanguage =>
+      $composableBuilder(
+        column: $table.originalLanguage,
+        builder: (column) => column,
+      );
+
+  GeneratedColumnWithTypeConverter<AppLanguage, String>
+  get translationLanguage => $composableBuilder(
+    column: $table.translationLanguage,
+    builder: (column) => column,
+  );
 
   Expression<T> sentencesRefs<T extends Object>(
     Expression<T> Function($$SentencesTableAnnotationComposer a) f,
@@ -1090,12 +1248,16 @@ class $$FoldersTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<String?> flagColor = const Value.absent(),
+                Value<AppLanguage> originalLanguage = const Value.absent(),
+                Value<AppLanguage> translationLanguage = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => FoldersCompanion(
                 id: id,
                 name: name,
                 createdAt: createdAt,
                 flagColor: flagColor,
+                originalLanguage: originalLanguage,
+                translationLanguage: translationLanguage,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -1104,12 +1266,16 @@ class $$FoldersTableTableManager
                 required String name,
                 required DateTime createdAt,
                 Value<String?> flagColor = const Value.absent(),
+                Value<AppLanguage> originalLanguage = const Value.absent(),
+                Value<AppLanguage> translationLanguage = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => FoldersCompanion.insert(
                 id: id,
                 name: name,
                 createdAt: createdAt,
                 flagColor: flagColor,
+                originalLanguage: originalLanguage,
+                translationLanguage: translationLanguage,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:math' as math;
 import '../../domain/models/ocr_block.dart';
+import '../../../../features/sentences/domain/enums/script_type.dart';
 import 'coordinates_translator.dart';
 
 /// Constants for OCR Logic
@@ -158,12 +159,12 @@ class OcrProcessor {
         forceSplitNext = false;
       }
 
-      // Rule 0: Language Mismatch
-      // If one block is Korean and the other is not, we force a split.
+      // Rule 0: Script Mismatch
+      // If blocks use different scripts (e.g., Latin vs Korean), force a split.
       if (!split) {
-        if (_isKorean(a.text) != _isKorean(b.text)) {
+        if (_detectScriptType(a.text) != _detectScriptType(b.text)) {
           split = true;
-          // reason = "Language Mismatch";
+          // reason = "Script Mismatch";
         }
       }
 
@@ -297,7 +298,9 @@ class OcrProcessor {
     return Rect.fromLTRB(left, top, right, bottom);
   }
 
-  static bool _isKorean(String text) {
-    return RegExp(r'[가-힣]').hasMatch(text);
+  /// Detect the script type of text for merge logic.
+  static ScriptType _detectScriptType(String text) {
+    if (RegExp(r'[가-힣]').hasMatch(text)) return ScriptType.korean;
+    return ScriptType.latin;
   }
 }

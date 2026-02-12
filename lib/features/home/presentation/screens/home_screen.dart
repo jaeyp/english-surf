@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../sentences/application/providers/folder_providers.dart';
+import '../../../sentences/domain/enums/app_language.dart';
+import '../../../sentences/data/providers/sentence_providers.dart';
 import '../widgets/folder_filter_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -40,37 +42,111 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  void _showAddFolderDialog(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
-    showDialog(
+  Future<void> _showAddFolderDialog(BuildContext context, WidgetRef ref) async {
+    final settingsRepo = ref.read(settingsRepositoryProvider);
+    final defaultOriginal = await settingsRepo.getDefaultOriginalLanguage();
+    final defaultTranslation = await settingsRepo
+        .getDefaultTranslationLanguage();
+
+    if (!context.mounted) return;
+
+    final nameController = TextEditingController();
+    AppLanguage selectedOriginal = defaultOriginal;
+    AppLanguage selectedTranslation = defaultTranslation;
+
+    await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('New Folder'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'Folder name'),
-          autofocus: true,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('New Folder'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                key: const Key('folder_name_field'),
+                controller: nameController,
+                decoration: const InputDecoration(hintText: 'Folder name'),
+                autofocus: true,
+              ),
+              const SizedBox(height: 16),
+              _buildLanguageDropdown(
+                label: 'Original Language',
+                value: selectedOriginal,
+                enabled: true,
+                onChanged: (lang) => setState(() => selectedOriginal = lang!),
+              ),
+              const SizedBox(height: 8),
+              _buildLanguageDropdown(
+                label: 'Translation Language',
+                value: selectedTranslation,
+                enabled: true,
+                onChanged: (lang) =>
+                    setState(() => selectedTranslation = lang!),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (nameController.text.isNotEmpty) {
+                  ref
+                      .read(folderListProvider.notifier)
+                      .addFolder(
+                        nameController.text,
+                        originalLanguage: selectedOriginal,
+                        translationLanguage: selectedTranslation,
+                      );
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Create'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (controller.text.isNotEmpty) {
-                ref
-                    .read(folderListProvider.notifier)
-                    .addFolder(controller.text);
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Create'),
-          ),
-        ],
       ),
     );
   }
+
+  Widget _buildLanguageDropdown({
+    required String label,
+    required AppLanguage value,
+    required bool enabled,
+    required ValueChanged<AppLanguage?> onChanged,
+  }) {
+    return _languageDropdown(
+      label: label,
+      value: value,
+      enabled: enabled,
+      onChanged: onChanged,
+    );
+  }
+}
+
+Widget _languageDropdown({
+  required String label,
+  required AppLanguage value,
+  required bool enabled,
+  required ValueChanged<AppLanguage?> onChanged,
+}) {
+  return DropdownButtonFormField<AppLanguage>(
+    initialValue: value,
+    decoration: InputDecoration(
+      labelText: label,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    ),
+    items: AppLanguage.values
+        .map(
+          (lang) =>
+              DropdownMenuItem(value: lang, child: Text(lang.displayName)),
+        )
+        .toList(),
+    onChanged: enabled ? onChanged : null,
+  );
 }
 
 class _FolderList extends ConsumerWidget {
@@ -135,6 +211,18 @@ class _FolderTile extends ConsumerWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
+                    ),
+                  ),
+                ),
+                // Show original language native name
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Text(
+                    folder.originalLanguage.displayName,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -274,34 +362,84 @@ class _FolderTile extends ConsumerWidget {
     );
   }
 
-  void _showRenameDialog(BuildContext context, WidgetRef ref, dynamic folder) {
+  Future<void> _showRenameDialog(
+    BuildContext context,
+    WidgetRef ref,
+    dynamic folder,
+  ) async {
+    // Check if the folder has sentences to determine read-only
+    final sentenceRepo = ref.read(sentenceRepositoryProvider);
+    final sentences = await sentenceRepo.getSentencesByFolder(folder.id);
+    final hasExistingSentences = sentences.isNotEmpty;
+
+    if (!context.mounted) return;
+
     final controller = TextEditingController(text: folder.name);
-    showDialog(
+    AppLanguage selectedOriginal = folder.originalLanguage;
+    AppLanguage selectedTranslation = folder.translationLanguage;
+
+    await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Rename Folder'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'Folder name'),
-          autofocus: true,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Edit Folder'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(hintText: 'Folder name'),
+                autofocus: true,
+              ),
+              const SizedBox(height: 16),
+              _languageDropdown(
+                label: 'Original Language',
+                value: selectedOriginal,
+                enabled: !hasExistingSentences,
+                onChanged: (lang) => setState(() => selectedOriginal = lang!),
+              ),
+              const SizedBox(height: 8),
+              _languageDropdown(
+                label: 'Translation Language',
+                value: selectedTranslation,
+                enabled: !hasExistingSentences,
+                onChanged: (lang) =>
+                    setState(() => selectedTranslation = lang!),
+              ),
+              if (hasExistingSentences)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Languages cannot be changed while folder has sentences.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  ),
+                ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (controller.text.isNotEmpty) {
+                  ref
+                      .read(folderListProvider.notifier)
+                      .updateFolder(
+                        folder.copyWith(
+                          name: controller.text,
+                          originalLanguage: selectedOriginal,
+                          translationLanguage: selectedTranslation,
+                        ),
+                      );
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (controller.text.isNotEmpty) {
-                ref
-                    .read(folderListProvider.notifier)
-                    .updateFolder(folder.copyWith(name: controller.text));
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Rename'),
-          ),
-        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/folder.dart';
+import '../../domain/enums/app_language.dart';
 import '../../data/providers/sentence_providers.dart';
 
 part 'folder_providers.g.dart';
@@ -12,12 +13,18 @@ class FolderList extends _$FolderList {
     return repository.getAllFolders();
   }
 
-  Future<void> addFolder(String name) async {
+  Future<void> addFolder(
+    String name, {
+    AppLanguage originalLanguage = AppLanguage.english,
+    AppLanguage translationLanguage = AppLanguage.korean,
+  }) async {
     final repository = ref.read(folderRepositoryProvider);
     final folder = Folder(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
       createdAt: DateTime.now(),
+      originalLanguage: originalLanguage,
+      translationLanguage: translationLanguage,
     );
     await repository.addFolder(folder);
     ref.invalidateSelf();

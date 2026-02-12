@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:drift/drift.dart';
+import '../../features/sentences/domain/enums/app_language.dart';
+
 import '../../features/sentences/domain/enums/difficulty.dart';
 import '../../features/sentences/domain/value_objects/sentence_text.dart';
 
@@ -38,5 +40,19 @@ class StringListConverter extends TypeConverter<List<String>, String> {
   @override
   String toSql(List<String> value) {
     return json.encode(value);
+  }
+}
+
+class AppLanguageConverter extends TypeConverter<AppLanguage, String> {
+  const AppLanguageConverter();
+
+  @override
+  AppLanguage fromSql(String fromDb) {
+    return AppLanguage.fromString(fromDb);
+  }
+
+  @override
+  String toSql(AppLanguage value) {
+    return value.code;
   }
 }

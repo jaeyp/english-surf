@@ -1,0 +1,1299 @@
+{
+  "folder": {
+    "id": "7e4254b1-3823-4bca-8653-d900ce1906c3",
+    "name": "🇪🇸 기초 여행 스페인어",
+    "created_at": "2026-02-12T14:19:10.722545",
+    "flag_color": "0xFFFFEB3B",
+    "original_language": "es",
+    "translation_language": "ko"
+  },
+  "sentences": [
+    {
+      "id": 0,
+      "order": 0,
+      "original": {
+        "text": "Hola.",
+        "styles": []
+      },
+      "translation": "안녕하세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 1,
+      "order": 1,
+      "original": {
+        "text": "¿Cómo estás?",
+        "styles": []
+      },
+      "translation": "어떻게 지내세요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 2,
+      "order": 2,
+      "original": {
+        "text": "Bien, gracias.",
+        "styles": []
+      },
+      "translation": "잘 지내요, 감사합니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 3,
+      "order": 3,
+      "original": {
+        "text": "Buenos días.",
+        "styles": []
+      },
+      "translation": "안녕하세요. (아침 인사)",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 4,
+      "order": 4,
+      "original": {
+        "text": "Buenas tardes.",
+        "styles": []
+      },
+      "translation": "안녕하세요. (오후 인사)",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 5,
+      "order": 5,
+      "original": {
+        "text": "Buenas noches.",
+        "styles": []
+      },
+      "translation": "안녕히 주무세요. (저녁 인사)",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 6,
+      "order": 6,
+      "original": {
+        "text": "Muchas gracias.",
+        "styles": []
+      },
+      "translation": "대단히 감사합니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 7,
+      "order": 7,
+      "original": {
+        "text": "De nada.",
+        "styles": []
+      },
+      "translation": "천만에요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 8,
+      "order": 8,
+      "original": {
+        "text": "Perdón.",
+        "styles": []
+      },
+      "translation": "죄송합니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 9,
+      "order": 9,
+      "original": {
+        "text": "Disculpe.",
+        "styles": []
+      },
+      "translation": "실례합니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 10,
+      "order": 10,
+      "original": {
+        "text": "Sí.",
+        "styles": []
+      },
+      "translation": "네.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 11,
+      "order": 11,
+      "original": {
+        "text": "No.",
+        "styles": []
+      },
+      "translation": "아니요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 12,
+      "order": 12,
+      "original": {
+        "text": "Por favor.",
+        "styles": []
+      },
+      "translation": "부탁합니다. (제발)",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 13,
+      "order": 13,
+      "original": {
+        "text": "No entiendo.",
+        "styles": []
+      },
+      "translation": "이해가 안 돼요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 14,
+      "order": 14,
+      "original": {
+        "text": "¿Habla inglés?",
+        "styles": []
+      },
+      "translation": "영어 하세요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 15,
+      "order": 15,
+      "original": {
+        "text": "Un poco.",
+        "styles": []
+      },
+      "translation": "조금요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 16,
+      "order": 16,
+      "original": {
+        "text": "Me llamo [Nombre].",
+        "styles": []
+      },
+      "translation": "제 이름은 [이름]입니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 17,
+      "order": 17,
+      "original": {
+        "text": "Mucho gusto.",
+        "styles": []
+      },
+      "translation": "반갑습니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 18,
+      "order": 18,
+      "original": {
+        "text": "Adiós.",
+        "styles": []
+      },
+      "translation": "안녕히 가세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 19,
+      "order": 19,
+      "original": {
+        "text": "Hasta luego.",
+        "styles": []
+      },
+      "translation": "나중에 봐요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 20,
+      "order": 20,
+      "original": {
+        "text": "¿Dónde está el baño?",
+        "styles": []
+      },
+      "translation": "화장실이 어디에 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 21,
+      "order": 21,
+      "original": {
+        "text": "¿Dónde está la estación de tren?",
+        "styles": []
+      },
+      "translation": "기차역이 어디에 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 22,
+      "order": 22,
+      "original": {
+        "text": "¿Dónde está la parada de autobús?",
+        "styles": []
+      },
+      "translation": "버스 정류장이 어디에 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 23,
+      "order": 23,
+      "original": {
+        "text": "¿Dónde está el aeropuerto?",
+        "styles": []
+      },
+      "translation": "공항이 어디에 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 24,
+      "order": 24,
+      "original": {
+        "text": "Un boleto para Madrid, por favor.",
+        "styles": []
+      },
+      "translation": "마드리드행 표 한 장 주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 25,
+      "order": 25,
+      "original": {
+        "text": "¿Cuánto cuesta?",
+        "styles": []
+      },
+      "translation": "얼마인가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 26,
+      "order": 26,
+      "original": {
+        "text": "¿A qué hora sale el tren?",
+        "styles": []
+      },
+      "translation": "기차는 몇 시에 출발하나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 27,
+      "order": 27,
+      "original": {
+        "text": "¿A qué hora llega el autobús?",
+        "styles": []
+      },
+      "translation": "버스는 몇 시에 도착하나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 28,
+      "order": 28,
+      "original": {
+        "text": "Me gustaría reservar una mesa.",
+        "styles": []
+      },
+      "translation": "테이블을 예약하고 싶은데요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 29,
+      "order": 29,
+      "original": {
+        "text": "Una mesa para dos, por favor.",
+        "styles": []
+      },
+      "translation": "두 명 자리 부탁해요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 30,
+      "order": 30,
+      "original": {
+        "text": "La cuenta, por favor.",
+        "styles": []
+      },
+      "translation": "계산서 주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 31,
+      "order": 31,
+      "original": {
+        "text": "¿Puedo pagar con tarjeta?",
+        "styles": []
+      },
+      "translation": "카드로 계산할 수 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 32,
+      "order": 32,
+      "original": {
+        "text": "Agua, por favor.",
+        "styles": []
+      },
+      "translation": "물 좀 주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 33,
+      "order": 33,
+      "original": {
+        "text": "Sin gas.",
+        "styles": []
+      },
+      "translation": "가스 없는 물로요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 34,
+      "order": 34,
+      "original": {
+        "text": "Con gas.",
+        "styles": []
+      },
+      "translation": "탄산수로요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 35,
+      "order": 35,
+      "original": {
+        "text": "Está delicioso.",
+        "styles": []
+      },
+      "translation": "맛있어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 36,
+      "order": 36,
+      "original": {
+        "text": "No me gusta.",
+        "styles": []
+      },
+      "translation": "마음에 안 들어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 37,
+      "order": 37,
+      "original": {
+        "text": "Tengo una reserva.",
+        "styles": []
+      },
+      "translation": "예약을 했습니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 38,
+      "order": 38,
+      "original": {
+        "text": "Quisiera hacer el check-in.",
+        "styles": []
+      },
+      "translation": "체크인 하고 싶은데요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 39,
+      "order": 39,
+      "original": {
+        "text": "¿A qué hora es el desayuno?",
+        "styles": []
+      },
+      "translation": "아침 식사는 몇 시인가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 40,
+      "order": 40,
+      "original": {
+        "text": "¿Tienen wifi gratis?",
+        "styles": []
+      },
+      "translation": "무료 와이파이 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 41,
+      "order": 41,
+      "original": {
+        "text": "¿Cuál es la contraseña del wifi?",
+        "styles": []
+      },
+      "translation": "와이파이 비밀번호가 뭔가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 42,
+      "order": 42,
+      "original": {
+        "text": "Mi habitación no está limpia.",
+        "styles": []
+      },
+      "translation": "제 방이 깨끗하지 않아요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 43,
+      "order": 43,
+      "original": {
+        "text": "Necesito un médico.",
+        "styles": []
+      },
+      "translation": "의사가 필요해요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 44,
+      "order": 44,
+      "original": {
+        "text": "¡Ayuda!",
+        "styles": []
+      },
+      "translation": "도와주세요!",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 45,
+      "order": 45,
+      "original": {
+        "text": "Llama a la policía.",
+        "styles": []
+      },
+      "translation": "경찰을 불러주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 46,
+      "order": 46,
+      "original": {
+        "text": "Perdí mi pasaporte.",
+        "styles": []
+      },
+      "translation": "여권을 잃어버렸어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 47,
+      "order": 47,
+      "original": {
+        "text": "¿Puede ayudarme?",
+        "styles": []
+      },
+      "translation": "도와주실 수 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 48,
+      "order": 48,
+      "original": {
+        "text": "Estoy perdido.",
+        "styles": []
+      },
+      "translation": "길을 잃었어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 49,
+      "order": 49,
+      "original": {
+        "text": "¿Dónde estoy?",
+        "styles": []
+      },
+      "translation": "여기가 어디인가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 50,
+      "order": 50,
+      "original": {
+        "text": "A la derecha.",
+        "styles": []
+      },
+      "translation": "오른쪽으로.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 51,
+      "order": 51,
+      "original": {
+        "text": "A la izquierda.",
+        "styles": []
+      },
+      "translation": "왼쪽으로.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 52,
+      "order": 52,
+      "original": {
+        "text": "Todo recto.",
+        "styles": []
+      },
+      "translation": "직진하세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 53,
+      "order": 53,
+      "original": {
+        "text": "¿Está cerca?",
+        "styles": []
+      },
+      "translation": "가깝나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 54,
+      "order": 54,
+      "original": {
+        "text": "¿Está lejos?",
+        "styles": []
+      },
+      "translation": "먼가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 55,
+      "order": 55,
+      "original": {
+        "text": "Quiero comprar esto.",
+        "styles": []
+      },
+      "translation": "이거 사고 싶어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 56,
+      "order": 56,
+      "original": {
+        "text": "¿Tiene esto en otro color?",
+        "styles": []
+      },
+      "translation": "다른 색상 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 57,
+      "order": 57,
+      "original": {
+        "text": "¿Tienen talla mediana?",
+        "styles": []
+      },
+      "translation": "미디엄 사이즈 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 58,
+      "order": 58,
+      "original": {
+        "text": "Es muy caro.",
+        "styles": []
+      },
+      "translation": "너무 비싸요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 59,
+      "order": 59,
+      "original": {
+        "text": "¿Me puede hacer un descuento?",
+        "styles": []
+      },
+      "translation": "할인해 주실 수 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 60,
+      "order": 60,
+      "original": {
+        "text": "Solo estoy mirando.",
+        "styles": []
+      },
+      "translation": "그냥 둘러보고 있어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 61,
+      "order": 61,
+      "original": {
+        "text": "¿Aceptan dólares?",
+        "styles": []
+      },
+      "translation": "달러 받으시나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 62,
+      "order": 62,
+      "original": {
+        "text": "¿Dónde puedo cambiar dinero?",
+        "styles": []
+      },
+      "translation": "환전은 어디서 할 수 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 63,
+      "order": 63,
+      "original": {
+        "text": "¿Me puede tomar una foto?",
+        "styles": []
+      },
+      "translation": "사진 좀 찍어주시겠어요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 64,
+      "order": 64,
+      "original": {
+        "text": "¡Qué bonito!",
+        "styles": []
+      },
+      "translation": "정말 예쁘네요!",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 65,
+      "order": 65,
+      "original": {
+        "text": "Hace calor.",
+        "styles": []
+      },
+      "translation": "더워요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 66,
+      "order": 66,
+      "original": {
+        "text": "Hace frío.",
+        "styles": []
+      },
+      "translation": "추워요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 67,
+      "order": 67,
+      "original": {
+        "text": "Está lloviendo.",
+        "styles": []
+      },
+      "translation": "비가 와요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 68,
+      "order": 68,
+      "original": {
+        "text": "Tengo hambre.",
+        "styles": []
+      },
+      "translation": "배고파요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 69,
+      "order": 69,
+      "original": {
+        "text": "Tengo sed.",
+        "styles": []
+      },
+      "translation": "목말라요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 70,
+      "order": 70,
+      "original": {
+        "text": "Estoy cansado.",
+        "styles": []
+      },
+      "translation": "피곤해요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 71,
+      "order": 71,
+      "original": {
+        "text": "Me duele la cabeza.",
+        "styles": []
+      },
+      "translation": "머리가 아파요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 72,
+      "order": 72,
+      "original": {
+        "text": "¿Dónde hay una farmacia?",
+        "styles": []
+      },
+      "translation": "약국이 어디에 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 73,
+      "order": 73,
+      "original": {
+        "text": "Soy alérgico a los nueces.",
+        "styles": []
+      },
+      "translation": "저는 견과류 알레르기가 있어요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 74,
+      "order": 74,
+      "original": {
+        "text": "Soy vegetariano.",
+        "styles": []
+      },
+      "translation": "저는 채식주의자입니다.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 75,
+      "order": 75,
+      "original": {
+        "text": "¿Qué recomienda?",
+        "styles": []
+      },
+      "translation": "무엇을 추천하시나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 76,
+      "order": 76,
+      "original": {
+        "text": "La sopa del día, por favor.",
+        "styles": []
+      },
+      "translation": "오늘의 수프 주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 77,
+      "order": 77,
+      "original": {
+        "text": "Un café con leche.",
+        "styles": []
+      },
+      "translation": "카페라떼 한 잔.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 78,
+      "order": 78,
+      "original": {
+        "text": "Cerveza, por favor.",
+        "styles": []
+      },
+      "translation": "맥주 주세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 79,
+      "order": 79,
+      "original": {
+        "text": "Vino tinto.",
+        "styles": []
+      },
+      "translation": "레드 와인.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 80,
+      "order": 80,
+      "original": {
+        "text": "Vino blanco.",
+        "styles": []
+      },
+      "translation": "화이트 와인.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 81,
+      "order": 81,
+      "original": {
+        "text": "¡Salud!",
+        "styles": []
+      },
+      "translation": "건배!",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 82,
+      "order": 82,
+      "original": {
+        "text": "¿Podría traerme más pan?",
+        "styles": []
+      },
+      "translation": "빵 좀 더 주실 수 있나요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 83,
+      "order": 83,
+      "original": {
+        "text": "¿Dónde está la salida?",
+        "styles": []
+      },
+      "translation": "출구는 어디인가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 84,
+      "order": 84,
+      "original": {
+        "text": "¿Dónde está la entrada?",
+        "styles": []
+      },
+      "translation": "입구는 어디인가요?",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 85,
+      "order": 85,
+      "original": {
+        "text": "Abierto.",
+        "styles": []
+      },
+      "translation": "열림 (영업 중).",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 86,
+      "order": 86,
+      "original": {
+        "text": "Cerrado.",
+        "styles": []
+      },
+      "translation": "닫힘 (영업 종료).",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 87,
+      "order": 87,
+      "original": {
+        "text": "Empuje.",
+        "styles": []
+      },
+      "translation": "미세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 88,
+      "order": 88,
+      "original": {
+        "text": "Tire.",
+        "styles": []
+      },
+      "translation": "당기세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 89,
+      "order": 89,
+      "original": {
+        "text": "Prohibido fumar.",
+        "styles": []
+      },
+      "translation": "금연.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 90,
+      "order": 90,
+      "original": {
+        "text": "Cuidado.",
+        "styles": []
+      },
+      "translation": "조심하세요.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 91,
+      "order": 91,
+      "original": {
+        "text": "Peligro.",
+        "styles": []
+      },
+      "translation": "위험.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 92,
+      "order": 92,
+      "original": {
+        "text": "Información.",
+        "styles": []
+      },
+      "translation": "안내소.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 93,
+      "order": 93,
+      "original": {
+        "text": "Taxi.",
+        "styles": []
+      },
+      "translation": "택시.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 94,
+      "order": 94,
+      "original": {
+        "text": "Metro.",
+        "styles": []
+      },
+      "translation": "지하철.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 95,
+      "order": 95,
+      "original": {
+        "text": "Autobús.",
+        "styles": []
+      },
+      "translation": "버스.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 96,
+      "order": 96,
+      "original": {
+        "text": "Equipaje.",
+        "styles": []
+      },
+      "translation": "수하물.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 97,
+      "order": 97,
+      "original": {
+        "text": "Pasaporte.",
+        "styles": []
+      },
+      "translation": "여권.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    },
+    {
+      "id": 98,
+      "order": 98,
+      "original": {
+        "text": "Billete de avión.",
+        "styles": []
+      },
+      "translation": "비행기 표.",
+      "difficulty": "beginner",
+      "paraphrases": [],
+      "notes": "",
+      "is_favorite": false
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 import '../../../features/sentences/domain/enums/difficulty.dart';
+import '../../../features/sentences/domain/enums/app_language.dart';
 import '../../../features/sentences/domain/value_objects/sentence_text.dart';
 import 'converters.dart';
 
@@ -30,6 +31,12 @@ class Folders extends Table {
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
   TextColumn get flagColor => text().nullable()();
+  TextColumn get originalLanguage => text()
+      .map(const AppLanguageConverter())
+      .withDefault(const Constant('en'))();
+  TextColumn get translationLanguage => text()
+      .map(const AppLanguageConverter())
+      .withDefault(const Constant('ko'))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -40,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration {
@@ -75,6 +82,15 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from < 5) {
           await m.renameColumn(sentences, 'examples', sentences.paraphrases);
+        }
+        if (from < 6) {
+          // Use raw SQL for migration since mapped columns don't work with m.addColumn
+          await customStatement(
+            "ALTER TABLE folders ADD COLUMN original_language TEXT NOT NULL DEFAULT 'en'",
+          );
+          await customStatement(
+            "ALTER TABLE folders ADD COLUMN translation_language TEXT NOT NULL DEFAULT 'ko'",
+          );
         }
       },
       beforeOpen: (details) async {

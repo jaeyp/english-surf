@@ -1,4 +1,6 @@
+import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../domain/enums/app_language.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../../domain/enums/difficulty.dart';
 import '../../domain/enums/sort_type.dart';
@@ -15,6 +17,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keyTimerDuration = 'timer_duration';
   static const String _keyAiProvider = 'ai_provider';
   static const String _keyAiModelPrefix = 'ai_model_';
+  static const String _keyDefaultOriginalLanguage = 'default_original_language';
+  static const String _keyDefaultTranslationLanguage =
+      'default_translation_language';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -102,5 +107,51 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> saveAiModel(AiProvider provider, String modelName) async {
     final key = '$_keyAiModelPrefix${provider.name}';
     await _prefs.setString(key, modelName);
+  }
+
+  @override
+  Future<AppLanguage> getDefaultOriginalLanguage() async {
+    final code = _prefs.getString(_keyDefaultOriginalLanguage);
+    if (code != null) return AppLanguage.fromString(code);
+    return AppLanguage.english;
+  }
+
+  @override
+  Future<void> saveDefaultOriginalLanguage(AppLanguage language) async {
+    await _prefs.setString(_keyDefaultOriginalLanguage, language.code);
+  }
+
+  @override
+  Future<AppLanguage> getDefaultTranslationLanguage() async {
+    final code = _prefs.getString(_keyDefaultTranslationLanguage);
+    if (code != null) return AppLanguage.fromString(code);
+
+    try {
+      final systemLocale = PlatformDispatcher.instance.locale.languageCode;
+      final fromSystem = AppLanguage.fromLocale(systemLocale);
+      if (fromSystem != null) return fromSystem;
+    } catch (_) {
+      // Fallback to default if platform interaction fails
+    }
+
+    return AppLanguage.english;
+  }
+
+  @override
+  Future<void> saveDefaultTranslationLanguage(AppLanguage language) async {
+    await _prefs.setString(_keyDefaultTranslationLanguage, language.code);
+  }
+
+  // Per-folder notes language
+  static const String _keyNotesLangPrefix = 'notes_lang_';
+
+  @override
+  Future<String?> getNotesLanguage(String folderId) async {
+    return _prefs.getString('$_keyNotesLangPrefix$folderId');
+  }
+
+  @override
+  Future<void> saveNotesLanguage(String folderId, String langCode) async {
+    await _prefs.setString('$_keyNotesLangPrefix$folderId', langCode);
   }
 }

@@ -8,6 +8,7 @@ import '../../features/ocr/presentation/screens/camera_ocr_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/study/presentation/arguments/study_mode_arguments.dart';
 import '../../features/sentences/domain/entities/sentence.dart';
+import '../../features/sentences/domain/enums/app_language.dart';
 
 part 'app_router.g.dart';
 
@@ -47,7 +48,21 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/camera',
-        builder: (context, state) => const CameraOCRScreen(),
+        builder: (context, state) {
+          final extra = state.extra;
+          AppLanguage originalLang = AppLanguage.english;
+          AppLanguage translationLang = AppLanguage.korean;
+          if (extra is Map<String, dynamic>) {
+            originalLang =
+                extra['originalLang'] as AppLanguage? ?? AppLanguage.english;
+            translationLang =
+                extra['translationLang'] as AppLanguage? ?? AppLanguage.korean;
+          }
+          return CameraOCRScreen(
+            originalLang: originalLang,
+            translationLang: translationLang,
+          );
+        },
       ),
       GoRoute(
         path: '/study',

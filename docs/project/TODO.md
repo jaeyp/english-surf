@@ -194,21 +194,33 @@ English sentence learning app with rich text styling and flashcard features.
         - [x] Unit test for prompt formatting and JSON parsing.
         - [x] Mock AI response for widget tests. (Note: widget tests rely on AiRepository mocking).
 
-### Phase 5.3: Multi-Language Foundation (Schema, Model & AI Sync)
-- [ ] **Database Migration (v3 -> v4)**:
-    - [ ] Update `Sentences` table: Change `translation` (String) to `translations` (JSON Map).
-    - [ ] **Migration Logic**: Move existing string to `{"korean": value}` using lowercase keys.
-- [ ] **Domain Model Refactoring**:
-    - [ ] Update `Sentence` entity to use `Map<String, String> translations`.
-    - [ ] Update all repository and mapper implementations.
-- [ ] **AI Multi-Language Sync**:
-    - [ ] **Dynamic Multi-Fill**: AI auto-fills translation for *all* selected languages (Casual tone).
-    - [ ] **Prompt Tuning**: Dynamically inject selected languages into the AI system prompt.
-    - [ ] **Localization Prep**: Ensure the AI instructions handle different favorite translation languages naturally.
-- [ ] **Edit Screen UI Update**:
-    - [ ] Display translations for all selected languages in `SentenceEditScreen`.
-    - [ ] **Primary Focus**: Place the Primary Translation at the top.
-    - [ ] **Visual Distinction**: Apply a blue border to the Primary Translation field.
+### Phase 5.3: Per-Folder Multi-Language Support (✅ Completed)
+- [x] **Database Migration (v3 → v4)**:
+    - [x] Add `original_language` and `translation_language` columns to `Folders` table (with `AppLanguage` converter).
+    - [x] Migrate existing folders to default `english`/`korean`.
+- [x] **Domain & Data Layer**:
+    - [x] Update `Folder` entity with `originalLanguage` / `translationLanguage` fields.
+    - [x] Update `FolderMapper`, `FolderRepository`, and all providers.
+    - [x] Add `AppLanguage` enum (en, ko, es, pt, fr) with `code`, `displayName`, `aiPromptName`, `flagEmoji`.
+- [x] **Home Screen (Multi-Language Folder Grid)**:
+    - [x] Redesign to show folder language pairs (e.g., "🇪🇸 → 🇰🇷") with flag emojis.
+    - [x] New Folder dialog: language pair selection (Original & Translation dropdowns).
+    - [x] Default languages from Settings, per-folder override at creation time.
+- [x] **AI Multi-Language Sync**:
+    - [x] Dynamic AI prompts use folder's `originalLanguage` / `translationLanguage`.
+    - [x] Added **Notes Language Toggle** (per-folder, persistent): switch AI notes explanation between source and translation language (e.g., ES↔KO).
+    - [x] Prompt engineering: `CRITICAL` directive to enforce meaning language compliance.
+- [x] **Import/Export Language Support**:
+    - [x] Export includes `original_language` / `translation_language` in folder JSON.
+    - [x] Import parses language codes and applies them to folder (with English/Korean fallback).
+    - [x] Fix: Sentences without `folder_id` auto-linked to imported folder.
+- [x] **OCR Language Awareness**:
+    - [x] OCR script detection uses folder's `originalLanguage` / `translationLanguage` for field routing.
+    - [x] Generalized Korean-detection regex to support multi-script routing.
+- [x] **Settings**:
+    - [x] Default Original Language / Default Translation Language in Settings screen.
+    - [x] Per-folder notes language preference persisted in SharedPreferences.
+- [x] **Testing**: 66/66 tests passing.
 
 ### Phase 5.4: Setup Onboarding & Core Settings (✅ Completed)
 - [x] **Settings Screen Entry**:
@@ -320,6 +332,18 @@ English sentence learning app with rich text styling and flashcard features.
 ## 🛠 Maintenance & Stability Log
 
 
+
+### 🌐 Multi-Language Folder Support (2026-02-11 ~ 02-12)
+- [x] **Database Schema (v3 → v4)**: Added `original_language` / `translation_language` columns to Folders table with `AppLanguageConverter`.
+- [x] **AppLanguage Enum**: Created `AppLanguage` (en, ko, es, pt, fr) with `code`, `displayName`, `aiPromptName`, `flagEmoji`, `fromString`, `fromLocale`.
+- [x] **Folder Entity**: Extended with `originalLanguage` / `translationLanguage` fields (Freezed + Drift).
+- [x] **Home Screen Redesign**: Language pair display with flag emojis, language dropdowns in New Folder dialog.
+- [x] **AI Prompts**: Dynamicized all prompts with `sourceLang` / `targetLang` / `notesLang` parameters.
+- [x] **Notes Language Toggle**: Per-folder persistent toggle (SharedPreferences) to switch AI notes explanation language (e.g., ES↔KO). Compact chip UI in SentenceEditScreen.
+- [x] **Import/Export**: Language fields included in JSON export; parsed on import with fallback defaults. Fixed orphaned sentences bug (auto-link to imported folder).
+- [x] **OCR**: Script detection respects folder language for field routing.
+- [x] **Settings**: Default Original/Translation language preferences with system locale detection.
+- [x] **Scope**: 26 files, +887/−159 lines, 66/66 tests passing.
 
 ### 🐛 Debugging & iOS Stability (2026-02-01)
 - [x] **Data Portability (Import/Export)**:

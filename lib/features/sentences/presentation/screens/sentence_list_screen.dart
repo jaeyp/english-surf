@@ -252,7 +252,13 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                 FloatingActionButton(
                   heroTag: 'camera_fab',
                   onPressed: () async {
-                    await context.push('/camera');
+                    await context.push(
+                      '/camera',
+                      extra: {
+                        'originalLang': currentFolder?.originalLanguage,
+                        'translationLang': currentFolder?.translationLanguage,
+                      },
+                    );
                     // Clear visible IDs to refresh list when coming back from camera
                     setState(() => _visibleIds = null);
                   },

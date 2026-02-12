@@ -1,0 +1,1 @@
+enum ScriptType { latin, korean }
