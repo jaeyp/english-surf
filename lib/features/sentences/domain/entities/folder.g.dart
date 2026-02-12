@@ -29,9 +29,9 @@ Map<String, dynamic> _$FolderToJson(_Folder instance) => <String, dynamic>{
 };
 
 const _$AppLanguageEnumMap = {
-  AppLanguage.english: 'english',
-  AppLanguage.korean: 'korean',
-  AppLanguage.spanish: 'spanish',
-  AppLanguage.portuguese: 'portuguese',
-  AppLanguage.french: 'french',
+  AppLanguage.english: 'en',
+  AppLanguage.korean: 'ko',
+  AppLanguage.spanish: 'es',
+  AppLanguage.portuguese: 'pt',
+  AppLanguage.french: 'fr',
 };

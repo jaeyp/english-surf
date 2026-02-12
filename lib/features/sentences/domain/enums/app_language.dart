@@ -1,30 +1,36 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'script_type.dart';
 
 enum AppLanguage {
+  @JsonValue('en')
   english(
     code: 'en',
     displayName: 'English',
     aiPromptName: 'English',
     scriptType: ScriptType.latin,
   ),
+  @JsonValue('ko')
   korean(
     code: 'ko',
     displayName: '한국어',
     aiPromptName: 'Korean',
     scriptType: ScriptType.korean,
   ),
+  @JsonValue('es')
   spanish(
     code: 'es',
     displayName: 'Español',
     aiPromptName: 'Spanish',
     scriptType: ScriptType.latin,
   ),
+  @JsonValue('pt')
   portuguese(
     code: 'pt',
     displayName: 'Português', // or Português (Brasil) if targeting specific
     aiPromptName: 'Portuguese',
     scriptType: ScriptType.latin,
   ),
+  @JsonValue('fr')
   french(
     code: 'fr',
     displayName: 'Français',
