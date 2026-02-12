@@ -11,6 +11,12 @@ _Folder _$FolderFromJson(Map<String, dynamic> json) => _Folder(
   name: json['name'] as String,
   createdAt: DateTime.parse(json['createdAt'] as String),
   flagColor: json['flagColor'] as String?,
+  originalLanguage:
+      $enumDecodeNullable(_$AppLanguageEnumMap, json['originalLanguage']) ??
+      AppLanguage.english,
+  translationLanguage:
+      $enumDecodeNullable(_$AppLanguageEnumMap, json['translationLanguage']) ??
+      AppLanguage.korean,
 );
 
 Map<String, dynamic> _$FolderToJson(_Folder instance) => <String, dynamic>{
@@ -18,4 +24,14 @@ Map<String, dynamic> _$FolderToJson(_Folder instance) => <String, dynamic>{
   'name': instance.name,
   'createdAt': instance.createdAt.toIso8601String(),
   'flagColor': instance.flagColor,
+  'originalLanguage': _$AppLanguageEnumMap[instance.originalLanguage]!,
+  'translationLanguage': _$AppLanguageEnumMap[instance.translationLanguage]!,
+};
+
+const _$AppLanguageEnumMap = {
+  AppLanguage.english: 'english',
+  AppLanguage.korean: 'korean',
+  AppLanguage.spanish: 'spanish',
+  AppLanguage.portuguese: 'portuguese',
+  AppLanguage.french: 'french',
 };

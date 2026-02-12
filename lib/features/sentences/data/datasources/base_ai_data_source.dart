@@ -17,15 +17,25 @@ abstract class BaseAiDataSource implements AiDataSource {
     String originalText, {
     List<String>? targetExpressions,
     String? existingTranslation,
+    String sourceLang = 'English',
+    String targetLang = 'Korean',
+    String? notesLang,
   }) async {
     final systemInstruction = existingTranslation != null
-        ? AiPrompts.autoFillInstructionNoTranslation
-        : AiPrompts.autoFillInstruction;
+        ? AiPrompts.autoFillInstructionNoTranslation(
+            sourceLang: sourceLang,
+            notesLang: notesLang,
+          )
+        : AiPrompts.autoFillInstruction(
+            sourceLang: sourceLang,
+            targetLang: targetLang,
+            notesLang: notesLang,
+          );
 
     final userPrompt =
         (targetExpressions != null && targetExpressions.isNotEmpty)
-        ? 'ENGLISH INPUT: "$originalText"\nTARGET: ${targetExpressions.join(", ")}'
-        : 'ENGLISH INPUT: "$originalText"';
+        ? '$sourceLang INPUT: "$originalText"\nTARGET: ${targetExpressions.join(", ")}'
+        : '$sourceLang INPUT: "$originalText"';
 
     final text = await performRequest(
       prompt: userPrompt,
@@ -39,11 +49,18 @@ abstract class BaseAiDataSource implements AiDataSource {
   }
 
   @override
-  Future<String> generateNotes(String originalText) async {
-    const systemInstruction = AiPrompts.notesInstruction;
+  Future<String> generateNotes(
+    String originalText, {
+    String sourceLang = 'English',
+    String? notesLang,
+  }) async {
+    final systemInstruction = AiPrompts.notesInstruction(
+      sourceLang: sourceLang,
+      notesLang: notesLang,
+    );
 
     final text = await performRequest(
-      prompt: 'ENGLISH INPUT: "$originalText"',
+      prompt: '$sourceLang INPUT: "$originalText"',
       systemInstruction: systemInstruction,
       jsonMode: true,
       temperature: 0.3,
@@ -69,27 +86,37 @@ abstract class BaseAiDataSource implements AiDataSource {
   }
 
   @override
-  Future<String> generateEnglishOriginal({required String translation}) async {
-    const systemInstruction = AiPrompts.reverseGenInstruction;
+  Future<String> generateEnglishOriginal({
+    required String translation,
+    String sourceLang = 'English',
+    String targetLang = 'Korean',
+  }) async {
+    final systemInstruction = AiPrompts.reverseGenInstruction(
+      sourceLang: sourceLang,
+      targetLang: targetLang,
+    );
 
     final text = await performRequest(
-      prompt: 'KOREAN INPUT: "$translation"',
+      prompt: '$targetLang INPUT: "$translation"',
       systemInstruction: systemInstruction,
       jsonMode: false,
     );
 
-    return text.replaceAll('```', '').trim().replaceAll(RegExp(r'^"|"$'), '');
+    return text.replaceAll('```', '').trim().replaceAll(RegExp(r'^\"|\"$'), '');
   }
 
   @override
   Future<String> generateParaphrases({
     required String originalText,
     required String translation,
+    String sourceLang = 'English',
   }) async {
-    const systemInstruction = AiPrompts.paraphrasesInstruction;
+    final systemInstruction = AiPrompts.paraphrasesInstruction(
+      sourceLang: sourceLang,
+    );
 
     final userPrompt =
-        'ENGLISH INPUT: "$originalText"\nTRANSLATION: "$translation"';
+        '$sourceLang INPUT: "$originalText"\nTRANSLATION: "$translation"';
 
     final text = await performRequest(
       prompt: userPrompt,

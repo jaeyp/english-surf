@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/database/app_database.dart';
 import '../../../../features/sentences/data/providers/sentence_providers.dart';
+import '../../../../features/sentences/domain/enums/app_language.dart';
 import '../../../../features/sentences/domain/enums/difficulty.dart';
 import '../../../../features/sentences/domain/value_objects/sentence_text.dart';
 import '../../domain/repositories/data_repository.dart';
@@ -42,6 +43,8 @@ class DataRepositoryImpl implements DataRepository {
           'name': folder.name,
           'created_at': folder.createdAt.toIso8601String(),
           'flag_color': folder.flagColor,
+          'original_language': folder.originalLanguage.code,
+          'translation_language': folder.translationLanguage.code,
         },
         'sentences': sentences
             .map(
@@ -101,9 +104,13 @@ class DataRepositoryImpl implements DataRepository {
       final jsonString = await file.readAsString();
       final Map<String, dynamic> data = jsonDecode(jsonString);
 
+      // Track imported folder ID so sentences can be linked automatically
+      String? importedFolderId;
+
       // 3. Parse & Insert Folder
       if (data.containsKey('folder')) {
         final f = data['folder'];
+        importedFolderId = f['id'];
         final folderEntry = FoldersCompanion(
           id: Value(f['id']),
           name: Value(f['name']),
@@ -111,6 +118,12 @@ class DataRepositoryImpl implements DataRepository {
           flagColor: f['flag_color'] != null
               ? Value(f['flag_color'])
               : const Value.absent(),
+          originalLanguage: f['original_language'] != null
+              ? Value(AppLanguage.fromString(f['original_language']))
+              : const Value(AppLanguage.english),
+          translationLanguage: f['translation_language'] != null
+              ? Value(AppLanguage.fromString(f['translation_language']))
+              : const Value(AppLanguage.korean),
         );
 
         // Insert folder first
@@ -127,6 +140,12 @@ class DataRepositoryImpl implements DataRepository {
                 flagColor: f['flag_color'] != null
                     ? Value(f['flag_color'])
                     : const Value.absent(),
+                originalLanguage: f['original_language'] != null
+                    ? Value(AppLanguage.fromString(f['original_language']))
+                    : const Value(AppLanguage.english),
+                translationLanguage: f['translation_language'] != null
+                    ? Value(AppLanguage.fromString(f['translation_language']))
+                    : const Value(AppLanguage.korean),
               ),
             )
             .toList();
@@ -137,6 +156,8 @@ class DataRepositoryImpl implements DataRepository {
       if (data.containsKey('sentences')) {
         final List<dynamic> sentenceList = data['sentences'];
         final List<SentencesCompanion> sentenceEntries = sentenceList.map((s) {
+          // Use explicit folder_id if present, otherwise fall back to the imported folder
+          final String? folderId = s['folder_id'] ?? importedFolderId;
           return SentencesCompanion(
             order: Value(s['order']),
             original: Value(SentenceText.fromJson(s['original'])),
@@ -145,9 +166,7 @@ class DataRepositoryImpl implements DataRepository {
             paraphrases: Value(List<String>.from(s['paraphrases'])),
             notes: Value(s['notes']),
             isFavorite: Value(s['is_favorite']),
-            folderId: s['folder_id'] != null
-                ? Value(s['folder_id'])
-                : const Value.absent(),
+            folderId: folderId != null ? Value(folderId) : const Value.absent(),
           );
         }).toList();
 

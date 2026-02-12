@@ -34,7 +34,7 @@ void main() {
       expect(find.text('Add Sentence'), findsOneWidget);
 
       // Verify Labels/Hints (Behavior: User sees these prompts)
-      expect(find.text('Key Sentence:'), findsOneWidget);
+      expect(find.text('Expression:'), findsOneWidget);
       expect(find.text('Translation:'), findsOneWidget);
       expect(find.text('Difficulty:'), findsOneWidget);
 

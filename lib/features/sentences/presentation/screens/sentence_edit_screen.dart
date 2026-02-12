@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../domain/entities/sentence.dart';
 import '../../domain/enums/difficulty.dart';
+import '../../domain/enums/app_language.dart';
 import '../../domain/value_objects/sentence_text.dart';
 import '../../domain/value_objects/text_style.dart' as domain;
 import '../../domain/enums/text_style_type.dart';
 import '../../application/providers/sentence_providers.dart';
-
+import '../../data/providers/sentence_providers.dart';
 import '../widgets/styled_text_editing_controller.dart';
 import '../../data/providers/ai_providers.dart';
 import '../../application/providers/folder_providers.dart';
@@ -36,6 +37,10 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
   late List<TextEditingController> _paraphraseControllers;
   late Difficulty _difficulty;
   bool _isAiGenerating = false;
+  AppLanguage _originalLang = AppLanguage.english;
+  AppLanguage _translationLang = AppLanguage.korean;
+  AppLanguage? _notesLang; // null = use _originalLang (default)
+  String? _folderId;
 
   @override
   void initState() {
@@ -72,6 +77,82 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     if (_paraphraseControllers.isEmpty) {
       _paraphraseControllers.add(TextEditingController());
     }
+
+    // Load current folder languages
+    _loadFolderLanguages();
+  }
+
+  Future<void> _loadFolderLanguages() async {
+    final folderId =
+        widget.sentence?.folderId ?? ref.read(currentFolderProvider);
+    if (folderId == null) return;
+
+    final folders = await ref.read(folderListProvider.future);
+    final folder = folders.where((f) => f.id == folderId).firstOrNull;
+    if (folder != null && mounted) {
+      final settingsRepo = ref.read(settingsRepositoryProvider);
+      final savedNotesLangCode = await settingsRepo.getNotesLanguage(folderId);
+
+      setState(() {
+        _folderId = folderId;
+        _originalLang = folder.originalLanguage;
+        _translationLang = folder.translationLanguage;
+        if (savedNotesLangCode != null) {
+          _notesLang = AppLanguage.fromString(savedNotesLangCode);
+        } else {
+          _notesLang = _originalLang; // default: monolingual
+        }
+      });
+    }
+  }
+
+  /// The effective notes language name for AI prompts
+  String get _notesLangName => (_notesLang ?? _originalLang).aiPromptName;
+
+  /// Compact toggle for notes explanation language
+  Widget _buildNotesLangToggle() {
+    final effectiveNotesLang = _notesLang ?? _originalLang;
+    final origCode = _originalLang.code.toUpperCase();
+    final transCode = _translationLang.code.toUpperCase();
+
+    Widget langChip(String label, AppLanguage lang) {
+      final isSelected = effectiveNotesLang == lang;
+      return GestureDetector(
+        onTap: () async {
+          setState(() => _notesLang = lang);
+          if (_folderId != null) {
+            final settingsRepo = ref.read(settingsRepositoryProvider);
+            await settingsRepo.saveNotesLanguage(_folderId!, lang.code);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? Colors.white : Colors.grey.shade600,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        langChip(origCode, _originalLang),
+        const SizedBox(width: 4),
+        langChip(transCode, _translationLang),
+      ],
+    );
   }
 
   @override
@@ -155,13 +236,19 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
         final aiRepo = await ref.read(aiRepositoryProvider.future);
         final englishText = await aiRepo.generateEnglishOriginal(
           translation: currentTranslation,
+          sourceLang: _originalLang.aiPromptName,
+          targetLang: _translationLang.aiPromptName,
         );
         setState(() {
           _originalController.text = englishText;
         });
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('English sentence generated!')),
+            SnackBar(
+              content: Text(
+                '${_originalLang.aiPromptName} sentence generated!',
+              ),
+            ),
           );
         }
       } catch (e) {
@@ -181,7 +268,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     // CASE 2: Standard Auto-Fill (Original populated)
     if (originalText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an English sentence first')),
+        SnackBar(
+          content: Text(
+            'Please enter a ${_originalLang.aiPromptName} expression first',
+          ),
+        ),
       );
       return;
     }
@@ -211,6 +302,9 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
         existingTranslation: currentTranslation.isNotEmpty
             ? currentTranslation
             : null,
+        sourceLang: _originalLang.aiPromptName,
+        targetLang: _translationLang.aiPromptName,
+        notesLang: _notesLangName,
       );
 
       setState(() {
@@ -267,7 +361,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     final originalText = _originalController.text.trim();
     if (originalText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an English sentence first')),
+        SnackBar(
+          content: Text(
+            'Please enter a ${_originalLang.aiPromptName} expression first',
+          ),
+        ),
       );
       return;
     }
@@ -276,7 +374,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
 
     try {
       final aiRepo = await ref.read(aiRepositoryProvider.future);
-      final notes = await aiRepo.generateNotes(originalText);
+      final notes = await aiRepo.generateNotes(
+        originalText,
+        sourceLang: _originalLang.aiPromptName,
+        notesLang: _notesLangName,
+      );
 
       setState(() {
         _notesController.text = notes;
@@ -304,7 +406,11 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
     final originalText = _originalController.text.trim();
     if (originalText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an English sentence first')),
+        SnackBar(
+          content: Text(
+            'Please enter a ${_originalLang.aiPromptName} expression first',
+          ),
+        ),
       );
       return;
     }
@@ -317,6 +423,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
       final paraphrasesText = await aiRepo.generateParaphrases(
         originalText: originalText,
         translation: translation,
+        sourceLang: _originalLang.aiPromptName,
       );
 
       setState(() {
@@ -495,7 +602,8 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                       maxLines: null,
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
-                        hintText: 'Enter Korean translation',
+                        hintText:
+                            'Enter ${_translationLang.displayName} expression',
                         filled: true,
                         fillColor: const Color(0xFFF1F8E9),
                         border: OutlineInputBorder(
@@ -547,12 +655,22 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
                           'Notes:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        IconButton(
-                          onPressed: _isAiGenerating ? null : _generateNotes,
-                          icon: const Icon(Icons.refresh, size: 24),
-                          tooltip: 'Refresh Notes with AI',
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Notes language toggle
+                            _buildNotesLangToggle(),
+                            const SizedBox(width: 4),
+                            IconButton(
+                              onPressed: _isAiGenerating
+                                  ? null
+                                  : _generateNotes,
+                              icon: const Icon(Icons.refresh, size: 24),
+                              tooltip: 'Refresh Notes with AI',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -691,7 +809,7 @@ class _SentenceEditScreenState extends ConsumerState<SentenceEditScreen> {
           maxLines: null,
           style: const TextStyle(color: Colors.black87),
           decoration: InputDecoration(
-            hintText: 'Enter English sentence',
+            hintText: 'Enter ${_originalLang.displayName} expression',
             helperText: 'Select text to apply styling (Bold/Highlight)',
             filled: true,
             fillColor: const Color(0xFFF1F8E9),

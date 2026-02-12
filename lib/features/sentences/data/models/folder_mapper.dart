@@ -9,6 +9,8 @@ extension FolderEntryMapper on FolderEntry {
       name: name,
       createdAt: createdAt,
       flagColor: flagColor,
+      originalLanguage: originalLanguage,
+      translationLanguage: translationLanguage,
     );
   }
 }
@@ -20,6 +22,8 @@ extension FolderMapper on Folder {
       name: name,
       createdAt: createdAt,
       flagColor: flagColor,
+      originalLanguage: originalLanguage,
+      translationLanguage: translationLanguage,
     );
   }
 
@@ -29,6 +33,8 @@ extension FolderMapper on Folder {
       name: Value(name),
       createdAt: Value(createdAt),
       flagColor: Value(flagColor),
+      originalLanguage: Value(originalLanguage),
+      translationLanguage: Value(translationLanguage),
     );
   }
 }

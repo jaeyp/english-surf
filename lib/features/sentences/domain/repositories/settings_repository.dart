@@ -2,6 +2,7 @@ import '../enums/difficulty.dart';
 import '../enums/sort_type.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../enums/ai_provider.dart';
+import '../enums/app_language.dart';
 
 abstract class SettingsRepository {
   Future<SortType> getSortType();
@@ -24,4 +25,14 @@ abstract class SettingsRepository {
 
   Future<String> getAiModel(AiProvider provider);
   Future<void> saveAiModel(AiProvider provider, String modelName);
+
+  Future<AppLanguage> getDefaultOriginalLanguage();
+  Future<void> saveDefaultOriginalLanguage(AppLanguage language);
+
+  Future<AppLanguage> getDefaultTranslationLanguage();
+  Future<void> saveDefaultTranslationLanguage(AppLanguage language);
+
+  /// Per-folder notes explanation language (defaults to source language)
+  Future<String?> getNotesLanguage(String folderId);
+  Future<void> saveNotesLanguage(String folderId, String langCode);
 }

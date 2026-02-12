@@ -4,23 +4,36 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:english_surf/features/home/presentation/screens/home_screen.dart';
 import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart';
 import 'package:english_surf/features/sentences/domain/entities/folder.dart';
+import 'package:english_surf/features/sentences/domain/enums/app_language.dart';
 import 'package:english_surf/features/sentences/domain/repositories/folder_repository.dart';
+import 'package:english_surf/features/sentences/domain/repositories/settings_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockFolderRepository extends Mock implements FolderRepository {}
 
+class MockSettingsRepository extends Mock implements SettingsRepository {}
+
 void main() {
   late MockFolderRepository mockFolderRepository;
+  late MockSettingsRepository mockSettingsRepository;
 
   setUp(() {
     mockFolderRepository = MockFolderRepository();
+    mockSettingsRepository = MockSettingsRepository();
     registerFallbackValue(Folder(id: '', name: '', createdAt: DateTime.now()));
+    when(
+      () => mockSettingsRepository.getDefaultOriginalLanguage(),
+    ).thenAnswer((_) async => AppLanguage.english);
+    when(
+      () => mockSettingsRepository.getDefaultTranslationLanguage(),
+    ).thenAnswer((_) async => AppLanguage.korean);
   });
 
   Widget createWidgetUnderTest() {
     return ProviderScope(
       overrides: [
         folderRepositoryProvider.overrideWithValue(mockFolderRepository),
+        settingsRepositoryProvider.overrideWithValue(mockSettingsRepository),
       ],
       child: const MaterialApp(home: HomeScreen()),
     );
@@ -73,7 +86,10 @@ void main() {
     await tester.tap(find.byIcon(Icons.create_new_folder));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.byType(TextField), 'New Folder');
+    await tester.enterText(
+      find.byKey(const Key('folder_name_field')),
+      'New Folder',
+    );
     await tester.tap(find.text('Create'));
     await tester.pumpAndSettle();
 

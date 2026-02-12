@@ -28,36 +28,60 @@ class AiRepositoryImpl implements AiRepository {
     String originalText, {
     List<String>? targetExpressions,
     String? existingTranslation,
+    String sourceLang = 'English',
+    String targetLang = 'Korean',
+    String? notesLang,
   }) async {
     final dataSource = await _getCurrentDataSource();
     return dataSource.generateSentenceContent(
       originalText,
       targetExpressions: targetExpressions,
       existingTranslation: existingTranslation,
+      sourceLang: sourceLang,
+      targetLang: targetLang,
+      notesLang: notesLang,
     );
   }
 
   @override
-  Future<String> generateNotes(String originalText) async {
+  Future<String> generateNotes(
+    String originalText, {
+    String sourceLang = 'English',
+    String? notesLang,
+  }) async {
     final dataSource = await _getCurrentDataSource();
-    return dataSource.generateNotes(originalText);
+    return dataSource.generateNotes(
+      originalText,
+      sourceLang: sourceLang,
+      notesLang: notesLang,
+    );
   }
 
   @override
-  Future<String> generateEnglishOriginal({required String translation}) async {
+  Future<String> generateEnglishOriginal({
+    required String translation,
+    String sourceLang = 'English',
+    String targetLang = 'Korean',
+  }) async {
     final dataSource = await _getCurrentDataSource();
-    return dataSource.generateEnglishOriginal(translation: translation);
+    return dataSource.generateEnglishOriginal(
+      translation: translation,
+      sourceLang: sourceLang,
+      targetLang: targetLang,
+    );
   }
 
   @override
   Future<String> generateParaphrases({
     required String originalText,
     required String translation,
+    String sourceLang = 'English',
   }) async {
     final dataSource = await _getCurrentDataSource();
     return dataSource.generateParaphrases(
       originalText: originalText,
       translation: translation,
+      sourceLang: sourceLang,
     );
   }
 }

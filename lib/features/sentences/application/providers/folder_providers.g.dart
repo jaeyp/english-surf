@@ -33,7 +33,7 @@ final class FolderListProvider
   FolderList create() => FolderList();
 }
 
-String _$folderListHash() => r'1609cda9eb24a9aa20d1b8343150dc447a9ae25b';
+String _$folderListHash() => r'bcb8a91377c2bc5ed56c3e61b5f010c106441f3c';
 
 abstract class _$FolderList extends $AsyncNotifier<List<Folder>> {
   FutureOr<List<Folder>> build();
