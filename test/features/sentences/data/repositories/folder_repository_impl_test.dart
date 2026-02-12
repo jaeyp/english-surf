@@ -46,8 +46,7 @@ void main() {
       final result = await repository.getAllFolders();
 
       // assert
-      expect(result.length, 2);
-      expect(result.any((f) => f.name == 'Default'), true);
+      expect(result.length, 1);
       expect(result.any((f) => f.name == tFolder.name), true);
     });
   });
@@ -79,7 +78,7 @@ void main() {
   });
 
   group('deleteFolder', () {
-    test('should delete folder and move sentences to default_folder', () async {
+    test('should delete folder and its sentences', () async {
       // arrange
       await repository.addFolder(tFolder);
 
@@ -112,11 +111,9 @@ void main() {
       final folderResult = await repository.getFolderById(tFolder.id);
       expect(folderResult, null);
 
-      // 2. Sentence should be moved to default_folder
-      sentences = await (database.select(
-        database.sentences,
-      )..where((t) => t.folderId.equals('default_folder'))).get();
-      expect(sentences.length, 1);
+      // 2. Sentences should be deleted
+      sentences = await database.select(database.sentences).get();
+      expect(sentences.length, 0);
     });
   });
 

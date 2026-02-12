@@ -94,17 +94,12 @@ class AppDatabase extends _$AppDatabase {
         }
       },
       beforeOpen: (details) async {
-        if (details.wasCreated) {
-          // Seed "Default" folder on fresh install
-          final defaultFolderId = 'default_folder';
-          await into(folders).insert(
-            FoldersCompanion.insert(
-              id: defaultFolderId,
-              name: 'Default',
-              createdAt: DateTime.now(),
-            ),
-          );
-        }
+        // Clean up orphaned sentences (no matching folder)
+        await customStatement('''
+          DELETE FROM sentences
+          WHERE folder_id IS NULL
+             OR folder_id NOT IN (SELECT id FROM folders)
+        ''');
       },
     );
   }

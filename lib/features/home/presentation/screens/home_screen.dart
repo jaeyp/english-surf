@@ -157,7 +157,36 @@ class _FolderList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (folders.isEmpty) {
-      return const Center(child: Text('No folders found.'));
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.folder_open_rounded,
+                size: 64,
+                color: Colors.grey.shade300,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No folders yet',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Tap + to create your first folder\nand start collecting sentences!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade400),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     return ListView.separated(
@@ -226,30 +255,23 @@ class _FolderTile extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (folder.id != 'default_folder')
-                  PopupMenuButton<String>(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon: const Icon(Icons.more_vert, color: Colors.grey),
-                    onSelected: (value) {
-                      if (value == 'rename') {
-                        _showRenameDialog(context, ref, folder);
-                      }
-                      if (value == 'delete') {
-                        _showDeleteDialog(context, ref, folder);
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(
-                        value: 'rename',
-                        child: Text('Rename'),
-                      ),
-                      const PopupMenuItem(
-                        value: 'delete',
-                        child: Text('Delete'),
-                      ),
-                    ],
-                  ),
+                PopupMenuButton<String>(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(Icons.more_vert, color: Colors.grey),
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      _showEditDialog(context, ref, folder);
+                    }
+                    if (value == 'delete') {
+                      _showDeleteDialog(context, ref, folder);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                    const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                  ],
+                ),
               ],
             ),
           ),
@@ -362,7 +384,7 @@ class _FolderTile extends ConsumerWidget {
     );
   }
 
-  Future<void> _showRenameDialog(
+  Future<void> _showEditDialog(
     BuildContext context,
     WidgetRef ref,
     dynamic folder,

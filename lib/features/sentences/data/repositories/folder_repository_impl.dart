@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart';
 import '../../../../core/database/app_database.dart';
 import '../../domain/entities/folder.dart';
 import '../../domain/repositories/folder_repository.dart';
@@ -36,10 +35,10 @@ class FolderRepositoryImpl implements FolderRepository {
   @override
   Future<void> deleteFolder(String id) async {
     await database.transaction(() async {
-      // 1. Move sentences to default folder
-      await (database.update(database.sentences)
-            ..where((t) => t.folderId.equals(id)))
-          .write(const SentencesCompanion(folderId: Value('default_folder')));
+      // 1. Delete sentences in this folder
+      await (database.delete(
+        database.sentences,
+      )..where((t) => t.folderId.equals(id))).go();
 
       // 2. Delete the folder
       await (database.delete(

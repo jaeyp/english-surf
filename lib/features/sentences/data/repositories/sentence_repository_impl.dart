@@ -1,40 +1,20 @@
 import 'package:drift/drift.dart';
 import '../../domain/entities/sentence.dart';
 import '../../domain/repositories/sentence_repository.dart';
-import '../datasources/sentence_local_data_source.dart';
 import '../../../../core/database/app_database.dart';
 import '../models/sentence_mapper.dart';
 
 class SentenceRepositoryImpl implements SentenceRepository {
-  final SentenceLocalDataSource localDataSource;
   final AppDatabase database;
 
-  SentenceRepositoryImpl({
-    required this.localDataSource,
-    required this.database,
-  });
+  SentenceRepositoryImpl({required this.database});
 
   @override
   Future<List<Sentence>> getAllSentences() async {
     final cached = await database.getAllSentences();
-    if (cached.isNotEmpty) {
-      return cached.map((e) => e.toDomain()).toList();
-    }
+    return cached.map((e) => e.toDomain()).toList();
 
-    // Seed from JSON if empty
-    final initialSentences = await localDataSource.getSentences();
-    // When seeding, we should ideally assign to default folder,
-    // but onUpgrade/beforeOpen handles this for the first migration.
-    // For fresh seeding here, we use the default folder ID.
-    const defaultFolderId = 'default_folder';
-    await database.insertAllSentences(
-      initialSentences
-          .map((s) => s.copyWith(folderId: defaultFolderId).toCompanion())
-          .toList(),
-    );
-    return initialSentences
-        .map((s) => s.copyWith(folderId: defaultFolderId))
-        .toList();
+    // TODO: Seed from JSON files (assets/data/seed/xxx.json) if empty
   }
 
   @override
