@@ -333,6 +333,20 @@ English sentence learning app with rich text styling and flashcard features.
 
 
 
+### 🌐 Internationalization & UX Polish (2026-02-13)
+- [x] **Language Detection Strategy**:
+    - [x] **Enhanced Logic**: Returns `null` for unsupported scripts (e.g., Chinese, Japanese) instead of defaulting to English.
+    - [x] **Scoring System**: Improved accuracy for European languages (ES, PT, FR) based on accent characters.
+    - [x] **OCR Integration**: `CameraOCRScreen` now correctly filters text blocks based on the folder's target languages.
+- [x] **JSON Data Portability**:
+    - [x] **UTF-8 Encoding**: Applied explicit UTF-8 encoding to Export/Import logic to support all special characters and emojis.
+- [x] **App Icon Management**:
+    - [x] **Automated Skill**: Created `change_app_icon` skill to automate `flutter_launcher_icons` execution.
+    - [x] **Update**: Updated app icons (handled iOS alpha channel warnings).
+- [x] **TTS Planning (Supertonic2)**:
+    - [x] **Strategy**: On-demand download of Quantized ONNX model (~70MB) + 10 Voice Assets (Male/Female).
+    - [x] **UI Plan**: Global Speaker toggle (Male/Female) in Settings.
+
 ### 🌐 Multi-Language Folder Support (2026-02-11 ~ 02-12)
 - [x] **Database Schema (v3 → v4)**: Added `original_language` / `translation_language` columns to Folders table with `AppLanguageConverter`.
 - [x] **AppLanguage Enum**: Created `AppLanguage` (en, ko, es, pt, fr) with `code`, `displayName`, `aiPromptName`, `flagEmoji`, `fromString`, `fromLocale`.
