@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../features/sentences/domain/enums/app_language.dart';
-import '../../../../features/sentences/domain/enums/script_type.dart';
 import '../widgets/text_recognizer_painter.dart';
 import '../utils/ocr_processor.dart';
 import '../../domain/services/ocr_service.dart';
@@ -187,7 +186,7 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
         // Normalized focus region for Android
         const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
 
-        final filteredBlocks = OcrProcessor.processBlocks(
+        var filteredBlocks = OcrProcessor.processBlocks(
           recognizedBlocks,
           canvasSize,
           imageSize,
@@ -195,6 +194,13 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
           focusRegion: focusRegion,
           shouldMerge: false, // Android: No merging
         );
+
+        // Filter by Folder Languages using AppLanguage.detect
+        filteredBlocks = filteredBlocks.where((block) {
+          final detected = AppLanguage.detect(block.text);
+          return detected == widget.originalLang ||
+              detected == widget.translationLang;
+        }).toList();
 
         setState(() {
           _displayBlocks = filteredBlocks;
@@ -252,7 +258,7 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
             // Normalized focus region for iOS - center 40% of screen (portrait only)
             const focusRegion = Rect.fromLTRB(0.0, 0.3, 1.0, 0.7);
 
-            final filteredBlocks = OcrProcessor.processBlocks(
+            var filteredBlocks = OcrProcessor.processBlocks(
               recognizedBlocks,
               canvasSize,
               imageSize,
@@ -260,6 +266,13 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
               focusRegion: focusRegion,
               shouldMerge: true, // iOS: Merge blocks into paragraphs
             );
+
+            // Filter by Folder Languages using AppLanguage.detect
+            filteredBlocks = filteredBlocks.where((block) {
+              final detected = AppLanguage.detect(block.text);
+              return detected == widget.originalLang ||
+                  detected == widget.translationLang;
+            }).toList();
 
             setState(() {
               _displayBlocks = filteredBlocks;
@@ -428,11 +441,8 @@ class _CameraOCRScreenState extends State<CameraOCRScreen> {
     final translationParts = <String>[];
 
     for (final text in _selectedTextBlocks) {
-      // Use the translation language's script type to classify
-      final textScript = RegExp(r'[가-힣]').hasMatch(text)
-          ? ScriptType.korean
-          : ScriptType.latin;
-      if (textScript == widget.translationLang.scriptType) {
+      final detectedLang = AppLanguage.detect(text);
+      if (detectedLang == widget.translationLang) {
         translationParts.add(text);
       } else {
         originalParts.add(text);
