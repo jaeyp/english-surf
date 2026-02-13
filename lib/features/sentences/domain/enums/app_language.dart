@@ -1,53 +1,56 @@
+import 'dart:ui';
 import 'package:json_annotation/json_annotation.dart';
 import 'script_type.dart';
 
 enum AppLanguage {
   @JsonValue('en')
   english(
-    code: 'en',
     displayName: 'English',
     aiPromptName: 'English',
     scriptType: ScriptType.latin,
+    locale: Locale('en'),
   ),
   @JsonValue('ko')
   korean(
-    code: 'ko',
     displayName: '한국어',
     aiPromptName: 'Korean',
     scriptType: ScriptType.korean,
+    locale: Locale('ko'),
   ),
   @JsonValue('es')
   spanish(
-    code: 'es',
     displayName: 'Español',
     aiPromptName: 'Spanish',
     scriptType: ScriptType.latin,
+    locale: Locale('es'),
   ),
   @JsonValue('pt')
   portuguese(
-    code: 'pt',
     displayName: 'Português', // or Português (Brasil) if targeting specific
     aiPromptName: 'Portuguese',
     scriptType: ScriptType.latin,
+    locale: Locale('pt'),
   ),
   @JsonValue('fr')
   french(
-    code: 'fr',
     displayName: 'Français',
     aiPromptName: 'French',
     scriptType: ScriptType.latin,
+    locale: Locale('fr'),
   );
 
-  final String code;
   final String displayName;
   final String aiPromptName;
   final ScriptType scriptType;
+  final Locale locale;
+
+  String get code => locale.languageCode;
 
   const AppLanguage({
-    required this.code,
     required this.displayName,
     required this.aiPromptName,
     required this.scriptType,
+    required this.locale,
   });
 
   static AppLanguage fromString(String code) {
@@ -57,10 +60,9 @@ enum AppLanguage {
     );
   }
 
-  static AppLanguage? fromLocale(String localeCode) {
+  static AppLanguage? fromLocale(Locale locale) {
     // Basic mapping from ISO 639-1 code
-    // Handling some common variations
-    final normalizeCode = localeCode.toLowerCase().split('_').first;
+    final normalizeCode = locale.languageCode.toLowerCase();
     try {
       return AppLanguage.values.firstWhere(
         (lang) => lang.code == normalizeCode,

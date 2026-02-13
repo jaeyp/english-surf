@@ -127,7 +127,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     if (code != null) return AppLanguage.fromString(code);
 
     try {
-      final systemLocale = PlatformDispatcher.instance.locale.languageCode;
+      final systemLocale = PlatformDispatcher.instance.locale;
       final fromSystem = AppLanguage.fromLocale(systemLocale);
       if (fromSystem != null) return fromSystem;
     } catch (_) {
