@@ -71,7 +71,7 @@ class DataRepositoryImpl implements DataRepository {
           .replaceAll(' ', '_');
       final fileName = 'backup_${safeFolderName}_$timestamp.json';
       final file = File('${tempDir.path}/$fileName');
-      await file.writeAsString(jsonString);
+      await file.writeAsString(jsonString, encoding: utf8, flush: true);
       filesToShare.add(XFile(file.path));
     }
 
@@ -101,7 +101,7 @@ class DataRepositoryImpl implements DataRepository {
       if (pickedFile.path == null) continue;
 
       final file = File(pickedFile.path!);
-      final jsonString = await file.readAsString();
+      final jsonString = await file.readAsString(encoding: utf8);
       final Map<String, dynamic> data = jsonDecode(jsonString);
 
       // Track imported folder ID so sentences can be linked automatically
