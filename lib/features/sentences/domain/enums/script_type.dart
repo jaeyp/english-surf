@@ -1,1 +1,1 @@
-enum ScriptType { latin, korean }
+enum ScriptType { english, korean, spanish, portuguese, french }
