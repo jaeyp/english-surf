@@ -9,6 +9,7 @@ import '../../../sentences/domain/enums/sort_type.dart';
 import '../../../sentences/application/providers/sentence_providers.dart';
 import '../../../sentences/presentation/widgets/sentence_card.dart';
 import '../../../sentences/domain/enums/app_language.dart';
+import '../../../tts/service/tts_service.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
@@ -53,6 +54,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   @override
   void dispose() {
+    ref.read(ttsServiceProvider).stop(); // Stop TTS on exit
     _timer?.cancel();
     _pageController.dispose();
     super.dispose();
