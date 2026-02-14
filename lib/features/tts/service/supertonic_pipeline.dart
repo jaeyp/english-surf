@@ -609,5 +609,6 @@ class SupertonicPipeline {
 
   void dispose() {
     _disposeSessions();
+    _isInitialized = false;
   }
 }
