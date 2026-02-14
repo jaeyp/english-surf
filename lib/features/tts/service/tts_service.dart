@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_session/audio_session.dart';
@@ -14,13 +15,19 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
   return TtsService(ref);
 });
 
-class TtsService {
+class TtsService with WidgetsBindingObserver {
   final Logger _logger = Logger();
   final AudioPlayer _player = AudioPlayer();
   final SupertonicPipeline _pipeline = SupertonicPipeline(); // The pipeline
 
   TtsService(Ref ref) {
     _initAudioSession();
+    WidgetsBinding.instance.addObserver(this);
+
+    ref.onDispose(() {
+      WidgetsBinding.instance.removeObserver(this);
+      dispose();
+    });
   }
 
   Future<void> _initAudioSession() async {
@@ -84,6 +91,10 @@ class TtsService {
     }
   }
 
+  Future<void> stop() async {
+    await _player.stop();
+  }
+
   String _detectLanguage(String text) {
     int esCount = 0;
     int ptCount = 0;
@@ -132,6 +143,20 @@ class TtsService {
       pcm[i * 2 + 1] = (sample >> 8) & 0xFF; // High byte
     }
     return pcm;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // App went to background: Release heavyweight ONNX resources
+      _logger.d('App paused: Disposing ONNX sessions');
+      _pipeline.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      // App came to foreground: Sessions will be lazy-reloaded on next infer(),
+      // or we can pre-warm them here.
+      _logger.d('App resumed: Pipeline will re-init on demand');
+      // optional: _pipeline.init();
+    }
   }
 
   void dispose() {
