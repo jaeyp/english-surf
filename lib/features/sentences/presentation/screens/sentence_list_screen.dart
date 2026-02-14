@@ -103,16 +103,6 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                   ]
                 : [
                     IconButton(
-                      icon: const Icon(Icons.swap_horiz),
-                      tooltip:
-                          languageMode == LanguageMode.originalToTranslation
-                          ? 'Original → Translation'
-                          : 'Translation → Original',
-                      onPressed: () {
-                        ref.read(languageModeProvider.notifier).toggle();
-                      },
-                    ),
-                    IconButton(
                       icon: const Icon(Icons.play_arrow),
                       onPressed: () async {
                         await context.push(
@@ -249,6 +239,14 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                FloatingActionButton(
+                  heroTag: 'toggle_fab',
+                  onPressed: () {
+                    ref.read(languageModeProvider.notifier).toggle();
+                  },
+                  child: const Icon(Icons.swap_horiz),
+                ),
+                const SizedBox(width: 16),
                 FloatingActionButton(
                   heroTag: 'camera_fab',
                   onPressed: () async {
