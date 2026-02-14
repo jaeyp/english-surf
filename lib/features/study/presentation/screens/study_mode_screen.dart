@@ -8,15 +8,20 @@ import '../../../sentences/domain/enums/difficulty.dart';
 import '../../../sentences/domain/enums/sort_type.dart';
 import '../../../sentences/application/providers/sentence_providers.dart';
 import '../../../sentences/presentation/widgets/sentence_card.dart';
+import '../../../sentences/domain/enums/app_language.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
   final bool isTestMode;
+  final AppLanguage? originalLanguage;
+  final AppLanguage? translationLanguage;
 
   const StudyModeScreen({
     super.key,
     this.initialIndex = 0,
     this.isTestMode = false,
+    this.originalLanguage,
+    this.translationLanguage,
   });
 
   @override
@@ -301,6 +306,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                             ),
                             sentence: sentences[index],
                             languageMode: languageMode,
+                            originalLanguage: widget.originalLanguage,
+                            translationLanguage: widget.translationLanguage,
                             padding: EdgeInsets.symmetric(
                               horizontal: isLandscape ? 32.0 : 16.0,
                               vertical: isLandscape ? 8.0 : 16.0,

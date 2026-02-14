@@ -1,15 +1,21 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../tts/service/tts_service.dart';
 import '../../domain/entities/sentence.dart';
 import '../../application/providers/sentence_providers.dart'; // LanguageMode
 import 'sentence_text_view.dart';
+import '../../domain/enums/app_language.dart';
+import '../../data/providers/sentence_providers.dart';
 
-class SentenceCard extends StatefulWidget {
+class SentenceCard extends ConsumerStatefulWidget {
   final Sentence sentence;
   final LanguageMode languageMode;
   final EdgeInsets padding;
   final ValueChanged<bool>? onFlip;
   final VoidCallback? onFavoriteToggle;
+  final AppLanguage? originalLanguage;
+  final AppLanguage? translationLanguage;
 
   const SentenceCard({
     super.key,
@@ -18,13 +24,15 @@ class SentenceCard extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.onFlip,
     this.onFavoriteToggle,
+    this.originalLanguage,
+    this.translationLanguage,
   });
 
   @override
-  State<SentenceCard> createState() => _SentenceCardState();
+  ConsumerState<SentenceCard> createState() => _SentenceCardState();
 }
 
-class _SentenceCardState extends State<SentenceCard>
+class _SentenceCardState extends ConsumerState<SentenceCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -91,6 +99,12 @@ class _SentenceCardState extends State<SentenceCard>
                             content: isOriginalFront
                                 ? _buildTranslationContent(showNotes: true)
                                 : _buildOriginalContent(showNotes: true),
+                            ttsText: isOriginalFront
+                                ? widget.sentence.translation
+                                : widget.sentence.original.text,
+                            ttsLanguageCode: isOriginalFront
+                                ? widget.translationLanguage?.code ?? 'ko'
+                                : widget.originalLanguage?.code, // Original
                           ),
                         )
                       : _buildCardFace(
@@ -98,6 +112,14 @@ class _SentenceCardState extends State<SentenceCard>
                           content: isOriginalFront
                               ? _buildOriginalContent(showNotes: false)
                               : _buildTranslationContent(showNotes: false),
+                          ttsText: isOriginalFront
+                              ? widget.sentence.original.text
+                              : widget.sentence.translation,
+                          ttsLanguageCode: isOriginalFront
+                              ? widget
+                                    .originalLanguage
+                                    ?.code // Original
+                              : widget.translationLanguage?.code ?? 'ko',
                         ),
                 );
               },
@@ -108,7 +130,12 @@ class _SentenceCardState extends State<SentenceCard>
     );
   }
 
-  Widget _buildCardFace({required bool isFront, required Widget content}) {
+  Widget _buildCardFace({
+    required bool isFront,
+    required Widget content,
+    required String ttsText,
+    required String? ttsLanguageCode,
+  }) {
     return Card(
       elevation: 4,
       color: const Color(0xFFF1F8E9), // Light Pastel Green
@@ -157,6 +184,22 @@ class _SentenceCardState extends State<SentenceCard>
                 color: widget.sentence.isFavorite ? Colors.teal : Colors.grey,
               ),
               onPressed: widget.onFavoriteToggle,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(Icons.volume_up, size: 28, color: Colors.grey),
+              onPressed: () async {
+                final speaker = await ref
+                    .read(settingsRepositoryProvider)
+                    .getTtsSpeaker();
+
+                await ref
+                    .read(ttsServiceProvider)
+                    .play(ttsText, speaker, language: ttsLanguageCode);
+              },
             ),
           ),
         ],

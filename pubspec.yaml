@@ -46,8 +46,10 @@ dependencies:
   intl: ^0.20.2
   drift: ^2.20.0
   sqlite3_flutter_libs: ^0.5.41
-  path_provider: ^2.1.5
-  path: ^1.9.1
+  path_provider: ^2.1.2
+  path: ^1.9.0
+  crypto: ^3.0.3
+  logger: ^2.0.21
   shared_preferences: ^2.5.4
 #   google_mlkit_text_recognition: ^0.15.0
 #   google_mlkit_commons: ^0.11.0
@@ -62,6 +64,9 @@ dependencies:
   apple_vision_commons: ^0.0.3
   share_plus: ^12.0.1
   file_picker: ^10.3.10
+  flutter_onnxruntime: ^1.6.2
+  just_audio: ^0.10.5
+  audio_session: ^0.1.21
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +105,7 @@ flutter:
     - .env
     - assets/data/
     - assets/icon/
+    - assets/tts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

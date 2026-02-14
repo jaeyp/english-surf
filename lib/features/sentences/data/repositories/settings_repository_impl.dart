@@ -6,6 +6,7 @@ import '../../domain/enums/difficulty.dart';
 import '../../domain/enums/sort_type.dart';
 import '../../domain/enums/ai_provider.dart';
 import '../../domain/repositories/settings_repository.dart';
+import '../../../../features/tts/domain/enums/tts_speaker.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SharedPreferences _prefs;
@@ -20,6 +21,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keyDefaultOriginalLanguage = 'default_original_language';
   static const String _keyDefaultTranslationLanguage =
       'default_translation_language';
+  static const String _keyTtsSpeaker = 'tts_speaker';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -153,5 +155,20 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveNotesLanguage(String folderId, String langCode) async {
     await _prefs.setString('$_keyNotesLangPrefix$folderId', langCode);
+  }
+
+  @override
+  Future<TtsSpeaker> getTtsSpeaker() async {
+    final value = _prefs.getString(_keyTtsSpeaker);
+    if (value == null) return TtsSpeaker.male;
+    return TtsSpeaker.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => TtsSpeaker.male,
+    );
+  }
+
+  @override
+  Future<void> saveTtsSpeaker(TtsSpeaker speaker) async {
+    await _prefs.setString(_keyTtsSpeaker, speaker.name);
   }
 }
