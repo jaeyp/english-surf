@@ -52,48 +52,110 @@ class SupertonicPipeline {
     try {
       final dir = await getApplicationSupportDirectory();
 
-      // Define files to copy
-      final filesToCopy = [
+      // Define files to prepare (map of assetKey -> targetFileName)
+      // assetKey is relative to 'flutter_assets' root effectively, usually 'assets/tts/...'
+      final models = [
         'duration_predictor.onnx',
         'text_encoder.onnx',
         'vector_estimator.onnx',
         'vocoder.onnx',
+      ];
+
+      final configs = [
         'tts.json',
         'unicode_indexer.json',
         'M1.json',
         'F1.json',
       ];
 
-      for (var fileName in filesToCopy) {
+      // Map to store resolved paths
+      final resolvedPaths = <String, String>{};
+
+      // 1. Try to find assets in the App Bundle (iOS Zero-Copy)
+      if (Platform.isIOS || Platform.isMacOS) {
+        try {
+          final bundleDir = File(Platform.resolvedExecutable).parent;
+          // Common locations for flutter_assets in iOS builds
+          final candidates = [
+            p.join(
+              bundleDir.path,
+              'Frameworks',
+              'App.framework',
+              'flutter_assets',
+            ),
+            p.join(
+              bundleDir.path,
+              'flutter_assets',
+            ), // Sometimes here in debug/other configs
+          ];
+
+          for (final candidate in candidates) {
+            if (await Directory(candidate).exists()) {
+              _logger.i('Found flutter_assets at $candidate');
+
+              // Check if all critical models exist here
+              bool allFound = true;
+              for (final m in models) {
+                if (!File(p.join(candidate, 'assets', 'tts', m)).existsSync()) {
+                  allFound = false;
+                  break;
+                }
+              }
+
+              if (allFound) {
+                // Use these paths directly!
+                for (final m in models) {
+                  resolvedPaths[m] = p.join(candidate, 'assets', 'tts', m);
+                }
+                for (final c in configs) {
+                  // Configs might not be strictly required to exist, but if models are there, these likely are too.
+                  final configPath = p.join(candidate, 'assets', 'tts', c);
+                  if (File(configPath).existsSync()) {
+                    resolvedPaths[c] = configPath;
+                  }
+                }
+                _logger.i('Using direct asset paths (Zero-Copy) from Bundle.');
+                break;
+              }
+            }
+          }
+        } catch (e) {
+          _logger.w('Failed to resolve bundle path', error: e);
+        }
+      }
+
+      // 2. If not found in bundle (e.g. Android), fallback to Copy-to-Documents
+      for (var fileName in [...models, ...configs]) {
+        if (resolvedPaths.containsKey(fileName)) continue;
+
+        // Destination path
         final filePath = p.join(dir.path, fileName);
+        resolvedPaths[fileName] = filePath;
+
+        // Copy if needed (Android or fallback)
         if (!File(filePath).existsSync()) {
           try {
             _logger.d('Copying $fileName to $filePath');
             await _copyAssetToFile('assets/tts/$fileName', filePath);
           } catch (e) {
-            // M1/F1 might be optional if user only added one, but models are required
-            _logger.w(
-              'Failed to copy $fileName (might be missing in assets)',
-              error: e,
-            );
+            _logger.w('Failed to copy $fileName', error: e);
           }
         }
       }
 
-      // Define paths
-      final dpPath = p.join(dir.path, 'duration_predictor.onnx');
-      final textEncPath = p.join(dir.path, 'text_encoder.onnx');
-      final vectorEstPath = p.join(dir.path, 'vector_estimator.onnx');
-      final vocoderPath = p.join(dir.path, 'vocoder.onnx');
+      // Define paths from resolved map
+      final dpPath = resolvedPaths['duration_predictor.onnx']!;
+      final textEncPath = resolvedPaths['text_encoder.onnx']!;
+      final vectorEstPath = resolvedPaths['vector_estimator.onnx']!;
+      final vocoderPath = resolvedPaths['vocoder.onnx']!;
 
-      final indexerPath = p.join(dir.path, 'unicode_indexer.json');
-      final configPath = p.join(dir.path, 'tts.json');
-      final maleStylePath = p.join(dir.path, 'M1.json');
-      final femaleStylePath = p.join(dir.path, 'F1.json');
+      final indexerPath = resolvedPaths['unicode_indexer.json']!;
+      final configPath = resolvedPaths['tts.json']!;
+      final maleStylePath = resolvedPaths['M1.json']!;
+      final femaleStylePath = resolvedPaths['F1.json']!;
 
       if (!File(dpPath).existsSync()) {
-        _logger.w('Models not found. Skipping init until downloaded.');
-        // Don't throw here, just leave uninitialized so we fallback to beep until valid.
+        _logger.w('Models not found. Skipping init.');
         return;
       }
 
