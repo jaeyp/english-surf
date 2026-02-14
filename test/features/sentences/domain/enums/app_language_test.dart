@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../../lib/features/sentences/domain/enums/app_language.dart';
+import 'package:english_surf/features/sentences/domain/enums/app_language.dart';
 
 void main() {
   group('AppLanguage.detect', () {

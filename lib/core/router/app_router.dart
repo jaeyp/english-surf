@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
 import '../../features/study/presentation/screens/study_mode_screen.dart';
@@ -17,7 +18,8 @@ GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/sentences',
         builder: (context, state) => const SentenceListScreen(),
@@ -74,6 +76,8 @@ GoRouter goRouter(Ref ref) {
           return StudyModeScreen(
             initialIndex: args.initialIndex,
             isTestMode: args.isTestMode,
+            originalLanguage: args.originalLanguage,
+            translationLanguage: args.translationLanguage,
           );
         },
       ),

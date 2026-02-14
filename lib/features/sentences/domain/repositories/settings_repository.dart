@@ -3,6 +3,7 @@ import '../enums/sort_type.dart';
 import '../../application/providers/sentence_providers.dart';
 import '../enums/ai_provider.dart';
 import '../enums/app_language.dart';
+import '../../../../features/tts/domain/enums/tts_speaker.dart';
 
 abstract class SettingsRepository {
   Future<SortType> getSortType();
@@ -35,4 +36,7 @@ abstract class SettingsRepository {
   /// Per-folder notes explanation language (defaults to source language)
   Future<String?> getNotesLanguage(String folderId);
   Future<void> saveNotesLanguage(String folderId, String langCode);
+
+  Future<TtsSpeaker> getTtsSpeaker();
+  Future<void> saveTtsSpeaker(TtsSpeaker speaker);
 }
