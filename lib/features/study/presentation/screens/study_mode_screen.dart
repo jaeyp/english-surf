@@ -9,7 +9,7 @@ import '../../../sentences/domain/enums/sort_type.dart';
 import '../../../sentences/application/providers/sentence_providers.dart';
 import '../../../sentences/presentation/widgets/sentence_card.dart';
 import '../../../sentences/domain/enums/app_language.dart';
-import '../../../tts/service/tts_service.dart';
+import '../../presentation/controllers/study_mode_tts_controller.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
@@ -54,7 +54,6 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   @override
   void dispose() {
-    ref.read(ttsServiceProvider).stop(); // Stop TTS on exit
     _timer?.cancel();
     _pageController.dispose();
     super.dispose();
@@ -130,6 +129,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
     // 2. Watch the full raw list to get reactive updates for each card
     final rawSentencesAsync = ref.watch(sentenceListProvider);
+
+    // 3. Watch the TTS controller to bind its lifecycle (Auto-Stop on dispose)
+    ref.watch(studyModeTtsControllerProvider);
 
     final languageMode =
         ref.watch(languageModeProvider).value ??

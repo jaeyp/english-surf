@@ -41,26 +41,24 @@ class TtsService with WidgetsBindingObserver {
     await _pipeline.init();
   }
 
+  int _generationId = 0; // Guard against race conditions
+
   Future<void> play(String text, TtsSpeaker speaker, {String? language}) async {
+    // 1. Cancel/Invalidate previous requests
+    _generationId++;
+    final myGenerationId = _generationId;
+
     _logger.i('Playing TTS: "$text" (Speaker: $speaker, Lang: $language)');
 
     try {
       List<int> audioBytes;
 
       try {
-        // Init pipeline if needed (it handles its own init state)
-        // Map TtsSpeaker to 'male' or 'female' string key
-        // Assuming TtsSpeaker has .male and .female values
-        // If it has others, default to male.
         final speakerKey = (speaker == TtsSpeaker.female) ? 'female' : 'male';
-
-        // Use the pipeline for inference
-        // Pipeline handles initializing loading models from app support dir
-        // We currently default to English ('en') as the prompt didn't specify language passing yet.
-        // However, text might be Korean.
-        // Simple heuristic: if text contains Hangul, use 'ko', else 'en'
-        // Use provided language or detect it
         final lang = language ?? _detectLanguage(text);
+
+        // Check cancellation before heavy lifting
+        if (myGenerationId != _generationId) return;
 
         audioBytes = await _pipeline.infer(
           text,
@@ -70,12 +68,19 @@ class TtsService with WidgetsBindingObserver {
         );
         _logger.d('Generated ${audioBytes.length} bytes of audio');
       } catch (e) {
+        if (myGenerationId != _generationId) return;
         _logger.w(
           'Supertonic Inference failed. Falling back to beep.',
           error: e,
         );
-        // Fallback to beep
         audioBytes = _generateBeep();
+      }
+
+      // 2. Critical Check: Is this request still valid?
+      // If stop() or another play() was called during inference, abort.
+      if (myGenerationId != _generationId) {
+        _logger.d('TTS Cancelled before play (Generation mismatched)');
+        return;
       }
 
       // Play
@@ -84,14 +89,19 @@ class TtsService with WidgetsBindingObserver {
         sampleRate: _pipeline.sampleRate,
       );
       await _player.setAudioSource(source);
+
+      if (myGenerationId != _generationId) return;
+
       await _player.play();
     } catch (e) {
+      if (myGenerationId != _generationId) return;
       _logger.e('TTS Playback failed', error: e);
       rethrow;
     }
   }
 
   Future<void> stop() async {
+    _generationId++; // Invalidate any pending play requests
     await _player.stop();
   }
 
