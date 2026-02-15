@@ -90,8 +90,13 @@ class TtsService with WidgetsBindingObserver {
       );
       await _player.setAudioSource(source);
 
+      // EXPERIMENT: Force stop and reset state
+      await _player.stop();
+      await _player.setAudioSource(source, preload: true);
+
       if (myGenerationId != _generationId) return;
 
+      await _player.seek(Duration.zero);
       await _player.play();
     } catch (e) {
       if (myGenerationId != _generationId) return;

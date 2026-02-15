@@ -39,4 +39,10 @@ abstract class SettingsRepository {
 
   Future<TtsSpeaker> getTtsSpeaker();
   Future<void> saveTtsSpeaker(TtsSpeaker speaker);
+
+  Future<int> getAudioRepeatCount();
+  Future<void> saveAudioRepeatCount(int count);
+
+  Future<bool> getIsAudioMode();
+  Future<void> saveIsAudioMode(bool isAudioMode);
 }
