@@ -20,11 +20,16 @@ class StudyModeTtsController {
 
   StudyModeTtsController(this.ref);
 
-  Future<void> play(String text, TtsSpeaker speaker, {String? language}) async {
+  Future<void> play(
+    String text,
+    TtsSpeaker speaker, {
+    String? language,
+    String? id,
+  }) async {
     final speed = await ref.read(ttsSpeedProvider.future);
     await ref
         .read(ttsServiceProvider)
-        .play(text, speaker, language: language, speed: speed);
+        .play(text, speaker, language: language, speed: speed, id: id);
   }
 
   Future<void> stop() async {

@@ -201,6 +201,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
         textToPlay,
         await ref.read(settingsRepositoryProvider).getTtsSpeaker(),
         language: targetLang,
+        id: sentence.id.toString(),
       );
 
       // Verify Session ID again after async playback

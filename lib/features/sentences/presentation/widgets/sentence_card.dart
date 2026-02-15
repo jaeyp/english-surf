@@ -189,24 +189,38 @@ class _SentenceCardState extends ConsumerState<SentenceCard>
           Positioned(
             bottom: 0,
             right: 0,
-            child: IconButton(
-              icon: const Icon(Icons.volume_up, size: 28, color: Colors.grey),
-              onPressed: () async {
-                final speaker = await ref
-                    .read(settingsRepositoryProvider)
-                    .getTtsSpeaker();
-                final speed = await ref
-                    .read(settingsRepositoryProvider)
-                    .getTtsSpeed();
+            child: StreamBuilder<String?>(
+              stream: ref.watch(ttsServiceProvider).currentPlayingIdStream,
+              builder: (context, snapshot) {
+                final playingId = snapshot.data;
+                final isPlayingThis =
+                    playingId == widget.sentence.id.toString();
 
-                await ref
-                    .read(ttsServiceProvider)
-                    .play(
-                      ttsText,
-                      speaker,
-                      language: ttsLanguageCode,
-                      speed: speed,
-                    );
+                return IconButton(
+                  icon: Icon(
+                    Icons.volume_up,
+                    size: 28,
+                    color: isPlayingThis ? Colors.green : Colors.grey,
+                  ),
+                  onPressed: () async {
+                    final speaker = await ref
+                        .read(settingsRepositoryProvider)
+                        .getTtsSpeaker();
+                    final speed = await ref
+                        .read(settingsRepositoryProvider)
+                        .getTtsSpeed();
+
+                    await ref
+                        .read(ttsServiceProvider)
+                        .play(
+                          ttsText,
+                          speaker,
+                          language: ttsLanguageCode,
+                          speed: speed,
+                          id: widget.sentence.id.toString(),
+                        );
+                  },
+                );
               },
             ),
           ),
