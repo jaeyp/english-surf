@@ -48,19 +48,32 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, // Match native splash
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App Icon
-            Image.asset('assets/icon/app_icon.png', width: 120, height: 120),
-            const SizedBox(height: 24),
-            // Loading Indicator
-            const CircularProgressIndicator(),
-            const SizedBox(height: 16),
-            const Text(
-              'Initializing AI models...',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Initializing AI models...',
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 24),
+              child: Text(
+                'Powered by Supertone',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ],
         ),
