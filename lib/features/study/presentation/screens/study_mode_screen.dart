@@ -18,6 +18,7 @@ class StudyModeScreen extends ConsumerStatefulWidget {
   final bool isAudioMode;
   final AppLanguage? originalLanguage;
   final AppLanguage? translationLanguage;
+  final LanguageMode? languageMode;
 
   const StudyModeScreen({
     super.key,
@@ -26,6 +27,7 @@ class StudyModeScreen extends ConsumerStatefulWidget {
     this.isAudioMode = false,
     this.originalLanguage,
     this.translationLanguage,
+    this.languageMode,
   });
 
   @override
@@ -79,6 +81,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   void _startTimer() {
     _timer?.cancel();
+    if (widget.isAudioMode) return; // Guard: Never start timer in Audio Mode
     if (!mounted) return;
     setState(() {
       _timeLeft = _timerDuration;
@@ -89,7 +92,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   void _resumeTimer() {
     _timer?.cancel();
-    if (!mounted || !widget.isTestMode) return;
+    // Guard: Never resume timer in Audio Mode
+    if (!mounted || !widget.isTestMode || widget.isAudioMode) return;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
@@ -154,7 +158,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   }
 
   Future<void> _playAudioLoop(int sessionId) async {
-    if (!mounted || _isPaused || _showRepetitionPicker) return;
+    if (!mounted || _isPaused || _showRepetitionPicker || _isFlipped) return;
 
     // Check if this loop is still valid
     if (sessionId != _audioSessionId) return;
@@ -173,15 +177,30 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
       // Play Audio
       final controller = ref.read(studyModeTtsControllerProvider);
 
-      // Determine text to play based on language mode?
-      // Usually users study Translation -> Original, so play Original?
-      // Or play based on active side? Typically audio is Original.
-      final textToPlay = sentence.original.text;
+      // Determine text to play based on language mode
+      // If Translation -> Original (Translation is Front), play Translation
+      // If Original -> Translation (Front is Original), play Original (Default)
+      final playTranslationFirst =
+          widget.languageMode == LanguageMode.translationToOriginal;
+
+      final textToPlay = playTranslationFirst
+          ? sentence.translation
+          : sentence.original.text;
+
+      // Determine speaker
+      // If playing translation, we might need a different speaker/lang?
+      // Currently getTtsSpeaker() returns a single global preference.
+      // Assuming same speaker for now, or just default.
+      // Ideally we should use correct language code if available.
+      final targetLang = playTranslationFirst
+          ? widget.translationLanguage?.code
+          : widget.originalLanguage?.code;
 
       // We need to wait for playback to finish
       await controller.play(
         textToPlay,
         await ref.read(settingsRepositoryProvider).getTtsSpeaker(),
+        language: targetLang,
       );
 
       // Verify Session ID again after async playback
@@ -432,15 +451,12 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                                   _isFlipped = isFlipped;
                                 });
                                 if (isFlipped) {
-                                  _pauseTimer(); // Pauses Timer and also essentially pauses Audio loop via _isPaused check?
-                                  // We should explicitly set _isPaused = true for audio loop check
-                                  setState(() => _isPaused = true);
+                                  _pauseTimer();
                                 } else {
                                   _resumeTimer();
-                                  // For audio, resume loop
-                                  setState(() => _isPaused = false);
-                                  if (widget.isAudioMode)
+                                  if (widget.isAudioMode && !_isPaused) {
                                     _playAudioLoop(_audioSessionId);
+                                  }
                                 }
                               }
                             },
@@ -705,7 +721,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
             _playAudioLoop(_audioSessionId); // Resume current session
           });
         } else {
-          // Toggle Pause logic
+          // Toggle Pause logic (Restored per user request)
           setState(() {
             _isPaused = !_isPaused;
             if (!_isPaused)

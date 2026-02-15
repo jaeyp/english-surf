@@ -1,4 +1,5 @@
 import '../../../sentences/domain/enums/app_language.dart';
+import '../../../sentences/application/providers/sentence_providers.dart';
 
 class StudyModeArguments {
   final int initialIndex;
@@ -13,5 +14,8 @@ class StudyModeArguments {
     this.isAudioMode = false,
     this.originalLanguage,
     this.translationLanguage,
+    this.languageMode,
   });
+
+  final LanguageMode? languageMode;
 }
