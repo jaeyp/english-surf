@@ -43,12 +43,19 @@ class TtsService with WidgetsBindingObserver {
 
   int _generationId = 0; // Guard against race conditions
 
-  Future<void> play(String text, TtsSpeaker speaker, {String? language}) async {
+  Future<void> play(
+    String text,
+    TtsSpeaker speaker, {
+    String? language,
+    double speed = 1.0,
+  }) async {
     // 1. Cancel/Invalidate previous requests
     _generationId++;
     final myGenerationId = _generationId;
 
-    _logger.i('Playing TTS: "$text" (Speaker: $speaker, Lang: $language)');
+    _logger.i(
+      'Playing TTS: "$text" (Speaker: $speaker, Lang: $language, Speed: $speed)',
+    );
 
     try {
       List<int> audioBytes;
@@ -63,7 +70,7 @@ class TtsService with WidgetsBindingObserver {
         audioBytes = await _pipeline.infer(
           text,
           lang: lang,
-          speed: 1.05,
+          speed: speed,
           speaker: speakerKey,
         );
         _logger.d('Generated ${audioBytes.length} bytes of audio');

@@ -370,3 +370,21 @@ class AudioMode extends _$AudioMode {
     state = AsyncData(isAudioMode);
   }
 }
+
+/// ----------------------------------------------------------------------------
+/// Provider: TtsSpeed
+/// ----------------------------------------------------------------------------
+@riverpod
+class TtsSpeed extends _$TtsSpeed {
+  @override
+  FutureOr<double> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getTtsSpeed();
+  }
+
+  Future<void> setSpeed(double speed) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveTtsSpeed(speed);
+    state = AsyncData(speed);
+  }
+}

@@ -195,10 +195,18 @@ class _SentenceCardState extends ConsumerState<SentenceCard>
                 final speaker = await ref
                     .read(settingsRepositoryProvider)
                     .getTtsSpeaker();
+                final speed = await ref
+                    .read(settingsRepositoryProvider)
+                    .getTtsSpeed();
 
                 await ref
                     .read(ttsServiceProvider)
-                    .play(ttsText, speaker, language: ttsLanguageCode);
+                    .play(
+                      ttsText,
+                      speaker,
+                      language: ttsLanguageCode,
+                      speed: speed,
+                    );
               },
             ),
           ),

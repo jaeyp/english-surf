@@ -244,13 +244,26 @@ English sentence learning app with rich text styling and flashcard features.
     - [ ] **Logic**: Generate relevant example sentences based on the current `Notes` content.
     - [ ] **UX**: Show inline loading and append generated examples to the list.
 
-### Phase 5.6: Speech & Audio (TTS)
-- [ ] **Text-to-Speech (TTS) Integration**:
-    - [ ] Integrate `flutter_tts` package.
-- [ ] **UI Integration**:
-    - [ ] Add Speaker icon at the end of text on Card Front (Original).
-    - [ ] Add Speaker icon at the end of text on Card Back (Translation).
-- [ ] **Logic**: Detect language (Original: English, Translation: Selected Preference) and play audio on tap.
+### Phase 5.6: Speech & Audio (TTS) - Supertonic Integration (✅ Completed)
+- [x] **Supertonic TTS Engine**:
+    - [x] **Integrated `just_audio` + `flutter_onnxruntime`**: Ported Supertonic engine logic manually (no pub package).
+    - [x] **Model Management**: Utilized `TtsModelManager` for asset handling and self-healing.
+    - [x] **On-Demand Inference**: Implemented `SupertonicPipeline` (Encoder -> Diffusion -> Vocoder) with 24kHz raw PCM output.
+    - [x] **Fallback**: Graceful fallback to beep sound on inference failure.
+- [x] **UI Integration**:
+    - [x] **Sentence Card**: Added Speaker icon to "Original" text.
+    - [x] **Speaker Toggle**: Added persistent Global Audio Mode toggle in List Screen.
+    - [x] **Smart Theming**: Speaker icon adapts to Light/Dark mode automatically.
+- [x] **Audio Study Mode**:
+    - [x] **Auto-Play**: Automatically plays audio when flipping to a card.
+    - [x] **Repetition Logic**: Added adjustable repetition counter (1x, 2x, 3x, 5x, 10x).
+    - [x] **Robustness**:
+        - Fixed "Fighting Loops" race condition using unique Session IDs.
+        - Fixed Audio Skipping bug with explicit state reset (`stop`, `seek(0)`).
+        - Persisted Repetition Count and Audio Mode state across app restarts.
+- [x] **Splash Screen Update**:
+    - [x] Removed App Icon for cleaner look.
+    - [x] Added "Powered by Supertone" footer.
 
 ### Phase 5.7: User Onboarding (Tutorial)
 - [ ] **Coach Mark Overlay**
@@ -332,6 +345,25 @@ English sentence learning app with rich text styling and flashcard features.
 ## 🛠 Maintenance & Stability Log
 
 
+
+### 🔊 Audio Study Mode & Splash Update (2026-02-15)
+- [x] **Supertonic TTS Integration**:
+    - [x] **Engine**: Manual integration of `just_audio` + `flutter_onnxruntime` + `SupertonicPipeline` (Ported from SDK).
+    - [x] **Pipeline**: Multi-stage inference (Encoder -> Diffusion -> Vocoder) with 24kHz PCM output.
+    - [x] **Robustness**:
+        - **Session ID Pattern**: Fixed "Fighting Loops" race condition in Study Mode.
+        - **Audio State Reset**: Fixed skipping bug with `stop()`, `preload`, `seek(0)`.
+- [x] **Audio Study Mode**:
+    - [x] **Features**: Auto-play on flip, Repetition Counter (1x-10x), Auto-advance globally.
+    - [x] **Speed Control**:
+        - Added persistent slider (1.0x-2.0x) in Settings for adjustable TTS rate.
+        - Fixed async provider issue in Study Mode causing speed to stick at 1.0x.
+        - Ensured smooth UI with optimistic updates and valid `VisualDensity`.
+    - [x] **Router Fix**: Resolved `unknown route name: study` by adding named routes to `app_router.dart`.
+    - [x] **Persistence**: `AudioMode`, `RepetitionCount`, and `TtsSpeed` saved in SharedPreferences.
+    - [x] **UI**: Speaker Icon (Theme-aware), Repetition Picker, Play/Pause controls.
+- [x] **Splash Screen**:
+    - [x] **Redesign**: Minimalist layout (No icon), added "Powered by Supertone" footer.
 
 ### 🌐 Internationalization & UX Polish (2026-02-13)
 - [x] **Language Detection Strategy**:

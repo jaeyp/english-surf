@@ -4,6 +4,7 @@ import '../../../../features/tts/domain/enums/tts_speaker.dart';
 import '../../../sentences/domain/enums/ai_provider.dart';
 import '../../../sentences/data/providers/ai_providers.dart';
 import '../../../sentences/data/providers/sentence_providers.dart';
+import '../../../sentences/application/providers/sentence_providers.dart'; // Ensure application layer providers included
 import '../../../sentences/application/providers/folder_providers.dart';
 import '../../../sentences/domain/repositories/settings_repository.dart';
 import '../../data/repositories/data_repository_impl.dart';
@@ -325,6 +326,7 @@ class _TtsSettingsCard extends ConsumerStatefulWidget {
 
 class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
   TtsSpeaker _selectedSpeaker = TtsSpeaker.male;
+  double _ttsSpeed = 1.0;
   bool _isLoading = true;
 
   @override
@@ -336,9 +338,11 @@ class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
   Future<void> _loadSettings() async {
     final repo = ref.read(settingsRepositoryProvider);
     final speaker = await repo.getTtsSpeaker();
+    final speed = await repo.getTtsSpeed();
     if (mounted) {
       setState(() {
         _selectedSpeaker = speaker;
+        _ttsSpeed = speed;
         _isLoading = false;
       });
     }
@@ -354,6 +358,15 @@ class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
         _isLoading = false;
       });
     }
+  }
+
+  Future<void> _updateSpeed(double speed) async {
+    setState(() => _ttsSpeed = speed); // Optimistic update for smooth sliding
+    final repo = ref.read(settingsRepositoryProvider);
+    await repo.saveTtsSpeed(speed);
+    // Debouncing could be added here if performant issues arise, but SharedPreferences is fast enough.
+    // Invalidate provider so listeners get updated
+    ref.invalidate(ttsSpeedProvider);
   }
 
   @override
@@ -391,6 +404,28 @@ class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
                   _updateSpeaker(newSelection.first);
                 },
               ),
+            ),
+            const Divider(),
+            ListTile(
+              visualDensity: const VisualDensity(vertical: -4),
+              title: const Text('Playback Speed'),
+              trailing: Text(
+                '${_ttsSpeed.toStringAsFixed(1)}x',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Slider(
+              value: _ttsSpeed,
+              min: 1.0,
+              max: 2.0,
+              divisions: 10,
+              label: '${_ttsSpeed.toStringAsFixed(1)}x',
+              onChanged: (value) {
+                _updateSpeed(value);
+              },
             ),
           ],
         ),

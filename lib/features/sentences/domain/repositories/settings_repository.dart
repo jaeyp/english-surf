@@ -45,4 +45,7 @@ abstract class SettingsRepository {
 
   Future<bool> getIsAudioMode();
   Future<void> saveIsAudioMode(bool isAudioMode);
+
+  Future<double> getTtsSpeed();
+  Future<void> saveTtsSpeed(double speed);
 }

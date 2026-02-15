@@ -24,6 +24,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const String _keyTtsSpeaker = 'tts_speaker';
   static const String _keyAudioRepeatCount = 'audio_repeat_count';
   static const String _keyIsAudioMode = 'is_audio_mode';
+  static const String _keyTtsSpeed = 'tts_speed';
 
   SettingsRepositoryImpl(this._prefs);
 
@@ -192,5 +193,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> saveIsAudioMode(bool isAudioMode) async {
     await _prefs.setBool(_keyIsAudioMode, isAudioMode);
+  }
+
+  @override
+  Future<double> getTtsSpeed() async {
+    return _prefs.getDouble(_keyTtsSpeed) ?? 1.0;
+  }
+
+  @override
+  Future<void> saveTtsSpeed(double speed) async {
+    await _prefs.setDouble(_keyTtsSpeed, speed);
   }
 }
