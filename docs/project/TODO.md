@@ -359,6 +359,11 @@ English sentence learning app with rich text styling and flashcard features.
         - Added persistent slider (1.0x-2.0x) in Settings for adjustable TTS rate.
         - Fixed async provider issue in Study Mode causing speed to stick at 1.0x.
         - Ensured smooth UI with optimistic updates and valid `VisualDensity`.
+        - Added disclaimer text below slider warning of potential quality loss at high speeds.
+    - [x] **Study Mode**:
+        - Audio now respects `LanguageMode` (Translation First -> Plays Translation).
+        - Repetition Button: Tap toggles Pause/Resume, Long Press opens Picker.
+        - Pause State is preserved when flipping cards.
     - [x] **Router Fix**: Resolved `unknown route name: study` by adding named routes to `app_router.dart`.
     - [x] **Persistence**: `AudioMode`, `RepetitionCount`, and `TtsSpeed` saved in SharedPreferences.
     - [x] **UI**: Speaker Icon (Theme-aware), Repetition Picker, Play/Pause controls.

@@ -4,6 +4,7 @@ import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
+import '../../features/sentences/application/providers/sentence_providers.dart';
 import '../../features/study/presentation/screens/study_mode_screen.dart';
 import '../../features/ocr/presentation/screens/camera_ocr_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
@@ -84,6 +85,7 @@ GoRouter goRouter(Ref ref) {
               isAudioMode: extra['isAudioMode'] as bool? ?? false,
               originalLanguage: extra['originalLanguage'] as AppLanguage?,
               translationLanguage: extra['translationLanguage'] as AppLanguage?,
+              languageMode: extra['languageMode'] as LanguageMode?,
             );
           } else {
             args = StudyModeArguments(initialIndex: extra is int ? extra : 0);
@@ -94,6 +96,7 @@ GoRouter goRouter(Ref ref) {
             isAudioMode: args.isAudioMode,
             originalLanguage: args.originalLanguage,
             translationLanguage: args.translationLanguage,
+            languageMode: args.languageMode,
           );
         },
       ),

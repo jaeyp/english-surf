@@ -125,6 +125,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                             initialIndex: 0,
                             isTestMode: true,
                             isAudioMode: isAudioMode,
+                            languageMode: languageMode,
                           ),
                         );
                         if (mounted) resetVisibleIds();
@@ -215,6 +216,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                           extra: StudyModeArguments(
                             initialIndex: index,
                             isTestMode: false,
+                            languageMode: languageMode,
                           ),
                         );
                         if (mounted) resetVisibleIds();

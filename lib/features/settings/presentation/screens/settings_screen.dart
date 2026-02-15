@@ -407,8 +407,12 @@ class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
             ),
             const Divider(),
             ListTile(
-              visualDensity: const VisualDensity(vertical: -4),
+              visualDensity: const VisualDensity(vertical: -2),
               title: const Text('Playback Speed'),
+              subtitle: const Text(
+                'Audio playback may be unstable at higher speeds.',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
               trailing: Text(
                 '${_ttsSpeed.toStringAsFixed(1)}x',
                 style: const TextStyle(
