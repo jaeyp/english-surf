@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -43,18 +44,26 @@ class TtsService with WidgetsBindingObserver {
 
   int _generationId = 0; // Guard against race conditions
 
+  final _currentPlayingIdController = StreamController<String?>.broadcast();
+  Stream<String?> get currentPlayingIdStream =>
+      _currentPlayingIdController.stream;
+  String? _currentPlayingId;
+
   Future<void> play(
     String text,
     TtsSpeaker speaker, {
     String? language,
     double speed = 1.0,
+    String? id,
   }) async {
     // 1. Cancel/Invalidate previous requests
     _generationId++;
     final myGenerationId = _generationId;
 
+    _updateCurrentId(id);
+
     _logger.i(
-      'Playing TTS: "$text" (Speaker: $speaker, Lang: $language, Speed: $speed)',
+      'Playing TTS: "$text" (Speaker: $speaker, Lang: $language, Speed: $speed, ID: $id)',
     );
 
     try {
@@ -103,10 +112,20 @@ class TtsService with WidgetsBindingObserver {
 
       if (myGenerationId != _generationId) return;
 
+      // Reset ID when player finishes
+      _player.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          if (_currentPlayingId == id) {
+            _updateCurrentId(null);
+          }
+        }
+      });
+
       await _player.seek(Duration.zero);
       await _player.play();
     } catch (e) {
       if (myGenerationId != _generationId) return;
+      _updateCurrentId(null);
       _logger.e('TTS Playback failed', error: e);
       rethrow;
     }
@@ -114,8 +133,16 @@ class TtsService with WidgetsBindingObserver {
 
   Future<void> stop() async {
     _generationId++; // Invalidate any pending play requests
+    _updateCurrentId(null);
     await _player.stop();
   }
+
+  void _updateCurrentId(String? id) {
+    _currentPlayingId = id;
+    _currentPlayingIdController.add(id);
+  }
+
+  Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 
   String _detectLanguage(String text) {
     int esCount = 0;
