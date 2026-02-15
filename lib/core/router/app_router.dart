@@ -22,10 +22,12 @@ GoRouter goRouter(Ref ref) {
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/sentences',
+        name: 'sentences',
         builder: (context, state) => const SentenceListScreen(),
       ),
       GoRoute(
         path: '/edit',
+        name: 'edit',
         builder: (context, state) {
           final extra = state.extra;
 
@@ -50,6 +52,7 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/camera',
+        name: 'camera',
         builder: (context, state) {
           final extra = state.extra;
           AppLanguage originalLang = AppLanguage.english;
@@ -68,11 +71,23 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/study',
+        name: 'study',
         builder: (context, state) {
           final extra = state.extra;
-          final args = extra is StudyModeArguments
-              ? extra
-              : StudyModeArguments(initialIndex: extra is int ? extra : 0);
+          StudyModeArguments args;
+          if (extra is StudyModeArguments) {
+            args = extra;
+          } else if (extra is Map<String, dynamic>) {
+            args = StudyModeArguments(
+              initialIndex: extra['initialIndex'] as int? ?? 0,
+              isTestMode: extra['isTestMode'] as bool? ?? false,
+              isAudioMode: extra['isAudioMode'] as bool? ?? false,
+              originalLanguage: extra['originalLanguage'] as AppLanguage?,
+              translationLanguage: extra['translationLanguage'] as AppLanguage?,
+            );
+          } else {
+            args = StudyModeArguments(initialIndex: extra is int ? extra : 0);
+          }
           return StudyModeScreen(
             initialIndex: args.initialIndex,
             isTestMode: args.isTestMode,
@@ -84,6 +99,7 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/settings',
+        name: 'settings',
         builder: (context, state) => const SettingsScreen(),
       ),
     ],

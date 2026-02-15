@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:english_surf/features/tts/domain/enums/tts_speaker.dart';
 import 'package:english_surf/features/tts/service/tts_service.dart';
+import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
 
 final studyModeTtsControllerProvider =
     Provider.autoDispose<StudyModeTtsController>((ref) {
@@ -20,7 +21,10 @@ class StudyModeTtsController {
   StudyModeTtsController(this.ref);
 
   Future<void> play(String text, TtsSpeaker speaker, {String? language}) async {
-    await ref.read(ttsServiceProvider).play(text, speaker, language: language);
+    final speed = await ref.read(ttsSpeedProvider.future);
+    await ref
+        .read(ttsServiceProvider)
+        .play(text, speaker, language: language, speed: speed);
   }
 
   Future<void> stop() async {
