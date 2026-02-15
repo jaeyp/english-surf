@@ -26,7 +26,10 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
     final allSentencesAsync = ref.watch(sentenceListProvider);
     final languageMode =
         ref.watch(languageModeProvider).value ??
+        ref.watch(languageModeProvider).value ??
         LanguageMode.translationToOriginal;
+
+    final isAudioMode = ref.watch(audioModeProvider).value ?? false;
 
     final isSelectionMode = ref.watch(selectionModeProvider);
     final selection = ref.watch(selectionProvider);
@@ -103,13 +106,25 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                   ]
                 : [
                     IconButton(
+                      icon: Icon(
+                        isAudioMode ? Icons.volume_up : Icons.volume_off,
+                      ),
+                      tooltip: isAudioMode ? 'Audio Mode' : 'Text Mode',
+                      onPressed: () {
+                        ref
+                            .read(audioModeProvider.notifier)
+                            .setMode(!isAudioMode);
+                      },
+                    ),
+                    IconButton(
                       icon: const Icon(Icons.play_arrow),
                       onPressed: () async {
-                        await context.push(
-                          '/study',
-                          extra: const StudyModeArguments(
+                        await context.pushNamed(
+                          'study',
+                          extra: StudyModeArguments(
                             initialIndex: 0,
                             isTestMode: true,
+                            isAudioMode: isAudioMode,
                           ),
                         );
                         if (mounted) resetVisibleIds();

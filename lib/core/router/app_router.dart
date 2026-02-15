@@ -76,6 +76,7 @@ GoRouter goRouter(Ref ref) {
           return StudyModeScreen(
             initialIndex: args.initialIndex,
             isTestMode: args.isTestMode,
+            isAudioMode: args.isAudioMode,
             originalLanguage: args.originalLanguage,
             translationLanguage: args.translationLanguage,
           );
