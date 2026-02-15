@@ -64,8 +64,8 @@ class SupertonicPipeline {
       final configs = [
         'tts.json',
         'unicode_indexer.json',
-        'M1.json',
-        'F1.json',
+        'M2.json',
+        'F2.json',
       ];
 
       // Map to store resolved paths
@@ -151,8 +151,8 @@ class SupertonicPipeline {
 
       final indexerPath = resolvedPaths['unicode_indexer.json']!;
       final configPath = resolvedPaths['tts.json']!;
-      final maleStylePath = resolvedPaths['M1.json']!;
-      final femaleStylePath = resolvedPaths['F1.json']!;
+      final maleStylePath = resolvedPaths['M2.json']!;
+      final femaleStylePath = resolvedPaths['F2.json']!;
 
       if (!File(dpPath).existsSync()) {
         _logger.w('Models not found. Skipping init.');
@@ -203,7 +203,7 @@ class SupertonicPipeline {
 
       if (_styles.isEmpty) {
         _logger.w(
-          'No voice styles (M1.json/F1.json) found. Inference will fail.',
+          'No voice styles (M2.json/F2.json) found. Inference will fail.',
         );
       }
 
