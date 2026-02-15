@@ -344,9 +344,22 @@ English sentence learning app with rich text styling and flashcard features.
 
 ## 🛠 Maintenance & Stability Log
 
+### 2026-02-15
+- [x] **Splash Screen Redesign**
+    - Removed loading spinner.
+    - Updated text to "**Lingo Pocket**" (Large) and "Initializing..." (Small).
+    - Implemented animated gradient background (Purple/Blue/Teal/Green/Yellow/Orange/Red loop).
+    - Enforced minimum 2-second display duration.
+    - Fixed native splash screen (iOS/Android) to use purple background (`#9C27B0`) to prevent white flash.
+- [x] **Speaker Icon Enhancements**
+    - Updated `SentenceCard` speaker icon logic.
+    - Icon turns **Green** only when audio is actively playing for that specific card.
+    - Icon remains interactive during Audio Study Mode to allow manual replay.
+- [x] **Audio Study Mode Fix**
+    - Updated `StudyModeTtsController` and `StudyModeScreen` to pass sentence IDs during auto-playback.
+    - Ensures speaker icon correctly reflects active playback state during auto-loop.
 
-
-### 🔊 Audio Study Mode & Splash Update (2026-02-15)
+### 🔊 Audio Study Mode & Splash Update (2026-02-14)
 - [x] **Supertonic TTS Integration**:
     - [x] **Engine**: Manual integration of `just_audio` + `flutter_onnxruntime` + `SupertonicPipeline` (Ported from SDK).
     - [x] **Pipeline**: Multi-stage inference (Encoder -> Diffusion -> Vocoder) with 24kHz PCM output.
