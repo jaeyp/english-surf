@@ -88,7 +88,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             end: Alignment.topLeft,
           ),
         ),
-        child: SafeArea(
+        child: const SafeArea(
           child: SizedBox(
             width: double.infinity,
             child: Column(
@@ -100,7 +100,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'Lingo Pocket',
                           style: TextStyle(
                             color: Colors.white,
@@ -115,8 +115,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        const Text(
+                        SizedBox(height: 8),
+                        Text(
                           'Initializing...',
                           style: TextStyle(
                             color: Colors.white70,
@@ -128,7 +128,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(bottom: 24),
                   child: Text(
                     'Powered by Supertone',

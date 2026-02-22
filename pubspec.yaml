@@ -105,7 +105,8 @@ flutter:
     - .env
     - assets/data/
     - assets/icon/
-    - assets/tts/
+    - assets/tts/supertonic2/
+    - assets/tts/qwen3/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../sentences/domain/entities/sentence.dart';
@@ -154,7 +154,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
       _audioSessionId++; // New session
     });
 
-    _playAudioLoop(_audioSessionId);
+    unawaited(_playAudioLoop(_audioSessionId));
   }
 
   Future<void> _playAudioLoop(int sessionId) async {
@@ -215,7 +215,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
       await Future.delayed(const Duration(milliseconds: 500));
 
       if (mounted && !_isPaused && sessionId == _audioSessionId) {
-        _playAudioLoop(sessionId); // Recursive call for next repetition
+        unawaited(
+          _playAudioLoop(sessionId),
+        ); // Recursive call for next repetition
       }
     } catch (e) {
       // If error, just advance to next page or stop?
@@ -725,8 +727,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           // Toggle Pause logic (Restored per user request)
           setState(() {
             _isPaused = !_isPaused;
-            if (!_isPaused)
+            if (!_isPaused) {
               _playAudioLoop(_audioSessionId); // Resume current session
+            }
           });
         }
       },
