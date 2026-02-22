@@ -5,6 +5,7 @@ import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';
 import 'package:english_surf/features/study/presentation/screens/study_mode_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -30,6 +31,9 @@ class MockSentenceList extends SentenceList {
 }
 
 void main() {
+  setUp(() {
+    dotenv.loadFromString(envString: 'TTS_ENGINE=supertonic2');
+  });
   const s1 = Sentence(
     id: 1,
     order: 1,

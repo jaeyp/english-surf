@@ -8,9 +8,11 @@ import 'package:just_audio/just_audio.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:logger/logger.dart';
 
+import '../domain/enums/tts_engine_type.dart';
 import '../domain/enums/tts_speaker.dart';
 import '../utils/memory_audio_source.dart';
-import 'supertonic_pipeline.dart'; // Import the new pipeline
+import 'tts_pipeline.dart';
+import 'tts_pipeline_factory.dart';
 
 final ttsServiceProvider = Provider<TtsService>((ref) {
   return TtsService(ref);
@@ -19,7 +21,7 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
 class TtsService with WidgetsBindingObserver {
   final Logger _logger = Logger();
   final AudioPlayer _player = AudioPlayer();
-  final SupertonicPipeline _pipeline = SupertonicPipeline(); // The pipeline
+  final TtsPipeline _pipeline = createTtsPipeline(activeTtsEngine);
 
   TtsService(Ref ref) {
     _initAudioSession();

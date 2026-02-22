@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:logger/logger.dart';
 import 'dart:convert';
 import '../utils/unicode_processor.dart';
+import 'tts_pipeline.dart';
 
 class Style {
   final OrtValue ttl, dp;
@@ -15,7 +16,7 @@ class Style {
   Style(this.ttl, this.dp, this.ttlShape, this.dpShape);
 }
 
-class SupertonicPipeline {
+class SupertonicPipeline implements TtsPipeline {
   final Logger _logger = Logger();
   late OnnxRuntime _ort;
 
@@ -38,6 +39,7 @@ class SupertonicPipeline {
   int _chunkCompressFactor = 1;
   int _latencyDim = 64;
 
+  @override
   int get sampleRate => _sampleRate;
 
   bool _isInitialized = false;
@@ -46,6 +48,7 @@ class SupertonicPipeline {
     _ort = OnnxRuntime();
   }
 
+  @override
   Future<void> init() async {
     if (_isInitialized) return;
 
@@ -96,7 +99,9 @@ class SupertonicPipeline {
               // Check if all critical models exist here
               bool allFound = true;
               for (final m in models) {
-                if (!File(p.join(candidate, 'assets', 'tts', m)).existsSync()) {
+                if (!File(
+                  p.join(candidate, 'assets', 'tts', 'supertonic2', m),
+                ).existsSync()) {
                   allFound = false;
                   break;
                 }
@@ -105,11 +110,23 @@ class SupertonicPipeline {
               if (allFound) {
                 // Use these paths directly!
                 for (final m in models) {
-                  resolvedPaths[m] = p.join(candidate, 'assets', 'tts', m);
+                  resolvedPaths[m] = p.join(
+                    candidate,
+                    'assets',
+                    'tts',
+                    'supertonic2',
+                    m,
+                  );
                 }
                 for (final c in configs) {
                   // Configs might not be strictly required to exist, but if models are there, these likely are too.
-                  final configPath = p.join(candidate, 'assets', 'tts', c);
+                  final configPath = p.join(
+                    candidate,
+                    'assets',
+                    'tts',
+                    'supertonic2',
+                    c,
+                  );
                   if (File(configPath).existsSync()) {
                     resolvedPaths[c] = configPath;
                   }
@@ -136,7 +153,10 @@ class SupertonicPipeline {
         if (!File(filePath).existsSync()) {
           try {
             _logger.d('Copying $fileName to $filePath');
-            await _copyAssetToFile('assets/tts/$fileName', filePath);
+            await _copyAssetToFile(
+              'assets/tts/supertonic2/$fileName',
+              filePath,
+            );
           } catch (e) {
             _logger.w('Failed to copy $fileName', error: e);
           }
@@ -216,6 +236,7 @@ class SupertonicPipeline {
     }
   }
 
+  @override
   Future<List<int>> infer(
     String text, {
     String lang = 'en',
@@ -607,6 +628,7 @@ class SupertonicPipeline {
     _vocoderSession?.close();
   }
 
+  @override
   void dispose() {
     _disposeSessions();
     _isInitialized = false;
