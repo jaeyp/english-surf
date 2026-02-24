@@ -192,11 +192,13 @@ class SupertonicPipeline implements TtsPipeline {
       // Load Processor
       _processor = await UnicodeProcessor.fromFile(indexerPath);
 
-      // Load Sessions
+      // Load Sessions — Use CoreML EP on Apple for ANE/GPU acceleration
       final sessionOptions = OrtSessionOptions(
         intraOpNumThreads: 1,
         interOpNumThreads: 1,
-        providers: [OrtProvider.CPU],
+        providers: (Platform.isIOS || Platform.isMacOS)
+            ? [OrtProvider.CORE_ML, OrtProvider.CPU]
+            : [OrtProvider.CPU],
       );
 
       _dpSession = await _ort.createSession(dpPath, options: sessionOptions);
