@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:math';
-import 'dart:typed_data';
-
+import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
+import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_session/audio_session.dart';
@@ -10,7 +9,6 @@ import 'package:logger/logger.dart';
 
 import '../domain/enums/tts_engine_type.dart';
 import '../domain/enums/tts_speaker.dart';
-import '../utils/memory_audio_source.dart';
 import 'tts_pipeline.dart';
 import 'tts_pipeline_factory.dart';
 
@@ -24,6 +22,13 @@ class TtsService with WidgetsBindingObserver {
   final TtsPipeline _pipeline = createTtsPipeline(activeTtsEngine);
 
   TtsService(Ref ref) {
+    // Single persistent listener to unlock the UI when playback finishes
+    _player.playerStateStream.listen((state) {
+      if (state.processingState == ProcessingState.completed) {
+        _updateCurrentId(null);
+      }
+    });
+
     _initAudioSession();
     WidgetsBinding.instance.addObserver(this);
 
@@ -49,7 +54,6 @@ class TtsService with WidgetsBindingObserver {
   final _currentPlayingIdController = StreamController<String?>.broadcast();
   Stream<String?> get currentPlayingIdStream =>
       _currentPlayingIdController.stream;
-  String? _currentPlayingId;
 
   Future<void> play(
     String text,
@@ -69,7 +73,7 @@ class TtsService with WidgetsBindingObserver {
     );
 
     try {
-      List<int> audioBytes;
+      List<int> audioBytes = [];
 
       try {
         final speakerKey = (speaker == TtsSpeaker.female) ? 'female' : 'male';
@@ -84,44 +88,35 @@ class TtsService with WidgetsBindingObserver {
           speed: speed,
           speaker: speakerKey,
         );
-        _logger.d('Generated ${audioBytes.length} bytes of audio');
       } catch (e) {
         if (myGenerationId != _generationId) return;
-        _logger.w(
-          'Supertonic Inference failed. Falling back to beep.',
-          error: e,
-        );
-        audioBytes = _generateBeep();
+        _logger.w('Pipeline Inference failed. ', error: e);
+        _updateCurrentId(null);
+        return;
       }
 
       // 2. Critical Check: Is this request still valid?
       // If stop() or another play() was called during inference, abort.
-      if (myGenerationId != _generationId) {
-        _logger.d('TTS Cancelled before play (Generation mismatched)');
+      if (myGenerationId != _generationId || audioBytes.isEmpty) {
+        _logger.d(
+          'TTS Cancelled before play (Generation mismatched or empty audio)',
+        );
+        if (myGenerationId == _generationId) {
+          _updateCurrentId(null); // Ensure UI unlocks if audio is empty
+        }
         return;
       }
 
-      // Play
-      final source = MemoryAudioSource(
+      // Play directly from RAM Stream (RawPcmAudioSource)
+      final source = RawPcmAudioSource(
         Uint8List.fromList(audioBytes),
         sampleRate: _pipeline.sampleRate,
       );
-      await _player.setAudioSource(source);
 
-      // EXPERIMENT: Force stop and reset state
       await _player.stop();
       await _player.setAudioSource(source, preload: true);
 
       if (myGenerationId != _generationId) return;
-
-      // Reset ID when player finishes
-      _player.playerStateStream.listen((state) {
-        if (state.processingState == ProcessingState.completed) {
-          if (_currentPlayingId == id) {
-            _updateCurrentId(null);
-          }
-        }
-      });
 
       await _player.seek(Duration.zero);
       await _player.play();
@@ -140,7 +135,6 @@ class TtsService with WidgetsBindingObserver {
   }
 
   void _updateCurrentId(String? id) {
-    _currentPlayingId = id;
     _currentPlayingIdController.add(id);
   }
 
@@ -181,21 +175,6 @@ class TtsService with WidgetsBindingObserver {
     return 'en';
   }
 
-  List<int> _generateBeep() {
-    final sampleRate = 22050;
-    final duration = 0.5; // Short beep
-    final numSamples = (sampleRate * duration).toInt();
-    final pcm = Uint8List(numSamples * 2);
-
-    for (var i = 0; i < numSamples; i++) {
-      final t = i / sampleRate;
-      final sample = (sin(2 * pi * 440 * t) * 32767).toInt();
-      pcm[i * 2] = sample & 0xFF; // Low byte
-      pcm[i * 2 + 1] = (sample >> 8) & 0xFF; // High byte
-    }
-    return pcm;
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
@@ -213,5 +192,80 @@ class TtsService with WidgetsBindingObserver {
   void dispose() {
     _player.dispose();
     _pipeline.dispose();
+    _currentPlayingIdController.close();
+  }
+}
+
+/// Dynamic Audio Source for just_audio
+/// Streams entirely from RAM, appending a WAV Header to raw Mono PCM16 payload
+class RawPcmAudioSource extends StreamAudioSource {
+  final Uint8List _pcmBytes;
+  final int sampleRate;
+
+  RawPcmAudioSource(this._pcmBytes, {required this.sampleRate});
+
+  @override
+  Future<StreamAudioResponse> request([int? start, int? end]) async {
+    final header = _buildWavHeader(_pcmBytes.length, sampleRate);
+    final totalBytes = header.length + _pcmBytes.length;
+
+    start ??= 0;
+    end ??= totalBytes;
+
+    if (start >= totalBytes) {
+      return StreamAudioResponse(
+        sourceLength: totalBytes,
+        contentLength: 0,
+        offset: start,
+        stream: Stream.empty(),
+        contentType: 'audio/wav',
+      );
+    }
+
+    final chunkBuilder = BytesBuilder();
+
+    // Check if requested range overlaps with the header
+    if (start < header.length) {
+      final headerEnd = math.min(end, header.length);
+      chunkBuilder.add(header.sublist(start, headerEnd));
+    }
+
+    // Check if requested range overlaps with the PCM payload
+    if (end > header.length) {
+      final pcmStart = math.max(0, start - header.length);
+      final pcmEnd = end - header.length;
+      chunkBuilder.add(_pcmBytes.sublist(pcmStart, pcmEnd));
+    }
+
+    return StreamAudioResponse(
+      sourceLength: totalBytes,
+      contentLength: chunkBuilder.length,
+      offset: start,
+      stream: Stream.value(chunkBuilder.takeBytes()),
+      contentType: 'audio/wav',
+    );
+  }
+
+  Uint8List _buildWavHeader(int pcmLength, int sampleRate) {
+    final channels = 1;
+    final byteRate = sampleRate * channels * 2;
+    final header = Uint8List(44);
+    final data = ByteData.view(header.buffer);
+
+    data.setUint32(0, 0x52494646, Endian.big); // "RIFF"
+    data.setUint32(4, 36 + pcmLength, Endian.little); // File size
+    data.setUint32(8, 0x57415645, Endian.big); // "WAVE"
+    data.setUint32(12, 0x666D7420, Endian.big); // "fmt "
+    data.setUint32(16, 16, Endian.little); // Subchunk1Size
+    data.setUint16(20, 1, Endian.little); // AudioFormat (1 = PCM)
+    data.setUint16(22, channels, Endian.little); // NumChannels
+    data.setUint32(24, sampleRate, Endian.little); // SampleRate
+    data.setUint32(28, byteRate, Endian.little); // ByteRate
+    data.setUint16(32, channels * 2, Endian.little); // BlockAlign
+    data.setUint16(34, 16, Endian.little); // BitsPerSample
+    data.setUint32(36, 0x64617461, Endian.big); // "data"
+    data.setUint32(40, pcmLength, Endian.little); // Subchunk2Size
+
+    return header;
   }
 }

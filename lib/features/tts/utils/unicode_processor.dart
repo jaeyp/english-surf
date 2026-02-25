@@ -213,12 +213,7 @@ class UnicodeProcessor {
 
   UnicodeProcessor._(this.indexer);
 
-  static Future<UnicodeProcessor> fromFile(String path) async {
-    final file = File(path);
-    if (!await file.exists()) {
-      throw Exception('Indexer file not found at $path');
-    }
-    final jsonString = await file.readAsString();
+  static UnicodeProcessor fromJsonString(String jsonString) {
     final json = jsonDecode(jsonString);
 
     final indexer = json is List
@@ -231,6 +226,15 @@ class UnicodeProcessor {
           );
 
     return UnicodeProcessor._(indexer);
+  }
+
+  static Future<UnicodeProcessor> fromFile(String path) async {
+    final file = File(path);
+    if (!await file.exists()) {
+      throw Exception('Indexer file not found at $path');
+    }
+    final jsonString = await file.readAsString();
+    return fromJsonString(jsonString);
   }
 
   Map<String, dynamic> process(List<String> textList, List<String> langList) {

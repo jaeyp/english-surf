@@ -64,9 +64,9 @@ dependencies:
   apple_vision_commons: ^0.0.3
   share_plus: ^12.0.1
   file_picker: ^10.3.10
-  flutter_onnxruntime: ^1.6.2
   just_audio: ^0.10.5
   audio_session: ^0.1.21
+  onnxruntime: ^1.4.1
 
 dev_dependencies:
   flutter_test:

@@ -1,37 +1,21 @@
 import 'dart:io';
-import 'dart:math' as math;
 import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_onnxruntime/flutter_onnxruntime.dart';
+import 'package:flutter/services.dart' show rootBundle, RootIsolateToken;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:logger/logger.dart';
 import 'dart:convert';
-import '../utils/unicode_processor.dart';
 import 'tts_pipeline.dart';
-
-class Style {
-  final OrtValue ttl, dp;
-  final List<int> ttlShape, dpShape;
-  Style(this.ttl, this.dp, this.ttlShape, this.dpShape);
-}
+import 'tts_worker_isolate.dart';
 
 class SupertonicPipeline implements TtsPipeline {
   final Logger _logger = Logger();
-  late OnnxRuntime _ort;
 
-  // Sessions
-  OrtSession? _dpSession;
-  OrtSession? _textEncSession;
-  OrtSession? _vectorEstSession;
-  OrtSession? _vocoderSession;
+  // The engine is entirely hosted inside this Worker Isolate
+  TtsWorkerIsolate? _worker;
 
   // Helpers
-  UnicodeProcessor? _processor;
   Map<String, dynamic>? _config; // tts.json
-
-  // Styles
-  final Map<String, Style> _styles = {};
 
   // Config values
   int _sampleRate = 24000;
@@ -39,19 +23,32 @@ class SupertonicPipeline implements TtsPipeline {
   int _chunkCompressFactor = 1;
   int _latencyDim = 64;
 
+  // Job Cancellation Control
+  int _currentJobId = 0;
+
   @override
   int get sampleRate => _sampleRate;
 
   bool _isInitialized = false;
+  Future<void>? _initFuture;
 
-  SupertonicPipeline() {
-    _ort = OnnxRuntime();
-  }
+  SupertonicPipeline();
 
   @override
   Future<void> init() async {
     if (_isInitialized) return;
+    if (_initFuture != null) return _initFuture;
 
+    _initFuture = _doInit();
+    try {
+      await _initFuture;
+      _isInitialized = true;
+    } finally {
+      _initFuture = null;
+    }
+  }
+
+  Future<void> _doInit() async {
     try {
       final dir = await getApplicationSupportDirectory();
 
@@ -189,51 +186,38 @@ class SupertonicPipeline implements TtsPipeline {
         _latencyDim = _config?['ttl']?['latent_dim'] ?? 64;
       }
 
-      // Load Processor
-      _processor = await UnicodeProcessor.fromFile(indexerPath);
+      // Initialize the Fully Automated Worker Isolate
+      _worker = TtsWorkerIsolate();
+      await _worker!.init(RootIsolateToken.instance!);
 
-      // Load Sessions — Use CoreML EP on Apple for ANE/GPU acceleration
-      final sessionOptions = OrtSessionOptions(
-        intraOpNumThreads: 1,
-        interOpNumThreads: 1,
-        providers: (Platform.isIOS || Platform.isMacOS)
-            ? [OrtProvider.CORE_ML, OrtProvider.CPU]
-            : [OrtProvider.CPU],
-      );
+      final indexerJsonStr = await File(indexerPath).readAsString();
 
-      _dpSession = await _ort.createSession(dpPath, options: sessionOptions);
-      _textEncSession = await _ort.createSession(
-        textEncPath,
-        options: sessionOptions,
-      );
-      _vectorEstSession = await _ort.createSession(
-        vectorEstPath,
-        options: sessionOptions,
-      );
-      _vocoderSession = await _ort.createSession(
-        vocoderPath,
-        options: sessionOptions,
-      );
+      await _worker!.sendRequest('init_onnx_pipeline', {
+        'indexerJsonStr': indexerJsonStr,
+        'dpPath': dpPath,
+        'textEncPath': textEncPath,
+        'vectorEstPath': vectorEstPath,
+        'vocoderPath': vocoderPath,
+        'maleStylePath': maleStylePath,
+        'femaleStylePath': femaleStylePath,
+        'sampleRate': _sampleRate,
+        'baseChunkSize': _baseChunkSize,
+        'chunkCompressFactor': _chunkCompressFactor,
+        'latencyDim': _latencyDim,
+      });
 
-      // Load Styles
-      if (File(maleStylePath).existsSync()) {
-        _styles['male'] = await _loadVoiceStyle([maleStylePath]);
-      }
-      if (File(femaleStylePath).existsSync()) {
-        _styles['female'] = await _loadVoiceStyle([femaleStylePath]);
-      }
-
-      if (_styles.isEmpty) {
-        _logger.w(
-          'No voice styles (M2.json/F2.json) found. Inference will fail.',
-        );
-      }
-
-      _isInitialized = true;
-      _logger.i('SupertonicPipeline Initialized');
+      _logger.i('SupertonicPipeline Initialized in Fully Isolated Context');
     } catch (e) {
+      final errStr = e.toString();
+      if (errStr.contains('Future already completed')) {
+        _logger.w(
+          'Swallowed benign double-completion error from Native: $errStr',
+        );
+        return; // Proceed normally, natively cached Futures are not fatal
+      }
+
       _logger.e('Failed to initialize SupertonicPipeline', error: e);
-      _disposeSessions();
+      _worker?.dispose();
       rethrow;
     }
   }
@@ -247,12 +231,8 @@ class SupertonicPipeline implements TtsPipeline {
   }) async {
     if (!_isInitialized) await init();
 
-    final style = _styles[speaker] ?? _styles.values.firstOrNull;
-
-    if (!_isInitialized || _processor == null || style == null) {
-      throw Exception(
-        'Pipeline not ready (Missing models or style for $speaker)',
-      );
+    if (!_isInitialized || _worker == null) {
+      throw Exception('Pipeline not ready (Worker Isolate failed)');
     }
 
     final maxLen = lang == 'ko' ? 120 : 300;
@@ -260,224 +240,60 @@ class SupertonicPipeline implements TtsPipeline {
     final langList = List.filled(chunks.length, lang);
     final silenceDuration = 0.3;
 
-    // We accumulate Float32 audio samples
-    List<double> wavCat = [];
+    // Track a new Job ID and send cancellation to previous jobs
+    final jobId = ++_currentJobId;
 
-    for (var i = 0; i < chunks.length; i++) {
-      final result = await _inferInternal(
-        [chunks[i]],
-        [langList[i]],
-        style,
-        5,
-        speed: speed,
-      ); // 5 steps default
+    // Send a cancellation signal to the isolate to abort old job runs
+    // This allows fluid card swiping in Study Mode
+    _worker!.sendRequest('cancel_job', {});
 
-      // result['wav'] is List<double>
-      final wav = result['wav'] as List<double>;
+    // We accumulate PCM Bytes
+    final pcmCat = <int>[];
 
-      if (wavCat.isEmpty) {
-        wavCat = wav;
-      } else {
-        // Append silence
-        final silenceSamples = (silenceDuration * _sampleRate).floor();
-        wavCat.addAll(List.filled(silenceSamples, 0.0));
-        wavCat.addAll(wav);
-      }
-    }
+    try {
+      for (var i = 0; i < chunks.length; i++) {
+        // Stop fetching if we've been superseded by a new swipe/audio request
+        if (_currentJobId != jobId) {
+          _logger.i("Job $jobId explicitly cancelled on Main Thread");
+          return [];
+        }
 
-    // Convert float samples to PCM Int16
-    return _float32ToInt16(wavCat);
-  }
+        final response = await _worker!.sendRequest('infer', {
+          'jobId': jobId,
+          'textList': [chunks[i]],
+          'langList': [langList[i]],
+          'speaker': speaker,
+          'speed': speed,
+          'totalStep': 5,
+        });
 
-  Future<Map<String, dynamic>> _inferInternal(
-    List<String> textList,
-    List<String> langList,
-    Style style,
-    int totalStep, {
-    double speed = 1.05,
-  }) async {
-    final bsz = textList.length;
-    // UnicodeProcessor.process returns map with 'textIds' and 'textMask'
-    final result = _processor!.process(textList, langList);
+        final result = response as Map<String, dynamic>;
 
-    final textIdsRaw = result['textIds'];
-    // Ensure List<List<int>>
-    final textIds = (textIdsRaw as List)
-        .map((row) => (row as List).cast<int>())
-        .toList();
+        // Zero-copy receiving from Isolate!
+        final uint8Wav = result['wavBytes'] as Uint8List;
 
-    final textMaskRaw = result['textMask'];
-    // Ensure List<List<List<double>>>
-    final textMask = (textMaskRaw as List)
-        .map(
-          (batch) => (batch as List)
-              .map((row) => (row as List).cast<double>())
-              .toList(),
-        )
-        .toList();
-
-    final textIdsShape = [bsz, textIds[0].length];
-    final textMaskShape = [bsz, 1, textMask[0][0].length];
-
-    final textIdsTensor = await _intToTensor(textIds, textIdsShape);
-    final textMaskTensor = await _toTensor(textMask, textMaskShape);
-
-    // 1. Durataion Predictor
-    final dpResult = await _dpSession!.run({
-      'text_ids': textIdsTensor,
-      'style_dp': style.dp, // Already tensor
-      'text_mask': textMaskTensor,
-    });
-    // Cleanup input tensors that we created?
-    // style.dp is reused, don't dispose. textIdsTensor/textMaskTensor we created this run.
-
-    final durOnnxRaw = await dpResult.values.first.asList(); // flatten?
-    final durOnnx = _safeCast<double>(durOnnxRaw); // List<double>
-    final scaledDur = durOnnx.map((d) => d / speed).toList();
-
-    // 2. Text Encoder
-    final textEncResult = await _textEncSession!.run({
-      'text_ids': textIdsTensor, // Re-use
-      'style_ttl': style.ttl,
-      'text_mask': textMaskTensor, // Re-use
-    });
-    final textEmbTensor =
-        textEncResult.values.first; // Keep this tensor for loop
-
-    // 3. Latent Sampling
-    final latentData = _sampleNoisyLatent(scaledDur);
-    final noisyLatent = latentData['noisyLatent'] as List<List<List<double>>>;
-    final latentMask = latentData['latentMask'] as List<List<List<double>>>;
-
-    final latentShape = [bsz, noisyLatent[0].length, noisyLatent[0][0].length];
-    final latentMaskShape = [bsz, 1, latentMask[0][0].length];
-    final latentMaskTensor = await _toTensor(latentMask, latentMaskShape);
-
-    // 4. Diffusion Loop
-    final totalStepTensor = await _scalarToTensor(
-      List.filled(bsz, totalStep.toDouble()),
-      [bsz],
-    );
-
-    // We need to loop. updating noisyLatent.
-    // However, recreating tensor every step is slow.
-    // The provided code updates the List<double> in place and blindly calls run.
-    // BUT run() takes Map<String, OrtValue>.
-    // The provided code: 'noisy_latent': await _toTensor(noisyLatent, latentShape)
-    // So it DOES recreate the tensor every step from the updated double list.
-
-    for (var step = 0; step < totalStep; step++) {
-      // Create tensor from current state of noisyLatent list
-      final currentNoisyTensor = await _toTensor(noisyLatent, latentShape);
-      final currentStepTensor = await _scalarToTensor(
-        List.filled(bsz, step.toDouble()),
-        [bsz],
-      );
-
-      final modelOut = await _vectorEstSession!.run({
-        'noisy_latent': currentNoisyTensor,
-        'text_emb': textEmbTensor,
-        'style_ttl': style.ttl,
-        'text_mask': textMaskTensor,
-        'latent_mask': latentMaskTensor,
-        'total_step': totalStepTensor,
-        'current_step': currentStepTensor,
-      });
-
-      final denoisedRaw = await modelOut.values.first.asList();
-      final denoised = _safeCast<double>(denoisedRaw);
-
-      // Update noisyLatent list in-place
-      var idx = 0;
-      for (var b = 0; b < noisyLatent.length; b++) {
-        for (var d = 0; d < noisyLatent[b].length; d++) {
-          for (var t = 0; t < noisyLatent[b][d].length; t++) {
-            noisyLatent[b][d][t] = denoised[idx++];
-          }
+        if (pcmCat.isEmpty) {
+          pcmCat.addAll(uint8Wav);
+        } else {
+          // Append silence
+          final silenceSamples = (silenceDuration * _sampleRate).floor();
+          // Int16 occupies 2 bytes each, so multiply by 2 for Uint8List layout
+          pcmCat.addAll(List.filled(silenceSamples * 2, 0));
+          pcmCat.addAll(uint8Wav);
         }
       }
 
-      // Cleanup step tensors
-      await currentNoisyTensor.dispose(); // disposed?
-      await currentStepTensor.dispose();
-      for (var v in modelOut.values) {
-        await v.dispose();
+      if (pcmCat.isEmpty) return [];
+
+      // Wrap raw PCM with WAV header and stream it directly
+      return pcmCat;
+    } catch (e) {
+      if (e.toString().contains('Cancelled')) {
+        _logger.i("Job $jobId interrupted gracefully during Inference");
+        return [];
       }
+      rethrow;
     }
-
-    await totalStepTensor.dispose();
-
-    // 5. Vocoder
-    final finalLatentTensor = await _toTensor(noisyLatent, latentShape);
-    final vocResult = await _vocoderSession!.run({'latent': finalLatentTensor});
-    final wavRaw = await vocResult.values.first.asList();
-    final wav = _safeCast<double>(wavRaw);
-
-    // Cleanup
-    await textIdsTensor.dispose();
-    await textMaskTensor.dispose();
-    await finalLatentTensor.dispose();
-    await latentMaskTensor.dispose();
-    await textEmbTensor.dispose();
-
-    for (var v in textEncResult.values) {
-      if (v != textEmbTensor) await v.dispose();
-    }
-
-    for (var v in dpResult.values) {
-      await v.dispose();
-    }
-    for (var v in vocResult.values) {
-      await v.dispose();
-    }
-
-    return {'wav': wav, 'duration': scaledDur};
-  }
-
-  Map<String, dynamic> _sampleNoisyLatent(List<double> duration) {
-    final wavLenMax = duration.reduce(math.max) * _sampleRate;
-    // Fix: wavLengths should be int list, map returns iterable
-    final wavLengths = duration.map((d) => (d * _sampleRate).floor()).toList();
-    final chunkSize = _baseChunkSize * _chunkCompressFactor;
-    final latentLen = ((wavLenMax + chunkSize - 1) / chunkSize).floor();
-    final latentDim = _latencyDim * _chunkCompressFactor;
-
-    final random = math.Random();
-    final noisyLatent = List.generate(
-      duration.length,
-      (_) => List.generate(
-        latentDim,
-        (_) => List.generate(latentLen, (_) {
-          final u1 = math.max(1e-10, random.nextDouble());
-          final u2 = random.nextDouble();
-          return math.sqrt(-2.0 * math.log(u1)) * math.cos(2.0 * math.pi * u2);
-        }),
-      ),
-    );
-
-    final latentMask = _getLatentMask(wavLengths);
-
-    for (var b = 0; b < noisyLatent.length; b++) {
-      for (var d = 0; d < noisyLatent[b].length; d++) {
-        for (var t = 0; t < noisyLatent[b][d].length; t++) {
-          noisyLatent[b][d][t] *= latentMask[b][0][t];
-        }
-      }
-    }
-
-    return {'noisyLatent': noisyLatent, 'latentMask': latentMask};
-  }
-
-  List<List<List<double>>> _getLatentMask(List<int> wavLengths) {
-    final latentSize = _baseChunkSize * _chunkCompressFactor;
-    final latentLengths = wavLengths
-        .map((len) => ((len + latentSize - 1) / latentSize).floor())
-        .toList();
-    // Fix: reduce on empty list if batch is empty (unlikely)
-    final maxLen = latentLengths.reduce(math.max);
-    return latentLengths
-        .map((len) => [List.generate(maxLen, (i) => i < len ? 1.0 : 0.0)])
-        .toList();
   }
 
   List<String> _chunkText(String text, {int maxLen = 300}) {
@@ -510,129 +326,16 @@ class SupertonicPipeline implements TtsPipeline {
     return chunks;
   }
 
-  // Helpers from provided code
-  List<T> _safeCast<T>(dynamic raw) {
-    if (raw is List<T>) return raw;
-    if (raw is List) {
-      if (raw.isNotEmpty && raw.first is List) {
-        return _flattenList<T>(raw);
-      }
-      if (T == double) {
-        return raw
-                .map(
-                  (e) => e is num ? e.toDouble() : double.parse(e.toString()),
-                )
-                .toList()
-            as List<T>;
-      }
-      return raw.cast<T>();
-    }
-    throw Exception('Cannot convert $raw to List<$T>');
-  }
-
-  List<T> _flattenList<T>(dynamic list) {
-    if (list is List) {
-      return list.expand((e) => _flattenList<T>(e)).toList();
-    }
-    if (T == double && list is num) {
-      return [list.toDouble()] as List<T>;
-    }
-    return [list as T];
-  }
-
-  List<double> _flattenToDouble(dynamic list) {
-    if (list is List) return list.expand((e) => _flattenToDouble(e)).toList();
-    return [list is num ? list.toDouble() : double.parse(list.toString())];
-  }
-
-  Future<OrtValue> _toTensor(dynamic array, List<int> dims) async {
-    final flat = _flattenList<double>(array);
-    return await OrtValue.fromList(Float32List.fromList(flat), dims);
-  }
-
-  Future<OrtValue> _scalarToTensor(List<double> array, List<int> dims) async {
-    return await OrtValue.fromList(Float32List.fromList(array), dims);
-  }
-
-  Future<OrtValue> _intToTensor(List<List<int>> array, List<int> dims) async {
-    // flatten
-    final flat = array.expand((row) => row).toList();
-    return await OrtValue.fromList(Int64List.fromList(flat), dims);
-  }
-
-  Future<Style> _loadVoiceStyle(List<String> paths) async {
-    final bsz = paths.length; // usually 1
-    // Assuming identical styles if list > 1 or just loading one for now
-
-    final firstJsonStr = await File(paths[0]).readAsString();
-    final firstJson = jsonDecode(firstJsonStr);
-
-    final ttlDims = List<int>.from(firstJson['style_ttl']['dims']);
-    final dpDims = List<int>.from(firstJson['style_dp']['dims']);
-
-    final ttlFlat = Float32List(bsz * ttlDims[1] * ttlDims[2]);
-    final dpFlat = Float32List(bsz * dpDims[1] * dpDims[2]);
-
-    for (var i = 0; i < bsz; i++) {
-      final jsonStr = await File(paths[i]).readAsString();
-      final json = jsonDecode(jsonStr);
-
-      final ttlData = _flattenToDouble(json['style_ttl']['data']);
-      final dpData = _flattenToDouble(json['style_dp']['data']);
-
-      ttlFlat.setRange(
-        i * ttlDims[1] * ttlDims[2],
-        (i + 1) * ttlDims[1] * ttlDims[2],
-        ttlData,
-      );
-      dpFlat.setRange(
-        i * dpDims[1] * dpDims[2],
-        (i + 1) * dpDims[1] * dpDims[2],
-        dpData,
-      );
-    }
-
-    final ttlShape = [bsz, ttlDims[1], ttlDims[2]];
-    final dpShape = [bsz, dpDims[1], dpDims[2]];
-
-    return Style(
-      await OrtValue.fromList(ttlFlat, ttlShape),
-      await OrtValue.fromList(dpFlat, dpShape),
-      ttlShape,
-      dpShape,
-    );
-  }
-
-  List<int> _float32ToInt16(List<double> floats) {
-    final pcm = <int>[];
-    for (var val in floats) {
-      if (val > 1.0) val = 1.0;
-      if (val < -1.0) val = -1.0;
-
-      final sample = (val * 32767).round();
-      pcm.add(sample & 0xFF);
-      pcm.add((sample >> 8) & 0xFF);
-    }
-    return pcm;
-  }
-
   Future<void> _copyAssetToFile(String assetPath, String targetPath) async {
-    final byteData = await rootBundle.load(assetPath);
-    final file = File(targetPath);
-    await file.create(recursive: true);
-    await file.writeAsBytes(byteData.buffer.asUint8List());
+    final ByteData data = await rootBundle.load(assetPath);
+    final buffer = data.buffer;
+    await File(
+      targetPath,
+    ).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
-  void _disposeSessions() {
-    _dpSession?.close();
-    _textEncSession?.close();
-    _vectorEstSession?.close();
-    _vocoderSession?.close();
-  }
-
-  @override
-  void dispose() {
-    _disposeSessions();
+  Future<void> dispose() async {
+    _worker?.dispose();
     _isInitialized = false;
   }
 }

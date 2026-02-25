@@ -222,7 +222,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     } catch (e) {
       // If error, just advance to next page or stop?
       // Let's advance to avoid getting stuck
-      if (mounted && sessionId == _audioSessionId) _nextPage();
+      if (mounted && sessionId == _audioSessionId) {
+        _nextPage();
+      }
     }
   }
 

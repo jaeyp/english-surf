@@ -26,6 +26,19 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 
 flutter_ios_podfile_setup
 
+# Force upgrade onnxruntime-objc dependency to support ONNX Opset 19
+onnx_podspec = File.join('.symlinks', 'plugins', 'onnxruntime', 'ios', 'onnxruntime.podspec')
+if File.exist?(onnx_podspec)
+  content = File.read(onnx_podspec)
+  
+  # Use regex to dynamically replace any version string for onnxruntime-objc
+  new_content = content.sub(/s\.dependency\s+'onnxruntime-objc',\s*'.*'/, "s.dependency 'onnxruntime-objc', '1.22.0'")
+  
+  if content != new_content
+    File.write(onnx_podspec, new_content)
+  end
+end
+
 target 'Runner' do
   use_frameworks! :linkage => :static
 
