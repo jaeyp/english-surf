@@ -190,6 +190,7 @@ class _SentenceCardState extends ConsumerState<SentenceCard>
             bottom: 0,
             right: 0,
             child: StreamBuilder<String?>(
+              initialData: ref.watch(ttsServiceProvider).currentPlayingId,
               stream: ref.watch(ttsServiceProvider).currentPlayingIdStream,
               builder: (context, snapshot) {
                 final playingId = snapshot.data;

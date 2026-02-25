@@ -11,6 +11,7 @@ import '../../../sentences/data/providers/sentence_providers.dart'; // For setti
 import '../../../sentences/presentation/widgets/sentence_card.dart';
 import '../../../sentences/domain/enums/app_language.dart';
 import '../../presentation/controllers/study_mode_tts_controller.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
@@ -60,6 +61,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
     if (widget.isTestMode) {
+      WakelockPlus.enable(); // Keep screen awake while studying
       if (widget.isAudioMode) {
         // Audio Mode: Start Audio Loop
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -74,6 +76,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   @override
   void dispose() {
+    if (widget.isTestMode) {
+      WakelockPlus.disable(); // Release screen lock
+    }
     _timer?.cancel();
     _pageController.dispose();
     super.dispose();
@@ -158,7 +163,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   }
 
   Future<void> _playAudioLoop(int sessionId) async {
-    if (!mounted || _isPaused || _showRepetitionPicker || _isFlipped) return;
+    if (!mounted || _isPaused || _showRepetitionPicker) return;
 
     // Check if this loop is still valid
     if (sessionId != _audioSessionId) return;
@@ -428,6 +433,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                         onPageChanged: (index) {
                           setState(() {
                             _currentIndex = index;
+                            _isFlipped = false; // Reset flip state on skip
                           });
                           if (widget.isTestMode) {
                             if (widget.isAudioMode) {
@@ -455,12 +461,12 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                                 setState(() {
                                   _isFlipped = isFlipped;
                                 });
-                                if (isFlipped) {
-                                  _pauseTimer();
-                                } else {
-                                  _resumeTimer();
-                                  if (widget.isAudioMode && !_isPaused) {
-                                    _playAudioLoop(_audioSessionId);
+                                // Only pause/resume timers in Text Mode
+                                if (!widget.isAudioMode) {
+                                  if (isFlipped) {
+                                    _pauseTimer();
+                                  } else {
+                                    _resumeTimer();
                                   }
                                 }
                               }

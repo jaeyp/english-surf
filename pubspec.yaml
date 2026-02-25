@@ -67,6 +67,7 @@ dependencies:
   just_audio: ^0.10.5
   audio_session: ^0.1.21
   onnxruntime: ^1.4.1
+  wakelock_plus: ^1.4.0
 
 dev_dependencies:
   flutter_test:

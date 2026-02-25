@@ -25,7 +25,10 @@ class TtsService with WidgetsBindingObserver {
     // Single persistent listener to unlock the UI when playback finishes
     _player.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
-        _updateCurrentId(null);
+        // We do NOT clear the UI instantly if a new generation has already hijacked the player
+        if (_activePlayingGeneration == _generationId) {
+          _updateCurrentId(null);
+        }
       }
     });
 
@@ -50,7 +53,10 @@ class TtsService with WidgetsBindingObserver {
   }
 
   int _generationId = 0; // Guard against race conditions
+  int _activePlayingGeneration =
+      0; // Tracks the currently engaged player stream
 
+  String? currentPlayingId; // Expose instantly for late-mounting Listeners
   final _currentPlayingIdController = StreamController<String?>.broadcast();
   Stream<String?> get currentPlayingIdStream =>
       _currentPlayingIdController.stream;
@@ -118,6 +124,9 @@ class TtsService with WidgetsBindingObserver {
 
       if (myGenerationId != _generationId) return;
 
+      _activePlayingGeneration =
+          myGenerationId; // Lock the player to this generation
+
       await _player.seek(Duration.zero);
       await _player.play();
     } catch (e) {
@@ -135,6 +144,7 @@ class TtsService with WidgetsBindingObserver {
   }
 
   void _updateCurrentId(String? id) {
+    currentPlayingId = id; // Store for late-mounting UI widgets
     _currentPlayingIdController.add(id);
   }
 
