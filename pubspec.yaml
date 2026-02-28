@@ -69,6 +69,7 @@ dependencies:
   onnxruntime: ^1.4.1
   wakelock_plus: ^1.4.0
   audio_service: ^0.18.18
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

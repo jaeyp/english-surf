@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:english_surf/features/sentences/data/providers/sentence_providers.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:english_surf/features/study/application/study_audio_handler.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> main() async {
   await runZonedGuarded(
@@ -24,17 +25,35 @@ Future<void> main() async {
 
       Uri? artUri;
       try {
+        final packageInfo = await PackageInfo.fromPlatform();
+        final version = packageInfo.version;
+        final buildNumber = packageInfo.buildNumber;
+        final iconVersionKey = 'app_icon_v${version}_$buildNumber';
+
+        final lastExtracted = prefs.getString(
+          'last_extracted_app_icon_version',
+        );
         final dir = await getApplicationDocumentsDirectory();
         final file = File('${dir.path}/app_icon.png');
-        if (!await file.exists()) {
+
+        bool needsExtraction =
+            lastExtracted != iconVersionKey || !await file.exists();
+
+        if (needsExtraction) {
           final byteData = await rootBundle.load('assets/icon/app_icon.png');
           await file.writeAsBytes(
             byteData.buffer.asUint8List(
               byteData.offsetInBytes,
               byteData.lengthInBytes,
             ),
+            flush: true,
+          );
+          await prefs.setString(
+            'last_extracted_app_icon_version',
+            iconVersionKey,
           );
         }
+
         artUri = Uri.parse('file://${file.path}');
       } catch (e) {
         // App icon load failure can be ignored safely
