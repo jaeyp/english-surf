@@ -5,7 +5,9 @@
 - **백그라운드 AudioSession 유지**: `just_audio`의 기본 세션 관리를 비활성화하고 `audio_service`가 `AVAudioSessionCategory.playback` 권한을 독점하게 하여 폰이 잠겨도 오디오가 끊기지 않도록 수정.
 - **Lock Screen Metadata**: `MediaItem`을 통해 현재 학습 중인 문장, 번역, 진행 상황 및 앱 아이콘(`artUri`)을 잠금 화면 플레이어에 실시간 렌더링하도록 반영.
 - **CoreML 백그라운드 크래시 방지**: iOS 정책상 백그라운드 환경에서 NPU(Apple Neural Engine) 호출 시 발생하는 `-1` 크래시를 방지하기 위해, `TtsWorkerIsolate`의 `CoreMLProvider` 옵션을 제거하고 백그라운드에서도 안정적인 CPU Fallback을 사용하도록 구조 변경.
-- **예외 처리 시 무한 스킵 방지**: `_playAudioLoop` 내부에서 백그라운드 오류 발생 시 강제로 `_nextPage()`가 무한 재귀 호출되던 논리적 결함을 일시정지(`pause`) 상태로 빠지도록 수정.## 20260224 fix(study): refactor audio flip logic and add wakelock
+- **예외 처리 시 무한 스킵 방지**: `_playAudioLoop` 내부에서 백그라운드 오류 발생 시 강제로 `_nextPage()`가 무한 재귀 호출되던 논리적 결함을 일시정지(`pause`) 상태로 빠지도록 수정.
+
+## 20260224 fix(study): refactor audio flip logic and add wakelock
 - Decouple audio loop progression from card flip state
 - Fix speaker icon losing state on card flip
 - Add wakelock_plus to prevent screen from sleeping during Study Mode"
