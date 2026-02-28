@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle, RootIsolateToken;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:logger/logger.dart';
+import 'dart:async';
 import 'dart:convert';
 import 'tts_pipeline.dart';
 import 'tts_worker_isolate.dart';
@@ -245,7 +246,7 @@ class SupertonicPipeline implements TtsPipeline {
 
     // Send a cancellation signal to the isolate to abort old job runs
     // This allows fluid card swiping in Study Mode
-    _worker!.sendRequest('cancel_job', {});
+    unawaited(_worker!.sendRequest('cancel_job', {}));
 
     // We accumulate PCM Bytes
     final pcmCat = <int>[];
@@ -254,7 +255,7 @@ class SupertonicPipeline implements TtsPipeline {
       for (var i = 0; i < chunks.length; i++) {
         // Stop fetching if we've been superseded by a new swipe/audio request
         if (_currentJobId != jobId) {
-          _logger.i("Job $jobId explicitly cancelled on Main Thread");
+          _logger.i('Job $jobId explicitly cancelled on Main Thread');
           return [];
         }
 
@@ -289,7 +290,7 @@ class SupertonicPipeline implements TtsPipeline {
       return pcmCat;
     } catch (e) {
       if (e.toString().contains('Cancelled')) {
-        _logger.i("Job $jobId interrupted gracefully during Inference");
+        _logger.i('Job $jobId interrupted gracefully during Inference');
         return [];
       }
       rethrow;
@@ -334,6 +335,7 @@ class SupertonicPipeline implements TtsPipeline {
     ).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
+  @override
   Future<void> dispose() async {
     _worker?.dispose();
     _isInitialized = false;

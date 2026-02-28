@@ -190,7 +190,9 @@ class TtsService with WidgetsBindingObserver {
 
   void _updateCurrentId(String? id) {
     currentPlayingId = id; // Store for late-mounting UI widgets
-    _currentPlayingIdController.add(id);
+    if (!_currentPlayingIdController.isClosed) {
+      _currentPlayingIdController.add(id);
+    }
   }
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
@@ -268,7 +270,7 @@ class RawPcmAudioSource extends StreamAudioSource {
         sourceLength: totalBytes,
         contentLength: 0,
         offset: start,
-        stream: Stream.empty(),
+        stream: const Stream.empty(),
         contentType: 'audio/wav',
       );
     }

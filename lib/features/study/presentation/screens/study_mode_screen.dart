@@ -316,15 +316,17 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
             : AudioServiceRepeatMode.none,
       );
 
-      audioHandler.updateMediaItem(
-        MediaItem(
-          id: sentence.id.toString(),
-          title:
-              '${widget.folderName} (${_currentIndex + 1}/${sentences.length})',
-          artist: sentence.original.text,
-          artUri:
-              audioHandler.artUri ??
-              Uri.parse('asset:///assets/icon/app_icon.png'),
+      unawaited(
+        audioHandler.updateMediaItem(
+          MediaItem(
+            id: sentence.id.toString(),
+            title:
+                '${widget.folderName} (${_currentIndex + 1}/${sentences.length})',
+            artist: sentence.original.text,
+            artUri:
+                audioHandler.artUri ??
+                Uri.parse('asset:///assets/icon/app_icon.png'),
+          ),
         ),
       );
 

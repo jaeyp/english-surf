@@ -139,7 +139,7 @@ class TtsWorkerIsolate {
 
 /// The actual entrypoint for the spawned isolate.
 /// Now manages the entire flutter_onnxruntime stack!
-void _workerEntrypoint(Map<String, dynamic> args) async {
+Future<void> _workerEntrypoint(Map<String, dynamic> args) async {
   final mainSendPort = args['sendPort'] as SendPort;
   final rootToken = args['rootToken'] as RootIsolateToken;
 
@@ -344,8 +344,9 @@ void _workerEntrypoint(Map<String, dynamic> args) async {
           final totalStep = message.payload['totalStep'] as int;
 
           final style = styles[speaker] ?? styles.values.firstOrNull;
-          if (processor == null || style == null)
+          if (processor == null || style == null) {
             throw Exception('Worker not properly initialized');
+          }
 
           final bsz = textList.length;
           final procResult = processor!.process(textList, langList);
@@ -486,8 +487,9 @@ void _workerEntrypoint(Map<String, dynamic> args) async {
               currentStepTensor.release();
               modelOut[0]?.release();
 
-              if (denoisedRaw == null)
+              if (denoisedRaw == null) {
                 throw Exception('Diffusion output is null');
+              }
               final denoised = safeCast<double>(denoisedRaw);
 
               var idx = 0;
