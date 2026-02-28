@@ -18,19 +18,36 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
 
 class TtsService with WidgetsBindingObserver {
   final Logger _logger = Logger();
-  final AudioPlayer _player = AudioPlayer();
+  final AudioPlayer _player = AudioPlayer(
+    handleAudioSessionActivation: false,
+    handleInterruptions: false,
+  );
   final TtsPipeline _pipeline = createTtsPipeline(activeTtsEngine);
 
   TtsService(Ref ref) {
     // Single persistent listener to unlock the UI when playback finishes
     _player.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
+        _logger.i('AudioPlayer: Playback completed naturally.');
         // We do NOT clear the UI instantly if a new generation has already hijacked the player
         if (_activePlayingGeneration == _generationId) {
           _updateCurrentId(null);
         }
+      } else if (state.processingState == ProcessingState.idle) {
+        _logger.d('AudioPlayer: Playback idle.');
       }
     });
+
+    _player.playbackEventStream.listen(
+      (event) {},
+      onError: (Object e, StackTrace stackTrace) {
+        _logger.e(
+          'AudioPlayer Error Stream caught: $e',
+          error: e,
+          stackTrace: stackTrace,
+        );
+      },
+    );
 
     _initAudioSession();
     WidgetsBinding.instance.addObserver(this);
@@ -88,15 +105,27 @@ class TtsService with WidgetsBindingObserver {
         // Check cancellation before heavy lifting
         if (myGenerationId != _generationId) return;
 
+        _logger.i('Starting background TTS inference for "$text"...');
+        final startTime = DateTime.now();
+
         audioBytes = await _pipeline.infer(
           text,
           lang: lang,
           speed: speed,
           speaker: speakerKey,
         );
-      } catch (e) {
+
+        final duration = DateTime.now().difference(startTime);
+        _logger.i(
+          'TTS Pipeline inference finished in ${duration.inMilliseconds}ms. Bytes generated: ${audioBytes.length}',
+        );
+      } catch (e, stack) {
         if (myGenerationId != _generationId) return;
-        _logger.w('Pipeline Inference failed. ', error: e);
+        _logger.e(
+          'Pipeline Inference Exception. ',
+          error: e,
+          stackTrace: stack,
+        );
         _updateCurrentId(null);
         return;
       }
@@ -104,8 +133,8 @@ class TtsService with WidgetsBindingObserver {
       // 2. Critical Check: Is this request still valid?
       // If stop() or another play() was called during inference, abort.
       if (myGenerationId != _generationId || audioBytes.isEmpty) {
-        _logger.d(
-          'TTS Cancelled before play (Generation mismatched or empty audio)',
+        _logger.w(
+          'TTS Cancelled before play (Generation mismatched or empty audio). myGen: $myGenerationId, currentGen: $_generationId, audioBytes length: ${audioBytes.length}',
         );
         if (myGenerationId == _generationId) {
           _updateCurrentId(null); // Ensure UI unlocks if audio is empty
@@ -119,6 +148,7 @@ class TtsService with WidgetsBindingObserver {
         sampleRate: _pipeline.sampleRate,
       );
 
+      _logger.d('Feeding Raw PCM to just_audio...');
       await _player.stop();
       await _player.setAudioSource(source, preload: true);
 
@@ -127,12 +157,27 @@ class TtsService with WidgetsBindingObserver {
       _activePlayingGeneration =
           myGenerationId; // Lock the player to this generation
 
+      // Force AudioSession active immediately before play to ensure iOS allows background playback
+      try {
+        final session = await AudioSession.instance;
+        final isActive = await session.setActive(true);
+        _logger.d('AudioSession setActive(true) returned: $isActive');
+      } catch (e) {
+        _logger.w('Failed to set AudioSession active', error: e);
+      }
+
+      _logger.i('Triggering _player.play() in background...');
       await _player.seek(Duration.zero);
       await _player.play();
-    } catch (e) {
+      _logger.i('_player.play() returned.');
+    } catch (e, stack) {
       if (myGenerationId != _generationId) return;
       _updateCurrentId(null);
-      _logger.e('TTS Playback failed', error: e);
+      _logger.e(
+        'TTS Playback framework exception',
+        error: e,
+        stackTrace: stack,
+      );
       rethrow;
     }
   }
@@ -187,11 +232,7 @@ class TtsService with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // App went to background: Release heavyweight ONNX resources
-      _logger.d('App paused: Disposing ONNX sessions');
-      _pipeline.dispose();
-    } else if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed) {
       // App came to foreground: Sessions will be lazy-reloaded on next infer(),
       // or we can pre-warm them here.
       _logger.d('App resumed: Pipeline will re-init on demand');

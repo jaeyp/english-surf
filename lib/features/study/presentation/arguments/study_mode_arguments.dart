@@ -7,6 +7,7 @@ class StudyModeArguments {
   final bool isAudioMode;
   final AppLanguage? originalLanguage;
   final AppLanguage? translationLanguage;
+  final String folderName;
 
   const StudyModeArguments({
     this.initialIndex = 0,
@@ -15,6 +16,7 @@ class StudyModeArguments {
     this.originalLanguage,
     this.translationLanguage,
     this.languageMode,
+    this.folderName = '',
   });
 
   final LanguageMode? languageMode;

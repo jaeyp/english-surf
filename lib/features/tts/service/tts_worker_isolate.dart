@@ -7,7 +7,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:onnxruntime/onnxruntime.dart';
-import 'package:onnxruntime/src/providers/ort_flags.dart'; // import CoreMLFlags
 import '../utils/unicode_processor.dart';
 
 /// Messages sent from Main Isolate to Worker Isolate
@@ -296,9 +295,11 @@ void _workerEntrypoint(Map<String, dynamic> args) async {
             ..setIntraOpNumThreads(1)
             ..setInterOpNumThreads(1);
 
-          if (Platform.isIOS || Platform.isMacOS) {
-            sessionOptions.appendCoreMLProvider(CoreMLFlags.useNone);
-          }
+          // CoreML (Neural Engine) is strictly forbidden by iOS when the app runs in the background.
+          // Since this TTS engine must run on the lock screen, we MUST use the CPU fallback.
+          // if (Platform.isIOS || Platform.isMacOS) {
+          //   sessionOptions.appendCoreMLProvider(CoreMLFlags.useNone);
+          // }
 
           dpSession = OrtSession.fromFile(
             File(message.payload['dpPath'] as String),

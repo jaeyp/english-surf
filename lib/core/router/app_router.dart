@@ -86,6 +86,7 @@ GoRouter goRouter(Ref ref) {
               originalLanguage: extra['originalLanguage'] as AppLanguage?,
               translationLanguage: extra['translationLanguage'] as AppLanguage?,
               languageMode: extra['languageMode'] as LanguageMode?,
+              folderName: extra['folderName'] as String? ?? 'Sentences',
             );
           } else {
             args = StudyModeArguments(initialIndex: extra is int ? extra : 0);
@@ -97,6 +98,7 @@ GoRouter goRouter(Ref ref) {
             originalLanguage: args.originalLanguage,
             translationLanguage: args.translationLanguage,
             languageMode: args.languageMode,
+            folderName: args.folderName,
           );
         },
       ),

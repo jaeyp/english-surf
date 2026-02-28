@@ -3,17 +3,17 @@ import 'package:english_surf/features/tts/domain/enums/tts_speaker.dart';
 import 'package:english_surf/features/tts/service/tts_service.dart';
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
 
-final studyModeTtsControllerProvider =
-    Provider.autoDispose<StudyModeTtsController>((ref) {
-      final ttsService = ref.read(ttsServiceProvider);
+final studyModeTtsControllerProvider = Provider<StudyModeTtsController>((ref) {
+  final ttsService = ref.read(ttsServiceProvider);
 
-      // Register lifecycle hook: Stop TTS when this controller is disposed (screen closed)
-      ref.onDispose(() {
-        ttsService.stop();
-      });
+  // Still register lifecycle hook in case the whole provider scope dies,
+  // but it won't trigger aggressively on screen lock anymore.
+  ref.onDispose(() {
+    ttsService.stop();
+  });
 
-      return StudyModeTtsController(ref);
-    });
+  return StudyModeTtsController(ref);
+});
 
 class StudyModeTtsController {
   final Ref ref;

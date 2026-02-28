@@ -12,6 +12,8 @@ import '../../../sentences/presentation/widgets/sentence_card.dart';
 import '../../../sentences/domain/enums/app_language.dart';
 import '../../presentation/controllers/study_mode_tts_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:audio_service/audio_service.dart';
+import '../../application/study_audio_handler.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
@@ -20,6 +22,7 @@ class StudyModeScreen extends ConsumerStatefulWidget {
   final AppLanguage? originalLanguage;
   final AppLanguage? translationLanguage;
   final LanguageMode? languageMode;
+  final String folderName;
 
   const StudyModeScreen({
     super.key,
@@ -29,6 +32,7 @@ class StudyModeScreen extends ConsumerStatefulWidget {
     this.originalLanguage,
     this.translationLanguage,
     this.languageMode,
+    this.folderName = '',
   });
 
   @override
@@ -44,6 +48,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   bool _isFlipped = false;
   bool _isPaused = false;
   bool _showDurationPicker = false;
+  StreamSubscription<StudyAudioCommand>? _audioCommandSub;
 
   // Stable list of IDs to prevent cards from disappearing during the session
   List<int>? _initialSentenceIds;
@@ -61,26 +66,74 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
     if (widget.isTestMode) {
-      WakelockPlus.enable(); // Keep screen awake while studying
       if (widget.isAudioMode) {
         // Audio Mode: Start Audio Loop
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          _setupAudioCommands();
           _startAudioSession();
         });
       } else {
+        WakelockPlus.enable(); // Keep screen awake ONLY in text mode
         // Text Mode: Start Timer
         _startTimer();
       }
     }
   }
 
+  void _setupAudioCommands() {
+    final handler = ref.read(studyAudioHandlerProvider);
+    _audioCommandSub = handler.commands.listen((command) {
+      if (!mounted) return;
+      switch (command) {
+        case StudyAudioCommand.play:
+          setState(() {
+            _isPaused = false;
+            handler.updatePlaybackState(playing: true);
+            _playAudioLoop(_audioSessionId);
+          });
+          break;
+        case StudyAudioCommand.pause:
+          setState(() {
+            _isPaused = true;
+          });
+          ref.read(studyModeTtsControllerProvider).stop();
+          handler.updatePlaybackState(playing: false);
+          break;
+        case StudyAudioCommand.skipToNext:
+          _nextPage();
+          break;
+        case StudyAudioCommand.skipToPrevious:
+          _previousPage();
+          break;
+        case StudyAudioCommand.toggleShuffle:
+          final currentSort = ref.read(sentenceFilterProvider).value?.sortType;
+          final newSort = currentSort == SortType.random
+              ? SortType.order
+              : SortType.random;
+          ref.read(sentenceFilterProvider.notifier).setSortType(newSort);
+          break;
+        case StudyAudioCommand.toggleRepeat:
+          final current = ref.read(audioRepeatCountProvider).value ?? 1;
+          final next = current == 1
+              ? 3
+              : (current == 3 ? 5 : (current == 5 ? 10 : 1));
+          ref.read(audioRepeatCountProvider.notifier).setCount(next);
+          break;
+      }
+    });
+  }
+
   @override
   void dispose() {
-    if (widget.isTestMode) {
+    if (widget.isTestMode && !widget.isAudioMode) {
       WakelockPlus.disable(); // Release screen lock
     }
     _timer?.cancel();
     _pageController.dispose();
+    _audioCommandSub?.cancel();
+    if (widget.isAudioMode) {
+      ref.read(studyAudioHandlerProvider).stop();
+    }
     super.dispose();
   }
 
@@ -130,11 +183,26 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   void _nextPage() {
     if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) return;
 
+    final isBackground =
+        WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed;
+
     if (_currentIndex < _initialSentenceIds!.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      if (isBackground) {
+        final nextIndex = _currentIndex + 1;
+        _pageController.jumpToPage(nextIndex);
+        if (_currentIndex != nextIndex) {
+          setState(() {
+            _currentIndex = nextIndex;
+            _isFlipped = false;
+          });
+          if (widget.isTestMode && widget.isAudioMode) _startAudioSession();
+        }
+      } else {
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     } else if (widget.isTestMode) {
       // Repeat logic for Test Mode
       final filterState = ref.read(sentenceFilterProvider).value;
@@ -143,9 +211,41 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           _initialSentenceIds!.shuffle();
         });
       }
+
       _pageController.jumpToPage(0);
+      if (isBackground && _currentIndex != 0) {
+        setState(() {
+          _currentIndex = 0;
+          _isFlipped = false;
+        });
+        if (widget.isAudioMode) _startAudioSession();
+      }
     } else {
       _timer?.cancel();
+    }
+  }
+
+  void _previousPage() {
+    if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) return;
+    if (_currentIndex > 0) {
+      final isBackground =
+          WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed;
+      if (isBackground) {
+        final prevIndex = _currentIndex - 1;
+        _pageController.jumpToPage(prevIndex);
+        if (_currentIndex != prevIndex) {
+          setState(() {
+            _currentIndex = prevIndex;
+            _isFlipped = false;
+          });
+          if (widget.isTestMode && widget.isAudioMode) _startAudioSession();
+        }
+      } else {
+        _pageController.previousPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -201,6 +301,33 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           ? widget.translationLanguage?.code
           : widget.originalLanguage?.code;
 
+      // Update Audio Service Lock Screen Metadata
+      final audioHandler = ref.read(studyAudioHandlerProvider);
+      final currentSort = ref.read(sentenceFilterProvider).value?.sortType;
+      final isRandom = currentSort == SortType.random;
+
+      audioHandler.updatePlaybackState(
+        playing: true,
+        shuffleMode: isRandom
+            ? AudioServiceShuffleMode.all
+            : AudioServiceShuffleMode.none,
+        repeatMode: _repeatCount > 1
+            ? AudioServiceRepeatMode.one
+            : AudioServiceRepeatMode.none,
+      );
+
+      audioHandler.updateMediaItem(
+        MediaItem(
+          id: sentence.id.toString(),
+          title:
+              '${widget.folderName} (${_currentIndex + 1}/${sentences.length})',
+          artist: sentence.original.text,
+          artUri:
+              audioHandler.artUri ??
+              Uri.parse('asset:///assets/icon/app_icon.png'),
+        ),
+      );
+
       // We need to wait for playback to finish
       await controller.play(
         textToPlay,
@@ -225,10 +352,13 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
         ); // Recursive call for next repetition
       }
     } catch (e) {
-      // If error, just advance to next page or stop?
-      // Let's advance to avoid getting stuck
+      // If error occurs, pause playback rather than skipping infinitely
+      debugPrint('Audio loop error: $e');
       if (mounted && sessionId == _audioSessionId) {
-        _nextPage();
+        setState(() {
+          _isPaused = true;
+        });
+        ref.read(studyAudioHandlerProvider).updatePlaybackState(playing: false);
       }
     }
   }
@@ -431,6 +561,7 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                         controller: _pageController,
                         itemCount: sentences.length,
                         onPageChanged: (index) {
+                          if (_currentIndex == index) return;
                           setState(() {
                             _currentIndex = index;
                             _isFlipped = false; // Reset flip state on skip
@@ -736,7 +867,15 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           setState(() {
             _isPaused = !_isPaused;
             if (!_isPaused) {
+              ref
+                  .read(studyAudioHandlerProvider)
+                  .updatePlaybackState(playing: true);
               _playAudioLoop(_audioSessionId); // Resume current session
+            } else {
+              ref.read(studyModeTtsControllerProvider).stop();
+              ref
+                  .read(studyAudioHandlerProvider)
+                  .updatePlaybackState(playing: false);
             }
           });
         }
