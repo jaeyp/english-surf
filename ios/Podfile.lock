@@ -2,6 +2,11 @@ PODS:
   - apple_vision_recognize_text (0.0.4):
     - Flutter
     - FlutterMacOS
+  - audio_service (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - audio_session (0.0.1):
+    - Flutter
   - camera_avfoundation (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.9):
@@ -41,6 +46,19 @@ PODS:
   - Flutter (1.0.0)
   - flutter_native_splash (2.4.3):
     - Flutter
+  - just_audio (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - onnxruntime (0.0.1):
+    - Flutter
+    - onnxruntime-objc (= 1.22.0)
+  - onnxruntime-c (1.22.0)
+  - onnxruntime-objc (1.22.0):
+    - onnxruntime-objc/Core (= 1.22.0)
+  - onnxruntime-objc/Core (1.22.0):
+    - onnxruntime-c (= 1.22.0)
+  - package_info_plus (0.4.5):
+    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -52,6 +70,9 @@ PODS:
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
   - sqlite3 (3.51.1):
@@ -80,23 +101,34 @@ PODS:
     - sqlite3/rtree
     - sqlite3/session
   - SwiftyGif (5.4.5)
+  - wakelock_plus (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - apple_vision_recognize_text (from `.symlinks/plugins/apple_vision_recognize_text/darwin`)
+  - audio_service (from `.symlinks/plugins/audio_service/darwin`)
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/darwin`)
+  - onnxruntime (from `.symlinks/plugins/onnxruntime/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/darwin`)
+  - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
 
 SPEC REPOS:
   trunk:
     - DKImagePickerController
     - DKPhotoGallery
+    - onnxruntime-c
+    - onnxruntime-objc
     - SDWebImage
     - sqlite3
     - SwiftyGif
@@ -104,6 +136,10 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   apple_vision_recognize_text:
     :path: ".symlinks/plugins/apple_vision_recognize_text/darwin"
+  audio_service:
+    :path: ".symlinks/plugins/audio_service/darwin"
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
   file_picker:
@@ -112,6 +148,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/darwin"
+  onnxruntime:
+    :path: ".symlinks/plugins/onnxruntime/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
@@ -120,26 +162,39 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/darwin"
+  wakelock_plus:
+    :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
   apple_vision_recognize_text: bfeefd7756b6f96c40c1b840a444b345a31ff15b
+  audio_service: aa99a6ba2ae7565996015322b0bb024e1d25c6fd
+  audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
   camera_avfoundation: 5675ca25298b6f81fa0a325188e7df62cc217741
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
+  just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
+  onnxruntime: a3877c356e62a716b7f7b81050455c2d9372a0ef
+  onnxruntime-c: 7f778680e96145956c0a31945f260321eed2611a
+  onnxruntime-objc: 83d28b87525bd971259a66e153ea32b5d023de19
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   sqlite3: 8d708bc63e9f4ce48f0ad9d6269e478c5ced1d9b
   sqlite3_flutter_libs: d13b8b3003f18f596e542bcb9482d105577eff41
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
+  wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556
 
-PODFILE CHECKSUM: 0a5e48c625c7f7aa1694437d4d0bbbe708b85ad0
+PODFILE CHECKSUM: 32680c473d63dc60627c3c0632119e2b35f33502
 
 COCOAPODS: 1.16.2

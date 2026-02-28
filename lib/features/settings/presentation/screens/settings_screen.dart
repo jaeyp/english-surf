@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../features/tts/domain/enums/tts_speaker.dart';
 import '../../../sentences/domain/enums/ai_provider.dart';
 import '../../../sentences/data/providers/ai_providers.dart';
 import '../../../sentences/data/providers/sentence_providers.dart';
+import '../../../sentences/application/providers/sentence_providers.dart'; // Ensure application layer providers included
 import '../../../sentences/application/providers/folder_providers.dart';
 import '../../../sentences/domain/repositories/settings_repository.dart';
 import '../../data/repositories/data_repository_impl.dart';
@@ -35,6 +37,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           return ListView(
             children: [
               _buildAiSection(settingsRepo),
+              const SizedBox(height: 16),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Text-to-Speech',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const _TtsSettingsCard(),
               const SizedBox(height: 16),
               const Padding(
                 padding: EdgeInsets.all(16.0),
@@ -299,6 +310,127 @@ class _AiSettingsCardState extends ConsumerState<_AiSettingsCard> {
                 }).toList(),
                 onChanged: _updateModel,
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TtsSettingsCard extends ConsumerStatefulWidget {
+  const _TtsSettingsCard();
+
+  @override
+  ConsumerState<_TtsSettingsCard> createState() => _TtsSettingsCardState();
+}
+
+class _TtsSettingsCardState extends ConsumerState<_TtsSettingsCard> {
+  TtsSpeaker _selectedSpeaker = TtsSpeaker.male;
+  double _ttsSpeed = 1.0;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final repo = ref.read(settingsRepositoryProvider);
+    final speaker = await repo.getTtsSpeaker();
+    final speed = await repo.getTtsSpeed();
+    if (mounted) {
+      setState(() {
+        _selectedSpeaker = speaker;
+        _ttsSpeed = speed;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _updateSpeaker(TtsSpeaker speaker) async {
+    setState(() => _isLoading = true);
+    final repo = ref.read(settingsRepositoryProvider);
+    await repo.saveTtsSpeaker(speaker);
+    if (mounted) {
+      setState(() {
+        _selectedSpeaker = speaker;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _updateSpeed(double speed) async {
+    setState(() => _ttsSpeed = speed); // Optimistic update for smooth sliding
+    final repo = ref.read(settingsRepositoryProvider);
+    await repo.saveTtsSpeed(speed);
+    // Debouncing could be added here if performant issues arise, but SharedPreferences is fast enough.
+    // Invalidate provider so listeners get updated
+    ref.invalidate(ttsSpeedProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('Voice'),
+              subtitle: Text(
+                _selectedSpeaker == TtsSpeaker.male ? 'Male' : 'Female',
+              ),
+              trailing: SegmentedButton<TtsSpeaker>(
+                segments: const [
+                  ButtonSegment(
+                    value: TtsSpeaker.male,
+                    label: Text('Male'),
+                    icon: Icon(Icons.man),
+                  ),
+                  ButtonSegment(
+                    value: TtsSpeaker.female,
+                    label: Text('Female'),
+                    icon: Icon(Icons.woman),
+                  ),
+                ],
+                selected: {_selectedSpeaker},
+                onSelectionChanged: (Set<TtsSpeaker> newSelection) {
+                  _updateSpeaker(newSelection.first);
+                },
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              visualDensity: const VisualDensity(vertical: -2),
+              title: const Text('Playback Speed'),
+              subtitle: const Text(
+                'Audio playback may be unstable at higher speeds.',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              trailing: Text(
+                '${_ttsSpeed.toStringAsFixed(1)}x',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Slider(
+              value: _ttsSpeed,
+              min: 1.0,
+              max: 2.0,
+              divisions: 10,
+              label: '${_ttsSpeed.toStringAsFixed(1)}x',
+              onChanged: (value) {
+                _updateSpeed(value);
+              },
+            ),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:english_surf/features/sentences/domain/entities/sentence.dart';
 import 'package:english_surf/features/sentences/domain/value_objects/sentence_text.dart';
 import 'package:english_surf/features/sentences/domain/enums/difficulty.dart';
@@ -7,6 +9,9 @@ import 'package:english_surf/features/sentences/presentation/widgets/sentence_ca
 import 'package:english_surf/features/sentences/application/providers/sentence_providers.dart';
 
 void main() {
+  setUp(() {
+    dotenv.loadFromString(envString: 'TTS_ENGINE=supertonic2');
+  });
   final testSentence = const Sentence(
     id: 1,
     order: 1,
@@ -22,11 +27,13 @@ void main() {
       'should display Original on front in originalToTranslation mode',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: SentenceCard(
-                sentence: testSentence,
-                languageMode: LanguageMode.originalToTranslation,
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: SentenceCard(
+                  sentence: testSentence,
+                  languageMode: LanguageMode.originalToTranslation,
+                ),
               ),
             ),
           ),
@@ -42,11 +49,13 @@ void main() {
       'should display Translation on front in translationToOriginal mode',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: SentenceCard(
-                sentence: testSentence,
-                languageMode: LanguageMode.translationToOriginal,
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: SentenceCard(
+                  sentence: testSentence,
+                  languageMode: LanguageMode.translationToOriginal,
+                ),
               ),
             ),
           ),
@@ -62,11 +71,13 @@ void main() {
       'should display Back content with Notes/Examples when flipped',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: SentenceCard(
-                sentence: testSentence,
-                languageMode: LanguageMode.originalToTranslation,
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: SentenceCard(
+                  sentence: testSentence,
+                  languageMode: LanguageMode.originalToTranslation,
+                ),
               ),
             ),
           ),
@@ -92,15 +103,17 @@ void main() {
       'should flip when tapping outside the visual card (expanded tap area)',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: SizedBox(
-                  width: 300,
-                  height: 600,
-                  child: SentenceCard(
-                    sentence: testSentence,
-                    languageMode: LanguageMode.originalToTranslation,
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: 300,
+                    height: 600,
+                    child: SentenceCard(
+                      sentence: testSentence,
+                      languageMode: LanguageMode.originalToTranslation,
+                    ),
                   ),
                 ),
               ),
@@ -127,14 +140,16 @@ void main() {
     ) async {
       bool isFavoriteToggled = false;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SentenceCard(
-              sentence: testSentence.copyWith(isFavorite: true),
-              languageMode: LanguageMode.originalToTranslation,
-              onFavoriteToggle: () {
-                isFavoriteToggled = true;
-              },
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              body: SentenceCard(
+                sentence: testSentence.copyWith(isFavorite: true),
+                languageMode: LanguageMode.originalToTranslation,
+                onFavoriteToggle: () {
+                  isFavoriteToggled = true;
+                },
+              ),
             ),
           ),
         ),

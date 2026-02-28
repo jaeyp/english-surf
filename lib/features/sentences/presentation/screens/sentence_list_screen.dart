@@ -26,7 +26,10 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
     final allSentencesAsync = ref.watch(sentenceListProvider);
     final languageMode =
         ref.watch(languageModeProvider).value ??
+        ref.watch(languageModeProvider).value ??
         LanguageMode.translationToOriginal;
+
+    final isAudioMode = ref.watch(audioModeProvider).value ?? false;
 
     final isSelectionMode = ref.watch(selectionModeProvider);
     final selection = ref.watch(selectionProvider);
@@ -103,23 +106,26 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                   ]
                 : [
                     IconButton(
-                      icon: const Icon(Icons.swap_horiz),
-                      tooltip:
-                          languageMode == LanguageMode.originalToTranslation
-                          ? 'Original → Translation'
-                          : 'Translation → Original',
+                      icon: Icon(
+                        isAudioMode ? Icons.volume_up : Icons.volume_off,
+                      ),
+                      tooltip: isAudioMode ? 'Audio Mode' : 'Text Mode',
                       onPressed: () {
-                        ref.read(languageModeProvider.notifier).toggle();
+                        ref
+                            .read(audioModeProvider.notifier)
+                            .setMode(!isAudioMode);
                       },
                     ),
                     IconButton(
                       icon: const Icon(Icons.play_arrow),
                       onPressed: () async {
-                        await context.push(
-                          '/study',
-                          extra: const StudyModeArguments(
+                        await context.pushNamed(
+                          'study',
+                          extra: StudyModeArguments(
                             initialIndex: 0,
                             isTestMode: true,
+                            isAudioMode: isAudioMode,
+                            languageMode: languageMode,
                           ),
                         );
                         if (mounted) resetVisibleIds();
@@ -210,6 +216,7 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
                           extra: StudyModeArguments(
                             initialIndex: index,
                             isTestMode: false,
+                            languageMode: languageMode,
                           ),
                         );
                         if (mounted) resetVisibleIds();
@@ -249,6 +256,14 @@ class _SentenceListScreenState extends ConsumerState<SentenceListScreen> {
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                FloatingActionButton(
+                  heroTag: 'toggle_fab',
+                  onPressed: () {
+                    ref.read(languageModeProvider.notifier).toggle();
+                  },
+                  child: const Icon(Icons.swap_horiz),
+                ),
+                const SizedBox(width: 16),
                 FloatingActionButton(
                   heroTag: 'camera_fab',
                   onPressed: () async {

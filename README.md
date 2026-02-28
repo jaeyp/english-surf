@@ -73,6 +73,53 @@ The project documentation is organized in the `docs/` directory:
     flutter run
     ```
 
+## 🔊 TTS Engine Selection
+
+This project supports multiple on-device TTS engines. Select the desired engine in `.env`:
+
+```env
+# Available engines: supertonic2 | qwen3
+TTS_ENGINE=supertonic2
+```
+
+### Available Engines
+
+| Engine | Model Size | Sample Rate | Languages | Status |
+|--------|-----------|-------------|-----------|--------|
+| **supertonic2** | ~250 MB (4 ONNX files) | 24 kHz | en, ko, es, pt, fr | ✅ Ready |
+| **qwen3** | TBD (INT8 quantized) | 24 kHz | en, zh, and more | ⏳ Pending model preparation |
+
+### Building with Conditional Assets
+
+To exclude unused engine assets from the app bundle, use the build script:
+
+```bash
+# Builds with only the selected engine's assets (reads TTS_ENGINE from .env)
+./scripts/build.sh ios --release
+./scripts/build.sh apk --release
+
+# For development
+./scripts/build.sh run
+```
+
+> **Note:** Running `flutter run` directly will include **both** engines' assets.
+> Use `./scripts/build.sh run` for a lean build with only the selected engine.
+
+### Preparing Qwen3 Model (INT8 Quantization)
+
+Before using the Qwen3 engine, you must prepare the ONNX model:
+
+```bash
+# Install dependencies
+pip install onnxruntime onnx optimum transformers torch
+
+# Run quantization (outputs to assets/tts/qwen3/)
+python scripts/quantize_qwen3.py
+
+# Or quantize a pre-exported ONNX model
+python scripts/quantize_qwen3.py --skip-export --onnx-input /path/to/qwen3.onnx
+```
+
 ## 🧪 Testing
 
 ```bash

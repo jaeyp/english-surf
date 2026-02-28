@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../sentences/domain/entities/sentence.dart';
@@ -7,16 +7,32 @@ import '../../../sentences/domain/value_objects/sentence_text.dart';
 import '../../../sentences/domain/enums/difficulty.dart';
 import '../../../sentences/domain/enums/sort_type.dart';
 import '../../../sentences/application/providers/sentence_providers.dart';
+import '../../../sentences/data/providers/sentence_providers.dart'; // For settingsRepositoryProvider
 import '../../../sentences/presentation/widgets/sentence_card.dart';
+import '../../../sentences/domain/enums/app_language.dart';
+import '../../presentation/controllers/study_mode_tts_controller.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:audio_service/audio_service.dart';
+import '../../application/study_audio_handler.dart';
 
 class StudyModeScreen extends ConsumerStatefulWidget {
   final int initialIndex;
   final bool isTestMode;
+  final bool isAudioMode;
+  final AppLanguage? originalLanguage;
+  final AppLanguage? translationLanguage;
+  final LanguageMode? languageMode;
+  final String folderName;
 
   const StudyModeScreen({
     super.key,
     this.initialIndex = 0,
     this.isTestMode = false,
+    this.isAudioMode = false,
+    this.originalLanguage,
+    this.translationLanguage,
+    this.languageMode,
+    this.folderName = '',
   });
 
   @override
@@ -32,9 +48,17 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   bool _isFlipped = false;
   bool _isPaused = false;
   bool _showDurationPicker = false;
+  StreamSubscription<StudyAudioCommand>? _audioCommandSub;
 
   // Stable list of IDs to prevent cards from disappearing during the session
   List<int>? _initialSentenceIds;
+
+  // Audio Mode State
+  int _repeatCount = 1;
+  int _currentRepeat = 0;
+
+  bool _showRepetitionPicker = false;
+  int _audioSessionId = 0;
 
   @override
   void initState() {
@@ -42,19 +66,80 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
     if (widget.isTestMode) {
-      _startTimer();
+      if (widget.isAudioMode) {
+        // Audio Mode: Start Audio Loop
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _setupAudioCommands();
+          _startAudioSession();
+        });
+      } else {
+        WakelockPlus.enable(); // Keep screen awake ONLY in text mode
+        // Text Mode: Start Timer
+        _startTimer();
+      }
     }
+  }
+
+  void _setupAudioCommands() {
+    final handler = ref.read(studyAudioHandlerProvider);
+    _audioCommandSub = handler.commands.listen((command) {
+      if (!mounted) return;
+      switch (command) {
+        case StudyAudioCommand.play:
+          setState(() {
+            _isPaused = false;
+            handler.updatePlaybackState(playing: true);
+            _playAudioLoop(_audioSessionId);
+          });
+          break;
+        case StudyAudioCommand.pause:
+          setState(() {
+            _isPaused = true;
+          });
+          ref.read(studyModeTtsControllerProvider).stop();
+          handler.updatePlaybackState(playing: false);
+          break;
+        case StudyAudioCommand.skipToNext:
+          _nextPage();
+          break;
+        case StudyAudioCommand.skipToPrevious:
+          _previousPage();
+          break;
+        case StudyAudioCommand.toggleShuffle:
+          final currentSort = ref.read(sentenceFilterProvider).value?.sortType;
+          final newSort = currentSort == SortType.random
+              ? SortType.order
+              : SortType.random;
+          ref.read(sentenceFilterProvider.notifier).setSortType(newSort);
+          break;
+        case StudyAudioCommand.toggleRepeat:
+          final current = ref.read(audioRepeatCountProvider).value ?? 1;
+          final next = current == 1
+              ? 3
+              : (current == 3 ? 5 : (current == 5 ? 10 : 1));
+          ref.read(audioRepeatCountProvider.notifier).setCount(next);
+          break;
+      }
+    });
   }
 
   @override
   void dispose() {
+    if (widget.isTestMode && !widget.isAudioMode) {
+      WakelockPlus.disable(); // Release screen lock
+    }
     _timer?.cancel();
     _pageController.dispose();
+    _audioCommandSub?.cancel();
+    if (widget.isAudioMode) {
+      ref.read(studyAudioHandlerProvider).stop();
+    }
     super.dispose();
   }
 
   void _startTimer() {
     _timer?.cancel();
+    if (widget.isAudioMode) return; // Guard: Never start timer in Audio Mode
     if (!mounted) return;
     setState(() {
       _timeLeft = _timerDuration;
@@ -65,7 +150,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
   void _resumeTimer() {
     _timer?.cancel();
-    if (!mounted || !widget.isTestMode) return;
+    // Guard: Never resume timer in Audio Mode
+    if (!mounted || !widget.isTestMode || widget.isAudioMode) return;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
@@ -97,11 +183,26 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
   void _nextPage() {
     if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) return;
 
+    final isBackground =
+        WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed;
+
     if (_currentIndex < _initialSentenceIds!.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      if (isBackground) {
+        final nextIndex = _currentIndex + 1;
+        _pageController.jumpToPage(nextIndex);
+        if (_currentIndex != nextIndex) {
+          setState(() {
+            _currentIndex = nextIndex;
+            _isFlipped = false;
+          });
+          if (widget.isTestMode && widget.isAudioMode) _startAudioSession();
+        }
+      } else {
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     } else if (widget.isTestMode) {
       // Repeat logic for Test Mode
       final filterState = ref.read(sentenceFilterProvider).value;
@@ -110,10 +211,169 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
           _initialSentenceIds!.shuffle();
         });
       }
+
       _pageController.jumpToPage(0);
+      if (isBackground && _currentIndex != 0) {
+        setState(() {
+          _currentIndex = 0;
+          _isFlipped = false;
+        });
+        if (widget.isAudioMode) _startAudioSession();
+      }
     } else {
       _timer?.cancel();
     }
+  }
+
+  void _previousPage() {
+    if (_initialSentenceIds == null || _initialSentenceIds!.isEmpty) return;
+    if (_currentIndex > 0) {
+      final isBackground =
+          WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed;
+      if (isBackground) {
+        final prevIndex = _currentIndex - 1;
+        _pageController.jumpToPage(prevIndex);
+        if (_currentIndex != prevIndex) {
+          setState(() {
+            _currentIndex = prevIndex;
+            _isFlipped = false;
+          });
+          if (widget.isTestMode && widget.isAudioMode) _startAudioSession();
+        }
+      } else {
+        _pageController.previousPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+  }
+
+  Future<void> _startAudioSession() async {
+    if (!mounted || !widget.isTestMode || !widget.isAudioMode) return;
+
+    // Reset repeat counter for new page
+    setState(() {
+      _currentRepeat = 0;
+      _isPaused = false;
+      _audioSessionId++; // New session
+    });
+
+    unawaited(_playAudioLoop(_audioSessionId));
+  }
+
+  Future<void> _playAudioLoop(int sessionId) async {
+    if (!mounted || _isPaused || _showRepetitionPicker) return;
+
+    // Check if this loop is still valid
+    if (sessionId != _audioSessionId) return;
+
+    if (_currentRepeat >= _repeatCount) {
+      _nextPage();
+      return;
+    }
+
+    try {
+      // Get current sentence
+      final sentences = await _getSentences();
+      if (sentences.isEmpty || _currentIndex >= sentences.length) return;
+      final sentence = sentences[_currentIndex];
+
+      // Play Audio
+      final controller = ref.read(studyModeTtsControllerProvider);
+
+      // Determine text to play based on language mode
+      // If Translation -> Original (Translation is Front), play Translation
+      // If Original -> Translation (Front is Original), play Original (Default)
+      final playTranslationFirst =
+          widget.languageMode == LanguageMode.translationToOriginal;
+
+      final textToPlay = playTranslationFirst
+          ? sentence.translation
+          : sentence.original.text;
+
+      // Determine speaker
+      // If playing translation, we might need a different speaker/lang?
+      // Currently getTtsSpeaker() returns a single global preference.
+      // Assuming same speaker for now, or just default.
+      // Ideally we should use correct language code if available.
+      final targetLang = playTranslationFirst
+          ? widget.translationLanguage?.code
+          : widget.originalLanguage?.code;
+
+      // Update Audio Service Lock Screen Metadata
+      final audioHandler = ref.read(studyAudioHandlerProvider);
+      final currentSort = ref.read(sentenceFilterProvider).value?.sortType;
+      final isRandom = currentSort == SortType.random;
+
+      audioHandler.updatePlaybackState(
+        playing: true,
+        shuffleMode: isRandom
+            ? AudioServiceShuffleMode.all
+            : AudioServiceShuffleMode.none,
+        repeatMode: _repeatCount > 1
+            ? AudioServiceRepeatMode.one
+            : AudioServiceRepeatMode.none,
+      );
+
+      unawaited(
+        audioHandler.updateMediaItem(
+          MediaItem(
+            id: sentence.id.toString(),
+            title:
+                '${widget.folderName} (${_currentIndex + 1}/${sentences.length})',
+            artist: sentence.original.text,
+            artUri:
+                audioHandler.artUri ??
+                Uri.parse('asset:///assets/icon/app_icon.png'),
+          ),
+        ),
+      );
+
+      // We need to wait for playback to finish
+      await controller.play(
+        textToPlay,
+        await ref.read(settingsRepositoryProvider).getTtsSpeaker(),
+        language: targetLang,
+        id: sentence.id.toString(),
+      );
+
+      // Verify Session ID again after async playback
+      if (!mounted || _isPaused || sessionId != _audioSessionId) return;
+
+      setState(() {
+        _currentRepeat++;
+      });
+
+      // Small delay between repetitions
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (mounted && !_isPaused && sessionId == _audioSessionId) {
+        unawaited(
+          _playAudioLoop(sessionId),
+        ); // Recursive call for next repetition
+      }
+    } catch (e) {
+      // If error occurs, pause playback rather than skipping infinitely
+      debugPrint('Audio loop error: $e');
+      if (mounted && sessionId == _audioSessionId) {
+        setState(() {
+          _isPaused = true;
+        });
+        ref.read(studyAudioHandlerProvider).updatePlaybackState(playing: false);
+      }
+    }
+  }
+
+  // Helper to fetch sentences (since build logic is complex)
+  Future<List<Sentence>> _getSentences() async {
+    // This is a bit tricky since sentences are derived in build.
+    // Better way: Access the provider directly using stored IDs.
+    if (_initialSentenceIds == null) return [];
+    final allSentences = await ref.read(sentenceListProvider.future);
+    return _initialSentenceIds!
+        .map((id) => allSentences.firstWhere((s) => s.id == id))
+        .toList();
   }
 
   @override
@@ -123,6 +383,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
 
     // 2. Watch the full raw list to get reactive updates for each card
     final rawSentencesAsync = ref.watch(sentenceListProvider);
+
+    // 3. Watch the TTS controller to bind its lifecycle (Auto-Stop on dispose)
+    ref.watch(studyModeTtsControllerProvider);
 
     final languageMode =
         ref.watch(languageModeProvider).value ??
@@ -145,6 +408,19 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
             if (widget.isTestMode && _timeLeft > persistentDuration) {
               _timeLeft = persistentDuration;
             }
+          });
+        }
+      });
+    }
+
+    // Sync persistent repeat count (Audio Mode)
+    final persistentRepeatCount =
+        ref.watch(audioRepeatCountProvider).value ?? 1;
+    if (_repeatCount != persistentRepeatCount && !_showRepetitionPicker) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _repeatCount = persistentRepeatCount;
           });
         }
       });
@@ -287,11 +563,17 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                         controller: _pageController,
                         itemCount: sentences.length,
                         onPageChanged: (index) {
+                          if (_currentIndex == index) return;
                           setState(() {
                             _currentIndex = index;
+                            _isFlipped = false; // Reset flip state on skip
                           });
                           if (widget.isTestMode) {
-                            _startTimer();
+                            if (widget.isAudioMode) {
+                              _startAudioSession();
+                            } else {
+                              _startTimer();
+                            }
                           }
                         },
                         itemBuilder: (context, index) {
@@ -301,6 +583,8 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                             ),
                             sentence: sentences[index],
                             languageMode: languageMode,
+                            originalLanguage: widget.originalLanguage,
+                            translationLanguage: widget.translationLanguage,
                             padding: EdgeInsets.symmetric(
                               horizontal: isLandscape ? 32.0 : 16.0,
                               vertical: isLandscape ? 8.0 : 16.0,
@@ -310,10 +594,13 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                                 setState(() {
                                   _isFlipped = isFlipped;
                                 });
-                                if (isFlipped) {
-                                  _pauseTimer();
-                                } else {
-                                  _resumeTimer();
+                                // Only pause/resume timers in Text Mode
+                                if (!widget.isAudioMode) {
+                                  if (isFlipped) {
+                                    _pauseTimer();
+                                  } else {
+                                    _resumeTimer();
+                                  }
                                 }
                               }
                             },
@@ -327,7 +614,9 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                   ],
                 ),
               ),
-              _buildTimerOverlay(),
+              widget.isAudioMode
+                  ? _buildAudioRepetitionOverlay()
+                  : _buildTimerOverlay(),
             ],
           ),
         );
@@ -467,6 +756,162 @@ class _StudyModeScreenState extends ConsumerState<StudyModeScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildAudioRepetitionOverlay() {
+    if (!widget.isTestMode) return const SizedBox.shrink();
+
+    // Requested: "high numbers far from button". Button is at bottom/right.
+    // So 10 should be at top (if vertical) or left (if horizontal).
+    // Reversed list: [10, 5, 3, 2, 1]. Map order: 10, 5, 3, 2, 1.
+    final options = [10, 5, 3, 2, 1];
+
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final pickerButtons = options.map((c) {
+      final isCurrent = c == _repeatCount;
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: isLandscape ? 0 : 8.0,
+          right: isLandscape ? 8.0 : 0,
+        ),
+        child: GestureDetector(
+          onTap: () async {
+            await ref.read(audioRepeatCountProvider.notifier).setCount(c);
+            if (mounted) {
+              setState(() {
+                _repeatCount = c;
+                _showRepetitionPicker = false;
+                // Restart current card audio session with new count?
+                // Probably yes.
+                _startAudioSession();
+              });
+            }
+          },
+          child: Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: isCurrent
+                  ? Colors.blue.withValues(alpha: 0.8)
+                  : Colors.blue.withValues(alpha: 0.4),
+              shape: BoxShape.circle,
+              border: isCurrent
+                  ? Border.all(color: Colors.white, width: 2)
+                  : null,
+            ),
+            child: Center(
+              child: Text(
+                '$c',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+
+    return Positioned(
+      bottom: 20,
+      right: 20,
+      child: isLandscape
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (_showRepetitionPicker) ...pickerButtons,
+                _buildMainRepetitionButton(),
+              ],
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (_showRepetitionPicker) ...pickerButtons,
+                _buildMainRepetitionButton(),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildMainRepetitionButton() {
+    return GestureDetector(
+      onLongPress: () {
+        setState(() {
+          _showRepetitionPicker = !_showRepetitionPicker;
+          // Pause if picking?
+          if (_showRepetitionPicker) {
+            _isPaused = true;
+          } else {
+            _isPaused = false;
+            _playAudioLoop(_audioSessionId); // Resume current session
+          }
+        });
+      },
+      onTap: () {
+        if (_showRepetitionPicker) {
+          setState(() {
+            _showRepetitionPicker = false;
+            _isPaused = false;
+            _playAudioLoop(_audioSessionId); // Resume current session
+          });
+        } else {
+          // Toggle Pause logic (Restored per user request)
+          setState(() {
+            _isPaused = !_isPaused;
+            if (!_isPaused) {
+              ref
+                  .read(studyAudioHandlerProvider)
+                  .updatePlaybackState(playing: true);
+              _playAudioLoop(_audioSessionId); // Resume current session
+            } else {
+              ref.read(studyModeTtsControllerProvider).stop();
+              ref
+                  .read(studyAudioHandlerProvider)
+                  .updatePlaybackState(playing: false);
+            }
+          });
+        }
+      },
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: _showRepetitionPicker
+              ? Colors.grey.withValues(alpha: 0.5)
+              : Colors.blue.withValues(alpha: 0.7),
+          shape: BoxShape.circle,
+          border: _showRepetitionPicker
+              ? Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1)
+              : null,
+        ),
+        child: _isPaused
+            ? const Icon(Icons.pause, color: Colors.white, size: 24)
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.repeat, color: Colors.white, size: 14),
+                    Text(
+                      '$_repeatCount', // Show total repeat count usage
+                      style: TextStyle(
+                        color: _showRepetitionPicker
+                            ? Colors.white.withValues(alpha: 0.7)
+                            : Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
       ),

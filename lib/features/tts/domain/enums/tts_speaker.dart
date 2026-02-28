@@ -1,0 +1,1 @@
+enum TtsSpeaker { male, female }

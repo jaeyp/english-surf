@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_list_screen.dart';
 import '../../features/sentences/presentation/screens/sentence_edit_screen.dart';
+import '../../features/sentences/application/providers/sentence_providers.dart';
 import '../../features/study/presentation/screens/study_mode_screen.dart';
 import '../../features/ocr/presentation/screens/camera_ocr_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
@@ -17,13 +19,16 @@ GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/sentences',
+        name: 'sentences',
         builder: (context, state) => const SentenceListScreen(),
       ),
       GoRoute(
         path: '/edit',
+        name: 'edit',
         builder: (context, state) {
           final extra = state.extra;
 
@@ -48,6 +53,7 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/camera',
+        name: 'camera',
         builder: (context, state) {
           final extra = state.extra;
           AppLanguage originalLang = AppLanguage.english;
@@ -66,19 +72,39 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/study',
+        name: 'study',
         builder: (context, state) {
           final extra = state.extra;
-          final args = extra is StudyModeArguments
-              ? extra
-              : StudyModeArguments(initialIndex: extra is int ? extra : 0);
+          StudyModeArguments args;
+          if (extra is StudyModeArguments) {
+            args = extra;
+          } else if (extra is Map<String, dynamic>) {
+            args = StudyModeArguments(
+              initialIndex: extra['initialIndex'] as int? ?? 0,
+              isTestMode: extra['isTestMode'] as bool? ?? false,
+              isAudioMode: extra['isAudioMode'] as bool? ?? false,
+              originalLanguage: extra['originalLanguage'] as AppLanguage?,
+              translationLanguage: extra['translationLanguage'] as AppLanguage?,
+              languageMode: extra['languageMode'] as LanguageMode?,
+              folderName: extra['folderName'] as String? ?? 'Sentences',
+            );
+          } else {
+            args = StudyModeArguments(initialIndex: extra is int ? extra : 0);
+          }
           return StudyModeScreen(
             initialIndex: args.initialIndex,
             isTestMode: args.isTestMode,
+            isAudioMode: args.isAudioMode,
+            originalLanguage: args.originalLanguage,
+            translationLanguage: args.translationLanguage,
+            languageMode: args.languageMode,
+            folderName: args.folderName,
           );
         },
       ),
       GoRoute(
         path: '/settings',
+        name: 'settings',
         builder: (context, state) => const SettingsScreen(),
       ),
     ],

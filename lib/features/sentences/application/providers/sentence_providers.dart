@@ -334,3 +334,57 @@ class TimerDuration extends _$TimerDuration {
     state = AsyncData(duration);
   }
 }
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioRepeatCount
+/// ----------------------------------------------------------------------------
+@riverpod
+class AudioRepeatCount extends _$AudioRepeatCount {
+  @override
+  FutureOr<int> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getAudioRepeatCount();
+  }
+
+  Future<void> setCount(int count) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveAudioRepeatCount(count);
+    state = AsyncData(count);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioMode
+/// ----------------------------------------------------------------------------
+@riverpod
+class AudioMode extends _$AudioMode {
+  @override
+  FutureOr<bool> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getIsAudioMode();
+  }
+
+  Future<void> setMode(bool isAudioMode) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveIsAudioMode(isAudioMode);
+    state = AsyncData(isAudioMode);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: TtsSpeed
+/// ----------------------------------------------------------------------------
+@riverpod
+class TtsSpeed extends _$TtsSpeed {
+  @override
+  FutureOr<double> build() async {
+    final repository = ref.watch(settingsRepositoryProvider);
+    return await repository.getTtsSpeed();
+  }
+
+  Future<void> setSpeed(double speed) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    await repository.saveTtsSpeed(speed);
+    state = AsyncData(speed);
+  }
+}

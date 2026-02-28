@@ -459,3 +459,178 @@ abstract class _$TimerDuration extends $AsyncNotifier<int> {
     element.handleValue(ref, created);
   }
 }
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioRepeatCount
+/// ----------------------------------------------------------------------------
+
+@ProviderFor(AudioRepeatCount)
+const audioRepeatCountProvider = AudioRepeatCountProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioRepeatCount
+/// ----------------------------------------------------------------------------
+final class AudioRepeatCountProvider
+    extends $AsyncNotifierProvider<AudioRepeatCount, int> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: AudioRepeatCount
+  /// ----------------------------------------------------------------------------
+  const AudioRepeatCountProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'audioRepeatCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$audioRepeatCountHash();
+
+  @$internal
+  @override
+  AudioRepeatCount create() => AudioRepeatCount();
+}
+
+String _$audioRepeatCountHash() => r'36b8d8f4fac535b58bb600f098bcc7ef02415eea';
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioRepeatCount
+/// ----------------------------------------------------------------------------
+
+abstract class _$AudioRepeatCount extends $AsyncNotifier<int> {
+  FutureOr<int> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<int>, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<int>, int>,
+              AsyncValue<int>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioMode
+/// ----------------------------------------------------------------------------
+
+@ProviderFor(AudioMode)
+const audioModeProvider = AudioModeProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioMode
+/// ----------------------------------------------------------------------------
+final class AudioModeProvider extends $AsyncNotifierProvider<AudioMode, bool> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: AudioMode
+  /// ----------------------------------------------------------------------------
+  const AudioModeProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'audioModeProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$audioModeHash();
+
+  @$internal
+  @override
+  AudioMode create() => AudioMode();
+}
+
+String _$audioModeHash() => r'148b85d51a77013149b81ad91fee8dbe268923db';
+
+/// ----------------------------------------------------------------------------
+/// Provider: AudioMode
+/// ----------------------------------------------------------------------------
+
+abstract class _$AudioMode extends $AsyncNotifier<bool> {
+  FutureOr<bool> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<bool>, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<bool>, bool>,
+              AsyncValue<bool>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provider: TtsSpeed
+/// ----------------------------------------------------------------------------
+
+@ProviderFor(TtsSpeed)
+const ttsSpeedProvider = TtsSpeedProvider._();
+
+/// ----------------------------------------------------------------------------
+/// Provider: TtsSpeed
+/// ----------------------------------------------------------------------------
+final class TtsSpeedProvider extends $AsyncNotifierProvider<TtsSpeed, double> {
+  /// ----------------------------------------------------------------------------
+  /// Provider: TtsSpeed
+  /// ----------------------------------------------------------------------------
+  const TtsSpeedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ttsSpeedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$ttsSpeedHash();
+
+  @$internal
+  @override
+  TtsSpeed create() => TtsSpeed();
+}
+
+String _$ttsSpeedHash() => r'f680042e9d74e374f57998e753c10f8b97221df4';
+
+/// ----------------------------------------------------------------------------
+/// Provider: TtsSpeed
+/// ----------------------------------------------------------------------------
+
+abstract class _$TtsSpeed extends $AsyncNotifier<double> {
+  FutureOr<double> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<double>, double>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<double>, double>,
+              AsyncValue<double>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
